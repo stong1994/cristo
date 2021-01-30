@@ -12,10 +12,10 @@ pygmentsStyle = "b2"
 pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
-[build]
-  noJSConfigInAssets = false
-  useResourceCacheWhen = "never"
-  writeStats = false
+#[build]
+#  noJSConfigInAssets = false
+#  useResourceCacheWhen = "never"
+#  writeStats = false
 [permalinks]
   posts = "/:year/:month/:title/"
 
@@ -106,14 +106,3 @@ pygmentsCodeFencesGuessSyntax = true
             name = "关于"
             weight = 4
             url = "about/"
-
-[server]
-
-  [[server.headers]]
-    for = "/**.html"
-    [server.headers.values]
-      Content-Security-Policy = "script-src *"
-      Referrer-Policy = "strict-origin-when-cross-origin"
-      X-Content-Type-Options = "nosniff"
-      X-Frame-Options = "DENY"
-      X-XSS-Protection = "1; mode=block"
