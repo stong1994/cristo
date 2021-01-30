@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cristo</title>
+    <link>https://stong1994.github.io/authors/cristo/</link>
+    <description>Recent content on cristo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 29 Jan 2021 23:31:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DDD进阶</title>
+      <link>https://stong1994.github.io/internet/ddd/advance/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/ddd/advance/</guid>
+      <description>领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果</description>
+    </item>
+    
+    <item>
+      <title>卓有成效的管理者</title>
+      <link>https://stong1994.github.io/book/improve/the_effective_executive/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/the_effective_executive/</guid>
+      <description>作者：彼得·德鲁克 豆瓣评分：8.7 微信评分：8.9 出版年: 2005-6 提纲 1. 谁是管理者 如果一个工作者能够凭借其职位和知识，对其组织负有贡献的责任并能够</description>
+    </item>
+    
+    <item>
+      <title>长路漫漫-记一次夜跑</title>
+      <link>https://stong1994.github.io/life/long_alive_record_with_night_run/</link>
+      <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/long_alive_record_with_night_run/</guid>
+      <description>到公园去跑步，看到一大爷坐在石凳上，左手夹根烟，右手边一个摊开的塑料袋，立着两瓶啤酒，还有一个装着半杯酒的塑料杯。 “大叔，一个人喝酒啊” 没事</description>
+    </item>
+    
+  </channel>
+</rss>

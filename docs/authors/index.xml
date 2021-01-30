@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors on cristo</title>
+    <link>https://stong1994.github.io/authors/</link>
+    <description>Recent content in Authors on cristo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 29 Jan 2021 23:31:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cristo</title>
+      <link>https://stong1994.github.io/authors/cristo/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/authors/cristo/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -10,8 +10,7 @@ paginate = 20
 
 pygmentsStyle = "b2"
 pygmentsCodeFences = true
-pygmentsCodeFencesGuessSyntax = true
-# disqusShortname = "yourdiscussshortname"
+pygmentsCodeFencesGuessSyntax = true、
 
 [build]
   noJSConfigInAssets = false
