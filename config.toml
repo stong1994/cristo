@@ -112,7 +112,7 @@ pygmentsCodeFencesGuessSyntax = true
   [[server.headers]]
     for = "/**.html"
     [server.headers.values]
-      Content-Security-Policy = "script-src localhost:1313"
+      Content-Security-Policy = "script-src *"
       Referrer-Policy = "strict-origin-when-cross-origin"
       X-Content-Type-Options = "nosniff"
       X-Frame-Options = "DENY"
