@@ -10,7 +10,7 @@ paginate = 20
 
 pygmentsStyle = "b2"
 pygmentsCodeFences = true
-pygmentsCodeFencesGuessSyntax = true、
+pygmentsCodeFencesGuessSyntax = true
 
 [build]
   noJSConfigInAssets = false
