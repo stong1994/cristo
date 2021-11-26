@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="谈起代码设计规范，人们总会说出SOLID、KISS、DRY等等专业词汇。
+为了易于人们记忆，这些专业词汇都是由其英文单词首字母拼接起来的，如KEEP IT SIMPLE 、STUPID、DONT TRY YOURSELF。
+我们当然也能理解这些设计规范的意思——毕竟有那么多的博客、文章。
+然而有多少人能真正使用这些设计规范呢？相比于知道它们的人数，实际使用过的人数应该很少。
+ 知易行难。知行不能统一，还是不知。
+ 大部分人在刚入行时写的代码都“too young too simple”。很幸运的是我在刚入行时就被一位大佬告知：如果你哪天领悟了SOLID原则，就能写出好代码。
+被告知之前，我有看过SOLID原则，被告知当天，我又看了一遍SOLID原则，被告知以后的以后，我也会不时的看下SOLID原则。但是我一直都没能彻底了解这个原则——我只是看懂了那些博客说的是什么，但是究竟要如何使用SOLID原则还是一头雾水。
+也许这些原则就不是用来指导人们如何使用的，而是告诉人们好的代码应该是怎样的。
+程序猿也是在不断进化的。
+刚入行的小伙子是“鲁莽”的，他们的眼里好像只能看到“需求”，他们会飞快地将功能实现。这时候的代码没有遵循任何的设计原则，代码混乱，很容易产生bug。而且解决这些bug需要很长的时间，因为他们的代码在实现功能时没有体现业务逻辑。理清为什么这样写要耗费人不少耐心。如果这些代码被一些有强迫症的人看到，一定会给它重构一遍。
+有些工作经验的开发者会学习业内比较有名的技术、思想，就像现在的中台、DDD、TDD等。当他们照猫画虎得将这些用到实际项目中时，另外一些没学过这些技术的人会对这些东西表示怀疑——这些东西似乎让代码变得更加复杂，且没看到任何收益。
+经过一段时间的怀疑人生后，对技术照猫画虎的人们开始否定这些技术，认为这些技术是徒有其表。
+当开发者的经验积累到一定程度后，会开始反思当前的架构是否合理，于是尝试对其进行改进。然后就会突然发现，他竟然运用到了这些设计原则、思想。
+那么以后会怎样呢？">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="谈代码规范、思想"/>
+<meta name="twitter:description" content="谈起代码设计规范，人们总会说出SOLID、KISS、DRY等等专业词汇。
+为了易于人们记忆，这些专业词汇都是由其英文单词首字母拼接起来的，如KEEP IT SIMPLE 、STUPID、DONT TRY YOURSELF。
+我们当然也能理解这些设计规范的意思——毕竟有那么多的博客、文章。
+然而有多少人能真正使用这些设计规范呢？相比于知道它们的人数，实际使用过的人数应该很少。
+ 知易行难。知行不能统一，还是不知。
+ 大部分人在刚入行时写的代码都“too young too simple”。很幸运的是我在刚入行时就被一位大佬告知：如果你哪天领悟了SOLID原则，就能写出好代码。
+被告知之前，我有看过SOLID原则，被告知当天，我又看了一遍SOLID原则，被告知以后的以后，我也会不时的看下SOLID原则。但是我一直都没能彻底了解这个原则——我只是看懂了那些博客说的是什么，但是究竟要如何使用SOLID原则还是一头雾水。
+也许这些原则就不是用来指导人们如何使用的，而是告诉人们好的代码应该是怎样的。
+程序猿也是在不断进化的。
+刚入行的小伙子是“鲁莽”的，他们的眼里好像只能看到“需求”，他们会飞快地将功能实现。这时候的代码没有遵循任何的设计原则，代码混乱，很容易产生bug。而且解决这些bug需要很长的时间，因为他们的代码在实现功能时没有体现业务逻辑。理清为什么这样写要耗费人不少耐心。如果这些代码被一些有强迫症的人看到，一定会给它重构一遍。
+有些工作经验的开发者会学习业内比较有名的技术、思想，就像现在的中台、DDD、TDD等。当他们照猫画虎得将这些用到实际项目中时，另外一些没学过这些技术的人会对这些东西表示怀疑——这些东西似乎让代码变得更加复杂，且没看到任何收益。
+经过一段时间的怀疑人生后，对技术照猫画虎的人们开始否定这些技术，认为这些技术是徒有其表。
+当开发者的经验积累到一定程度后，会开始反思当前的架构是否合理，于是尝试对其进行改进。然后就会突然发现，他竟然运用到了这些设计原则、思想。
+那么以后会怎样呢？"/>
+
+    <meta property="og:title" content="谈代码规范、思想" />
+<meta property="og:description" content="谈起代码设计规范，人们总会说出SOLID、KISS、DRY等等专业词汇。
+为了易于人们记忆，这些专业词汇都是由其英文单词首字母拼接起来的，如KEEP IT SIMPLE 、STUPID、DONT TRY YOURSELF。
+我们当然也能理解这些设计规范的意思——毕竟有那么多的博客、文章。
+然而有多少人能真正使用这些设计规范呢？相比于知道它们的人数，实际使用过的人数应该很少。
+ 知易行难。知行不能统一，还是不知。
+ 大部分人在刚入行时写的代码都“too young too simple”。很幸运的是我在刚入行时就被一位大佬告知：如果你哪天领悟了SOLID原则，就能写出好代码。
+被告知之前，我有看过SOLID原则，被告知当天，我又看了一遍SOLID原则，被告知以后的以后，我也会不时的看下SOLID原则。但是我一直都没能彻底了解这个原则——我只是看懂了那些博客说的是什么，但是究竟要如何使用SOLID原则还是一头雾水。
+也许这些原则就不是用来指导人们如何使用的，而是告诉人们好的代码应该是怎样的。
+程序猿也是在不断进化的。
+刚入行的小伙子是“鲁莽”的，他们的眼里好像只能看到“需求”，他们会飞快地将功能实现。这时候的代码没有遵循任何的设计原则，代码混乱，很容易产生bug。而且解决这些bug需要很长的时间，因为他们的代码在实现功能时没有体现业务逻辑。理清为什么这样写要耗费人不少耐心。如果这些代码被一些有强迫症的人看到，一定会给它重构一遍。
+有些工作经验的开发者会学习业内比较有名的技术、思想，就像现在的中台、DDD、TDD等。当他们照猫画虎得将这些用到实际项目中时，另外一些没学过这些技术的人会对这些东西表示怀疑——这些东西似乎让代码变得更加复杂，且没看到任何收益。
+经过一段时间的怀疑人生后，对技术照猫画虎的人们开始否定这些技术，认为这些技术是徒有其表。
+当开发者的经验积累到一定程度后，会开始反思当前的架构是否合理，于是尝试对其进行改进。然后就会突然发现，他竟然运用到了这些设计原则、思想。
+那么以后会怎样呢？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/depth/code_thought/" />
+<meta property="article:published_time" content="2021-10-06T17:05:00+08:00" />
+<meta property="article:modified_time" content="2021-10-06T17:05:00+08:00" />
+
+
+    <title>
+  谈代码规范、思想 · cristo
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/depth/code_thought/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      cristo
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container page">
+  <article>
+    <header>
+      <h1>谈代码规范、思想</h1>
+    </header>
+
+    <p>谈起代码设计规范，人们总会说出SOLID、KISS、DRY等等专业词汇。</p>
+<p>为了易于人们记忆，这些专业词汇都是由其英文单词首字母拼接起来的，如<strong>KEEP IT SIMPLE 、STUPID</strong>、<strong>DONT TRY YOURSELF</strong>。</p>
+<p>我们当然也能理解这些设计规范的意思——毕竟有那么多的博客、文章。</p>
+<p>然而有多少人能真正使用这些设计规范呢？相比于知道它们的人数，实际使用过的人数应该很少。</p>
+<blockquote>
+<p>知易行难。知行不能统一，还是不知。</p>
+</blockquote>
+<p>大部分人在刚入行时写的代码都“too young too simple”。很幸运的是我在刚入行时就被一位大佬告知：如果你哪天领悟了SOLID原则，就能写出好代码。</p>
+<p>被告知之前，我有看过SOLID原则，被告知当天，我又看了一遍SOLID原则，被告知以后的以后，我也会不时的看下SOLID原则。但是我一直都没能彻底了解这个原则——我只是看懂了那些博客说的是什么，但是究竟要如何使用SOLID原则还是一头雾水。</p>
+<p><strong>也许这些原则就不是用来指导人们如何使用的，而是告诉人们好的代码应该是怎样的</strong>。</p>
+<p>程序猿也是在不断进化的。</p>
+<p>刚入行的小伙子是“鲁莽”的，他们的眼里好像只能看到“需求”，他们会飞快地将功能实现。这时候的代码没有遵循任何的设计原则，代码混乱，很容易产生bug。而且解决这些bug需要很长的时间，因为他们的代码在实现功能时没有体现业务逻辑。理清为什么这样写要耗费人不少耐心。如果这些代码被一些有强迫症的人看到，一定会给它重构一遍。</p>
+<p>有些工作经验的开发者会学习业内比较有名的技术、思想，就像现在的中台、DDD、TDD等。当他们照猫画虎得将这些用到实际项目中时，另外一些没学过这些技术的人会对这些东西表示怀疑——这些东西似乎让代码变得更加复杂，且没看到任何收益。</p>
+<p>经过一段时间的怀疑人生后，对技术照猫画虎的人们开始否定这些技术，认为这些技术是徒有其表。</p>
+<p>当开发者的经验积累到一定程度后，会开始反思当前的架构是否合理，于是尝试对其进行改进。然后就会突然发现，他竟然运用到了这些设计原则、思想。</p>
+<p>那么以后会怎样呢？</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+        2021
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

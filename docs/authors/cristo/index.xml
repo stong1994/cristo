@@ -6,7 +6,70 @@
     <description>Recent content on cristo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 31 Jan 2021 00:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Nov 2021 18:07:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>琦哥</title>
+      <link>https://stong1994.github.io/life/qi/</link>
+      <pubDate>Sun, 14 Nov 2021 18:07:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/qi/</guid>
+      <description>如何证明自己存在过？ 年轻时候的我决定要干大事，要成就一番丰功伟绩来让我的子孙们铭记他们这个伟大的先祖！ 可惜他们这个先祖并不争气，到现在还只是</description>
+    </item>
+    
+    <item>
+      <title>深度工作</title>
+      <link>https://stong1994.github.io/book/improve/deep_work/</link>
+      <pubDate>Thu, 07 Oct 2021 20:20:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/deep_work/</guid>
+      <description>在十一小长假的最后一天，我终于翻开了这本放在书包里很多天的《深度工作》。 本来打算今天只看一半，没想到一口气花了约三个小时，把这本240页的书</description>
+    </item>
+    
+    <item>
+      <title>论个人在历史上的作用问题</title>
+      <link>https://stong1994.github.io/book/philosophy/person_and_history/</link>
+      <pubDate>Mon, 15 Mar 2021 00:09:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/person_and_history/</guid>
+      <description>作者：格奥尔基·普列汉诺夫 豆瓣评分：8.6 出版年: 2010-12 提问 个人与历史之间的关系是怎样的呢？是英雄成就了历史，还是历史成就了英雄？ 解释 不应夸大英</description>
+    </item>
+    
+    <item>
+      <title>债务危机</title>
+      <link>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
+      <pubDate>Sun, 28 Feb 2021 23:25:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
+      <description>作者：RAY DALID 豆瓣评分：8.7 微信读书评分：8.3 术语 国际收支差额：一个特定国家的个人或机构与世界其他地区之间的所有交易的差额。 国际收支危机</description>
+    </item>
+    
+    <item>
+      <title>原则</title>
+      <link>https://stong1994.github.io/book/improve/principles/</link>
+      <pubDate>Sun, 28 Feb 2021 16:19:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/principles/</guid>
+      <description>作者：RAY DALIO 微信读书评分: 8.8 豆瓣读书评分：8.3 出版时间：2018-1 《原则》内容摘录 基调 以原则为基础去生活。 核心原则 保持头脑开放（尽管这</description>
+    </item>
+    
+    <item>
+      <title>百年孤独</title>
+      <link>https://stong1994.github.io/book/literature/Cien_a%C3%B1os_de_soledad/</link>
+      <pubDate>Sun, 21 Feb 2021 19:30:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/literature/Cien_a%C3%B1os_de_soledad/</guid>
+      <description>作者：加西亚·马尔克斯 微信读书评分: 8.7 豆瓣读书评分：9.3 人出生时是孤独的。 人死去时是孤独的。 人在出生和死去之间是孤独的。 人的一切活动，比如</description>
+    </item>
+    
+    <item>
+      <title>不花一分钱搭建一个博客</title>
+      <link>https://stong1994.github.io/tool/build_free_blog/</link>
+      <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/tool/build_free_blog/</guid>
+      <description>相关文章 hugo的官方文档 安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extende</description>
+    </item>
+    
     <item>
       <title>这就是OKR</title>
       <link>https://stong1994.github.io/book/improve/measure_what_matters/</link>
@@ -17,7 +80,7 @@
     </item>
     
     <item>
-      <title>DDD进阶</title>
+      <title>DDD进阶-笔记篇</title>
       <link>https://stong1994.github.io/internet/ddd/advance/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
       
@@ -35,12 +98,12 @@
     </item>
     
     <item>
-      <title>长路漫漫-记一次夜跑</title>
-      <link>https://stong1994.github.io/life/long_alive_record_with_night_run/</link>
+      <title>如何写没有bug的代码</title>
+      <link>https://stong1994.github.io/life/how_to_code_without_bug/</link>
       <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/long_alive_record_with_night_run/</guid>
-      <description>到公园去跑步，看到一大爷坐在石凳上，左手夹根烟，右手边一个摊开的塑料袋，立着两瓶啤酒，还有一个装着半杯酒的塑料杯。 “大叔，一个人喝酒啊” 没事</description>
+      <guid>https://stong1994.github.io/life/how_to_code_without_bug/</guid>
+      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
     </item>
     
   </channel>

@@ -6,14 +6,23 @@
     <description>Recent content on cristo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 04 Dec 2020 23:31:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/life/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Nov 2021 18:07:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/life/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>长路漫漫-记一次夜跑</title>
-      <link>https://stong1994.github.io/life/long_alive_record_with_night_run/</link>
+      <title>琦哥</title>
+      <link>https://stong1994.github.io/life/qi/</link>
+      <pubDate>Sun, 14 Nov 2021 18:07:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/qi/</guid>
+      <description>如何证明自己存在过？ 年轻时候的我决定要干大事，要成就一番丰功伟绩来让我的子孙们铭记他们这个伟大的先祖！ 可惜他们这个先祖并不争气，到现在还只是</description>
+    </item>
+    
+    <item>
+      <title>如何写没有bug的代码</title>
+      <link>https://stong1994.github.io/life/how_to_code_without_bug/</link>
       <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/long_alive_record_with_night_run/</guid>
-      <description>到公园去跑步，看到一大爷坐在石凳上，左手夹根烟，右手边一个摊开的塑料袋，立着两瓶啤酒，还有一个装着半杯酒的塑料杯。 “大叔，一个人喝酒啊” 没事</description>
+      <guid>https://stong1994.github.io/life/how_to_code_without_bug/</guid>
+      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
     </item>
     
   </channel>

@@ -1,5 +1,5 @@
 ---
-title: "DDD进阶"
+title: "DDD进阶-笔记篇"
 date: 2021-01-29T23:31:51+08:00
 lastmod: 2021-01-30T00:20:51+08:00
 url: "/internet/ddd/advance"

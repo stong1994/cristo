@@ -3,35 +3,156 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://stong1994.github.io/book/</loc>
-    <lastmod>2021-01-31T00:10:51+08:00</lastmod>
+    <loc>https://stong1994.github.io/internet/</loc>
+    <lastmod>2021-11-22T16:05:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/</loc>
+    <lastmod>2021-11-22T16:05:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/depth/redis_base_design/</loc>
+    <lastmod>2021-11-22T16:05:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/depth/redis_base_design/</loc>
+    <lastmod>2021-11-22T16:05:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/depth/layer/</loc>
+    <lastmod>2021-11-20T13:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/life/</loc>
+    <lastmod>2021-11-14T18:07:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2021-01-31T00:10:51+08:00</lastmod>
+    <lastmod>2021-11-14T18:07:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://stong1994.github.io/authors/cristo/</loc>
-    <lastmod>2021-01-31T00:10:51+08:00</lastmod>
+    <lastmod>2021-11-14T18:07:00+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://stong1994.github.io/</loc>
-    <lastmod>2021-01-31T00:10:51+08:00</lastmod>
+    <loc>https://stong1994.github.io/life/qi/</loc>
+    <lastmod>2021-11-14T18:07:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/category/c_improve/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/category/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tag/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tag/%E6%B7%B1%E5%BA%A6%E5%B7%A5%E4%BD%9C/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/improve/deep_work/</loc>
+    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/depth/code_thought/</loc>
+    <lastmod>2021-10-06T17:05:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/design/dboat/</loc>
+    <lastmod>2021-10-04T22:32:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/design/gray_gateway/</loc>
+    <lastmod>2021-10-03T23:57:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/design/evps/</loc>
+    <lastmod>2021-10-01T19:26:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/internet/design/basepay/</loc>
+    <lastmod>2021-09-30T14:31:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/philosophy/person_and_history/</loc>
+    <lastmod>2021-03-15T00:53:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tag/improve/</loc>
+    <lastmod>2021-02-28T23:25:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</loc>
+    <lastmod>2021-02-28T23:25:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/improve/principles/</loc>
+    <lastmod>2021-02-28T16:19:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/category/c_literature/</loc>
+    <lastmod>2021-02-21T19:30:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tag/literature/</loc>
+    <lastmod>2021-02-21T19:30:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/book/literature/Cien_a%C3%B1os_de_soledad/</loc>
+    <lastmod>2021-02-21T19:30:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tool/</loc>
+    <lastmod>2021-01-31T16:30:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://stong1994.github.io/tool/build_free_blog/</loc>
+    <lastmod>2021-01-31T16:30:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://stong1994.github.io/book/improve/measure_what_matters/</loc>
     <lastmod>2021-01-31T00:10:51+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2021-01-30T00:20:51+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -55,13 +176,7 @@
   </url>
   
   <url>
-    <loc>https://stong1994.github.io/life/</loc>
-    <lastmod>2020-12-04T23:31:51+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://stong1994.github.io/life/long_alive_record_with_night_run/</loc>
+    <loc>https://stong1994.github.io/life/how_to_code_without_bug/</loc>
     <lastmod>2020-12-04T23:31:51+08:00</lastmod>
   </url>
   
@@ -71,15 +186,7 @@
   </url>
   
   <url>
-    <loc>https://stong1994.github.io/categories/</loc>
-  </url>
-  
-  <url>
     <loc>https://stong1994.github.io/series/</loc>
-  </url>
-  
-  <url>
-    <loc>https://stong1994.github.io/tags/</loc>
   </url>
   
 </urlset>

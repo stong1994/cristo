@@ -1,7 +1,7 @@
 +++
 
 date = 2021-01-29T23:07:51+08:00
-title = "DDD基础"
+title = "DDD基础-笔记篇"
 url = "/internet/ddd/base"
 
 +++

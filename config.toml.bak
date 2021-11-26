@@ -12,10 +12,10 @@ pygmentsStyle = "b2"
 pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
-[build]
-  noJSConfigInAssets = false
-  useResourceCacheWhen = "never"
-  writeStats = false
+#[build]
+#  noJSConfigInAssets = false
+#  useResourceCacheWhen = "never"
+#  writeStats = false
 [permalinks]
   posts = "/:year/:month/:title/"
 
@@ -27,7 +27,7 @@ pygmentsCodeFencesGuessSyntax = true
     #avatarURL = "https://raw.githubusercontent.com/stong1994/images/master/picgo/mine.jpg"
     avatarURL = "images/mine.jpg"
     #gravatar = "john.doe@example.com"
-    footerContent = "be simple"
+    footerContent = "不得道，便成魔"
 
     dateFormat = "January 2, 2006"
 
@@ -68,9 +68,9 @@ pygmentsCodeFencesGuessSyntax = true
 
 
 [taxonomies]
-  category = "categories"
+  category = "category"
   series = "series"
-  tag = "tags"
+  tag = "tag"
   author = "authors"
 
 #[[params.social]]
@@ -80,6 +80,9 @@ pygmentsCodeFencesGuessSyntax = true
 #    url = "https://github.com/stong1994/"
 
 
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
 
 
 [languages]

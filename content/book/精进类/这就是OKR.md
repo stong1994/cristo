@@ -5,8 +5,13 @@ url: "/book/improve/measure_what_matters"
 isCJKLanguage: true
 keywords:
   - OKR
+tag:
+  - improve
+category:
+  - c_improve
 authors:
   - cristo
+toc: false
 ---
 
 作者：[约翰·杜尔（John Doerr）](https://book.douban.com/search/约翰·杜尔)
@@ -282,3 +287,4 @@ OKR系统有一个优点常常被低估，这就是它的可追踪性，这一�
 
 - [A typical OKR cycle](https://www.whatmatters.com/resources/a-typical-okr-cycle/)
 
+- [制定OKR-两种思路与七类方法](https://bytedance.feishu.cn/docs/doccnF0yzGWKvRomAw0Ely9CJhg)
