@@ -5,6 +5,7 @@
     <div id="toc" class="well col-md-4 col-sm-6">
     {{ .TableOfContents }}
     </div>
+    {{ .Content }}
   {{ partial "page.html" . }}
   {{ partial "posts/math.html" . }}
 {{ end }}

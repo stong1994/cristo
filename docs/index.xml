@@ -122,7 +122,7 @@ Page Directory 如果没有页目录，那么查找一条数据只能遍历查�
     </item>
     
     <item>
-      <title>菊与刀</title>
+      <title>《菊与刀》</title>
       <link>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</link>
       <pubDate>Sun, 12 Dec 2021 21:36:00 +0800</pubDate>
       
@@ -224,7 +224,7 @@ MVC最早据说是起源于桌面端开发，M代表数据层，V代表UI层，C
     </item>
     
     <item>
-      <title>深度工作</title>
+      <title>《深度工作》</title>
       <link>https://stong1994.github.io/book/improve/deep_work/</link>
       <pubDate>Thu, 07 Oct 2021 20:20:00 +0800</pubDate>
       
@@ -386,7 +386,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
     </item>
     
     <item>
-      <title>论个人在历史上的作用问题</title>
+      <title>《论个人在历史上的作用问题》</title>
       <link>https://stong1994.github.io/book/philosophy/person_and_history/</link>
       <pubDate>Mon, 15 Mar 2021 00:09:00 +0800</pubDate>
       
@@ -395,7 +395,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
     </item>
     
     <item>
-      <title>债务危机</title>
+      <title>《债务危机》</title>
       <link>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
       <pubDate>Sun, 28 Feb 2021 23:25:51 +0800</pubDate>
       
@@ -404,7 +404,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
     </item>
     
     <item>
-      <title>原则</title>
+      <title>《原则》</title>
       <link>https://stong1994.github.io/book/improve/principles/</link>
       <pubDate>Sun, 28 Feb 2021 16:19:51 +0800</pubDate>
       
@@ -422,7 +422,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
     </item>
     
     <item>
-      <title>这就是OKR</title>
+      <title>《这就是OKR》</title>
       <link>https://stong1994.github.io/book/improve/measure_what_matters/</link>
       <pubDate>Sun, 31 Jan 2021 00:10:51 +0800</pubDate>
       
@@ -477,7 +477,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
     </item>
     
     <item>
-      <title>卓有成效的管理者</title>
+      <title>《卓有成效的管理者》</title>
       <link>https://stong1994.github.io/book/improve/the_effective_executive/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
       
