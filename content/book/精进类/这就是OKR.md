@@ -1,5 +1,5 @@
 ---
-title: "这就是OKR"
+title: "《这就是OKR》"
 date: 2021-01-31T00:10:51+08:00
 url: "/book/improve/measure_what_matters"
 isCJKLanguage: true
