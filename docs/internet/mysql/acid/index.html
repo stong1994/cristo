@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。
+每种数据库对于事务的实现都不同，有的数据库，如Redis，没有实现所有的事务特性，而目前比较火的分布式数据库，也有自己的实现特性——BASE。但理解事务的特性仍是软件开发行业从业者的基础素质。
+本篇会以InnoDB为例，来探究它是如何实现事务的。
+事务id的生成 事务id的生成规则与row_id的生成规则不能说相似，只能说一模一样。
+ 服务器在内存中维护一个全局变量，每当需要为某个事务分配事务id时，获取这个变量作为row_id的值，并把这个全局变量自增1 每当全局变量的值变为256的倍数时，就会将该变量写入系统表空间中 当系统启动时，将系统表空间中的该变量加上256加载到内存中（加256是为了确保内存中的值一定比记录中已存在的事务id值大）  原子性（Atomicity）  一个事务内的执行语句要么全执行，要么都不执行。可以理解为一个事务内的多个事件，如果有一个事件发生异常，就要回退到第一个事件发生前的状态。
+ 原子性要求我们可以对执行事务过程中改变的数据进行回滚，而为了实现回滚，InnoDB使用了undo log。
+undo log 一个索引除了会产生叶子结点段和非叶子结点段之外，还会产生回滚段。我们的undo log就是存放在回滚段中。
+对于每条记录，都会存在两个隐藏列：trx_id和roll_pointer。每次新增undo log时，会在新纪录上更新roll_pointer，指向新的undo log，而undo log也会记录旧记录上的roll_pointer，这样，以新纪录开始，与仍存在的旧记录形成了一条版本链。undo log上的旧记录可能不会记录所有的数据，如更新操作产生的日志就是只记录被更新的字段，但是通过遍历版本链就能找到旧记录的所有字段。
+向表中插入/更新/删除一条记录时，需要对聚簇索引和所有二级索引都进行插入/更新/删除，但是在记录undo log时，我们只需要针对聚簇索引来记录。聚簇索引和二级索引都是一一对应的，在回滚时，根据主键信息对所有的二级索引都进行回滚即可。所以，只有聚簇索引才会存在回滚段。
+对于插入操作 插入操作的回滚操作就是删除操作，因此，在undo log中记录插入记录的主键即可。
+对于删除操作 删除操作的逆操作插入操作，按道理来说，undo log中会记录被删除的数据，但是InnoDB没有这样做。因为如果数据被删了，那么“其他人”就看不到了，先于这个事务执行的事务就可能会产生不可重复读或者幻读。
+InnoDB中的实现是这样：
+ 第一阶段，将这个记录的deleted_flag（每个记录都有的隐藏列）标识为1，这就意味着这条记录正在删除中。同时，在undo log中需要记录索引各列的信息，用于后续的purge操作。 第二阶段，在事务提交后，会有专门的线程来把这条记录删除掉——把这条记录从正常记录链表中删除，并加入到垃圾链表中  对于更新操作 更新操作需要分为两种情况：更新主键、不更新主键
+不更新主键 如果不更新主键，并且更新前后这条记录的各个字段占用的空间都不变，那么直接将变更的旧字段写到undo log即可。
+如果更新后字段占用的空间有变化，那么就要删除这条旧记录，并将其放入“垃圾链表”中（并不是标记删除），如果新记录占用的空间小于旧记录，则可以“复用”旧记录的空间，否则需要重新申请一块空间来存放新记录。
+undo log会记录更新的列的旧数据，以供回滚。
+更新主键 如果要更新主键，那么就相当于先进行删除操作，再进行插入操作。即先对旧记录进行标记删除，再插入新数据，同时产生两条undo log。
+undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，首先根据redo log将各个页面的数据恢复到之前的状态，但是有些没有提交的redo log可能已经被刷盘，因此未提交的事务修改过的页面也被恢复了。这时需要把这些页面回滚掉。
+通过系统表空间定位到回滚段的位置，并找到状态为TRX_UNDO_ACTIVE的undo log链表，这意味着存在活跃的事务正在向这个undo log链表写入undo log，找到对应的事务id，并将其做出的修改全部回滚掉。
+一致性（Consistency） 关于一致性，似乎没有统一的说法，有的说ACID中的C是用来凑数的，一致性是事务要达到的目的，而不是事务特性；有的说一致性就是数据库对于数据的约束，如非空、唯一等；有的说一致性要由业务逻辑的程序来维持。不用纠结这些。
+另外，区别于分布式数据库中的最终一致性，InnoDB中的一致性指的是强一致性。
+隔离性（Isolation）  事务之间应该是隔离的、互不影响的。
+ 业内的隔离性划分（非InnoDB） 四种隔离问题  脏写：一个事务修改了另一个未提交的事务的数据 脏读：一个事务读取了另一个未提交的事务修改后的数据 不可重复读：一个事务两次读取同一条记录的数据不同，因为被另一个事务修改 幻读：一个事务两次读取的范围数据不同，因为被另一个事务进行了插入/更新操作  四种隔离级别  读未提交：只解决脏写问题 读已提交：解决脏写、脏读问题 可重复读：解决脏写、脏读、不可重复度问题 串行化：解决全部四个问题  三种锁  排它锁：对于同一条记录，只有一个事务能够修改 共享锁：对于同一条记录，多个事务都能读取，但不允许修改 范围锁：一个范围内的记录的共享锁  他们之间的关系    使用的锁 隔离问题 隔离级别     不用锁 未解决：脏写、脏读、不可重复度、幻读 无，脏写问题是必须要避免的   排它锁 只解决脏写 读未提交   排它锁&#43;（读完就释放的）共享锁 解决脏写、脏读 读已提交   排它锁&#43;（事务执行完才释放的）共享锁 解决脏写、脏读、不可重复读 可重复读   排它锁&#43;共享锁&#43;范围锁 解决脏写、脏读、不可重复读、幻读 串行化    由上可以看出，是由于使用的锁不同，进而产生了隔离问题、隔离级别！">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="理解事务：InnoDB的ACID"/>
+<meta name="twitter:description" content="事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。
+每种数据库对于事务的实现都不同，有的数据库，如Redis，没有实现所有的事务特性，而目前比较火的分布式数据库，也有自己的实现特性——BASE。但理解事务的特性仍是软件开发行业从业者的基础素质。
+本篇会以InnoDB为例，来探究它是如何实现事务的。
+事务id的生成 事务id的生成规则与row_id的生成规则不能说相似，只能说一模一样。
+ 服务器在内存中维护一个全局变量，每当需要为某个事务分配事务id时，获取这个变量作为row_id的值，并把这个全局变量自增1 每当全局变量的值变为256的倍数时，就会将该变量写入系统表空间中 当系统启动时，将系统表空间中的该变量加上256加载到内存中（加256是为了确保内存中的值一定比记录中已存在的事务id值大）  原子性（Atomicity）  一个事务内的执行语句要么全执行，要么都不执行。可以理解为一个事务内的多个事件，如果有一个事件发生异常，就要回退到第一个事件发生前的状态。
+ 原子性要求我们可以对执行事务过程中改变的数据进行回滚，而为了实现回滚，InnoDB使用了undo log。
+undo log 一个索引除了会产生叶子结点段和非叶子结点段之外，还会产生回滚段。我们的undo log就是存放在回滚段中。
+对于每条记录，都会存在两个隐藏列：trx_id和roll_pointer。每次新增undo log时，会在新纪录上更新roll_pointer，指向新的undo log，而undo log也会记录旧记录上的roll_pointer，这样，以新纪录开始，与仍存在的旧记录形成了一条版本链。undo log上的旧记录可能不会记录所有的数据，如更新操作产生的日志就是只记录被更新的字段，但是通过遍历版本链就能找到旧记录的所有字段。
+向表中插入/更新/删除一条记录时，需要对聚簇索引和所有二级索引都进行插入/更新/删除，但是在记录undo log时，我们只需要针对聚簇索引来记录。聚簇索引和二级索引都是一一对应的，在回滚时，根据主键信息对所有的二级索引都进行回滚即可。所以，只有聚簇索引才会存在回滚段。
+对于插入操作 插入操作的回滚操作就是删除操作，因此，在undo log中记录插入记录的主键即可。
+对于删除操作 删除操作的逆操作插入操作，按道理来说，undo log中会记录被删除的数据，但是InnoDB没有这样做。因为如果数据被删了，那么“其他人”就看不到了，先于这个事务执行的事务就可能会产生不可重复读或者幻读。
+InnoDB中的实现是这样：
+ 第一阶段，将这个记录的deleted_flag（每个记录都有的隐藏列）标识为1，这就意味着这条记录正在删除中。同时，在undo log中需要记录索引各列的信息，用于后续的purge操作。 第二阶段，在事务提交后，会有专门的线程来把这条记录删除掉——把这条记录从正常记录链表中删除，并加入到垃圾链表中  对于更新操作 更新操作需要分为两种情况：更新主键、不更新主键
+不更新主键 如果不更新主键，并且更新前后这条记录的各个字段占用的空间都不变，那么直接将变更的旧字段写到undo log即可。
+如果更新后字段占用的空间有变化，那么就要删除这条旧记录，并将其放入“垃圾链表”中（并不是标记删除），如果新记录占用的空间小于旧记录，则可以“复用”旧记录的空间，否则需要重新申请一块空间来存放新记录。
+undo log会记录更新的列的旧数据，以供回滚。
+更新主键 如果要更新主键，那么就相当于先进行删除操作，再进行插入操作。即先对旧记录进行标记删除，再插入新数据，同时产生两条undo log。
+undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，首先根据redo log将各个页面的数据恢复到之前的状态，但是有些没有提交的redo log可能已经被刷盘，因此未提交的事务修改过的页面也被恢复了。这时需要把这些页面回滚掉。
+通过系统表空间定位到回滚段的位置，并找到状态为TRX_UNDO_ACTIVE的undo log链表，这意味着存在活跃的事务正在向这个undo log链表写入undo log，找到对应的事务id，并将其做出的修改全部回滚掉。
+一致性（Consistency） 关于一致性，似乎没有统一的说法，有的说ACID中的C是用来凑数的，一致性是事务要达到的目的，而不是事务特性；有的说一致性就是数据库对于数据的约束，如非空、唯一等；有的说一致性要由业务逻辑的程序来维持。不用纠结这些。
+另外，区别于分布式数据库中的最终一致性，InnoDB中的一致性指的是强一致性。
+隔离性（Isolation）  事务之间应该是隔离的、互不影响的。
+ 业内的隔离性划分（非InnoDB） 四种隔离问题  脏写：一个事务修改了另一个未提交的事务的数据 脏读：一个事务读取了另一个未提交的事务修改后的数据 不可重复读：一个事务两次读取同一条记录的数据不同，因为被另一个事务修改 幻读：一个事务两次读取的范围数据不同，因为被另一个事务进行了插入/更新操作  四种隔离级别  读未提交：只解决脏写问题 读已提交：解决脏写、脏读问题 可重复读：解决脏写、脏读、不可重复度问题 串行化：解决全部四个问题  三种锁  排它锁：对于同一条记录，只有一个事务能够修改 共享锁：对于同一条记录，多个事务都能读取，但不允许修改 范围锁：一个范围内的记录的共享锁  他们之间的关系    使用的锁 隔离问题 隔离级别     不用锁 未解决：脏写、脏读、不可重复度、幻读 无，脏写问题是必须要避免的   排它锁 只解决脏写 读未提交   排它锁&#43;（读完就释放的）共享锁 解决脏写、脏读 读已提交   排它锁&#43;（事务执行完才释放的）共享锁 解决脏写、脏读、不可重复读 可重复读   排它锁&#43;共享锁&#43;范围锁 解决脏写、脏读、不可重复读、幻读 串行化    由上可以看出，是由于使用的锁不同，进而产生了隔离问题、隔离级别！"/>
+
+    <meta property="og:title" content="理解事务：InnoDB的ACID" />
+<meta property="og:description" content="事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。
+每种数据库对于事务的实现都不同，有的数据库，如Redis，没有实现所有的事务特性，而目前比较火的分布式数据库，也有自己的实现特性——BASE。但理解事务的特性仍是软件开发行业从业者的基础素质。
+本篇会以InnoDB为例，来探究它是如何实现事务的。
+事务id的生成 事务id的生成规则与row_id的生成规则不能说相似，只能说一模一样。
+ 服务器在内存中维护一个全局变量，每当需要为某个事务分配事务id时，获取这个变量作为row_id的值，并把这个全局变量自增1 每当全局变量的值变为256的倍数时，就会将该变量写入系统表空间中 当系统启动时，将系统表空间中的该变量加上256加载到内存中（加256是为了确保内存中的值一定比记录中已存在的事务id值大）  原子性（Atomicity）  一个事务内的执行语句要么全执行，要么都不执行。可以理解为一个事务内的多个事件，如果有一个事件发生异常，就要回退到第一个事件发生前的状态。
+ 原子性要求我们可以对执行事务过程中改变的数据进行回滚，而为了实现回滚，InnoDB使用了undo log。
+undo log 一个索引除了会产生叶子结点段和非叶子结点段之外，还会产生回滚段。我们的undo log就是存放在回滚段中。
+对于每条记录，都会存在两个隐藏列：trx_id和roll_pointer。每次新增undo log时，会在新纪录上更新roll_pointer，指向新的undo log，而undo log也会记录旧记录上的roll_pointer，这样，以新纪录开始，与仍存在的旧记录形成了一条版本链。undo log上的旧记录可能不会记录所有的数据，如更新操作产生的日志就是只记录被更新的字段，但是通过遍历版本链就能找到旧记录的所有字段。
+向表中插入/更新/删除一条记录时，需要对聚簇索引和所有二级索引都进行插入/更新/删除，但是在记录undo log时，我们只需要针对聚簇索引来记录。聚簇索引和二级索引都是一一对应的，在回滚时，根据主键信息对所有的二级索引都进行回滚即可。所以，只有聚簇索引才会存在回滚段。
+对于插入操作 插入操作的回滚操作就是删除操作，因此，在undo log中记录插入记录的主键即可。
+对于删除操作 删除操作的逆操作插入操作，按道理来说，undo log中会记录被删除的数据，但是InnoDB没有这样做。因为如果数据被删了，那么“其他人”就看不到了，先于这个事务执行的事务就可能会产生不可重复读或者幻读。
+InnoDB中的实现是这样：
+ 第一阶段，将这个记录的deleted_flag（每个记录都有的隐藏列）标识为1，这就意味着这条记录正在删除中。同时，在undo log中需要记录索引各列的信息，用于后续的purge操作。 第二阶段，在事务提交后，会有专门的线程来把这条记录删除掉——把这条记录从正常记录链表中删除，并加入到垃圾链表中  对于更新操作 更新操作需要分为两种情况：更新主键、不更新主键
+不更新主键 如果不更新主键，并且更新前后这条记录的各个字段占用的空间都不变，那么直接将变更的旧字段写到undo log即可。
+如果更新后字段占用的空间有变化，那么就要删除这条旧记录，并将其放入“垃圾链表”中（并不是标记删除），如果新记录占用的空间小于旧记录，则可以“复用”旧记录的空间，否则需要重新申请一块空间来存放新记录。
+undo log会记录更新的列的旧数据，以供回滚。
+更新主键 如果要更新主键，那么就相当于先进行删除操作，再进行插入操作。即先对旧记录进行标记删除，再插入新数据，同时产生两条undo log。
+undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，首先根据redo log将各个页面的数据恢复到之前的状态，但是有些没有提交的redo log可能已经被刷盘，因此未提交的事务修改过的页面也被恢复了。这时需要把这些页面回滚掉。
+通过系统表空间定位到回滚段的位置，并找到状态为TRX_UNDO_ACTIVE的undo log链表，这意味着存在活跃的事务正在向这个undo log链表写入undo log，找到对应的事务id，并将其做出的修改全部回滚掉。
+一致性（Consistency） 关于一致性，似乎没有统一的说法，有的说ACID中的C是用来凑数的，一致性是事务要达到的目的，而不是事务特性；有的说一致性就是数据库对于数据的约束，如非空、唯一等；有的说一致性要由业务逻辑的程序来维持。不用纠结这些。
+另外，区别于分布式数据库中的最终一致性，InnoDB中的一致性指的是强一致性。
+隔离性（Isolation）  事务之间应该是隔离的、互不影响的。
+ 业内的隔离性划分（非InnoDB） 四种隔离问题  脏写：一个事务修改了另一个未提交的事务的数据 脏读：一个事务读取了另一个未提交的事务修改后的数据 不可重复读：一个事务两次读取同一条记录的数据不同，因为被另一个事务修改 幻读：一个事务两次读取的范围数据不同，因为被另一个事务进行了插入/更新操作  四种隔离级别  读未提交：只解决脏写问题 读已提交：解决脏写、脏读问题 可重复读：解决脏写、脏读、不可重复度问题 串行化：解决全部四个问题  三种锁  排它锁：对于同一条记录，只有一个事务能够修改 共享锁：对于同一条记录，多个事务都能读取，但不允许修改 范围锁：一个范围内的记录的共享锁  他们之间的关系    使用的锁 隔离问题 隔离级别     不用锁 未解决：脏写、脏读、不可重复度、幻读 无，脏写问题是必须要避免的   排它锁 只解决脏写 读未提交   排它锁&#43;（读完就释放的）共享锁 解决脏写、脏读 读已提交   排它锁&#43;（事务执行完才释放的）共享锁 解决脏写、脏读、不可重复读 可重复读   排它锁&#43;共享锁&#43;范围锁 解决脏写、脏读、不可重复读、幻读 串行化    由上可以看出，是由于使用的锁不同，进而产生了隔离问题、隔离级别！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/mysql/acid/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-01-16T17:05:00+08:00" />
+<meta property="article:modified_time" content="2022-01-16T17:05:00+08:00" />
+
+
+
+    <title>
+  理解事务：InnoDB的ACID · cristo
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/mysql/acid/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      cristo
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container page">
+  <article>
+    <header>
+      <h1>理解事务：InnoDB的ACID</h1>
+    </header>
+
+    <p>事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。</p>
+<p>每种数据库对于事务的实现都不同，有的数据库，如Redis，没有实现所有的事务特性，而目前比较火的分布式数据库，也有自己的实现特性——BASE。但理解事务的特性仍是软件开发行业从业者的基础素质。</p>
+<p>本篇会以InnoDB为例，来探究它是如何实现事务的。</p>
+<h2 id="事务id的生成">事务id的生成</h2>
+<p>事务id的生成规则与row_id的生成规则不能说相似，只能说一模一样。</p>
+<ol>
+<li>服务器在内存中维护一个全局变量，每当需要为某个事务分配事务id时，获取这个变量作为row_id的值，并把这个全局变量自增1</li>
+<li>每当全局变量的值变为256的倍数时，就会将该变量写入系统表空间中</li>
+<li>当系统启动时，将系统表空间中的该变量加上256加载到内存中（加256是为了确保内存中的值一定比记录中已存在的事务id值大）</li>
+</ol>
+<h2 id="原子性atomicity">原子性（Atomicity）</h2>
+<blockquote>
+<p>一个事务内的执行语句要么全执行，要么都不执行。可以理解为一个事务内的多个事件，如果有一个事件发生异常，就要回退到第一个事件发生前的状态。</p>
+</blockquote>
+<p>原子性要求我们可以对执行事务过程中改变的数据进行回滚，而为了实现回滚，InnoDB使用了undo log。</p>
+<h3 id="undo-log">undo log</h3>
+<p>一个索引除了会产生叶子结点段和非叶子结点段之外，还会产生回滚段。我们的undo log就是存放在回滚段中。</p>
+<p>对于每条记录，都会存在两个隐藏列：trx_id和roll_pointer。每次新增undo log时，会在新纪录上更新roll_pointer，指向新的undo log，而undo log也会记录旧记录上的roll_pointer，这样，以新纪录开始，与仍存在的旧记录形成了一条版本链。undo log上的旧记录可能不会记录所有的数据，如更新操作产生的日志就是只记录被更新的字段，但是通过遍历版本链就能找到旧记录的所有字段。</p>
+<p>向表中插入/更新/删除一条记录时，需要对聚簇索引和所有二级索引都进行插入/更新/删除，但是在记录undo log时，我们只需要针对聚簇索引来记录。聚簇索引和二级索引都是一一对应的，在回滚时，根据主键信息对所有的二级索引都进行回滚即可。所以，只有聚簇索引才会存在回滚段。</p>
+<h3 id="对于插入操作">对于插入操作</h3>
+<p>插入操作的回滚操作就是删除操作，因此，在undo log中记录插入记录的主键即可。</p>
+<h3 id="对于删除操作">对于删除操作</h3>
+<p>删除操作的逆操作插入操作，按道理来说，undo log中会记录被删除的数据，但是InnoDB没有这样做。因为如果数据被删了，那么“其他人”就看不到了，先于这个事务执行的事务就可能会产生不可重复读或者幻读。</p>
+<p>InnoDB中的实现是这样：</p>
+<ol>
+<li>第一阶段，将这个记录的deleted_flag（每个记录都有的隐藏列）标识为1，这就意味着这条记录正在删除中。同时，在undo log中需要记录索引各列的信息，用于后续的purge操作。</li>
+<li>第二阶段，在事务提交后，会有专门的线程来把这条记录删除掉——把这条记录从正常记录链表中删除，并加入到垃圾链表中</li>
+</ol>
+<h3 id="对于更新操作">对于更新操作</h3>
+<p>更新操作需要分为两种情况：更新主键、不更新主键</p>
+<h4 id="不更新主键">不更新主键</h4>
+<p>如果不更新主键，并且更新前后这条记录的各个字段占用的空间都不变，那么直接将变更的旧字段写到undo log即可。</p>
+<p>如果更新后字段占用的空间有变化，那么就要删除这条旧记录，并将其放入“垃圾链表”中（并不是标记删除），如果新记录占用的空间小于旧记录，则可以“复用”旧记录的空间，否则需要重新申请一块空间来存放新记录。</p>
+<p>undo log会记录更新的列的旧数据，以供回滚。</p>
+<h4 id="更新主键">更新主键</h4>
+<p>如果要更新主键，那么就相当于先进行删除操作，再进行插入操作。即先对旧记录进行标记删除，再插入新数据，同时产生两条undo log。</p>
+<h3 id="undo-log在崩溃恢复时的作用">undo log在崩溃恢复时的作用</h3>
+<p>服务器在崩溃后的恢复过程中，首先根据redo log将各个页面的数据恢复到之前的状态，但是有些没有提交的redo log可能已经被刷盘，因此未提交的事务修改过的页面也被恢复了。这时需要把这些页面回滚掉。</p>
+<p>通过系统表空间定位到回滚段的位置，并找到状态为TRX_UNDO_ACTIVE的undo log链表，这意味着存在活跃的事务正在向这个undo log链表写入undo log，找到对应的事务id，并将其做出的修改全部回滚掉。</p>
+<h2 id="一致性consistency">一致性（Consistency）</h2>
+<p>关于一致性，似乎没有统一的说法，有的说ACID中的C是用来凑数的，一致性是事务要达到的目的，而不是事务特性；有的说一致性就是数据库对于数据的约束，如非空、唯一等；有的说一致性要由业务逻辑的程序来维持。不用纠结这些。</p>
+<p>另外，区别于分布式数据库中的最终一致性，InnoDB中的一致性指的是强一致性。</p>
+<h2 id="隔离性isolation">隔离性（Isolation）</h2>
+<blockquote>
+<p>事务之间应该是隔离的、互不影响的。</p>
+</blockquote>
+<h3 id="业内的隔离性划分非innodb">业内的隔离性划分（非InnoDB）</h3>
+<h4 id="四种隔离问题">四种隔离问题</h4>
+<ul>
+<li>脏写：一个事务修改了另一个未提交的事务的数据</li>
+<li>脏读：一个事务读取了另一个未提交的事务修改后的数据</li>
+<li>不可重复读：一个事务两次读取同一条记录的数据不同，因为被另一个事务修改</li>
+<li>幻读：一个事务两次读取的范围数据不同，因为被另一个事务进行了插入/更新操作</li>
+</ul>
+<h4 id="四种隔离级别">四种隔离级别</h4>
+<ul>
+<li>读未提交：只解决脏写问题</li>
+<li>读已提交：解决脏写、脏读问题</li>
+<li>可重复读：解决脏写、脏读、不可重复度问题</li>
+<li>串行化：解决全部四个问题</li>
+</ul>
+<h4 id="三种锁">三种锁</h4>
+<ul>
+<li>排它锁：对于同一条记录，只有一个事务能够修改</li>
+<li>共享锁：对于同一条记录，多个事务都能读取，但不允许修改</li>
+<li>范围锁：一个范围内的记录的共享锁</li>
+</ul>
+<h4 id="他们之间的关系">他们之间的关系</h4>
+<table>
+<thead>
+<tr>
+<th>使用的锁</th>
+<th>隔离问题</th>
+<th>隔离级别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不用锁</td>
+<td>未解决：脏写、脏读、不可重复度、幻读</td>
+<td>无，脏写问题是必须要避免的</td>
+</tr>
+<tr>
+<td>排它锁</td>
+<td>只解决脏写</td>
+<td>读未提交</td>
+</tr>
+<tr>
+<td>排它锁+（读完就释放的）共享锁</td>
+<td>解决脏写、脏读</td>
+<td>读已提交</td>
+</tr>
+<tr>
+<td>排它锁+（事务执行完才释放的）共享锁</td>
+<td>解决脏写、脏读、不可重复读</td>
+<td>可重复读</td>
+</tr>
+<tr>
+<td>排它锁+共享锁+范围锁</td>
+<td>解决脏写、脏读、不可重复读、幻读</td>
+<td>串行化</td>
+</tr>
+</tbody>
+</table>
+<p>由上可以看出，是<strong>由于使用的锁不同，进而产生了隔离问题、隔离级别！</strong></p>
+<h3 id="innodb实现">InnoDB实现</h3>
+<p>不同于只支持表级锁的MyISAM，InnoDB支持行级锁。我们将共享锁记为S锁，排它锁记为X锁（在InnoDB中共享锁和排它锁可以视为修饰符，即排它型XX锁或共享型XX锁）。</p>
+<p>除此之外，还有几种范围锁。</p>
+<h4 id="record-lock">Record Lock</h4>
+<p>行级锁。分为排它型行级锁和共享型行级锁。</p>
+<h4 id="gap-lock">Gap Lock</h4>
+<p>为了<strong>防止插入幻影记录而存在的锁</strong>。</p>
+<p>假设记录中存在主键为1, 5, 10, 20这四条记录了，如果对主键为10的记录加Gap Lock，那么主键范围在（5,10）的“虚拟”记录会被锁住。这时插入主键为6的记录会被阻塞。</p>
+<h4 id="next-key-lock">Next-Key Lock</h4>
+<p>Record Lock 与Gap Lock的合体。</p>
+<h4 id="insert-intention-lock">Insert Intention Lock</h4>
+<p>插入意向锁。事务在插入记录时，判断插入位置是否被其他事务加了gap锁，如果有，就进行等待，并在内存中生成一个插入意向锁，当gap锁被释放时，就可以获取到插入意向锁。多个插入意向锁不互斥，即多个事务可以同时获取一条记录的插入意向锁。插入意向锁也不会组织其他事务获取该记录上任何类型的锁。</p>
+<h4 id="隐式锁">隐式锁</h4>
+<p>当一个事务先插入一条记录，另外一个事务进行了<code>SELECT ... LOCK IN SHARE MODE</code>或者<code>SELECT ... FOR UPDATE</code>或者直接进行修改，此时这条记录上并没有任何锁，如果被第二个事务读取到或者修改，就会造成脏写、脏读问题。</p>
+<p>这时第二个事务察觉到这条记录的trx_id是活跃的事务ID，不能对其进行读取或修改，因此需要帮忙对其生成一个锁结构，然后再自己生成一个锁结构，进入等待状态。</p>
+<p>隐式锁起到了<strong>延迟生成锁结构</strong>的作用。</p>
+<p>对于二级索引的记录，本身没有trx_id，但是可以通过页面的PageHeader部分找到PAGE_MAX_TRX_ID属性，如果这个属性的值小于当前事务的事务id，那么说明该页面的事务都已提交，否则需要回表通过聚簇索引找到trx_id。</p>
+<h4 id="自增锁">自增锁</h4>
+<p>如果一个列设置了自增属性，那么有两种方式实现自增：</p>
+<ol>
+<li>采用AUTO-INCR锁，这是一个表级别的锁，每次获取插入数据的自增列的值时，需要先获取锁，语句执行后再释放。</li>
+<li>采用轻量级锁，在生成需要的自增列额值后就释放，而不需要等待语句结束。</li>
+</ol>
+<h4 id="多版本并发控制mvcc">多版本并发控制（MVCC）</h4>
+<p>为了保证不会出现脏读问题，我们需要使用S锁。但是使用锁会造成性能下降。InnoDB中通过MVCC实现了<strong>一致性的非锁定读</strong>。</p>
+<h5 id="readview">ReadView</h5>
+<p>在事务中读取时，会生成一个ReadView，这个ReadView保证了事务不会读取到未提交的记录。ReadView中的属性：</p>
+<ul>
+<li>m_ids: 生成ReadView时，当前系统中活跃的读写事务的事务id列表</li>
+<li>min_trx: m_ids中的最小值</li>
+<li>max_trx_id: 在生产ReadView时，系统应该分配给下一个事务的事务id值</li>
+<li>creator_trx_id: 生成该ReadView的事务的事务id</li>
+</ul>
+<h5 id="判断某条记录是否可见">判断某条记录是否可见</h5>
+<ol>
+<li>如果creator_trx_id与被访问记录的trx_id相同，说明是该事务产生的数据，可以访问。（注意：<strong>只有进行修改操作时，才会生成事务id</strong>，也就是说，如果在一个事务进行修改操作之前读取，生成的creator_trx_id是0，因此此条条件永不成立）</li>
+<li>如果trx_id小于min_trx，说明在生成ReadView时事务已提交，可以访问。</li>
+<li>如果trx_id大于等于max_trx_id，说明被访问记录所在的事务晚于该事务，不可访问。</li>
+<li>如果trx_id位于[min_trx,max_trx_id)中，则判断trx_id是否处在m_ids中，如果在，则不可访问，否则，可以访问。</li>
+</ol>
+<p>如果某条记录不可访问，则通过undo log的版本链找到旧版本的记录了，再判断该记录是否可见，如果能，就读取该记录，否则沿着版本链一直读取旧记录。如果没有找到可用的旧记录，则该记录为不可见，忽略即可。</p>
+<h5 id="读已提交与可重复读的区别">读已提交与可重复读的区别</h5>
+<p>MVCC只在读已提交与可重复读中使用，读未提交可以读到未提交的数据，因此不需要，串行化使用锁实现，也不需要。</p>
+<p>在隔离级别是读已提交时，每次读取都会生成一个ReadView，因此第二次生成的ReadView中的m_ids、min_trx、max_trx_id与第一次可能不同，这导致第二次读取到的数据可能比第一次读取到的数据更“新”，这可能导致不可重复读和幻读。</p>
+<p>在隔离级别是可重复读时，一个事务只生成一个ReadView，每次读取都复用，因此能够保证每次读取到的数据是相同的。</p>
+<h5 id="二级索引">二级索引</h5>
+<p>二级索引记录中没有trx_id和roll_pointer，因此与聚簇索引所用MVCC的方式不同。</p>
+<ol>
+<li>找到二级索引页面的最大失误ID（PAGE_MAX_TRX_ID），跟min_trx_id比较，如果小于min_trx_id，则说明该页面的数据可见，否则，进行回表查询</li>
+<li>通过回表在聚簇索引中找到该主键的第一个可见版本, 再比较利用二级索引查询时的值是否相同，如果相同，则将该数据发送给客户端，如果不同，就跳过。</li>
+</ol>
+<h5 id="purge">purge</h5>
+<p>对于insert undo log，事务提交后就可以释放，而update undo log需要支持MVCC，因此不能立即删除。当事务提交后，会将这个事务中产生的update undo log插入到回滚段中的history链表中，</p>
+<p>为了支持MVCC，删除操作只是对记录进行了标记，并没有真正的删除——加入垃圾链表。</p>
+<p>这些空间都要被释放掉，而purge操作的目的就是释放掉update undo log以及被标记删除的记录。</p>
+<p>我们只要确保生成ReadView时不再访问他们，那么他们就可以释放掉了。那如何确保生成ReadView时不再访问他们？只要他们的事务提交后就不会访问了，因为最新的数据可以被访问了。</p>
+<ul>
+<li>
+<p>在事务提交时，会为这个事务生成一个事务no，用来表示事务提交的顺序，递增。</p>
+</li>
+<li>
+<p>一个ReadView中除了以上几个属性，还包含一个事务no，这个事务no是在ReadView生成时将系统中最大的事务no+1的值。</p>
+</li>
+<li>
+<p>系统中所有的ReadView会按照创建时间连成一个链表，当执行purge操作时，会找到最早的ReadView，假定这个ReadView的事务no为100，然后从各个回滚段中的history链表中找到事务no小于100的undo log，将其删除，如果undo log的类型为删除类型，那么还要将其对应标记删除的记录放到垃圾链表中。</p>
+</li>
+</ul>
+<h5 id="mvcc产生幻读的特殊情况">MVCC产生幻读的特殊情况</h5>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql&gt; <span style="color:#fff;font-weight:bold">SET</span> autocommit = <span style="color:#ff0;font-weight:bold">0</span>;
+
+mysql&gt; <span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> `<span style="color:#fff;font-weight:bold">user</span>` <span style="color:#fff;font-weight:bold">WHERE</span> id = <span style="color:#ff0;font-weight:bold">1001</span>;
+
+// <span style="color:#f00">此时在另一个终端执行</span> <span style="color:#fff;font-weight:bold">SET</span> autocommit = <span style="color:#ff0;font-weight:bold">0</span>; <span style="color:#fff;font-weight:bold">INSERT</span> <span style="color:#fff;font-weight:bold">INTO</span> `<span style="color:#fff;font-weight:bold">user</span>`(id, name) <span style="color:#fff;font-weight:bold">VALUES</span>(<span style="color:#ff0;font-weight:bold">1001</span>, <span style="color:#0ff;font-weight:bold">&#39;not exist&#39;</span>); <span style="color:#fff;font-weight:bold">COMMIT</span>;
+
+mysql&gt; <span style="color:#fff;font-weight:bold">update</span> `<span style="color:#fff;font-weight:bold">user</span>` <span style="color:#fff;font-weight:bold">set</span> name = <span style="color:#0ff;font-weight:bold">&#39;EXIST&#39;</span> <span style="color:#fff;font-weight:bold">WHERE</span> id = <span style="color:#ff0;font-weight:bold">1001</span>; # <span style="color:#f00">此时能够获取到</span>id=<span style="color:#ff0;font-weight:bold">1001</span><span style="color:#f00">的记录的写锁，因此能够更新，并将其记录的</span>trx_id更新为当前事务的id<span style="color:#f00">。</span>
+
+mysql&gt; <span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> `<span style="color:#fff;font-weight:bold">user</span>` <span style="color:#fff;font-weight:bold">WHERE</span> id = <span style="color:#ff0;font-weight:bold">1001</span>;
+
+mysql&gt; <span style="color:#fff;font-weight:bold">COMMIT</span>;
+</code></pre></div><ol>
+<li>
+<p>第一次SELECT查询返回</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Empty set (0.00 sec)
+</code></pre></div></li>
+<li>
+<p>第二次查询返回（如果没有对id=1001的记录更新，此时查询不到id=1001的记录）</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">+------+-------
+| id   | name  
++------+-------
+| 1001 | EXIST
+</code></pre></div></li>
+</ol>
+<p>所以在执行事务时，做SELECT操作需要判断是否要<code>LOCK IN SHARE MODE</code>或者<code>FOR UPDATE</code>，前者加S锁，后者加X锁。两者都不允许其他事务进行更改，但前者允许其他事务进行共享读。</p>
+<h6 id="扩展串行化隔离级别下如何避免幻读">扩展：串行化隔离级别下如何避免幻读？</h6>
+<p>对于<code>autocommit = 0</code>时，普通的SELECT语句会转换为<code>SELECT ... LOCK IN SHARE MODE</code>。</p>
+<p>对于<code>autocommit = 1</code>时，不需要对SELECT加锁，只是利用MVCC生成一个ReadView来读取记录。因为自动提交时，一个事务只包含一条语句，不可能出现不可重复读、幻读等问题。</p>
+<h2 id="持久性durability">持久性（Durability）</h2>
+<blockquote>
+<p>事务一旦提交，那么数据就一定不会丢失（逻辑上不会丢失）</p>
+</blockquote>
+<p>在查询数据时，我们会把磁盘中的数据页加载到Buffer Pool中，在事务的执行过程中，也是对内存中的数据进行修改。在提交事务后，不会直接将Buffer Pool中的脏页进行刷盘，这样写入效率很低，这是因为：</p>
+<ol>
+<li>InnoDB是以页为单位进行磁盘IO，即使只改动了几个字节，也会对整个页进行刷盘</li>
+<li>一个事务包括多条语句，每个语句有可能影响多个页，这些页可能不是挨着的，那么此时进行刷盘，会产生磁盘的随机IO</li>
+</ol>
+<h3 id="redo-log">redo log</h3>
+<p>但是，如果不进行刷盘，那么如果此时服务器崩溃，将导致内存中还未刷盘的数据丢失。因此，我们可以将Buffer Pool中的数据先存入一种日志中，这样做有这些好处：</p>
+<ol>
+<li>只将页面的改动内容存储到日志中，占用空间小</li>
+<li>写入这种日志是磁盘的顺序IO，速度快</li>
+</ol>
+<p>这种日志我们称为重做日志，即redo log.</p>
+<p>但是增删改操作并不仅仅只修改记录，还可能会修改聚簇索引和二级索引、数据页所在的Page Header、Page Directory等信息，如果这些信息都要记录的话，那么代价无疑是很大的，因此在InnoDB中，对每种操作都有特定的类型，只需要在redo log中记录关键信息，然后再调用对应的函数就能够进行“重做”。</p>
+<h3 id="mtr">MTR</h3>
+<p>一条语句可能产生多个redo log，对于这些redo log应该是“原子”的，我们把它放到一组，称为MTR。</p>
+<h3 id="log-buffer">log buffer</h3>
+<p>为了解决磁盘速度过慢的问题，在加载数据页时引入了Buffer Pool，同理，在redo log中引入了 redo log buffer——服务器在启动时就向操作系统申请了一大片内存空间，我们简称为log buffer。</p>
+<h3 id="刷盘时机">刷盘时机</h3>
+<p>redo log不能一直放在内存中，其刷盘时机为：</p>
+<ol>
+<li>log bufffer空间不足时</li>
+<li>事务提交时。为了保证持久性，在事务提交时，必须刷盘。</li>
+<li>在某个脏页刷新到磁盘前，会保证先将该脏页对应的redo log刷新到磁盘。</li>
+<li>后台线程轮询进行刷盘</li>
+<li>checkpoint时</li>
+</ol>
+<h3 id="log-sequence-number">log sequence number</h3>
+<ol>
+<li>lsn: 写到log buffer但还没有刷新到磁盘的redo log的数量</li>
+<li>flushed_to_disk_lsn： 已刷新到磁盘的redo log的数量</li>
+<li>checkpoint_lsn: 用来记录当前系统可以被覆盖的redo log的总量是多少。每次将一个脏页刷盘，并且对应的MTR能够被覆盖时，就对checkpoint_lsn加1.</li>
+</ol>
+<h3 id="checkpoint步骤">checkpoint步骤</h3>
+<p>redo log的文件组的空间是有限的，因此我们需要循环使用这些文件，那么就需要知道哪些文件可以被覆盖。通过checkpoint我们可以得到checkpoint_lsn，这个值就是能够被覆盖的redo log的总量。</p>
+<ol>
+<li>
+<p>计算当前系统中可以被覆盖的redo log对应的lsn值是多少</p>
+<p>当我们说redo log可以被覆盖时，说明其对应的脏页都已经被刷新到了磁盘中。在flush链表中找到最早修改的脏页的oldest_modification值，那么系统中小于该节点的oldest_modification值时产生的redo log都可以被覆盖。我们把这个oldest_modification值赋给checkpoint_lsn（Buffer Pool中修改过的页的控制块被加入到了flush链表中，一个页可能被多个MTR进行修改，因此在控制块中保存着最新和最旧的MTR的lsn值）。</p>
+</li>
+<li>
+<p>将checkpoint_lsn与对应的redo log文件组的偏移量以及此次checkpoint的编号写到日志文件的管理信息中。</p>
+</li>
+</ol>
+<h3 id="redo-log的写入方式">redo log的写入方式</h3>
+<p>通过一个系统变量可以选择redo log的同步方式：</p>
+<ul>
+<li>0：事务提交时，不立即向磁盘同步redo log。如果服务器挂了，但是后台线程还没有将redo log刷盘，会造成数据丢失</li>
+<li>1：事务提交时，需要将redo log同步到磁盘（默认选项）</li>
+<li>2：事务提交时，将redo log写入到操作系统的缓冲区中，这样如果mysql服务挂了，但是服务器没挂，数据仍不会丢失。</li>
+</ul>
+<h3 id="崩溃恢复">崩溃恢复</h3>
+<p>checkpoint_lsn值记录了可以被覆盖的redo log的数量，也就是这些redo log对应的脏页已经刷盘，因此没必要对这些日志进行redo，对于lsn的值不小于checkpoint_lsn的redo log，它们对应的脏页可能被刷盘，也可能没被刷盘，因此对于这些redo log，我们需要redo。</p>
+<p>checkpoint_lsn存在于每个redo log文件组的控制block中，对于每个redo log文件组中的block，没有记录checkpoint_lsn值，但是对于填满的block，其属性LOG_BLOCK_HDR_DATA_LEN值总是512，而只要找到该值小于512的block，这个block就是需要扫描的最后一个block。（这里并不确定扫描的block对应的事务已提交，因此可能会将未提交的事务的数据加载到磁盘中，需要通过undo log进行回滚）</p>
+<h4 id="加快恢复">加快恢复</h4>
+<p>可以通过把space id和page number相同的redo log放到一个哈希表的同一个槽中，这样能够对同一个页面的redo log一次性修复好，还能避免随机IO。</p>
+<p>另外，每个页面在File Header中都有FIL_PAGE_LSN属性，记录了最近一次修改页面对应的lsn值，在通过redo log进行redo时，如果发现当前redo log的lsn值小于页面的FIL_PAGE_LSN值，就不需要进行redo。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

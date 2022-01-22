@@ -2,7 +2,7 @@
 
 date = 2022-01-03T13:32:00+08:00
 title = "InnoDB存储引擎的物理结构"
-url = "/internet/depth/InnoDB_struct"
+url = "/internet/mysql/InnoDB_struct"
 
 +++
 
