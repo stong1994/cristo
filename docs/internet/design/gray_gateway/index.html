@@ -63,9 +63,10 @@ openResty的11个*_by_lua指令，对应了nginx的11个执行阶段。以下是
   如果token为空获取ip：
 local headers = ngx.req.get_headers() local ip = headers[&#34;X-REAL-IP&#34;] if ip == nil then ip = ngx." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/internet/design/gray_gateway/" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/gray_gateway/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2021-10-03T23:57:00+08:00" />
 <meta property="article:modified_time" content="2021-10-03T23:57:00+08:00" />
+
 
 
     <title>
@@ -111,7 +112,7 @@ local headers = ngx.req.get_headers() local ip = headers[&#34;X-REAL-IP&#34;] if
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.80.0" />
+    <meta name="generator" content="Hugo 0.89.4" />
   </head>
 
   
@@ -227,15 +228,15 @@ local headers = ngx.req.get_headers() local ip = headers[&#34;X-REAL-IP&#34;] if
 </li>
 <li>
 <p>如果token为空获取ip：</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">local headers = ngx.req.get_headers()
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">local headers = ngx.req.get_headers()
 local ip = headers[&#34;X-REAL-IP&#34;]
 if ip == nil then
- ip = ngx.var.remote_addr
+	ip = ngx.var.remote_addr
 end
 </code></pre></div></li>
 <li>
 <p>通过对token或者ip进行哈希后对比例总额取模即可判断打入到哪个环境</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">如规定比例总额为10，设置的灰度比例为6，即6成的流量要达到灰度环境。
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">如规定比例总额为10，设置的灰度比例为6，即6成的流量要达到灰度环境。
 对token或者ip进行哈希后，对10取模，得到的结果，如果是0-5则打入到灰度环境，6-9打入到原环境
 </code></pre></div></li>
 </ol>
@@ -258,7 +259,9 @@ end
       
         ©
         
-        2021
+          2021 -
+        
+        2022
         
       
       
@@ -275,7 +278,7 @@ end
     
       
         
-        <script src="/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
       
     
 

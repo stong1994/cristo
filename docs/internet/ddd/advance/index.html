@@ -18,9 +18,10 @@
     <meta property="og:title" content="DDD进阶-笔记篇" />
 <meta property="og:description" content="领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/internet/ddd/advance/" />
+<meta property="og:url" content="https://stong1994.github.io/internet/ddd/advance/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2021-01-29T23:31:51+08:00" />
 <meta property="article:modified_time" content="2021-01-30T00:20:51+08:00" />
+
 
 
     <title>
@@ -66,7 +67,7 @@
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.80.0" />
+    <meta name="generator" content="Hugo 0.89.4" />
   </head>
 
   
@@ -174,8 +175,8 @@
 <h1 id="ddd分层架构">DDD分层架构</h1>
 <p>DDD 的分层架构在不断发展。最早是传统的四层架构；后来四层架构有了进一步的优化，实现了各层对基础层的解耦；再后来领域层和应用层之间增加了上下文环境（Context）层，五层架构（DCI）就此形成了。</p>
 <p>在最早的<strong>传统四层架构</strong>中，<strong>基础层是被其它层依赖</strong>的，它位于最核心的位置，那<strong>按照分层架构的思想，它应该就是核心</strong>，但实际上<strong>领域层才是软件的核心</strong>，所以这种依赖是有问题的。后来我们采用了<strong>依赖倒置</strong>（Dependency inversion principle,DIP）的设计，优化了传统的四层架构，实现了各层对基础层的解耦。</p>
-<p><img src="https://static001.geekbang.org/resource/image/d6/e1/d6abc3e4f5837cd51b689d01433cace1.jpg" style="zoom:50%;" /></p>
-<p><img src="https://static001.geekbang.org/resource/image/d0/9d/d02e92626dd8d6b077002ab6b977159d.png" style="zoom:67%;" /></p>
+<img src="https://static001.geekbang.org/resource/image/d6/e1/d6abc3e4f5837cd51b689d01433cace1.jpg" style="zoom:50%;" />
+<img src="https://static001.geekbang.org/resource/image/d0/9d/d02e92626dd8d6b077002ab6b977159d.png" style="zoom:67%;" />
 <h4 id="1用户接口层">1.用户接口层</h4>
 <p>用户接口层负责<strong>向用户显示信息</strong>和<strong>解释用户指令</strong>。这里的用户可能是：用户、程序、自动化测试和批处理脚本等等。</p>
 <h4 id="2应用层">2.应用层</h4>
@@ -195,7 +196,7 @@
 <p>每层<strong>只能与位于其直接下方的层发生耦合</strong>。</p>
 <h3 id="ddd-分层架构如何推动架构演进">DDD 分层架构如何推动架构演进</h3>
 <h4 id="1微服务架构的演进">1.微服务架构的演进</h4>
-<p><img src="https://static001.geekbang.org/resource/image/7f/7c/7f1e3891c9c11abce96020e0bf20d67c.jpg" style="zoom:80%;" /></p>
+<img src="https://static001.geekbang.org/resource/image/7f/7c/7f1e3891c9c11abce96020e0bf20d67c.jpg" style="zoom:80%;" />
 <h4 id="2微服务内服务的演进">2.微服务内服务的演进</h4>
 <p><img src="https://static001.geekbang.org/resource/image/9a/76/9a602b741c222b19c7cc4780da79cf76.jpg" alt=""></p>
 <p>有一天你会发现领域服务 b 和 c 同时多次被多个应用服务调用了，执行顺序也基本一致。这时你可以考虑将 b 和 c 合并，再将应用服务中 b、c 的功能下沉到领域层，演进为新的领域服务（b+c）。这样既减少了服务的数量，也减轻了上层服务组合和编排的复杂度。最后你会发现你的领域模型会越来越精炼，越来越能适应需求的快速变化。</p>
@@ -363,7 +364,9 @@
       
         ©
         
-        2021
+          2021 -
+        
+        2022
         
       
       
@@ -380,7 +383,7 @@
     
       
         
-        <script src="/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
       
     
 

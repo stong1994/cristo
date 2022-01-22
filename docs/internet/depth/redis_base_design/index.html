@@ -17,7 +17,7 @@
 如果保存的对象是整数且可以用long类型来表示，那么就保存为整数，编码为int。
 如果保存的对象是字符串且长度小于等于32字节，那么会使用embstr的编码来保存。
 如果保存的对象是字符串且长度大于32字节，那么会使用embstr的编码来保存，且存储在SDS中。
-embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现结构），embstr只需一次内存分配，而raw需要两次。
+embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现），embstr只需一次内存分配，而raw需要两次。
 SDS 简单动态字符串（SDS）组成：
  buf: 字节数组 len: 字符串长度（即buf数组中已使用的字节数量） free: buf数组中未使用的字节数量  SDS遵循C字符串以空字符结尾的惯例，保存空字符串的1字节空间不计算在SDS的属性中。
 空间预分配策略：修改之后的SDS长度小于1M，那么程序会分配同样大小的预留空间，即len=free；如果修改之后的SDS长度大于1M，那么程序会分配1M的预留空间。
@@ -48,7 +48,7 @@ list  go中的slice
 如果保存的对象是整数且可以用long类型来表示，那么就保存为整数，编码为int。
 如果保存的对象是字符串且长度小于等于32字节，那么会使用embstr的编码来保存。
 如果保存的对象是字符串且长度大于32字节，那么会使用embstr的编码来保存，且存储在SDS中。
-embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现结构），embstr只需一次内存分配，而raw需要两次。
+embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现），embstr只需一次内存分配，而raw需要两次。
 SDS 简单动态字符串（SDS）组成：
  buf: 字节数组 len: 字符串长度（即buf数组中已使用的字节数量） free: buf数组中未使用的字节数量  SDS遵循C字符串以空字符结尾的惯例，保存空字符串的1字节空间不计算在SDS的属性中。
 空间预分配策略：修改之后的SDS长度小于1M，那么程序会分配同样大小的预留空间，即len=free；如果修改之后的SDS长度大于1M，那么程序会分配1M的预留空间。
@@ -77,7 +77,7 @@ list  go中的slice
 如果保存的对象是整数且可以用long类型来表示，那么就保存为整数，编码为int。
 如果保存的对象是字符串且长度小于等于32字节，那么会使用embstr的编码来保存。
 如果保存的对象是字符串且长度大于32字节，那么会使用embstr的编码来保存，且存储在SDS中。
-embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现结构），embstr只需一次内存分配，而raw需要两次。
+embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现），embstr只需一次内存分配，而raw需要两次。
 SDS 简单动态字符串（SDS）组成：
  buf: 字节数组 len: 字符串长度（即buf数组中已使用的字节数量） free: buf数组中未使用的字节数量  SDS遵循C字符串以空字符结尾的惯例，保存空字符串的1字节空间不计算在SDS的属性中。
 空间预分配策略：修改之后的SDS长度小于1M，那么程序会分配同样大小的预留空间，即len=free；如果修改之后的SDS长度大于1M，那么程序会分配1M的预留空间。
@@ -96,9 +96,10 @@ list  go中的slice
  整个压缩列表占用的字节数 计算列表尾结点距离压缩列表的起始地址有多少字节 记录压缩列表包含的节点的数量（当总数大于65535时，这个字段失效，需要遍历整个压缩列表才能计算出来） 列表节点数组（每个节点可以保存为一个字节数组或者整数）  列表节点包含的属性：
  上一个节点的长度 编码类型与长度 节点内容  压缩列表的优点就是节省内存，缺点就是增加、删除、更新可能会造成“连锁更新”，因此只有在包含少量元素时才使用。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/internet/depth/redis_base_design/" />
+<meta property="og:url" content="https://stong1994.github.io/internet/depth/redis_base_design/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2021-11-22T16:05:00+08:00" />
 <meta property="article:modified_time" content="2021-11-22T16:05:00+08:00" />
+
 
 
     <title>
@@ -144,7 +145,7 @@ list  go中的slice
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.80.0" />
+    <meta name="generator" content="Hugo 0.89.4" />
   </head>
 
   
@@ -221,7 +222,7 @@ list  go中的slice
 <p>如果保存的对象是整数且可以用long类型来表示，那么就保存为整数，编码为int。</p>
 <p>如果保存的对象是字符串且长度小于等于32字节，那么会使用embstr的编码来保存。</p>
 <p>如果保存的对象是字符串且长度大于32字节，那么会使用embstr的编码来保存，且存储在SDS中。</p>
-<p>embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现结构），embstr只需一次内存分配，而raw需要两次。</p>
+<p>embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现），embstr只需一次内存分配，而raw需要两次。</p>
 <h4 id="sds">SDS</h4>
 <p>简单动态字符串（SDS）组成：</p>
 <ul>
@@ -386,7 +387,9 @@ list  go中的slice
       
         ©
         
-        2021
+          2021 -
+        
+        2022
         
       
       
@@ -403,7 +406,7 @@ list  go中的slice
     
       
         
-        <script src="/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
       
     
 

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="场景描述 前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到有天接到一个工单：有家企业的部分员工的部门没有同步过去。 工单描述的有点">
+    <meta name="keywords" content="解决问题">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="解决问题时的短路问题"/>
+<meta name="twitter:description" content="场景描述 前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到有天接到一个工单：有家企业的部分员工的部门没有同步过去。 工单描述的有点"/>
+
+    <meta property="og:title" content="解决问题时的短路问题" />
+<meta property="og:description" content="场景描述 前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到有天接到一个工单：有家企业的部分员工的部门没有同步过去。 工单描述的有点" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/life/short_circuit_when_solve_problem/" /><meta property="article:section" content="life" />
+<meta property="article:published_time" content="2022-01-09T17:25:00+08:00" />
+<meta property="article:modified_time" content="2022-01-09T17:25:00+08:00" />
+
+
+
+    <title>
+  解决问题时的短路问题 · cristo
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/life/short_circuit_when_solve_problem/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      cristo
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container page">
+  <article>
+    <header>
+      <h1>解决问题时的短路问题</h1>
+    </header>
+
+    <h2 id="场景描述">场景描述</h2>
+<p>前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到有天接到一个工单：有家企业的部分员工的部门没有同步过去。</p>
+<p>工单描述的有点模糊，所以我登上跳板机查询这家企业和给到的员工的信息，确定了问题：部门已经同步过去，员工也已经同步过去，但是员工的所属部门没有同步过去。</p>
+<h2 id="解决问题的心路历程">解决问题的心路历程</h2>
+<p>找到了问题，先进行“路径分析”。既然是同步问题，那么问题就可能出现在：</p>
+<ol>
+<li>数据源：企业微信给的数据会不会有问题？</li>
+<li>同步逻辑：整个同步逻辑还是比较复杂的，是不是最近某些业务功能的代码，导致了部门字段没有正确同步？</li>
+<li>目的服务故障：拼接好数据后需要向员工服务发送更新请求，是不是目的服务出现了问题？</li>
+</ol>
+<p>首先根据日志，能够查看到向员工服务发送的请求数据缺失了部门字段，因此排除目的服务故障的可能。</p>
+<p>再思考获取的数据源数据有问题？但是这块的日志没有记录，因此不能确定。所以只能先看同步逻辑会不会有问题。</p>
+<p>通过对相关代码逐行查看，并没有发现存在逻辑问题，当然这不能说明代码就没问题，尤其在大部分代码是我自己写的情况下。人往往会忽视自己的某些问题，尤其是自身逻辑本就存在问题时。</p>
+<p>这时解决这个问题已经花了两三个小时，而且这也不是一个很严重的问题。正好今天有版本，把企业微信返回的数据记下日志应该就能确定问题了，我如是想。</p>
+<blockquote>
+<p>找到解决方案时想一想还有没有更好的解决方案。我们往往在找到一个解决方案时就停止了思考，就像电路短路了一样，绕过了电阻（问题）。</p>
+</blockquote>
+<p>正当我回复工单时，老大过来问了下问题的进展，于是我把思路和解决办法简单的说了下，老大提议为什么不让运维帮忙调下线上接口，看看是不是企业微信的数据源问题。这真是个好提议。但是为什么我没想到？可能是代码写的太好，所以很少需要这种解决方式。可能是脑子“短路”了，已经不想理这个问题了。也可能是性格问题，不想麻烦别人。</p>
+<p>让我们继续！</p>
+<p>获取到企业微信的数据后，发现数据“没问题”，那个部门id赫然就在响应的json中。。。</p>
+<p>于是我又开始逐行看代码，当然这时是老大和我一起看。又经过一番的推理以及自说自话，发现代码还是没问题。。。</p>
+<p>难道是刚才的眼花了，企业微信给的数据是有问题的？所以我们又去确认了一番，这一看还真有问题。</p>
+<blockquote>
+<p>过去的经验并不总是有益的，有时它能造成我们大脑中的盲点。</p>
+</blockquote>
+<p>这个接口的返回值包含一下几个字段（接口地址为https://work.weixin.qq.com/api/doc/90000/90135/90196）</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属部门列表，每个元素都是部门id</span>
+	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属元素与department一一对应，1为是对应的部门leader，否则为0</span>
+	<span style="font-weight:bold">&#34;main_department&#34;</span>: <span style="color:#ff0;font-weight:bold">60</span> <span style="color:#f00">#</span> <span style="color:#f00">主部门id</span>
+}
+</code></pre></div><p>按照我们的经验来看，main_department应该是非空字段（当然有权限限制，但是我们属于内部开发，肯定有权限），我们在平时的开发和测试中也没有发现员工没有主部门的情况。而当时接口的返回值是这样的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], 
+	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>]
+}
+</code></pre></div><p>是的，没有main_department！所以员工的部门身份没有同步过去！我们上次看到了department里边有部门id，就潜意识认为企业微信返回的员工信息是没问题的！</p>
+<h2 id="最后">最后</h2>
+<p>虽然找到了问题，但是浪费了大半个下午的时间，还是有点可惜的。那么为什么会花费这么多时间呢？总结下此次“事故”的解决办法：</p>
+<ol>
+<li>不要盲信权威，即使是腾讯这么大的公司提供的接口也可能是有问题的（当然，不一定是企业微信的接口问题，也可能是我们对字段的理解有问题）</li>
+<li>多想想有没有更好的解决方案</li>
+<li>不要“迷信”过去的经验</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

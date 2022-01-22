@@ -84,9 +84,10 @@
 我们能控制得只有接收端、回放端和发送端，并且需要在入库之前打上标记，入库拿到数据之后进行过滤。根据“就近原则”，我们在回放端标记数据，在发送端进行数据过滤。具体方案如下：
 将数据信息记录到redis的hash中，key为`replay:{数据库名}:{表名}`， field和value规则如下： 1. 对于DDL, field为crc32(sql)&#43;区域标识, value为serverID 2. 对于插入, field为操作类型标识&#43;主键ID&#43;区域标识， value为来源serverID 3. 对于删除, field为操作类型标识&#43;主键ID&#43;区域标识， value为来源serverID 4. 对于更新, field为操作类型标识&#43;主键ID&#43;crc32(after)&#43;区域标识, value为来源serverID  其中serverID为数据库实例的唯一标识，这里只来源实例。 after为更新后的列数据，在实现中是一个结构体。插入和删除都是幂等的，因此不需要记录列信息，更新操作需要判断是否为同一条语句只用主键是不行的，所以需要记录列信息。  发送端从kafka获取到数据后，先判断数据是否是回环数据，如果是则过滤，然后删除缓存。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/internet/design/dboat/" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/dboat/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2021-10-04T22:32:00+08:00" />
 <meta property="article:modified_time" content="2021-10-04T22:32:00+08:00" />
+
 
 
     <title>
@@ -132,7 +133,7 @@
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.80.0" />
+    <meta name="generator" content="Hugo 0.89.4" />
   </head>
 
   
@@ -252,7 +253,7 @@
 <p>但是我们发现了<strong>数据回环</strong>——即从A区域的数据同步到B区域之后，又回到了A区域。<strong>如何打断数据回环</strong>？</p>
 <p>一般来说，我们以“就近原则”为准，能在B区域打断就不要在A区域打断，这样至少能减少数据传输。</p>
 <p>我们能控制得只有接收端、回放端和发送端，并且需要在入库之前打上标记，入库拿到数据之后进行过滤。根据“就近原则”，我们<strong>在回放端标记数据，在发送端进行数据过滤</strong>。具体方案如下：</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">将数据信息记录到redis的hash中，key为`replay:{数据库名}:{表名}`， field和value规则如下：
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">将数据信息记录到redis的hash中，key为`replay:{数据库名}:{表名}`， field和value规则如下：
 1. 对于DDL, field为crc32(sql)+区域标识, value为serverID
 2. 对于插入, field为操作类型标识+主键ID+区域标识， value为来源serverID
 3. 对于删除, field为操作类型标识+主键ID+区域标识， value为来源serverID
@@ -331,7 +332,9 @@
       
         ©
         
-        2021
+          2021 -
+        
+        2022
         
       
       
@@ -348,7 +351,7 @@
     
       
         
-        <script src="/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
       
     
 
