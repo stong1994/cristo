@@ -179,6 +179,43 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
 
       <div class="content">
         
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#读取记录的过程">读取记录的过程</a>
+      <ul>
+        <li><a href="#缓存都做了什么">缓存都做了什么</a></li>
+        <li><a href="#在聚簇索引中定位一条记录">在聚簇索引中定位一条记录</a></li>
+        <li><a href="#在二级索引中定位一条记录">在二级索引中定位一条记录</a></li>
+        <li><a href="#锁和事务">锁和事务</a></li>
+      </ul>
+    </li>
+    <li><a href="#插入记录的过程">插入记录的过程</a>
+      <ul>
+        <li><a href="#row_id的赋值步骤">row_id的赋值步骤</a></li>
+        <li><a href="#自增列的数据生成">自增列的数据生成</a></li>
+        <li><a href="#确定插入位置">确定插入位置</a></li>
+        <li><a href="#申请空间">申请空间</a></li>
+        <li><a href="#申请页">申请页</a></li>
+        <li><a href="#锁与事务">锁与事务</a></li>
+        <li><a href="#二级索引">二级索引</a></li>
+      </ul>
+    </li>
+    <li><a href="#删除记录的过程">删除记录的过程</a>
+      <ul>
+        <li><a href="#找到记录位置">找到记录位置</a></li>
+        <li><a href="#删除记录">删除记录</a></li>
+      </ul>
+    </li>
+    <li><a href="#更新记录的过程">更新记录的过程</a>
+      <ul>
+        <li><a href="#找到记录位置-1">找到记录位置</a></li>
+        <li><a href="#更细记录">更细记录</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
   <section class="container page">
   <article>
     <header>

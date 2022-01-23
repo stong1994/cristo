@@ -191,6 +191,41 @@ undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，�
 
       <div class="content">
         
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#事务id的生成">事务id的生成</a></li>
+    <li><a href="#原子性atomicity">原子性（Atomicity）</a>
+      <ul>
+        <li><a href="#undo-log">undo log</a></li>
+        <li><a href="#对于插入操作">对于插入操作</a></li>
+        <li><a href="#对于删除操作">对于删除操作</a></li>
+        <li><a href="#对于更新操作">对于更新操作</a></li>
+        <li><a href="#undo-log在崩溃恢复时的作用">undo log在崩溃恢复时的作用</a></li>
+      </ul>
+    </li>
+    <li><a href="#一致性consistency">一致性（Consistency）</a></li>
+    <li><a href="#隔离性isolation">隔离性（Isolation）</a>
+      <ul>
+        <li><a href="#业内的隔离性划分非innodb">业内的隔离性划分（非InnoDB）</a></li>
+        <li><a href="#innodb实现">InnoDB实现</a></li>
+      </ul>
+    </li>
+    <li><a href="#持久性durability">持久性（Durability）</a>
+      <ul>
+        <li><a href="#redo-log">redo log</a></li>
+        <li><a href="#mtr">MTR</a></li>
+        <li><a href="#log-buffer">log buffer</a></li>
+        <li><a href="#刷盘时机">刷盘时机</a></li>
+        <li><a href="#log-sequence-number">log sequence number</a></li>
+        <li><a href="#checkpoint步骤">checkpoint步骤</a></li>
+        <li><a href="#redo-log的写入方式">redo log的写入方式</a></li>
+        <li><a href="#崩溃恢复">崩溃恢复</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
   <section class="container page">
   <article>
     <header>

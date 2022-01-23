@@ -170,6 +170,24 @@ local headers = ngx.req.get_headers() local ip = headers[&#34;X-REAL-IP&#34;] if
 
       <div class="content">
         
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#功能简介">功能简介</a></li>
+    <li><a href="#正常情况下的流量走向">正常情况下的流量走向</a></li>
+    <li><a href="#灰度后的流量走向">灰度后的流量走向</a></li>
+    <li><a href="#技术选型">技术选型</a></li>
+    <li><a href="#开发思路">开发思路</a>
+      <ul>
+        <li><a href="#nginx执行阶段选择">nginx执行阶段选择</a></li>
+        <li><a href="#判断流量走向">判断流量走向</a></li>
+      </ul>
+    </li>
+    <li><a href="#最后">最后</a></li>
+  </ul>
+</nav>
+    </div>
   <section class="container page">
   <article>
     <header>

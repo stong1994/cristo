@@ -1,15 +1,17 @@
 ---
 title: "不花一分钱搭建一个博客"
 date: 2021-01-31T16:30:51+08:00
-url: "/tool/build_free_blog"
+url: "/life/build_free_blog"
 isCJKLanguage: true
 keywords:
   - hugo
   - blog
 tags:
-  - tool
+  - life
 authors:
   - cristo
+toc: true
+draft: false
 ---
 
 
@@ -507,3 +509,17 @@ tag:
 ```
 
 查看分组的路径更改为：**host**/tag
+
+## 目录项TOC
+
+根据markdown的目录设置博客目录
+
+1. 找到`themes/{theme}/layouts/_default/single.html` ，在`{{ define "content" }}下`添加
+
+   ```
+   <div id="toc" class="well col-md-4 col-sm-6">
+   {{ .TableOfContents }}
+   </div>
+   ```
+
+2. 在markdown博客中，设置`toc=true`
