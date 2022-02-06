@@ -4,6 +4,8 @@ date = 2021-11-22T16:05:00+08:00
 title = "简述redis的基本实现"
 url = "/internet/depth/redis_base_design"
 
+toc = true 
+
 +++
 
 
