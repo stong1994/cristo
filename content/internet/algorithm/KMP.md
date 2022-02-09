@@ -228,3 +228,11 @@ pmt是KMP算法中的核心，一般来说，pmt中的值会被解释为字符�
 
 - 前缀：排除掉字符串中最后一个字符的字符串
 - 后缀：排除掉字符串中第一个字符的字符串
+
+
+
+## 相关资料
+
+- [KMP算法之求next数组代码讲解-bilibili](https://www.bilibili.com/video/BV16X4y137qw/?spm_id_from=333.788.recommend_more_video.2)
+- [如何更好的掌握KMP-知乎](https://www.zhihu.com/question/21923021)
+

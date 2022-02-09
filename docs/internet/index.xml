@@ -6,7 +6,26 @@
     <description>Recent content on cristo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 16 Jan 2022 17:05:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jan 2022 16:32:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KMP算法</title>
+      <link>https://stong1994.github.io/internet/algorithm/kmp/</link>
+      <pubDate>Fri, 28 Jan 2022 16:32:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/algorithm/kmp/</guid>
+      <description>背景 在做LeetCode第572题——另一颗树的子树时，我看到题解上说可以用KMP算法来解决。虽然以前了解过KMP算法，但是遇到问题时还是对算法的思路、如何实现一头雾水，因此写篇文章总结下。
+KMP是什么 KMP是由三位作者的名称首字母组成的单词。KMP的目的是解决子串查找问题。
+KMP演化 如果只看KMP算法的代码，会很难理解，因此我们从头来演化KMP的思路。
+既然KMP算法要解决的是子串查找问题，那我们就从最无脑的暴力破解算法说起。在此之前，我们要规定几个概念。
+基础概念  模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。  最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
+固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。
+func violentSearchSubStr(txt, pat string) int { for i := 0; i &amp;lt; len(txt) - len(pat)+1; i++ { j := 0 for ; j &amp;lt; len(pat); j++ { if txt[i+j] != pat[j] { break } } if j == len(pat) { return i } } return -1 } 利用已有的经验——部分匹配表PMT 在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。
+模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。
+显然，利用历史经验一次性移动六位要比移动一位的效率高很多。那么如何利用这些匹配经验，将残尺多移动几位？
+于是问题转换为：假设残尺需要移动的位数为M，移动后残尺的前N位能够匹配，如何利用已知条件求出最大的M？
+大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：</description>
+    </item>
+    
     <item>
       <title>理解事务：InnoDB的ACID</title>
       <link>https://stong1994.github.io/internet/mysql/acid/</link>
