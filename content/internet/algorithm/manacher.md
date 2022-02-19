@@ -1,7 +1,7 @@
 +++
 
 date = 2022-02-12T16:32:00+08:00
-title = "manacher算法"
+title = "Manacher算法"
 url = "/internet/algorithm/manacher"
 
 toc = true

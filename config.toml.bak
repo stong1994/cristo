@@ -20,14 +20,14 @@ pygmentsCodeFencesGuessSyntax = true
   posts = "/:year/:month/:title/"
 
 [params]
-    #author = "cristo"
+    #author = "北人"
     #description = "一个简单的个人博客"
     #keywords = "blog,developer,personal"
     info = "无名之辈"
     #avatarURL = "https://raw.githubusercontent.com/stong1994/images/master/picgo/mine.jpg"
     avatarURL = "images/mine.jpg"
     #gravatar = "john.doe@example.com"
-    footerContent = "不得道，便成魔"
+    footerContent = "夭寿不贰，修身以俟"
 
     dateFormat = "January 2, 2006"
 

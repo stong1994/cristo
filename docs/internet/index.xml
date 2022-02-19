@@ -6,7 +6,20 @@
     <description>Recent content on cristo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 28 Jan 2022 16:32:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Feb 2022 16:32:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>manacher算法</title>
+      <link>https://stong1994.github.io/internet/algorithm/manacher/</link>
+      <pubDate>Sat, 12 Feb 2022 16:32:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/algorithm/manacher/</guid>
+      <description>Manacher算法是什么 Manacher算法俗称马拉车算法，用于解决在一个字符串中找到最长的回文子串问题。
+回文串”是一个正读和反读都一样的字符串，如level，noon等都是回文串。
+基础思路-中心扩展 为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。
+// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为： func findPalindrome(s string, mid int) string{ l,r := mid-1, mid+1 for ; l &amp;gt;= 0 &amp;amp;&amp;amp; r &amp;lt; len(s); l,r = l-1, r+1 { if s[l] != s[r] { break } } return s[l+1: r] } 需要注意中心处可能是一个元素（如aba），也可能是两个元素（如abba）。所以上述函数要优化为
+func findPalindrome(s string, l, r int) string { for ; l &amp;gt;= 0 &amp;amp;&amp;amp; r &amp;lt; len(s); l,r = l-1, r+1 { if s[l] != s[r] { break } } return s[l+1: r] } 那么一个完整的找最长回文子串的算法为</description>
+    </item>
+    
     <item>
       <title>KMP算法</title>
       <link>https://stong1994.github.io/internet/algorithm/kmp/</link>

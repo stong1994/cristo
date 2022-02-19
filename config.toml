@@ -1,5 +1,5 @@
 baseURL = "https://stong1994.github.io/"
-title = "cristo"
+title = "北人"
 
 theme = "hugo-coder"
 
@@ -20,7 +20,7 @@ pygmentsCodeFencesGuessSyntax = true
   posts = "/:year/:month/:title/"
 
 [params]
-    #author = "cristo"
+    #author = "北人"
     #description = "一个简单的个人博客"
     #keywords = "blog,developer,personal"
     info = "无名之辈"
