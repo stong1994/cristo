@@ -181,6 +181,15 @@ Page Directory 如果没有页目录，那么查找一条数据只能遍历查�
     </item>
     
     <item>
+      <title>如何写没有bug的代码</title>
+      <link>https://stong1994.github.io/internet/how_to_code_without_bug/</link>
+      <pubDate>Sat, 04 Dec 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/how_to_code_without_bug/</guid>
+      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
+    </item>
+    
+    <item>
       <title>简述redis的基本实现</title>
       <link>https://stong1994.github.io/internet/depth/redis_base_design/</link>
       <pubDate>Mon, 22 Nov 2021 16:05:00 +0800</pubDate>
@@ -563,15 +572,6 @@ DDD 强调领域模型和微服务设计的一体性，先有领域模型然后�
   聚合：聚合就是由业务和逻辑紧密关联的实体和值对象组合而成的，聚合是数据修改和持久化的基本单元，每一个聚合对应一个仓储，实现数据的持久化。
   聚合根：聚合根的主要目的是为了避免由于复杂数据模型缺少统一的业务规则控制，而导致聚合、实体之间数据不一致性的问题。
  如果把聚合比作组织，那聚合根就是这个组织的负责人。聚合根也称为根实体，它不仅是实体，还是聚合的管理者。</description>
-    </item>
-    
-    <item>
-      <title>如何写没有bug的代码</title>
-      <link>https://stong1994.github.io/internet/how_to_code_without_bug/</link>
-      <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/how_to_code_without_bug/</guid>
-      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
     </item>
     
   </channel>
