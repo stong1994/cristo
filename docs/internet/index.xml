@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cristo</title>
+    <title>北人</title>
     <link>https://stong1994.github.io/internet/</link>
-    <description>Recent content on cristo</description>
+    <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Sat, 12 Feb 2022 16:32:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>manacher算法</title>
+      <title>Manacher算法</title>
       <link>https://stong1994.github.io/internet/algorithm/manacher/</link>
       <pubDate>Sat, 12 Feb 2022 16:32:00 +0800</pubDate>
       
@@ -410,6 +410,15 @@ DDD 强调领域模型和微服务设计的一体性，先有领域模型然后�
   聚合：聚合就是由业务和逻辑紧密关联的实体和值对象组合而成的，聚合是数据修改和持久化的基本单元，每一个聚合对应一个仓储，实现数据的持久化。
   聚合根：聚合根的主要目的是为了避免由于复杂数据模型缺少统一的业务规则控制，而导致聚合、实体之间数据不一致性的问题。
  如果把聚合比作组织，那聚合根就是这个组织的负责人。聚合根也称为根实体，它不仅是实体，还是聚合的管理者。</description>
+    </item>
+    
+    <item>
+      <title>如何写没有bug的代码</title>
+      <link>https://stong1994.github.io/internet/how_to_code_without_bug/</link>
+      <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/how_to_code_without_bug/</guid>
+      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
     </item>
     
   </channel>

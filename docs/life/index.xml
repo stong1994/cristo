@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cristo</title>
+    <title>北人</title>
     <link>https://stong1994.github.io/life/</link>
-    <description>Recent content on cristo</description>
+    <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 09 Feb 2022 19:27:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/life/index.xml" rel="self" type="application/rss+xml" />
@@ -50,15 +50,6 @@
       
       <guid>https://stong1994.github.io/life/build_free_blog/</guid>
       <description>相关文章 hugo的官方文档 安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extende</description>
-    </item>
-    
-    <item>
-      <title>如何写没有bug的代码</title>
-      <link>https://stong1994.github.io/life/how_to_code_without_bug/</link>
-      <pubDate>Fri, 04 Dec 2020 23:31:51 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/life/how_to_code_without_bug/</guid>
-      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
     </item>
     
   </channel>

@@ -1,6 +1,6 @@
 ---
 title: "如何写没有bug的代码"
-date: 2020-12-04T23:31:51+08:00
+date: 2021-12-04T23:31:51+08:00
 url: "/internet/how_to_code_without_bug"
 isCJKLanguage: true
 draft: false
