@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="Redis最常用的场景就是作为缓存。
+缓存带来的收益就是加速读写，降低下游存储的压力。
+但引入缓存的同时也增加了一些成本与潜在问题。
+缓存穿透 当客户端访问一个即不存在于缓存层，又不存在于存储层的数据时，为了保持“数据一致性”，服务端会直接将空结果返回。但是缓存这样就失去了保护存储层负载的意义——如果有大量这样的恶意攻击，存储层会由于请求太多导致响应慢，牵一发而动全身，整体系统都会受影响甚至崩溃。
+缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
+缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
+但这同样有缺点：
+ 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
+缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
+一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
+缓存击穿的场景往往是缓存失效导致的，解决方案有：通过加锁限制存储层的访问数量、设置“随机”的过期时间避免大量数据一起失效、设置缓存永不过期等
+通过加锁限制存储层的访问数量 当缓存失效后，使用全局锁来实现只允许一个线程请求存储层，其他线程等待这个请求的结果。
+这种方案的缺点是代码实现更复杂，并且如果获取到锁的线程访问有异常，会导致大量的请求超时。此外，还会有死锁这种潜在问题。
+设置“随机”的过期时间 设置“随机”的过期时间是为了避免大量数据一起失效，这样能够分批请求存储层，减少存储层压力。
+但是如果有一个超热数据，仍会对存储层造成压力。
+设置缓存永不过期 设置缓存永不过期能够避免缓存失效问题。但是需要在代码上增加复杂度——判断何时对缓存进行更新、删除。
+缓存雪崩 缓存雪崩是指缓存服务器异常，缓存全部失效，导致存储层压力骤增。
+这种时候可以先提高缓存层的可用性，如使用哨兵模式或者集群模式。然后再进行其他优化，如：限制请求频率。
+除了对缓存层进行优化外，还要从整体角度来考虑，比如增加降级机制来避免整体系统崩溃。
+无底洞问题 无底洞问题是指在一个分布式缓存集群中，添加节点并没有加快请求，反而使请求更慢。这一问题往往是发生在批量获取数据时产生的。
+由于数据分布在多个节点中，因此一个批量操作会涉及到多次网络操作，另外，网络连接数变多也会影响服务器性能。
+我们假设需要执行mget命令批量读取多个数据，有以下几种方案：
+串行命令 最简单的方式就是有几个key就进行多个次get请求，但是这种方式无疑也是性能最差的。
+客户端聚合key 客户端能够提前在本地缓存key-&gt;槽-&gt;节点的映射关系，因此可以先遍历key，将在同一节点的key执行批量操作，这样能够减少网络请求。
+并行IO 在上一步的基础上，通过异步请求将串行IO变为多线程，能够进一步加速请求。
+hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Redis缓存设计"/>
+<meta name="twitter:description" content="Redis最常用的场景就是作为缓存。
+缓存带来的收益就是加速读写，降低下游存储的压力。
+但引入缓存的同时也增加了一些成本与潜在问题。
+缓存穿透 当客户端访问一个即不存在于缓存层，又不存在于存储层的数据时，为了保持“数据一致性”，服务端会直接将空结果返回。但是缓存这样就失去了保护存储层负载的意义——如果有大量这样的恶意攻击，存储层会由于请求太多导致响应慢，牵一发而动全身，整体系统都会受影响甚至崩溃。
+缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
+缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
+但这同样有缺点：
+ 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
+缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
+一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
+缓存击穿的场景往往是缓存失效导致的，解决方案有：通过加锁限制存储层的访问数量、设置“随机”的过期时间避免大量数据一起失效、设置缓存永不过期等
+通过加锁限制存储层的访问数量 当缓存失效后，使用全局锁来实现只允许一个线程请求存储层，其他线程等待这个请求的结果。
+这种方案的缺点是代码实现更复杂，并且如果获取到锁的线程访问有异常，会导致大量的请求超时。此外，还会有死锁这种潜在问题。
+设置“随机”的过期时间 设置“随机”的过期时间是为了避免大量数据一起失效，这样能够分批请求存储层，减少存储层压力。
+但是如果有一个超热数据，仍会对存储层造成压力。
+设置缓存永不过期 设置缓存永不过期能够避免缓存失效问题。但是需要在代码上增加复杂度——判断何时对缓存进行更新、删除。
+缓存雪崩 缓存雪崩是指缓存服务器异常，缓存全部失效，导致存储层压力骤增。
+这种时候可以先提高缓存层的可用性，如使用哨兵模式或者集群模式。然后再进行其他优化，如：限制请求频率。
+除了对缓存层进行优化外，还要从整体角度来考虑，比如增加降级机制来避免整体系统崩溃。
+无底洞问题 无底洞问题是指在一个分布式缓存集群中，添加节点并没有加快请求，反而使请求更慢。这一问题往往是发生在批量获取数据时产生的。
+由于数据分布在多个节点中，因此一个批量操作会涉及到多次网络操作，另外，网络连接数变多也会影响服务器性能。
+我们假设需要执行mget命令批量读取多个数据，有以下几种方案：
+串行命令 最简单的方式就是有几个key就进行多个次get请求，但是这种方式无疑也是性能最差的。
+客户端聚合key 客户端能够提前在本地缓存key-&gt;槽-&gt;节点的映射关系，因此可以先遍历key，将在同一节点的key执行批量操作，这样能够减少网络请求。
+并行IO 在上一步的基础上，通过异步请求将串行IO变为多线程，能够进一步加速请求。
+hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。"/>
+
+    <meta property="og:title" content="Redis缓存设计" />
+<meta property="og:description" content="Redis最常用的场景就是作为缓存。
+缓存带来的收益就是加速读写，降低下游存储的压力。
+但引入缓存的同时也增加了一些成本与潜在问题。
+缓存穿透 当客户端访问一个即不存在于缓存层，又不存在于存储层的数据时，为了保持“数据一致性”，服务端会直接将空结果返回。但是缓存这样就失去了保护存储层负载的意义——如果有大量这样的恶意攻击，存储层会由于请求太多导致响应慢，牵一发而动全身，整体系统都会受影响甚至崩溃。
+缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
+缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
+但这同样有缺点：
+ 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
+缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
+一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
+缓存击穿的场景往往是缓存失效导致的，解决方案有：通过加锁限制存储层的访问数量、设置“随机”的过期时间避免大量数据一起失效、设置缓存永不过期等
+通过加锁限制存储层的访问数量 当缓存失效后，使用全局锁来实现只允许一个线程请求存储层，其他线程等待这个请求的结果。
+这种方案的缺点是代码实现更复杂，并且如果获取到锁的线程访问有异常，会导致大量的请求超时。此外，还会有死锁这种潜在问题。
+设置“随机”的过期时间 设置“随机”的过期时间是为了避免大量数据一起失效，这样能够分批请求存储层，减少存储层压力。
+但是如果有一个超热数据，仍会对存储层造成压力。
+设置缓存永不过期 设置缓存永不过期能够避免缓存失效问题。但是需要在代码上增加复杂度——判断何时对缓存进行更新、删除。
+缓存雪崩 缓存雪崩是指缓存服务器异常，缓存全部失效，导致存储层压力骤增。
+这种时候可以先提高缓存层的可用性，如使用哨兵模式或者集群模式。然后再进行其他优化，如：限制请求频率。
+除了对缓存层进行优化外，还要从整体角度来考虑，比如增加降级机制来避免整体系统崩溃。
+无底洞问题 无底洞问题是指在一个分布式缓存集群中，添加节点并没有加快请求，反而使请求更慢。这一问题往往是发生在批量获取数据时产生的。
+由于数据分布在多个节点中，因此一个批量操作会涉及到多次网络操作，另外，网络连接数变多也会影响服务器性能。
+我们假设需要执行mget命令批量读取多个数据，有以下几种方案：
+串行命令 最简单的方式就是有几个key就进行多个次get请求，但是这种方式无疑也是性能最差的。
+客户端聚合key 客户端能够提前在本地缓存key-&gt;槽-&gt;节点的映射关系，因此可以先遍历key，将在同一节点的key执行批量操作，这样能够减少网络请求。
+并行IO 在上一步的基础上，通过异步请求将串行IO变为多线程，能够进一步加速请求。
+hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/redis_cache_design/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-03-24T13:48:00+08:00" />
+<meta property="article:modified_time" content="2022-03-24T13:48:00+08:00" />
+
+
+
+    <title>
+  Redis缓存设计 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/redis_cache_design/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#缓存穿透">缓存穿透</a>
+      <ul>
+        <li><a href="#缓存空对象">缓存空对象</a></li>
+        <li><a href="#使用布隆过滤器拦截">使用布隆过滤器拦截</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓存击穿">缓存击穿</a>
+      <ul>
+        <li><a href="#通过加锁限制存储层的访问数量">通过加锁限制存储层的访问数量</a></li>
+        <li><a href="#设置随机的过期时间">设置“随机”的过期时间</a></li>
+        <li><a href="#设置缓存永不过期">设置缓存永不过期</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓存雪崩">缓存雪崩</a></li>
+    <li><a href="#无底洞问题">无底洞问题</a>
+      <ul>
+        <li><a href="#串行命令">串行命令</a></li>
+        <li><a href="#客户端聚合key">客户端聚合key</a></li>
+        <li><a href="#并行io">并行IO</a></li>
+        <li><a href="#hash-tag">hash tag</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>Redis缓存设计</h1>
+    </header>
+
+    <p>Redis最常用的场景就是作为缓存。</p>
+<p><strong>缓存带来的收益就是加速读写，降低下游存储的压力</strong>。</p>
+<p>但引入缓存的同时也增加了一些成本与潜在问题。</p>
+<h2 id="缓存穿透">缓存穿透</h2>
+<p>当客户端访问一个即不存在于缓存层，又不存在于存储层的数据时，为了保持“数据一致性”，服务端会直接将空结果返回。但是<strong>缓存这样就失去了保护存储层负载的意义</strong>——如果有大量这样的恶意攻击，存储层会由于请求太多导致响应慢，牵一发而动全身，整体系统都会受影响甚至崩溃。</p>
+<p>缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。</p>
+<h3 id="缓存空对象">缓存空对象</h3>
+<p>通过在缓存层保存一个NULL值就能保护存储层免于袭击。</p>
+<p>但这同样有缺点：</p>
+<ol>
+<li>缓存中可能存在大量的NULL数据，会<strong>占用大量宝贵的内存</strong>。</li>
+<li><strong>缓存层和存储层数据不一致</strong>：存储层可能会写入在缓存中为NULL的数据。</li>
+</ol>
+<p>可通过对NULL数据<strong>设置较短的缓存时间</strong>、<strong>使用合理的缓存清理方案</strong>来缓解上面两个问题。</p>
+<h3 id="使用布隆过滤器拦截">使用布隆过滤器拦截</h3>
+<p>可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是<strong>代码复杂度会更高</strong>。</p>
+<h2 id="缓存击穿">缓存击穿</h2>
+<p>“击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用<strong>热点key问题</strong>来描述。</p>
+<p>一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。</p>
+<p>缓存击穿的场景往往是缓存失效导致的，解决方案有：通过加锁限制存储层的访问数量、设置“随机”的过期时间避免大量数据一起失效、设置缓存永不过期等</p>
+<h3 id="通过加锁限制存储层的访问数量">通过加锁限制存储层的访问数量</h3>
+<p>当缓存失效后，使用全局锁来实现只允许一个线程请求存储层，其他线程等待这个请求的结果。</p>
+<p>这种方案的缺点是代码实现更复杂，并且如果获取到锁的线程访问有异常，会导致大量的请求超时。此外，还会有死锁这种潜在问题。</p>
+<h3 id="设置随机的过期时间">设置“随机”的过期时间</h3>
+<p>设置“随机”的过期时间是为了避免大量数据一起失效，这样能够分批请求存储层，减少存储层压力。</p>
+<p>但是如果有一个超热数据，仍会对存储层造成压力。</p>
+<h3 id="设置缓存永不过期">设置缓存永不过期</h3>
+<p>设置缓存永不过期能够避免缓存失效问题。但是需要在代码上增加复杂度——判断何时对缓存进行更新、删除。</p>
+<h2 id="缓存雪崩">缓存雪崩</h2>
+<p>缓存雪崩是指缓存服务器异常，缓存全部失效，导致存储层压力骤增。</p>
+<p>这种时候可以先<strong>提高缓存层的可用性</strong>，如使用<strong>哨兵模式</strong>或者<strong>集群模式</strong>。然后再进行其他优化，如：<strong>限制请求频率</strong>。</p>
+<p>除了对缓存层进行优化外，还要从整体角度来考虑，比如增加<strong>降级机制</strong>来避免整体系统崩溃。</p>
+<h2 id="无底洞问题">无底洞问题</h2>
+<p>无底洞问题是指在一个分布式缓存集群中，添加节点并没有加快请求，反而使请求更慢。这一问题往往是发生在批量获取数据时产生的。</p>
+<p>由于数据分布在多个节点中，因此一个批量操作会涉及到多次网络操作，另外，网络连接数变多也会影响服务器性能。</p>
+<p>我们假设需要执行mget命令批量读取多个数据，有以下几种方案：</p>
+<h3 id="串行命令">串行命令</h3>
+<p>最简单的方式就是有几个key就进行多个次get请求，但是这种方式无疑也是性能最差的。</p>
+<h3 id="客户端聚合key">客户端聚合key</h3>
+<p>客户端能够提前在本地缓存key-&gt;槽-&gt;节点的映射关系，因此可以先遍历key，将在同一节点的key执行批量操作，这样能够减少网络请求。</p>
+<h3 id="并行io">并行IO</h3>
+<p>在上一步的基础上，通过异步请求将串行IO变为多线程，能够进一步加速请求。</p>
+<h3 id="hash-tag">hash tag</h3>
+<p>Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -3,13 +3,19 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2022-03-24T13:48:00+08:00</lastmod>
+    <lastmod>2022-03-25T15:58:00+08:00</lastmod>
     <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/</loc>
+    <lastmod>2022-03-25T15:58:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/internet/browser_visit/</loc>
+    <lastmod>2022-03-25T15:58:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/design/redis_transaction/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/</loc>
+    <loc>https://stong1994.github.io/internet/design/redis_cache_design/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/design/redis_multi_server/</loc>
