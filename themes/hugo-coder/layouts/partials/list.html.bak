@@ -1,0 +1,32 @@
+<section class="container list">
+  <h1 class="title">
+    {{- if eq .Kind "term" -}}
+      {{- i18n .Data.Singular | title -}}
+      {{- print ": " -}}
+    {{- end -}}
+
+    {{- .Title -}}
+  </h1>
+  {{ .Content }}
+  <!-- 按内容section区块分组. ".Key"这里指的是section的标题-->
+{{ range .Pages.GroupBy "Section" }}
+<h3>{{ .Key }}</h3>
+<ul>
+    {{ range .Pages }}
+    <li>
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+    <div class="meta">{{ .Date.Format "Mon, Jan 2, 2006" }}</div>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
+  <!-- <ul>
+    {{ range .Paginator.Pages }}
+    <li>
+      <span class="date">{{ .Date.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
+      <a class="title" href="{{ .Params.externalLink | default .RelPermalink }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
+  </ul> -->
+  {{ partial "pagination.html" . }}
+</section>

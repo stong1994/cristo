@@ -16,10 +16,6 @@ draft: false
 
 
 
-[相关文章](https://mp.weixin.qq.com/s/pW7iHOQLwMDkFU_bgXeTuA)
-
-[hugo的官方文档](https://gohugo.io/about/)
-
 ## 安装hugo
 
 ### 1. 使用安装包
@@ -523,3 +519,9 @@ tag:
    ```
 
 2. 在markdown博客中，设置`toc=true`
+
+## 相关文章
+
+[Hugo + GitHub Pages 搭建自己的网站](https://mp.weixin.qq.com/s/pW7iHOQLwMDkFU_bgXeTuA)
+
+[hugo的官方文档](https://gohugo.io/about/)

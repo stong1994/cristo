@@ -1,8 +1,8 @@
 <section class="container list">
   <h1 class="title">
     {{- if eq .Kind "term" -}}
-      {{- i18n .Data.Singular | title -}}
-      {{- print ": " -}}
+    {{- i18n .Data.Singular | title -}}
+    {{- print ": " -}}
     {{- end -}}
 
     {{- .Title -}}
