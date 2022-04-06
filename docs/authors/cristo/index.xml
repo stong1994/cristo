@@ -6,7 +6,16 @@
     <description>Recent content in cristo on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 04 Mar 2022 11:03:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Mar 2022 17:20:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>理解TCP协议的可靠性</title>
+      <link>https://stong1994.github.io/internet/network/tcp/reliability/</link>
+      <pubDate>Mon, 28 Mar 2022 17:20:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/network/tcp/reliability/</guid>
+      <description>TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T</description>
+    </item>
+    
     <item>
       <title>论领导者在团队扩张后的心态变化</title>
       <link>https://stong1994.github.io/life/leader_mentality_change/</link>
@@ -166,7 +175,7 @@
       <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
       
       <guid>https://stong1994.github.io/life/build_free_blog/</guid>
-      <description>相关文章 hugo的官方文档 安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extende</description>
+      <description>安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extended version，比如hu</description>
     </item>
     
     <item>

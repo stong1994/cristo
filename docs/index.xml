@@ -6,7 +6,16 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 27 Mar 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Mar 2022 17:20:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>理解TCP协议的可靠性</title>
+      <link>https://stong1994.github.io/internet/network/tcp/reliability/</link>
+      <pubDate>Mon, 28 Mar 2022 17:20:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/network/tcp/reliability/</guid>
+      <description>TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T</description>
+    </item>
+    
     <item>
       <title>理解TCP握手和挥手</title>
       <link>https://stong1994.github.io/internet/network/tcp_connection/</link>
@@ -29,7 +38,7 @@ ACK消息的可靠性 TCP协议通过ACK机制实现了通信确认的可靠性�
  在双发通信前需要确认双方能够正常通信。 传递通信所需的初始化信息，如序列号、窗口大小、MSS等  三次握手 第一次握手，客户端需要向服务端发起连接，主要用来告知对方以下消息：
  客户端想要连接的端口号，即服务端的端口号 客户端监听的端口号：如果服务端要联系客户端就要指定为这个端口 客户端初始化的序列号、窗口大小等  在这个TCP消息中，需要在头部标记SYN标识表示这条消息为第一次握手。
 第二次握手，出于ACK机制的考虑，服务端需要回复客户端，但是既然服务端也要发送自己的初始化信息，那么在ACK消息中也会携带这些信息。
-在ACK机制中规定了ACK消息需要返回ACK号，而ACK号的值是序列号加上消息体的字节数的结果，但是此时消息中消息体的字节数为0，但是在第二次握手时，ACK号的值为序列号加1的结果（思考为什么一定要加1？）。
+在ACK机制中规定了ACK消息需要返回ACK号，而ACK号的值是序列号加上消息体的字节数的结果，但是此时消息中消息体的字节数为0，但是在第二次握手时，ACK号的值为序列号加1的结果（思考为什么一定要加1？序列号加1表示这是一个需要“可靠”传输的报文段，不加1的ACK报文则不需要“可靠”传输；同时，在握手时将序列号加1，那么在往后的存在用户数据的报文段中，假设ack号为N，表示接收方已经接受了前N个（不包含N）字节的数据，并且期待接收序列号为N的报文段）。
 在这个TCP消息中，需要在头部标记SYN和ACK标识。
 第三次握手，处于ACK机制的考虑，客户端需要回复服务端，这就是所谓的第三次握手。
 由此可见，考虑到TCP协议全双工的特性和ACK机制，双方本来需要四次握手——两次发送初始化信息+两次ACK。但是TCP进行了优化，将中间的两次握手合并，最终形成了三次握手。
@@ -670,7 +679,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
       <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
       
       <guid>https://stong1994.github.io/life/build_free_blog/</guid>
-      <description>相关文章 hugo的官方文档 安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extende</description>
+      <description>安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extended version，比如hu</description>
     </item>
     
     <item>
