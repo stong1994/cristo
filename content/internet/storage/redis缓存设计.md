@@ -1,7 +1,7 @@
 +++
 
 date = 2022-03-24T13:48:00+08:00
-title = "Redis缓存设计"
+title = "Redis缓存设计中的问题"
 url = "/internet/design/redis_cache_design"
 
 toc = true
