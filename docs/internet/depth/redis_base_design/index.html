@@ -38,7 +38,7 @@ list  go中的slice
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="简述redis的基本实现"/>
+<meta name="twitter:title" content="简述redis的基本数据结构"/>
 <meta name="twitter:description" content="很久之前就看过redis的基本设计与实现，但是每次都会忘掉。
 前几天又看了一遍，但是最近回顾的时候又忘了。。。
 俗话说好记性不如烂笔头，因此写在这里来加深记忆。
@@ -67,7 +67,7 @@ list  go中的slice
  整个压缩列表占用的字节数 计算列表尾结点距离压缩列表的起始地址有多少字节 记录压缩列表包含的节点的数量（当总数大于65535时，这个字段失效，需要遍历整个压缩列表才能计算出来） 列表节点数组（每个节点可以保存为一个字节数组或者整数）  列表节点包含的属性：
  上一个节点的长度 编码类型与长度 节点内容  压缩列表的优点就是节省内存，缺点就是增加、删除、更新可能会造成“连锁更新”，因此只有在包含少量元素时才使用。"/>
 
-    <meta property="og:title" content="简述redis的基本实现" />
+    <meta property="og:title" content="简述redis的基本数据结构" />
 <meta property="og:description" content="很久之前就看过redis的基本设计与实现，但是每次都会忘掉。
 前几天又看了一遍，但是最近回顾的时候又忘了。。。
 俗话说好记性不如烂笔头，因此写在这里来加深记忆。
@@ -103,7 +103,7 @@ list  go中的slice
 
 
     <title>
-  简述redis的基本实现 · 北人
+  简述redis的基本数据结构 · 北人
 </title>
 
     
@@ -221,7 +221,7 @@ list  go中的slice
   <section class="container page">
   <article>
     <header>
-      <h1>简述redis的基本实现</h1>
+      <h1>简述redis的基本数据结构</h1>
     </header>
 
     <p>很久之前就看过redis的基本设计与实现，但是每次都会忘掉。</p>
@@ -381,7 +381,7 @@ list  go中的slice
 <ul>
 <li>level：每个节点在生成时都会随机分配一个层数（最大默认为32层），每层都包含前进指针和跨度。前进指针表示访问节点的地址，跨度表示前进节点和当前节点的距离。跨度实际是用来计算排位的，在查找节点的过程中，将沿途访问的节点的跨度加起来就是其排位。</li>
 <li>后退指针：指向当前节点的前一个节点</li>
-<li>分值：节点按所存储分值从小打到排列</li>
+<li>分值：节点按所存储分值从小到大排列</li>
 <li>成员对象：节点对应的数据</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/20211125142306.png" alt=""></p>

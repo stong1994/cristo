@@ -116,7 +116,7 @@ Pipeline与事务的区别 参考资料
     </item>
     
     <item>
-      <title>Redis缓存设计</title>
+      <title>Redis缓存设计中的问题</title>
       <link>https://stong1994.github.io/internet/design/redis_cache_design/</link>
       <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
       
@@ -288,6 +288,33 @@ undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，�
     </item>
     
     <item>
+      <title>查询、插入、删除、更新一条MySQL记录都经历了什么</title>
+      <link>https://stong1994.github.io/internet/MySQL/curd/</link>
+      <pubDate>Thu, 06 Jan 2022 17:05:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/MySQL/curd/</guid>
+      <description>一直对MySQL这个黑盒子是如何运行的不甚清楚，因此在这里总结下。
+先来了解下MySQL体系架构。
+MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
+以上图为对照，MySQL的查询会经历大致以下过程：
+ 客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果  那么我们就来分别看看这几步都做了哪些事情。
+建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
+mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
+ MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
+ 查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
+这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
+解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
+查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
+ 根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个  执行语句 只讨论增删改查。
+读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
+每次读取数据页时，都从一个哈希表（key为表空间号+页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
+每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
+InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
+在聚簇索引中定位一条记录 通过索引页定位数据页  在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键+页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页  在数据页中定位目标记录  在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。  在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
+锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）</description>
+    </item>
+    
+    <item>
       <title>InnoDB存储引擎的物理结构</title>
       <link>https://stong1994.github.io/internet/mysql/InnoDB_struct/</link>
       <pubDate>Mon, 03 Jan 2022 13:32:00 +0800</pubDate>
@@ -326,7 +353,7 @@ Page Directory 如果没有页目录，那么查找一条数据只能遍历查�
     </item>
     
     <item>
-      <title>简述redis的基本实现</title>
+      <title>简述redis的基本数据结构</title>
       <link>https://stong1994.github.io/internet/depth/redis_base_design/</link>
       <pubDate>Mon, 22 Nov 2021 16:05:00 +0800</pubDate>
       
@@ -407,33 +434,6 @@ MVC最早据说是起源于桌面端开发，M代表数据层，V代表UI层，C
 代码分层  现状：目前公司内大量项目的代码结构为controller+business+service。business做业务逻辑，service做服务实现。换句话说，就是将以前的service层改名为business，以前的model改名为service。这种改变的逻辑是：微服务时代需要大量调用其他服务，model不具有此含义，因此需要将model改名为service，用service来处理调用其他服务的逻辑。
 这种结构在实际开发中面临一个非常严重的问题——business和service的边界模糊——导致service层的代码和business层代码混在一起——导致本就复杂的业务层代码更加复杂且难以理解。
  如何解决business和service的边界模糊问题 边界模糊的原因1：词汇描述能力不足。我们一般使用service来写业务逻辑，现在换用了business，但是仍保留service层来做服务调用，这增加了开发者对service和business语义上的模糊。另外，从读者的角度来看，这种命名会让人十分疑惑。</description>
-    </item>
-    
-    <item>
-      <title>查询、插入、删除、更新一条MySQL记录都经历了什么</title>
-      <link>https://stong1994.github.io/internet/MySQL/curd/</link>
-      <pubDate>Wed, 06 Oct 2021 17:05:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/MySQL/curd/</guid>
-      <description>一直对MySQL这个黑盒子是如何运行的不甚清楚，因此在这里总结下。
-先来了解下MySQL体系架构。
-MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
-以上图为对照，MySQL的查询会经历大致以下过程：
- 客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果  那么我们就来分别看看这几步都做了哪些事情。
-建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
-mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
- MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
- 查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
-这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
-解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
-查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
- 根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个  执行语句 只讨论增删改查。
-读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
-每次读取数据页时，都从一个哈希表（key为表空间号+页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
-每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
-InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
-在聚簇索引中定位一条记录 通过索引页定位数据页  在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键+页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页  在数据页中定位目标记录  在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。  在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
-锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）</description>
     </item>
     
     <item>
