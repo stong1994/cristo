@@ -2,18 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2022-03-28T17:20:00+08:00</lastmod>
+    <loc>https://stong1994.github.io/life/</loc>
+    <lastmod>2022-04-28T13:24:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2022-03-28T17:20:00+08:00</lastmod>
+    <lastmod>2022-04-28T13:24:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/authors/cristo/</loc>
-    <lastmod>2022-03-28T17:20:00+08:00</lastmod>
+    <lastmod>2022-04-28T13:24:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/</loc>
+    <lastmod>2022-04-28T13:24:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/life/not_to_change_job_for_more_money/</loc>
+    <lastmod>2022-04-28T13:24:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/life/interview_2022_04/</loc>
+    <lastmod>2022-04-27T19:45:51+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/</loc>
     <lastmod>2022-03-28T17:20:00+08:00</lastmod>
+    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/internet/network/tcp/reliability/</loc>
     <lastmod>2022-03-28T17:20:00+08:00</lastmod>
@@ -38,10 +48,6 @@
   </url><url>
     <loc>https://stong1994.github.io/internet/go/channel/</loc>
     <lastmod>2022-03-10T14:43:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/life/</loc>
-    <lastmod>2022-03-04T11:03:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/life/leader_mentality_change/</loc>
     <lastmod>2022-03-04T11:03:00+08:00</lastmod>

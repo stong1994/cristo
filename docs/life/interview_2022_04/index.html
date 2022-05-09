@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="最近花了两周时间去“实地考察了下市场”，记录下经历。 考察内容 作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="面试小结2022-04"/>
+<meta name="twitter:description" content="最近花了两周时间去“实地考察了下市场”，记录下经历。 考察内容 作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis"/>
+
+    <meta property="og:title" content="面试小结2022-04" />
+<meta property="og:description" content="最近花了两周时间去“实地考察了下市场”，记录下经历。 考察内容 作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/life/interview_2022_04/" /><meta property="article:section" content="life" />
+<meta property="article:published_time" content="2022-04-27T19:45:51+08:00" />
+<meta property="article:modified_time" content="2022-04-27T19:45:51+08:00" />
+
+
+
+    <title>
+  面试小结2022-04 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/life/interview_2022_04/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#考察内容">考察内容</a>
+      <ul>
+        <li><a href="#项目经历">项目经历</a></li>
+        <li><a href="#mysql">MySQL</a></li>
+        <li><a href="#redis">Redis</a></li>
+        <li><a href="#go语言">Go语言</a></li>
+        <li><a href="#操作系统">操作系统</a></li>
+        <li><a href="#网络">网络</a></li>
+        <li><a href="#算法">算法</a></li>
+        <li><a href="#思维能力">思维能力</a></li>
+      </ul>
+    </li>
+    <li><a href="#not-only-考察内容">NOT ONLY 考察内容</a>
+      <ul>
+        <li><a href="#自我介绍">自我介绍</a></li>
+        <li><a href="#激情">激情</a></li>
+        <li><a href="#价值">价值</a></li>
+        <li><a href="#大环境">大环境</a></li>
+        <li><a href="#职业规划">职业规划</a></li>
+      </ul>
+    </li>
+    <li><a href="#最后">最后</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>面试小结2022-04</h1>
+    </header>
+
+    <p>最近花了两周时间去“实地考察了下市场”，记录下经历。</p>
+<h2 id="考察内容">考察内容</h2>
+<p>作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis、操作系统、网络，其中重要程度为项目经历&gt;算法&gt;MySQL=Redis=Go语言&gt;操作系统&gt;网络。</p>
+<h3 id="项目经历">项目经历</h3>
+<p>项目经历这一块是最重要的部分，主要考察对项目的熟悉程度、项目的深度以及语言表达能力。</p>
+<p>面试官最喜欢问简历上的前两个项目，因此需要把自己掌握最熟的、更能展现自己能力的两个项目写在前边。</p>
+<p>面试官一般都是以“介绍项目”开始，因此要提前准备好如何描述自己的项目，要包括以下几点：</p>
+<ol>
+<li>项目背景</li>
+<li>整体架构</li>
+<li>项目成果</li>
+<li>技术难点</li>
+</ol>
+<p>面试官一般会针对某个点进行深入提问，从而考察应聘者对项目的掌握程度以及技术能力。针对项目里的技术栈，面试官还会进行延申，如：项目中使用了消息队列，那么面试官可能会问如何实现延迟队列。</p>
+<h3 id="mysql">MySQL</h3>
+<p>MySQL是我们最常用的存储中间件，同时其内部逻辑也是非常复杂，因此常常作为面试题的主力军。在这两周我大致遇到了这些：</p>
+<ol>
+<li>MySQL的事务以及实现</li>
+<li>InnoDB存储引擎的索引实现（主键索引、二级索引）</li>
+<li>B树和B+树的区别</li>
+<li>Explain的使用</li>
+<li>慢SQL优化</li>
+</ol>
+<p>有的也会出题让写一些SQL，主要有分组、联表等操作。</p>
+<h3 id="redis">Redis</h3>
+<p>Reids作为工作中最常使用的中间件，其在面试中的重要程度甚至高于MySQL。在这两周我大致遇到了这些：</p>
+<ol>
+<li>完整的请求过程是怎样的</li>
+<li>pipeline和事务的异同</li>
+<li>基础结构的内部实现</li>
+<li>rehash的实现</li>
+<li>redis为什么这么快</li>
+<li>redis的使用场景</li>
+</ol>
+<h3 id="go语言">Go语言</h3>
+<p>相比Java的八股文，Go语言的面试点应该要简单很多。在这两周我大致遇到了这些：</p>
+<ol>
+<li>切片扩容以及作为参数传递的坑</li>
+<li>interface类型的坑</li>
+<li>defer的坑（defer中改变命名的返回值）</li>
+<li>channel的使用（两个协程交替输出一个字符串）</li>
+<li>channel的内部实现</li>
+<li>go中实现并发管理的几种方式</li>
+<li>go中的内存分配</li>
+<li>如何分析内存溢出</li>
+<li>垃圾回收</li>
+</ol>
+<h3 id="操作系统">操作系统</h3>
+<p>在工作中一般不会遇到操作系统方面的问题，但一旦遇到就让人头大。因此，操作系统方面的知识一定要扎实。我主要遇到了以下几个问题：</p>
+<ol>
+<li>进程、线程与协程的区别</li>
+<li>进程、线程之间的通信方式</li>
+<li>协程为什么快</li>
+<li>系统调用更消耗性能还是线程上下文切换更消耗性能</li>
+<li>进程、线程上下文切换的过程</li>
+<li>进程的组成</li>
+<li>进程创建子进程的过程</li>
+<li>epoll与select的区别</li>
+<li>epoll中的通知方式</li>
+<li>堆与栈的区别</li>
+<li>堆快还是栈快，为什么</li>
+</ol>
+<h3 id="网络">网络</h3>
+<p>熟悉网络能够让我们更快的找到某些突发问题的解决思路。我大致遇到了这些问题：</p>
+<ol>
+<li>谈谈网络拥塞</li>
+<li>什么是tcp粘包以及解决办法</li>
+<li>分析场景：服务器大量time_wait连接</li>
+</ol>
+<p>竟然没人问握手、挥手、滑动窗口了。。。</p>
+<h3 id="算法">算法</h3>
+<p>算法是基础。不仅是程序员的基本功，也是面试的第一关，很多企业都会先让做一些算法题，过了的话才会有面试机会。</p>
+<p>我一直认为算法考察的是两方面能力：思考问题的能力+代码实现的能力。前者需要大量的“刷题”经验以及灵活使用数据结构，后者需要良好的代码驾驭能力。</p>
+<p>遇到的算法题就不列举了，基本上都是些中等难度及以下的题。</p>
+<p>如果是机考并且是用牛客的话，一定要注意，很有可能需要自己处理输入和输出，一定要提前练习。</p>
+<h3 id="思维能力">思维能力</h3>
+<p>除了以上这些外，还会遇到一些考察思维能力的题，如“8个小球，七个好的重量相同，有一个是坏的，重量与其他小球不同。给你一个天平，需要最少称几次能稳定找到坏的球”。</p>
+<p>我认为这些题考察的是解决问题的思维能力，结果并不重要。当然，我的面试官可能不这么想，因为他一直问我结果是什么。。</p>
+<h2 id="not-only-考察内容">NOT ONLY 考察内容</h2>
+<p>有些东西不会作为面试内容，但是会关乎到面试结果。</p>
+<h3 id="自我介绍">自我介绍</h3>
+<p>如何在简短的自我介绍中让面试官留下深刻印象甚至提起兴趣，这值得应聘者花费一些精力。</p>
+<h3 id="激情">激情</h3>
+<p>没有人喜欢平淡的人生，也没有人喜欢平淡的对话。</p>
+<p>面试官选人的标准之一就是愿不愿意与应聘者一起工作，如果应聘者给面试官的印象很平淡甚至是无聊，那应该不会有好结果。</p>
+<h3 id="价值">价值</h3>
+<p>当谈及到期望的报酬，应该说多少？</p>
+<p>应聘者清楚自己的技术价值，也知道自己的“附加价值”。作为应聘者，期望的报酬肯定包括了技术价值与附加价值；而作为面试官只能看到应聘者的技术价值。因此，如果应聘者只是提出自己期望的薪酬，面试官可能会对“溢价”感到疑惑。这个时候就需要应聘者展现自己的附加价值了：“我除了良好的技术能力外，还能为团队做出xxxxx，所以我期望的报酬是xxxx”</p>
+<h3 id="大环境">大环境</h3>
+<p>选择大于努力。在大环境不好的时候去找工作，很可能拿到比期望值低的报酬。</p>
+<p>最近大厂纷纷裁员，在供大于求的环境下价格势必会降低，此时需要应聘者仔细考虑是否急需一份新工作。</p>
+<h3 id="职业规划">职业规划</h3>
+<p>面试官经常问的另一个问题是职业规划。应聘者需要提前思考这个问题，最好不要临时抱佛脚。</p>
+<p>另一方面，面试官往往比应聘者拥有更多的职场经验和人生阅历，抓住机会与面试官多聊聊人生的困惑，向面试官取取经，这样即使面试不通过，应聘者仍会有收获。</p>
+<h2 id="最后">最后</h2>
+<p>技术人往往会有这样一种认知：只要我技术好，就不怕没工作。</p>
+<p>我以前也是这么想，但最近有了一些改变。</p>
+<p>最近读了杰克·韦尔奇的自传。作为一个换过很多份工作的人，我很难想象一个人一辈子就只在一家公司工作是什么感觉，而杰克·韦尔奇就做到了。</p>
+<p>那么，我们为什么会有这种“错误”的想法呢？我下意识想到，现在的人太焦虑了。然而，人是环境的产物，大环境如此浮躁，处于环境中的我们要如何“耐得住寂寞”？</p>
+<p>打开“脉脉”，总会刷到一些人在分享自己的跳槽经历——毕业几年，换了几份工作，薪水涨到了多少。而在互联网行业有一个被普遍认可的观点：跳槽才是最快的涨薪方式。</p>
+<p>让我们从理性的角度来分析下报酬由何决定：</p>
+<ol>
+<li>在刚进入公司时， 一个人的“价格”由市场的供需关系以及个人能力决定</li>
+<li>在进入公司一段时间后，一个人的“价格”由他能够产生的价值决定</li>
+</ol>
+<p>说白了，入职一家公司能够拿到多少报酬取决于市场，而互联网在过去的十几年野蛮生长，因此市场的价格也水涨船高，所以跳槽往往能够拿到更高的工资，但是他能产生对应的价值吗，不一定。</p>
+<p>当员工在公司中稳定工作后，公司不再以市场的角度去思考员工的价格，而是以价值的角度去思考，这时候，如果公司还未形成盈利或者盈利不高，说明员工产生的价值不高，因此公司不会给员工太高的涨薪。</p>
+<p>于是，&ldquo;跳槽才是最快的涨薪方式&quot;就成了近几年被普遍认可的现象，&ldquo;只要技术好，就不怕没工作&quot;也成了漂泊的技术人的一点自我安慰。</p>
+<p>但如果一个人的能力足够强，能够产生巨大的价值，那他的报酬就会突破市场价格——任何一个脑子正常的老板都知道要如何奖励能够产生价值的人。问题在于，为什么没有这样的员工？《杰克·韦尔奇自传》中一个工人说到：25年来，公司一直为我的双手支付报酬，实际上，公司完全可以用上我的头脑——而且什么钱也不用花。</p>
+<p>公司文化太重要了，让员工勇敢的表达自己的想法、创意太重要了，但是很少有公司会这样去做。</p>
+<p>新冠疫情加速了整个世界的进程，移动互联网的红利期也即将结束，我们每个技术人都应该反思自己的过去和未来。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
