@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="题目描述 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 计算并返回可以凑成总金额的 组合数量 。 每种硬币的数量是无限的。 心路">
+    <meta name="keywords" content="算法题">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="为什么我没有做出这道算法题"/>
+<meta name="twitter:description" content="题目描述 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 计算并返回可以凑成总金额的 组合数量 。 每种硬币的数量是无限的。 心路"/>
+
+    <meta property="og:title" content="为什么我没有做出这道算法题" />
+<meta property="og:description" content="题目描述 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 计算并返回可以凑成总金额的 组合数量 。 每种硬币的数量是无限的。 心路" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-05-11T10:30:51+08:00" />
+<meta property="article:modified_time" content="2022-05-11T10:30:51+08:00" />
+
+
+
+    <title>
+  为什么我没有做出这道算法题 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#题目描述">题目描述</a></li>
+    <li><a href="#心路历程">心路历程</a>
+      <ul>
+        <li><a href="#简单的动态规划">简单的动态规划?</a></li>
+        <li><a href="#问题分析">问题分析</a></li>
+        <li><a href="#用普通人的思考方式解决问题">用普通人的思考方式解决问题</a></li>
+        <li><a href="#优化暴力算法">优化暴力算法</a></li>
+        <li><a href="#找到解决问题">找到&amp;解决问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>为什么我没有做出这道算法题</h1>
+    </header>
+
+    <h2 id="题目描述">题目描述</h2>
+<p>给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。</p>
+<p>计算并返回可以凑成总金额的 组合数量 。</p>
+<p>每种硬币的数量是无限的。</p>
+<h2 id="心路历程">心路历程</h2>
+<h3 id="简单的动态规划">简单的动态规划?</h3>
+<p>找零钱问题是比较经典的动态规划问题，按照动态规划的思路一把梭应该就解出来了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+    dp := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>)    <span style="color:#007f7f">// dp[i]为总金额为i的组合的数量
+</span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i:=<span style="color:#ff0;font-weight:bold">1</span>; i &lt;=amount ;i++ {
+		<span style="color:#fff;font-weight:bold">for</span> _, coin := <span style="color:#fff;font-weight:bold">range</span> coins {
+			<span style="color:#fff;font-weight:bold">if</span> i &gt;= coin {
+				dp[i] += dp[i-coin]<span style="color:#007f7f">// dp[i]的组合数量为dp[i-coin]的组合数量之和
+</span><span style="color:#007f7f"></span>			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[amount]
+}
+</code></pre></div><p>写完之后觉得不太对，<strong>dp没有做初始化</strong>，这样不管后边如何累加元素都是0，于是考虑将<code>dp[0]</code>设为<code>1</code>。带入代码中，当<code>coin</code>等于<code>i</code>时，说明这个硬币的面值就是目的金额，因此将对应的组合数量加1。所以将<code>dp[0]</code>设为<code>1</code>应该没问题。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+    dp := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>)    <span style="color:#007f7f">// dp[i]为总金额为i的组合的数量
+</span><span style="color:#007f7f"></span>    dp[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+	<span style="color:#fff;font-weight:bold">for</span> i:=<span style="color:#ff0;font-weight:bold">1</span>; i &lt;=amount ;i++ {
+		<span style="color:#fff;font-weight:bold">for</span> _, coin := <span style="color:#fff;font-weight:bold">range</span> coins {
+			<span style="color:#fff;font-weight:bold">if</span> i &gt;= coin {
+				dp[i] += dp[i-coin]<span style="color:#007f7f">// dp[i]的组合数量为dp[i-coin]的组合数量之和
+</span><span style="color:#007f7f"></span>			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[amount]
+}
+</code></pre></div><p>大功告成！测一下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> main() {
+	fmt.Println(find([]<span style="color:#fff;font-weight:bold">int</span>{<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>}, <span style="color:#ff0;font-weight:bold">4</span>))
+}
+</code></pre></div><p>当硬币面值为1和2，总金额为4时应该有3中组合方式：</p>
+<ul>
+<li>1+1+1+1</li>
+<li>1+1+2</li>
+<li>2+2</li>
+</ul>
+<p>点击运行，结果输出为5。。。</p>
+<p>果然有问题！</p>
+<h3 id="问题分析">问题分析</h3>
+<p>这个状态转移方程<code>dp[i] += dp[i-coin]</code>看着不太对。</p>
+<p>将for循环中的每次累加都打印下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">for</span> _, coin := <span style="color:#fff;font-weight:bold">range</span> coins {
+    <span style="color:#fff;font-weight:bold">if</span> i &gt;= coin {
+        dp[i] += dp[i-coin]
+        fmt.Println(i, dp[i])
+    }
+}
+</code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">1 1 // 当总金额为1时，只有一种组合方式: 1
+2 1 
+2 2 // 当总金额为2时，有两种组合方式: 1+1, 2
+3 2 
+3 3 // 当总金额为3时，有三种组合方式？
+4 3
+4 5
+</code></pre></div><p>总金额为3时，组合方式应该是有两种，1+1+1, 1+2，为什么会有三种呢？</p>
+<p>分析for循环，应该是这样：<code>dp[3] = dp[1]+dp[2]</code>.</p>
+<p>问题找到了：<code>dp[2]</code>中的组合方式包括<code>dp[1]</code>中的组合方式，即1+1包含了1.</p>
+<p>这就很麻烦了。想要解决这个问题，就要标记dp中的每个元素对应的组合方式是否包含了另一个元素中的组合方式。</p>
+<p>这个思路应该不对。</p>
+<h3 id="用普通人的思考方式解决问题">用普通人的思考方式解决问题</h3>
+<p>作为一个人类，是如何找到组合方式的总数的？</p>
+<p>将硬币从小到大排列，每次选择最小的，然后选择次小的，穷尽这些组合方式，看有多少组合方式能够达到总金额（其实不需要从小到大排列，只需按照顺序依次选择硬币即可）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find2(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+	cnt := <span style="color:#ff0;font-weight:bold">0</span>
+	<span style="color:#fff;font-weight:bold">var</span> dfs <span style="color:#fff;font-weight:bold">func</span>(amount, i <span style="color:#fff;font-weight:bold">int</span>)
+	dfs = <span style="color:#fff;font-weight:bold">func</span>(amount, i <span style="color:#fff;font-weight:bold">int</span>) {
+		<span style="color:#fff;font-weight:bold">if</span> amount == <span style="color:#ff0;font-weight:bold">0</span> {
+			cnt++
+			<span style="color:#fff;font-weight:bold">return</span>
+		}
+		<span style="color:#fff;font-weight:bold">if</span> amount &lt; <span style="color:#ff0;font-weight:bold">0</span> {
+			<span style="color:#fff;font-weight:bold">return</span>
+		}
+		<span style="color:#fff;font-weight:bold">for</span> j := i; j &lt; <span style="color:#fff;font-weight:bold">len</span>(coins); j++ {
+            dfs(amount-coins[j], j)
+		}
+	}
+	dfs(amount, <span style="color:#ff0;font-weight:bold">0</span>)
+	<span style="color:#fff;font-weight:bold">return</span> cnt
+}
+</code></pre></div><p>用上边的用力测试一下，通过了！</p>
+<h3 id="优化暴力算法">优化暴力算法</h3>
+<p>简单粗暴的缺点就是<strong>时间复杂度太高了</strong>，优化下。</p>
+<p>dfs方法中对每个元素都要进行递归，直到amount为0，这个过程中会存在大量相同amount，可以将每个amount对应的组合数保存起来，这样下次再查询这个amount就不用再次递归。可以选用<strong>哈希表</strong>来保存。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find2(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+	m := <span style="color:#fff;font-weight:bold">make</span>(<span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">int</span>]<span style="color:#fff;font-weight:bold">int</span>)
+	<span style="color:#fff;font-weight:bold">var</span> dfs <span style="color:#fff;font-weight:bold">func</span>(amount, i <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span>
+	dfs = <span style="color:#fff;font-weight:bold">func</span>(amount, i <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+		<span style="color:#fff;font-weight:bold">if</span> amount == <span style="color:#ff0;font-weight:bold">0</span> {
+			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">1</span>
+		}
+		<span style="color:#fff;font-weight:bold">if</span> amount &lt; <span style="color:#ff0;font-weight:bold">0</span> {
+			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>
+		}
+		<span style="color:#fff;font-weight:bold">if</span> n, ok := m[amount]; ok {
+			<span style="color:#fff;font-weight:bold">return</span> n
+		}
+		cnt := <span style="color:#ff0;font-weight:bold">0</span>
+		<span style="color:#fff;font-weight:bold">for</span> j := i; j &lt; <span style="color:#fff;font-weight:bold">len</span>(coins); j++ {
+			cnt += dfs(amount- coins[j], j)
+		}
+		m[amount] = cnt
+		<span style="color:#fff;font-weight:bold">return</span> cnt
+	}
+
+	<span style="color:#fff;font-weight:bold">return</span> dfs(amount, <span style="color:#ff0;font-weight:bold">0</span>)
+}
+</code></pre></div><p>用之前的用例测试一下，发现输出为5，又遇到了和之前一样的问题！</p>
+<h3 id="找到解决问题">找到&amp;解决问题</h3>
+<p>上面的问题在于重复使用了一些组合，如何才能避免重复使用呢？</p>
+<p>之前设置的&quot;状态转移方程&quot;是<code>dp[i] += dp[i-coin]</code>，这会造成重复使用子数组。</p>
+<p>为了避免重复，我们可以按照硬币的使用与否来设置状态转移方程，对于<strong>第i个硬币，其面值为coin，凑齐金额为j的组合数为前i-1个硬币凑齐金额为j的组合数加上前i个硬币凑成金额为j-coin的组合数</strong>（即不需要第i个硬币就能凑齐j的组合数+恰好需要第i个硬币就能凑齐j的组合数）。这时，状态转移方程为<code>dp[i][j] = dp[i-1][j] +dp[i][j-coin]</code></p>
+<p>修改代码为</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find3(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+	dp := <span style="color:#fff;font-weight:bold">make</span>([][]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(coins)+<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f">// dp[i][j]使用前i个硬币组成金额为j的组合数
+</span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(dp); i++ {
+		dp[i] = <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>)
+	}
+	<span style="color:#007f7f">// dp初始化 使用前i个硬币组成金额为0的组合数为1
+</span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i:= <span style="color:#ff0;font-weight:bold">0</span>; i &lt;= <span style="color:#fff;font-weight:bold">len</span>(coins); i++ {
+		dp[i][<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+	}
+
+	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt;= <span style="color:#fff;font-weight:bold">len</span>(coins); i++ {
+        coin := coins[i-<span style="color:#ff0;font-weight:bold">1</span>]
+		<span style="color:#fff;font-weight:bold">for</span> j := <span style="color:#ff0;font-weight:bold">1</span>; j &lt;= amount; j++ {
+			<span style="color:#fff;font-weight:bold">if</span> j &gt;= coin {
+				dp[i][j] = dp[i-<span style="color:#ff0;font-weight:bold">1</span>][j] + dp[i][j-coin]
+			}<span style="color:#fff;font-weight:bold">else</span> {
+				dp[i][j] = dp[i-<span style="color:#ff0;font-weight:bold">1</span>][j]
+			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[<span style="color:#fff;font-weight:bold">len</span>(coins)][amount]
+}
+</code></pre></div><p>在嵌套循环中，求<code>dp[i][j]</code>时，每次都会加上<code>dp[i-1][j]</code>，因此可以<strong>压缩dp数组</strong>——去掉第一个维度，此时<strong>dp[i]表示凑齐金额为j的组合数</strong>（因为第一个维度中，第i个元素只依赖第i-1个元素，因此可以通过累加来将这个维度的数组压缩成一个元素）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find4(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+	dp := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f">// dp[i]:组成金额为i的组合数
+</span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// dp初始化 组成金额为0的组合数为1
+</span><span style="color:#007f7f"></span>	dp[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt;= <span style="color:#fff;font-weight:bold">len</span>(coins); i++ {
+		<span style="color:#fff;font-weight:bold">for</span> j := <span style="color:#ff0;font-weight:bold">1</span>; j &lt;= amount; j++ {
+			<span style="color:#fff;font-weight:bold">if</span> j &gt;= coins[i-<span style="color:#ff0;font-weight:bold">1</span>] {
+				dp[j] += dp[j-coins[i-<span style="color:#ff0;font-weight:bold">1</span>]]
+			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[amount]
+}
+</code></pre></div><p>优化遍历coins的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find5(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+	dp := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f">// dp[i]:组成金额为i的组合数
+</span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// dp初始化 组成金额为0的组合数为1
+</span><span style="color:#007f7f"></span>	dp[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+	<span style="color:#fff;font-weight:bold">for</span> _, coin := <span style="color:#fff;font-weight:bold">range</span> coins {
+		<span style="color:#fff;font-weight:bold">for</span> j := <span style="color:#ff0;font-weight:bold">1</span>; j &lt;= amount; j++ {
+			<span style="color:#fff;font-weight:bold">if</span> j &gt;= coin {
+				dp[j] += dp[j-coin]
+			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[amount]
+}
+</code></pre></div><p>再次回顾之前错误的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> find(coins []<span style="color:#fff;font-weight:bold">int</span>, amount <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+    dp := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, amount+<span style="color:#ff0;font-weight:bold">1</span>)    <span style="color:#007f7f">// dp[i]为总金额为i的组合的数量
+</span><span style="color:#007f7f"></span>    dp[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">1</span>
+	<span style="color:#fff;font-weight:bold">for</span> i:=<span style="color:#ff0;font-weight:bold">1</span>; i &lt;=amount ;i++ {
+		<span style="color:#fff;font-weight:bold">for</span> _, coin := <span style="color:#fff;font-weight:bold">range</span> coins {
+			<span style="color:#fff;font-weight:bold">if</span> i &gt;= coin {
+				dp[i] += dp[i-coin]<span style="color:#007f7f">// dp[i]的组合数量为dp[i-coin]的组合数量之和
+</span><span style="color:#007f7f"></span>			}
+		}
+	}
+	<span style="color:#fff;font-weight:bold">return</span> dp[amount]
+}
+</code></pre></div><p>发现<strong>两者的区别只是嵌套循环的顺序不一致</strong>。</p>
+<ul>
+<li>先遍历amount，再遍历coins，得到的是一种“<strong>排列数</strong>”（能够重复使用之前的子组合，类比爬楼梯问题）。</li>
+<li>先遍历coins，再遍历amount，得到的是一种“<strong>组合数</strong>”（不会重复使用之前的子组合）</li>
+</ul>
+<h2 id="总结">总结</h2>
+<ol>
+<li>动态规划掌握的还不熟练。</li>
+<li>当使用“经验”没有办法解决问题时，可以先想想普通人的解决步骤（大部分情况下是暴力算法），然后通过代码复现。</li>
+<li>多思考多做总结，单纯的解决问题没有意义（以前做过的题竟然还是做不出来）</li>
+</ol>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://leetcode.cn/problems/coin-change-2/solution/ling-qian-dui-huan-iihe-pa-lou-ti-wen-ti-dao-di-yo/">零钱兑换II和爬楼梯问题到底有什么不同？</a></li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
