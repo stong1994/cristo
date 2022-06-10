@@ -6,7 +6,16 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 11 May 2022 15:39:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Jun 2022 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MakerDAO简介</title>
+      <link>https://stong1994.github.io/blockchain/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/blockchain/makerdao_base_info/</guid>
+      <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
+    </item>
+    
     <item>
       <title>记录一次保持业务规则一致性的小优化</title>
       <link>https://stong1994.github.io/internet/go/channel/</link>
@@ -14,7 +23,7 @@
       
       <guid>https://stong1994.github.io/internet/go/channel/</guid>
       <description>前提 有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。
-为了让逻辑层中的代码更加清晰，我们抽象出了一个**“规则层**”来存放领域规则的代码。
+为了让逻辑层中的代码更加清晰，我们抽象出了一个规则层来存放领域规则的代码。
 场景 举一个场景：同步企业微信和飞书的组织部门和人员。
 规则层的责任 规则层中抽离了逻辑层中底层的领域规则，如：
  同步企微员工到飞书的规则 同步企微部门到飞书的规则  遇到的问题 同步的方式有两种：

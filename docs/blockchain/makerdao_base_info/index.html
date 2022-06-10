@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物">
+    <meta name="keywords" content="makerdao">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MakerDAO简介"/>
+<meta name="twitter:description" content="什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物"/>
+
+    <meta property="og:title" content="MakerDAO简介" />
+<meta property="og:description" content="什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/blockchain/makerdao_base_info/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-06-04T14:35:00+08:00" />
+<meta property="article:modified_time" content="2022-06-04T14:35:00+08:00" />
+
+
+
+    <title>
+  MakerDAO简介 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/blockchain/makerdao_base_info/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.89.4" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是makerdao">什么是MakerDAO</a></li>
+    <li><a href="#解决的痛点是什么">解决的痛点是什么</a></li>
+    <li><a href="#两种货币">两种货币</a>
+      <ul>
+        <li><a href="#dai">Dai</a></li>
+        <li><a href="#mkr">MKR</a></li>
+      </ul>
+    </li>
+    <li><a href="#借贷流程简述">借贷流程简述</a>
+      <ul>
+        <li><a href="#抵押">抵押</a></li>
+        <li><a href="#赎回">赎回</a></li>
+        <li><a href="#清算">清算</a></li>
+      </ul>
+    </li>
+    <li><a href="#实现软锚定">实现软锚定</a>
+      <ul>
+        <li><a href="#无形的手投机者套利">无形的手——投机者套利</a></li>
+        <li><a href="#dsr调整">DSR调整</a></li>
+        <li><a href="#利率调整">利率调整</a></li>
+        <li><a href="#与其他稳定币挂钩">与其他稳定币挂钩</a></li>
+        <li><a href="#激励社区内的人积极治理">激励社区内的人积极治理</a></li>
+      </ul>
+    </li>
+    <li><a href="#问题">问题</a>
+      <ul>
+        <li><a href="#eth本身就有价格为何还要进行抵押">ETH本身就有价格，为何还要进行抵押?</a></li>
+        <li><a href="#eth崩盘会不会导致大量的债务违约">ETH崩盘会不会导致大量的债务违约</a></li>
+      </ul>
+    </li>
+    <li><a href="#名词解释">名词解释</a></li>
+    <li><a href="#相关资源">相关资源</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>MakerDAO简介</h1>
+    </header>
+
+    <h2 id="什么是makerdao">什么是MakerDAO</h2>
+<p>MakerDAO是一个<strong>自动化抵押贷款平台</strong>，可以将物品（主要是电子货币）进行抵押以换取稳定币<code>Dai</code>。早期只支持一种抵押物——<code>ETH</code>，后续逐渐增加了其他电子货币以及现实资产。</p>
+<p>MakerDAO是一个<strong>双货币系统</strong>，两种货币互相影响，共利共生。</p>
+<h2 id="解决的痛点是什么">解决的痛点是什么</h2>
+<ul>
+<li>基于区块链衍生出的货币本身没有稳定的价值，因此价格波动很大，MakerDAO设计了Dai实现了对美元的<strong>软锚定</strong>。</li>
+<li>传统的借贷系统依赖于信用体系，而信用体系需要用户数据做支撑。MakerDAO是一个仅需抵押物（无关信用、无偏见）的借贷平台。</li>
+</ul>
+<h2 id="两种货币">两种货币</h2>
+<h3 id="dai">Dai</h3>
+<p>Dai 是一种<strong>软锚定</strong>美元的<strong>资产担保型加密货币</strong>。当借贷人将物品抵押后，会获得一定数额的Dai。</p>
+<p>在早期阶段，MakerDAO仅支持ETH抵押物，借贷人通过CDP合约抵押ETH，生成一定的Dai。</p>
+<p>Dai是第一个可被验证的去中心化的稳定币。其他稳定币（如USDT——承诺没生成一个token，就向银行中增加1美元），是中心化的稳定币，没有办法验证是否履行了其承诺。</p>
+<h3 id="mkr">MKR</h3>
+<p>MKR是一种<strong>治理型token</strong>，持有人能够参与Maker Protocol的制定。</p>
+<p>借贷人赎回抵押物时，除了原本获得的Dai外，还要支付利息，这个利息需要使用MKR进行支付。</p>
+<h2 id="借贷流程简述">借贷流程简述</h2>
+<h3 id="抵押">抵押</h3>
+<p>通过抵押物品来换取Dai，置换到的Dai的价格往往低于抵押物品的当前价格，以避免抵押物品的价格下降导致的债务人违约。</p>
+<h3 id="赎回">赎回</h3>
+<p>债务人可以通过支付Dai以及利息（使用MKR）来赎回抵押物品。</p>
+<h3 id="清算">清算</h3>
+<p>当抵押物的价格下降到低于<strong>安全值</strong>后，将自动启动<strong>拍卖</strong>，以从市场中回购Dai。</p>
+<p>如果拍卖部分抵押物即可足够偿还债务以及罚金（罚金用于鼓励债务人进行赎回），那么会将剩余抵押物归还给债务人。</p>
+<p>回购的Dai将被销毁，以降低供应量。</p>
+<p><strong>抵押物主要拍卖参数</strong></p>
+<ul>
+<li><strong>每批规模</strong>：将一笔大的抵押物拆分称多笔拍卖，每笔拍卖的价格不应太大——鼓励更多的清算人参与，也不应太低——减少拆分数量以尽快完成拍卖。</li>
+<li><strong>每次竞价时长</strong>：每次报价太长则增加货币风险，减少竞拍者的资金流动；太短导致流拍或者参与人太少（比如以太坊网络堵塞导致流拍）</li>
+<li><strong>最小竞价增幅</strong>：限制最小的竞价增幅以避免投机者在最后一刻以非常小的增幅涨价</li>
+<li><strong>最长竞价周期</strong></li>
+</ul>
+<h2 id="实现软锚定">实现软锚定</h2>
+<p>Dai与美元1:1软锚定的机制，其实现软锚定通过：</p>
+<h3 id="无形的手投机者套利">无形的手——投机者套利</h3>
+<ul>
+<li>Dai是通过抵押置换出来的token，此时Dai的价格锚定为1美元</li>
+<li>借贷人进行<strong>赎回</strong>时需要使用<strong>同样数量的Dai</strong>进行置换</li>
+<li>如果<strong>抵押</strong>时Dai市场价格较<strong>高</strong>，<strong>赎回</strong>时Dai市场价格较<strong>低</strong>，这样借贷人就能通过<strong>抵押-赎回</strong>来<strong>获利</strong></li>
+<li>如果<strong>抵押</strong>时Dai市场价格较低，<strong>赎回</strong>时Dai市场价格较<strong>高</strong>，这样借贷人通过<strong>抵押-赎回</strong>就会<strong>亏损</strong></li>
+<li>正常的借贷人是有真正的抵押需求，而不是以通过抵押-赎回获利为目的</li>
+<li>少部分<strong>投机者</strong>会通过抵押-赎回进行<strong>获利</strong>——在Dai市场价格<strong>高于1美元</strong>的时候进行抵押，再<strong>将Dai卖到市场</strong>，此时市场中的<strong>供给增多</strong>，Dai<strong>价格下降</strong>；<strong>低于1美元</strong>的进行赎回，需要<strong>从市场中买回Dai</strong>，此时市场中<strong>供给减少</strong>，Dai<strong>价格上升</strong>。</li>
+<li><strong>投机者通过抵押-赎回获利的方式维持了Dai价格的稳定。</strong></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/20220531135839.png" alt=""></p>
+<h3 id="dsr调整">DSR调整</h3>
+<p>DSR是Dai的<strong>存储利率</strong>（Dai Savings Rate），当存储利率高时，持有者偏向于持有；当存储利率低时，持有者偏向于卖出。</p>
+<p>通过调整存储利率，能够调整市场中的Dai的供给量和需求量，从而达到调整Dai的市场价格的目的。</p>
+<p>作为一个去中心化项目，存储利率的调整靠的是MKR的持有者达成共识。</p>
+<h3 id="利率调整">利率调整</h3>
+<p><em>利率在MakerDAO中称为稳定费（Stability Fees），主要用来控制不同抵押物的抵押风险。</em></p>
+<p>借贷人抵押物品后，需要支付额外的利息，通过减少利率，可以刺激借贷人进行借贷，从而增大Dai的供应量；通过增大利率，可以抑制借贷人的借贷欲望，从而减少Dai的供应量。</p>
+<p>这一策略只能在短期内生效，因为借贷人迟早会将借贷的Dai数量“归还”，因此不会对市场中的Dai总量产生影响。</p>
+<h3 id="与其他稳定币挂钩">与其他稳定币挂钩</h3>
+<p>通过PSM合约，用户可以使用一个固定的比率来交换其他稳定币，这增大了稳定币的总量，降低了单个稳定币波动的概率。</p>
+<h3 id="激励社区内的人积极治理">激励社区内的人积极治理</h3>
+<p>MRK持有者作为治理的参与者，其利益与整个社区的发展成功与否挂钩。</p>
+<p>当社区发展良好时，比如说借贷人正常借贷并赎回，会产生大量的Dai盈余；当社区发展较差时，比如清算产生了大量坏账。当Dai过剩或者坏账数量超过一个阈值后，协议将以智能合约的方式购买并燃烧MKR释放过剩Dai或者通过制造、出售MKR来弥补坏账。前者会导致市场中的MKR供给数量降低以提高价格（购买的Dai还会分配给MKR持有者），后者反之。</p>
+<p>因此，积极参与社区治理有利于个人利益。</p>
+<h2 id="问题">问题</h2>
+<h3 id="eth本身就有价格为何还要进行抵押">ETH本身就有价格，为何还要进行抵押?</h3>
+<p>ETH虽然具有价格，但是价格波动很大。假设小明ALL IN ETH，期望ETH能够升值，但是目前急需一笔资金做周转（假设周转周期为30天），这时候小明只能将ETH卖掉一部分来换取法币，如果ETH在这30天进行了升值，那么这部分升值就成了小明的“亏损”。</p>
+<p>如果小明通过对BTC进行抵押以换取Dai，30天后再赎回ETH，就不会“亏损”ETH在这30天内的升值。</p>
+<p>在这个场景里，ETH并不是我们常用的货币，而是成了一件收藏品，具有波动的价值，而通过“当铺”进行抵押实现了<strong>即拥有其所有权，又能够临时获取一笔现金做周转</strong>。</p>
+<h3 id="eth崩盘会不会导致大量的债务违约">ETH崩盘会不会导致大量的债务违约</h3>
+<p>ETH崩盘，大量以ETH作为抵押物的债务人必然会违约，这会导致大量ETH被清算，市场中的Dai供应数量大于需求数量，这就需要铸造大量的MKR以购买Dai来维持Dai价格稳定，进而导致MKR价格降低。</p>
+<p>目前似乎没有一个有效的办法来解决这种问题。</p>
+<h2 id="名词解释">名词解释</h2>
+<ul>
+<li>
+<p>CDP：Collateralized Debt Position, 担保债仓，是一个智能合约，用来质押ETH来生成Dai。</p>
+</li>
+<li>
+<p>SCD: Single-Collateral DAI, 单担保Dai，又称Sai。早期只支持质押ETH，因此为单担保。</p>
+</li>
+<li>
+<p>MCD：Multi-Collateral DAI, 多担保Dai。</p>
+</li>
+<li>
+<p>Liquidation Ratio：清算率</p>
+</li>
+<li>
+<p>Maker Protocol：Maker协议，MakerDAO中的所有设计概念的总称。</p>
+</li>
+<li>
+<p>Risk Premium Rate: 风险保障金利率，对每种不同的债务其风险保障金利率是不同的。</p>
+</li>
+<li>
+<p>Base Rate: 基础利率,用来计算债务产生的利息，系统基础利率能够应用于所有的抵押品。</p>
+</li>
+<li>
+<p>Stability Rate: = Risk Premium Rate + Base Rate</p>
+</li>
+<li>
+<p>DSR: Dai Saving Rate, DSR能够使Dai持有人通过锁定Dai到DSR合约来赚取利息。</p>
+</li>
+<li>
+<p>Debt ceiling: 每种抵押物类型能够生成的最大Dai数量</p>
+</li>
+<li>
+<p>Spotter：Spotter是一个位于预研机模块的合约接口，外部参与者可以通过这个接口来获取某种抵押物的市场价格</p>
+</li>
+<li>
+<p>Cat：Cat是一种机制，用来“bites”具有风险的抵押物。在MakerDAO中，一旦抵押物的价格跌倒一个阈值，就会就如拍卖流程来减少坏账损失。</p>
+</li>
+<li>
+<p>Vat：MakerDAO的核心模块，提供账户系统、内部Dai余额、抵押物状态等。</p>
+</li>
+<li>
+<p>Sin：由清算导致的债务余额</p>
+</li>
+<li>
+<p>Gem：未锁定的抵押物</p>
+</li>
+<li>
+<p>urn：仓库；一个以太坊地址能够控制一种抵押物的仓库</p>
+</li>
+<li>
+<p>llk：抵押物类别</p>
+</li>
+</ul>
+<h2 id="相关资源">相关资源</h2>
+<ul>
+<li>
+<p><a href="https://makerdao.com/zh-CN/whitepaper">MakerDAO白皮书</a></p>
+</li>
+<li>
+<p><a href="https://blog.makerdao.com/makerdao-%E5%BC%95%E5%85%A5%E7%8E%B0%E5%AE%9E%E8%B5%84%E4%BA%A7%E6%8C%87%E5%8D%97%E4%B8%8E%E6%A1%88%E4%BE%8B/">MakerDAO 引入现实资产指南与案例</a></p>
+</li>
+<li>
+<p><a href="https://imtoken.fans/t/topic/40883">Dai 你全面了解 MakerDAO</a></p>
+</li>
+<li>
+<p><a href="https://daistats.com/#/">Dai Stats</a></p>
+</li>
+<li>
+<p><a href="https://cointelegraph.com/news/coinbase-removes-backed-by-us-dollars-claim-for-usdc-stablecoin">Coinbase removes ‘backed by US dollars’ claim for USDC stablecoin</a></p>
+</li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

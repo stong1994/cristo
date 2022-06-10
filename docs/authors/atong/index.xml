@@ -6,7 +6,16 @@
     <description>Recent content in atong on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 11 May 2022 10:30:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/atong/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Jun 2022 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/atong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MakerDAO简介</title>
+      <link>https://stong1994.github.io/blockchain/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/blockchain/makerdao_base_info/</guid>
+      <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
+    </item>
+    
     <item>
       <title>为什么我没有做出这道算法题</title>
       <link>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</link>
