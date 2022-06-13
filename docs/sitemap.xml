@@ -2,20 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://stong1994.github.io/book/</loc>
+    <lastmod>2022-06-12T16:41:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/atong/</loc>
+    <lastmod>2022-06-12T16:41:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/</loc>
+    <lastmod>2022-06-12T16:41:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</loc>
+    <lastmod>2022-06-12T16:41:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/</loc>
+    <lastmod>2022-06-12T16:41:00+08:00</lastmod>
+  </url><url>
     <loc>https://stong1994.github.io/internet/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/authors/atong/</loc>
-    <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
     <loc>https://stong1994.github.io/blockchain/makerdao_base_info/</loc>
-    <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/go/channel/</loc>
@@ -23,10 +30,6 @@
   </url><url>
     <loc>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</loc>
     <lastmod>2022-05-11T10:30:51+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/book/</loc>
-    <lastmod>2022-05-09T21:30:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/authors/cristo/</loc>
     <lastmod>2022-05-09T21:30:00+08:00</lastmod>
