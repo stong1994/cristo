@@ -1,9 +1,9 @@
 ---
 title: "Solidity笔记"
 date: 2022-06-10T19:37:00+08:00
-url: "/blockchain/solidity_note"
+url: "/web3/solidity_note"
 isCJKLanguage: true
-draft: true
+draft: false
 toc:  true
 keywords:
   - solidity

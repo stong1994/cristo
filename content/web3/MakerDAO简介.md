@@ -1,7 +1,7 @@
 ---
 title: "MakerDAO简介"
 date: 2022-06-04T14:35:00+08:00
-url: "/blockchain/makerdao_base_info"
+url: "/web3/makerdao_base_info"
 isCJKLanguage: true
 draft: false
 toc:  true
@@ -131,7 +131,7 @@ ETH崩盘，大量以ETH作为抵押物的债务人必然会违约，这会导�
 
 1. **抵押货币以获得现金**：这是正常的债务人借贷功能。
 
-2. **通过抵押来增加杠杆**：通过ETH抵押获取Dai，再通过Dai来购买ETH，从而实现“杠杆”效果。
+2. **通过循环抵押来增加杠杆**：通过ETH抵押获取Dai，再通过Dai来购买ETH，从而实现“杠杆”效果（如果ETH价格上涨，会获利颇丰，但如果ETH价格下降，也会亏更多）。
 
 3. **以投机者身份参与治理**：如在Dai价格低于1美元的时候买入，高于1美元的时候卖出。
 

@@ -1,5 +1,5 @@
 baseURL = "https://stong1994.github.io/"
-title = "cristo"
+title = "北人"
 
 theme = "hugo-coder"
 
@@ -29,8 +29,7 @@ pygmentsCodeFencesGuessSyntax = true
     #gravatar = "john.doe@example.com"
     footerContent = "夭寿不贰，修身以俟"
 
-    dateFormat = "January 2, 2006"
-
+    dateFormat = "2006-01-02"
     hideFooter = false
     hideCredits = false
     hideCopyright = false
@@ -92,9 +91,14 @@ pygmentsCodeFencesGuessSyntax = true
         [languages.zh.menu]
 
             [[languages.zh.menu.main]]
-            name = "互联网"
+            name = "计算机与互联网"
             weight = 1
             url = "internet/"
+
+	    [[languages.zh.menu.main]]
+            name = "区块链&web3"
+            weight = 1
+            url = "web3/"
 
             [[languages.zh.menu.main]]
             name = "读书"
