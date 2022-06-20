@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web3s on 北人</title>
+    <link>https://stong1994.github.io/web3/</link>
+    <description>Recent content in Web3s on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 10 Jun 2022 19:37:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/web3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Solidity笔记</title>
+      <link>https://stong1994.github.io/web3/solidity_note/</link>
+      <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/web3/solidity_note/</guid>
+      <description>基础知识 数据类型 mapping 键值对存储/哈希表。 没有内置的查询长度的方法。 mapping (string =&amp;gt; address) public keyValueMap 函数和构造函数 func getPrice(address user) public view returns(int price, int status){} getPrice: 函数名称 (address user) ：实参列表，用逗号</description>
+    </item>
+    
+    <item>
+      <title>MakerDAO简介</title>
+      <link>https://stong1994.github.io/web3/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/web3/makerdao_base_info/</guid>
+      <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,16 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 12 Jun 2022 16:41:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Jun 2022 16:50:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《第一性原理》</title>
+      <link>https://stong1994.github.io/book/philosophy/first_principle/</link>
+      <pubDate>Mon, 13 Jun 2022 16:50:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/first_principle/</guid>
+      <description>最近经常能看到各种公众号、博客在科普第一性原理，但是看来看去还是没看懂。并不是看不懂这些公众号、博客的内容，而是没能理解第一性原理如此“重要</description>
+    </item>
+    
     <item>
       <title>《千面英雄》</title>
       <link>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</link>
@@ -17,11 +26,20 @@
     </item>
     
     <item>
+      <title>Solidity笔记</title>
+      <link>https://stong1994.github.io/web3/solidity_note/</link>
+      <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/web3/solidity_note/</guid>
+      <description>基础知识 数据类型 mapping 键值对存储/哈希表。 没有内置的查询长度的方法。 mapping (string =&amp;gt; address) public keyValueMap 函数和构造函数 func getPrice(address user) public view returns(int price, int status){} getPrice: 函数名称 (address user) ：实参列表，用逗号</description>
+    </item>
+    
+    <item>
       <title>MakerDAO简介</title>
-      <link>https://stong1994.github.io/blockchain/makerdao_base_info/</link>
+      <link>https://stong1994.github.io/web3/makerdao_base_info/</link>
       <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/blockchain/makerdao_base_info/</guid>
+      <guid>https://stong1994.github.io/web3/makerdao_base_info/</guid>
       <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
     </item>
     
