@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>stone on 北人</title>
+    <link>https://stong1994.github.io/authors/stone/</link>
+    <description>Recent content in stone on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 27 Jun 2022 07:36:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stone/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《全球科技通史》</title>
+      <link>https://stong1994.github.io/book/anthropology/global_tech_history/</link>
+      <pubDate>Mon, 27 Jun 2022 07:36:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/anthropology/global_tech_history/</guid>
+      <description>《全球科技通史》是一本科技类的通识读物。每个人都应该了解一点科技史，对于技术人员来说更是如此。 吴军将整个人类技术分为了四个阶段：远古科技、古</description>
+    </item>
+    
+  </channel>
+</rss>
