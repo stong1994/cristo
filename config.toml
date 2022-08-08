@@ -96,26 +96,31 @@ pygmentsCodeFencesGuessSyntax = true
             url = "internet/"
 
 	    [[languages.zh.menu.main]]
-            name = "区块链&web3"
+            name = "云原生"
             weight = 2
+            url = "cloudnative/"
+
+	    [[languages.zh.menu.main]]
+            name = "区块链&web3"
+            weight = 3
             url = "web3/"
 
             [[languages.zh.menu.main]]
             name = "读书"
-            weight = 3
+            weight = 4
             url = "book/"
 
             [[languages.zh.menu.main]]
             name = "生活"
-            weight = 4
+            weight = 5
 	    url = "life/"
 
 	    [[languages.zh.menu.main]]
             name = "心智模型"
-            weight = 5
+            weight = 6
             url = "mental_model/"
 
 	    [[languages.zh.menu.main]]
             name = "关于"
-            weight = 6
+            weight = 7
             url = "about/"
