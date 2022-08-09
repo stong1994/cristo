@@ -12,13 +12,14 @@
 KMP是什么 KMP是由三位作者的名称首字母组成的单词。KMP的目的是解决子串查找问题。
 KMP演化 如果只看KMP算法的代码，会很难理解，因此我们从头来演化KMP的思路。
 既然KMP算法要解决的是子串查找问题，那我们就从最无脑的暴力破解算法说起。在此之前，我们要规定几个概念。
-基础概念  模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。  最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
+基础概念 模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。 最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
 固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。
 func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - len(pat)&#43;1; i&#43;&#43; { j := 0 for ; j &lt; len(pat); j&#43;&#43; { if txt[i&#43;j] != pat[j] { break } } if j == len(pat) { return i } } return -1 } 利用已有的经验——部分匹配表PMT 在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。
 模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。
 显然，利用历史经验一次性移动六位要比移动一位的效率高很多。那么如何利用这些匹配经验，将残尺多移动几位？
 于是问题转换为：假设残尺需要移动的位数为M，移动后残尺的前N位能够匹配，如何利用已知条件求出最大的M？
-大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：">
+大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：
+如何使用PMT 我们在第10个字符匹配时匹配失败，这个时候就能够看到第9个字符对应的PMT的元素为3，即前后匹配的字符为3、1、5三个，那么我们就能够把残尺移动六（9-3）位，并从第四（3&#43;1）个元素处开始匹配。">
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
@@ -27,26 +28,28 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
 KMP是什么 KMP是由三位作者的名称首字母组成的单词。KMP的目的是解决子串查找问题。
 KMP演化 如果只看KMP算法的代码，会很难理解，因此我们从头来演化KMP的思路。
 既然KMP算法要解决的是子串查找问题，那我们就从最无脑的暴力破解算法说起。在此之前，我们要规定几个概念。
-基础概念  模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。  最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
+基础概念 模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。 最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
 固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。
 func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - len(pat)&#43;1; i&#43;&#43; { j := 0 for ; j &lt; len(pat); j&#43;&#43; { if txt[i&#43;j] != pat[j] { break } } if j == len(pat) { return i } } return -1 } 利用已有的经验——部分匹配表PMT 在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。
 模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。
 显然，利用历史经验一次性移动六位要比移动一位的效率高很多。那么如何利用这些匹配经验，将残尺多移动几位？
 于是问题转换为：假设残尺需要移动的位数为M，移动后残尺的前N位能够匹配，如何利用已知条件求出最大的M？
-大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT："/>
+大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：
+如何使用PMT 我们在第10个字符匹配时匹配失败，这个时候就能够看到第9个字符对应的PMT的元素为3，即前后匹配的字符为3、1、5三个，那么我们就能够把残尺移动六（9-3）位，并从第四（3&#43;1）个元素处开始匹配。"/>
 
     <meta property="og:title" content="KMP算法" />
 <meta property="og:description" content="背景 在做LeetCode第572题——另一颗树的子树时，我看到题解上说可以用KMP算法来解决。虽然以前了解过KMP算法，但是遇到问题时还是对算法的思路、如何实现一头雾水，因此写篇文章总结下。
 KMP是什么 KMP是由三位作者的名称首字母组成的单词。KMP的目的是解决子串查找问题。
 KMP演化 如果只看KMP算法的代码，会很难理解，因此我们从头来演化KMP的思路。
 既然KMP算法要解决的是子串查找问题，那我们就从最无脑的暴力破解算法说起。在此之前，我们要规定几个概念。
-基础概念  模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。  最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
+基础概念 模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。 最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
 固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。
 func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - len(pat)&#43;1; i&#43;&#43; { j := 0 for ; j &lt; len(pat); j&#43;&#43; { if txt[i&#43;j] != pat[j] { break } } if j == len(pat) { return i } } return -1 } 利用已有的经验——部分匹配表PMT 在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。
 模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。
 显然，利用历史经验一次性移动六位要比移动一位的效率高很多。那么如何利用这些匹配经验，将残尺多移动几位？
 于是问题转换为：假设残尺需要移动的位数为M，移动后残尺的前N位能够匹配，如何利用已知条件求出最大的M？
-大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：" />
+大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：
+如何使用PMT 我们在第10个字符匹配时匹配失败，这个时候就能够看到第9个字符对应的PMT的元素为3，即前后匹配的字符为3、1、5三个，那么我们就能够把残尺移动六（9-3）位，并从第四（3&#43;1）个元素处开始匹配。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stong1994.github.io/internet/algorithm/kmp/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2022-01-28T16:32:00+08:00" />
@@ -69,7 +72,7 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -97,7 +100,7 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -131,6 +134,10 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -207,21 +214,21 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
 <h3 id="最无脑的算法">最无脑的算法</h3>
 <p>把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。</p>
 <p>固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> violentSearchSubStr(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span> {
-    <span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) - <span style="color:#fff;font-weight:bold">len</span>(pat)+<span style="color:#ff0;font-weight:bold">1</span>; i++ {
-        j := <span style="color:#ff0;font-weight:bold">0</span>
-        <span style="color:#fff;font-weight:bold">for</span> ; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat); j++ {
-            <span style="color:#fff;font-weight:bold">if</span> txt[i+j] != pat[j] {
-                <span style="color:#fff;font-weight:bold">break</span>
-            }
-        }
-        <span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
-            <span style="color:#fff;font-weight:bold">return</span> i
-        }
-    }
-    <span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
-}
-</code></pre></div><h3 id="利用已有的经验部分匹配表pmt">利用已有的经验——部分匹配表PMT</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> violentSearchSubStr(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) - <span style="color:#fff;font-weight:bold">len</span>(pat)+<span style="color:#ff0;font-weight:bold">1</span>; i++ {
+</span></span><span style="display:flex;"><span>        j := <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> ; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat); j++ {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> txt[i+j] != pat[j] {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> i
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="利用已有的经验部分匹配表pmt">利用已有的经验——部分匹配表PMT</h3>
 <p>在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。</p>
 <p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/20220206224422.png" alt=""></p>
 <p>模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。</p>
@@ -231,50 +238,50 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
 <p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/20220206224651.png" alt=""></p>
 <h4 id="如何使用pmt">如何使用PMT</h4>
 <p>我们在第10个字符匹配时匹配失败，这个时候就能够看到第9个字符对应的PMT的元素为3，即前后匹配的字符为3、1、5三个，那么我们就能够把残尺移动六（9-3）位，并从第四（3+1）个元素处开始匹配。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">func match(txt, pat string) int{
-	pmt := getPMT(pat)
-	i, j := 0, 0 // i、j分别为txt和pat当前匹配的索引
-	for i &lt; len(txt) &amp;&amp; j &lt; len(pat) {
-		if txt[i] == pat[j] {
-			i++
-			j++
-			continue
-		}
-		if j == 0 { // j为0，说明子串中没有能够匹配的前后缀，直接将残尺移动一位
-			i++
-			continue
-		}
-		j = pmt[j-1]
-	}
-	if j == len(pat) {
-		return i-j
-	}
-	return -1
-}
-</code></pre></div><h4 id="如何获取pmt">如何获取PMT</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>func match(txt, pat string) int{
+</span></span><span style="display:flex;"><span>	pmt := getPMT(pat)
+</span></span><span style="display:flex;"><span>	i, j := 0, 0 // i、j分别为txt和pat当前匹配的索引
+</span></span><span style="display:flex;"><span>	for i &lt; len(txt) &amp;&amp; j &lt; len(pat) {
+</span></span><span style="display:flex;"><span>		if txt[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			j++
+</span></span><span style="display:flex;"><span>			continue
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		if j == 0 { // j为0，说明子串中没有能够匹配的前后缀，直接将残尺移动一位
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			continue
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		j = pmt[j-1]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	if j == len(pat) {
+</span></span><span style="display:flex;"><span>		return i-j
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	return -1
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="如何获取pmt">如何获取PMT</h4>
 <p>找到一个字符串中前缀和后缀匹配的长度只需要在字符串的前半部分中逆序遍历，找到和字符串的最后一个字符相同的字符，假设这个字符的索引为i，然后再判断0到i的字符是否和最后i个字符相同即可。如果PMT中每个元素的值都是这样计算，那么时间复杂度无疑很高。</p>
 <p>可以利用“动态规划“中找子问题的方式找到求PMT的子问题：初始化两个指针i和j分别对应于遍历过程中模式字符串的索引和已匹配的前缀的索引，如果第i个字符和第j个字符相同，那么当前能够匹配的前缀和后缀的长度等于j；如果不同，那么就将第i个字符和第pmt[j]个字符进行比较。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> getPMT(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
-	pmt := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
-	pmt[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// 一个字符没有前缀和后缀（由如何使用决定第一个元素的值为0）
-</span><span style="color:#007f7f"></span>    i, j := <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">0</span>
-    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
-		<span style="color:#fff;font-weight:bold">if</span> pat[i] == pat[j] {
-			j++ <span style="color:#007f7f">// 长度等于索引+1
-</span><span style="color:#007f7f"></span>            pmt[i] = j
-            i++
-            <span style="color:#fff;font-weight:bold">continue</span>
-		}
-        <span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#ff0;font-weight:bold">0</span> {
-            pmt[i] = <span style="color:#ff0;font-weight:bold">0</span>
-            i++
-            <span style="color:#fff;font-weight:bold">continue</span>
-        }
-        j = pmt[j-<span style="color:#ff0;font-weight:bold">1</span>]
-	}
-    <span style="color:#fff;font-weight:bold">return</span> pmt
-}
-</code></pre></div><p>这里的关键是当第i个字符和第j个字符不同时，为什么要比较第i个字符和第pmt[j]个字符。此时有两种情况</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> getPMT(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
+</span></span><span style="display:flex;"><span>	pmt := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
+</span></span><span style="display:flex;"><span>	pmt[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// 一个字符没有前缀和后缀（由如何使用决定第一个元素的值为0）
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    i, j := <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> pat[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			j++ <span style="color:#007f7f">// 长度等于索引+1
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>            pmt[i] = j
+</span></span><span style="display:flex;"><span>            i++
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>            pmt[i] = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>            i++
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        j = pmt[j-<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> pmt
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里的关键是当第i个字符和第j个字符不同时，为什么要比较第i个字符和第pmt[j]个字符。此时有两种情况</p>
 <ul>
 <li>
 <p>假设第i-1个字符和第j-1个字符不同，那么pmt[j-1]等于0，此时相当于从头进行匹配。</p>
@@ -285,76 +292,76 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
 </ul>
 <h3 id="更直观的next数组">更直观的next数组</h3>
 <p>每当匹配失败时，都需要获取前一个字符对应的pmt的值，业内往往将pmt数组转化为next数组来避免<code>j-1</code>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> getNext(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
-	next := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
-	next[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">0</span>
-	i, j := <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">0</span>
-    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat)-<span style="color:#ff0;font-weight:bold">1</span> { <span style="color:#007f7f">// 可知next数组和pat的最后一个字符无关
-</span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> pat[i] == pat[j] {
-			i++
-			j++
-			next[i] = j
-			<span style="color:#fff;font-weight:bold">continue</span>
-		}
-        j = next[j]
-	}
-    <span style="color:#fff;font-weight:bold">return</span> next
-}
-
-<span style="color:#fff;font-weight:bold">func</span> match(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span>{
-	next := getNext(pat)
-	i, j := <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// i、j分别为txt和pat当前匹配的索引
-</span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) &amp;&amp; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
-		<span style="color:#fff;font-weight:bold">if</span> txt[i] == pat[j] {
-			i++
-			j++
-			<span style="color:#fff;font-weight:bold">continue</span>
-		}
-		<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#ff0;font-weight:bold">0</span> { <span style="color:#007f7f">// j为0，说明子串中没有能够匹配的前后缀，直接将残尺移动一位
-</span><span style="color:#007f7f"></span>			i++
-			<span style="color:#fff;font-weight:bold">continue</span>
-		}
-		j = next[j]
-	}
-	<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
-		<span style="color:#fff;font-weight:bold">return</span> i-j
-	}
-	<span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
-}
-</code></pre></div><p>初始化时将j赋值为-1能够进一步优化代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#fff;font-weight:bold">func</span> getNext(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
-	next := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
-	next[<span style="color:#ff0;font-weight:bold">0</span>] = -<span style="color:#ff0;font-weight:bold">1</span>
-	i, j := <span style="color:#ff0;font-weight:bold">1</span>, -<span style="color:#ff0;font-weight:bold">1</span>
-    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat)-<span style="color:#ff0;font-weight:bold">1</span> { <span style="color:#007f7f">// 可知next数组和pat的最后一个字符无关
-</span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> j == -<span style="color:#ff0;font-weight:bold">1</span> || pat[i] == pat[j] {
-			i++
-			j++
-			next[i] = j
-			<span style="color:#fff;font-weight:bold">continue</span>
-		}
-        j = next[j]
-	}
-	<span style="color:#fff;font-weight:bold">return</span> next
-}
-
-<span style="color:#fff;font-weight:bold">func</span> match(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span>{
-	next := getNext(pat)
-	i, j := <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// i、j分别为txt和pat当前匹配的索引
-</span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) &amp;&amp; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
-		<span style="color:#fff;font-weight:bold">if</span> j == -<span style="color:#ff0;font-weight:bold">1</span> || txt[i] == pat[j] {
-			i++
-			j++
-		}<span style="color:#fff;font-weight:bold">else</span> {
-			j = next[j]
-		}
-	}
-	<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
-		<span style="color:#fff;font-weight:bold">return</span> i-j
-	}
-	<span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
-}
-</code></pre></div><h2 id="总结">总结</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> getNext(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
+</span></span><span style="display:flex;"><span>	next := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
+</span></span><span style="display:flex;"><span>	next[<span style="color:#ff0;font-weight:bold">0</span>] = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>	i, j := <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat)-<span style="color:#ff0;font-weight:bold">1</span> { <span style="color:#007f7f">// 可知next数组和pat的最后一个字符无关
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> pat[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			j++
+</span></span><span style="display:flex;"><span>			next[i] = j
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        j = next[j]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> next
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> match(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span>{
+</span></span><span style="display:flex;"><span>	next := getNext(pat)
+</span></span><span style="display:flex;"><span>	i, j := <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// i、j分别为txt和pat当前匹配的索引
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) &amp;&amp; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> txt[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			j++
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#ff0;font-weight:bold">0</span> { <span style="color:#007f7f">// j为0，说明子串中没有能够匹配的前后缀，直接将残尺移动一位
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			i++
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		j = next[j]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> i-j
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>初始化时将j赋值为-1能够进一步优化代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> getNext(pat <span style="color:#fff;font-weight:bold">string</span>) []<span style="color:#fff;font-weight:bold">int</span>{
+</span></span><span style="display:flex;"><span>	next := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(pat))
+</span></span><span style="display:flex;"><span>	next[<span style="color:#ff0;font-weight:bold">0</span>] = -<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>	i, j := <span style="color:#ff0;font-weight:bold">1</span>, -<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(pat)-<span style="color:#ff0;font-weight:bold">1</span> { <span style="color:#007f7f">// 可知next数组和pat的最后一个字符无关
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> j == -<span style="color:#ff0;font-weight:bold">1</span> || pat[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			j++
+</span></span><span style="display:flex;"><span>			next[i] = j
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        j = next[j]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> next
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> match(txt, pat <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">int</span>{
+</span></span><span style="display:flex;"><span>	next := getNext(pat)
+</span></span><span style="display:flex;"><span>	i, j := <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// i、j分别为txt和pat当前匹配的索引
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(txt) &amp;&amp; j &lt; <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> j == -<span style="color:#ff0;font-weight:bold">1</span> || txt[i] == pat[j] {
+</span></span><span style="display:flex;"><span>			i++
+</span></span><span style="display:flex;"><span>			j++
+</span></span><span style="display:flex;"><span>		}<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			j = next[j]
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> j == <span style="color:#fff;font-weight:bold">len</span>(pat) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> i-j
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> -<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="总结">总结</h2>
 <p>经过上面一系列推理就能够对代码中的一系列疑问，比如为什么要<code>j = next[j]</code>，j为什么要初始化为-1等待有了答案。</p>
 <p>总的来说，KMP的设计思路就是利用已有的匹配成功的“经验”来定位模板字符串需要移动的位置，有点类似于动态规划中利用过往的计算结果来直接获取当前的计算结果。</p>
 <p>我们经常说，历史给人类的最大教训就是人类从不吸取历史中的教训。而像KMP、动态规划这类算法的设计思路恰好就是合理的利用“历史的教训”。</p>
@@ -407,7 +414,7 @@ func violentSearchSubStr(txt, pat string) int { for i := 0; i &lt; len(txt) - le
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 

@@ -2,14 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://stong1994.github.io/internet/</loc>
+    <lastmod>2022-07-31T16:14:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/python/package_manager/</loc>
+    <lastmod>2022-07-31T16:14:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/</loc>
+    <lastmod>2022-07-31T16:14:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/life/</loc>
+    <lastmod>2022-07-05T15:35:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/</loc>
+    <lastmod>2022-07-05T15:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/stone/</loc>
+    <lastmod>2022-07-05T15:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/life/boss_emp_invalid_communicate/</loc>
+    <lastmod>2022-07-05T15:35:00+08:00</lastmod>
+  </url><url>
     <loc>https://stong1994.github.io/book/</loc>
     <lastmod>2022-06-27T07:36:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/tag/anthropology/</loc>
+    <loc>https://stong1994.github.io/book/anthropology/global_tech_history/</loc>
     <lastmod>2022-06-27T07:36:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/</loc>
+    <loc>https://stong1994.github.io/tag/anthropology/</loc>
     <lastmod>2022-06-27T07:36:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/category/c_anthropology/</loc>
@@ -18,21 +41,8 @@
     <loc>https://stong1994.github.io/category/</loc>
     <lastmod>2022-06-27T07:36:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/stone/</loc>
-    <lastmod>2022-06-27T07:36:00+08:00</lastmod>
-  </url><url>
     <loc>https://stong1994.github.io/tag/</loc>
     <lastmod>2022-06-27T07:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/book/anthropology/global_tech_history/</loc>
-    <lastmod>2022-06-27T07:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/</loc>
-    <lastmod>2022-06-27T07:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/life/</loc>
-    <lastmod>2022-06-22T10:23:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/authors/atong/</loc>
     <lastmod>2022-06-22T10:23:00+08:00</lastmod>
@@ -57,10 +67,6 @@
   </url><url>
     <loc>https://stong1994.github.io/web3/makerdao_base_info/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2022-05-11T15:39:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/internet/go/channel/</loc>
     <lastmod>2022-05-11T15:39:00+08:00</lastmod>
@@ -89,10 +95,10 @@
     <loc>https://stong1994.github.io/internet/internet/browser_visit/</loc>
     <lastmod>2022-03-25T15:58:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/redis_transaction/</loc>
+    <loc>https://stong1994.github.io/internet/design/redis_cache_design/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/redis_cache_design/</loc>
+    <loc>https://stong1994.github.io/internet/design/redis_transaction/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/design/redis_multi_server/</loc>
@@ -164,10 +170,10 @@
     <loc>https://stong1994.github.io/life/qi/</loc>
     <lastmod>2021-11-14T18:07:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/category/c_improve/</loc>
+    <loc>https://stong1994.github.io/book/improve/deep_work/</loc>
     <lastmod>2021-10-07T20:20:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/deep_work/</loc>
+    <loc>https://stong1994.github.io/category/c_improve/</loc>
     <lastmod>2021-10-07T20:20:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/tag/%E6%B7%B1%E5%BA%A6%E5%B7%A5%E4%BD%9C/</loc>
@@ -191,10 +197,10 @@
     <loc>https://stong1994.github.io/book/philosophy/person_and_history/</loc>
     <lastmod>2021-03-15T00:53:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/tag/improve/</loc>
+    <loc>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</loc>
     <lastmod>2021-02-28T23:25:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</loc>
+    <loc>https://stong1994.github.io/tag/improve/</loc>
     <lastmod>2021-02-28T23:25:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/book/improve/principles/</loc>
@@ -206,19 +212,22 @@
     <loc>https://stong1994.github.io/book/improve/measure_what_matters/</loc>
     <lastmod>2021-01-31T00:10:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/ddd/practise/</loc>
-    <lastmod>2021-01-29T23:31:51+08:00</lastmod>
+    <loc>https://stong1994.github.io/book/improve/the_effective_executive/</loc>
+    <lastmod>2021-01-30T00:20:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/ddd/advance/</loc>
     <lastmod>2021-01-30T00:20:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/the_effective_executive/</loc>
-    <lastmod>2021-01-30T00:20:51+08:00</lastmod>
+    <loc>https://stong1994.github.io/internet/ddd/practise/</loc>
+    <lastmod>2021-01-29T23:31:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/ddd/base/</loc>
     <lastmod>2021-01-29T23:07:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/about/</loc>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/</loc>
     <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/mental_model/</loc>

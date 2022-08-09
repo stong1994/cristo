@@ -39,7 +39,7 @@
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -67,7 +67,7 @@
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -101,6 +101,10 @@
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -197,11 +201,11 @@
 <p>获取往返时间只需要在发送时将当前时间添加到报文段中，接收方返回ACK时携带这个发送时间即可。</p>
 <p>TCP通过设置时间戳选项TSOPT，并将发送时间写入TSV中实现了RTT的获取。</p>
 <p>在数据发送中时，RTT是动态变化的。因此需要找到一个平滑的RTT估计值SRTT。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SRTT = α(SRTT)+(1-α)RTT (RTT为最新的RTT)
-</code></pre></div><p>平滑因子α推荐值为0.8~0.9，这样当前的平滑RTT估计值受到最新RTT的影响较小。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>SRTT = α(SRTT)+(1-α)RTT (RTT为最新的RTT)
+</span></span></code></pre></div><p>平滑因子α推荐值为0.8~0.9，这样当前的平滑RTT估计值受到最新RTT的影响较小。</p>
 <p><strong>获取RTO算法</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">RTO=min(ubound, max(lbound, SRTT/β))
-</code></pre></div><p>β为离散因子，推荐值为1.3~2.0，ubound为RTO的上边界值, lbound为RTO的下边界值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>RTO=min(ubound, max(lbound, SRTT/β))
+</span></span></code></pre></div><p>β为离散因子，推荐值为1.3~2.0，ubound为RTO的上边界值, lbound为RTO的下边界值。</p>
 <p>这种方法在相对稳定的网络中表现良好，但是在RTT变化较大的网络中则需要使用更复杂的算法。</p>
 <p>TCP在计算RTO的过程中使用一个退避系数，每当重传计时器出现超时，则将退避系数加倍，直到收到非重传的数据再将退避系数重置为1</p>
 <h4 id="重传次数">重传次数</h4>
@@ -262,16 +266,16 @@
 <p>在高效传输的稳定状态下，发送的整个链路被填充满。因此，只有发送方接收到了ACK报文，才会发送下一个数据报。这种一个ACK到达（称为<strong>ACK时钟</strong>）触发一个新数据包传输的关系称为<strong>自同步（self-clocking）</strong>。</p>
 <h4 id="减缓tcp发送">减缓TCP发送</h4>
 <p>TCP通过控制发送方的可用窗口大小来控制发送速率。而发送方的可用窗口大小等于接收方的通知窗口awnd和拥塞窗口cwnd的较小值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">W = min(cwnd, awnd)
-</code></pre></div><p>对于awnd，TCP通过与接收方交换一个数据包就能获得，而获取cwnd则要困难很多。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>W = min(cwnd, awnd)
+</span></span></code></pre></div><p>对于awnd，TCP通过与接收方交换一个数据包就能获得，而获取cwnd则要困难很多。</p>
 <h4 id="慢启动">慢启动</h4>
 <p>在连接建立之初或者检测到由于超时重传导致的丢包时，需要快速找到cwnd，以及帮助TCP建立ACK时钟，这时候需要执行<strong>慢启动</strong>。而在TCP建立连接时执行慢启动后，一旦遇到丢包，就执行<strong>拥塞避免</strong>算法。</p>
 <p>初始窗口IW为SMSS（SMSS为接收方MSS和路径MTU的较小值；实际上根据SMSS大小，IW可能为1~4个SMSS）。后续每接收到一个数据段的ACK（假设没出现丢包），慢启动算法会对cwnd值进行累加，累加的大小为min(N, SMSS), N为该ACK确认的数据报的大小，因此如果成功接收到新的ACK，cwnd会依次变为2SMSS，4SMSS, 8SMSS。。。</p>
 <p>cwnd在这一阶段会呈现<strong>指数型增长</strong>，直到网络瘫痪导致丢包。</p>
 <h4 id="拥塞避免">拥塞避免</h4>
 <p>为了避免慢启动导致的TCP连接占用大量的传输资源，从而影响其他连接传输，TCP设置了一个<strong>慢启动阈值（ssthresh）</strong>，当达到这个阈值后，慢启动停止，进入<strong>拥塞避免</strong>阶段。没接收一个新的ACK，cwnd只会小幅增长而不是成倍增长。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">新cwnd = 旧cwnd + SMSS * SMSS/旧cwnd
-</code></pre></div><p>当有重传发生时，慢启动阈值会更新为<code>max(在外数据值/2, 2*SMSS)</code>, 在外数据值即发送方已发送但未ACK的数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>新cwnd = 旧cwnd + SMSS * SMSS/旧cwnd
+</span></span></code></pre></div><p>当有重传发生时，慢启动阈值会更新为<code>max(在外数据值/2, 2*SMSS)</code>, 在外数据值即发送方已发送但未ACK的数据。</p>
 
   </article>
 </section>
@@ -308,7 +312,7 @@
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 

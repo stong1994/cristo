@@ -15,7 +15,7 @@
 缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
 缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
 但这同样有缺点：
- 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。 可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
 使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
 缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
 一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
@@ -46,7 +46,7 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
 缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
 缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
 但这同样有缺点：
- 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。 可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
 使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
 缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
 一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
@@ -75,7 +75,7 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
 缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
 缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
 但这同样有缺点：
- 缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。  可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
+缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。 可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
 使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
 缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
 一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
@@ -117,7 +117,7 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -145,7 +145,7 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -179,6 +179,10 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -325,7 +329,7 @@ hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个�
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 

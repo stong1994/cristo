@@ -39,7 +39,7 @@
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -67,7 +67,7 @@
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -101,6 +101,10 @@
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -174,17 +178,17 @@
 <p>过去的经验并不总是有益的，有时它能造成我们大脑中的盲点。</p>
 </blockquote>
 <p>这个接口的返回值包含一下几个字段（接口地址为https://work.weixin.qq.com/api/doc/90000/90135/90196）</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属部门列表，每个元素都是部门id</span>
-	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属元素与department一一对应，1为是对应的部门leader，否则为0</span>
-	<span style="font-weight:bold">&#34;main_department&#34;</span>: <span style="color:#ff0;font-weight:bold">60</span> <span style="color:#f00">#</span> <span style="color:#f00">主部门id</span>
-}
-</code></pre></div><p>按照我们的经验来看，main_department应该是非空字段（当然有权限限制，但是我们属于内部开发，肯定有权限），我们在平时的开发和测试中也没有发现员工没有主部门的情况。而当时接口的返回值是这样的：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], 
-	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>]
-}
-</code></pre></div><p>是的，没有main_department！所以员工的部门身份没有同步过去！我们上次看到了department里边有部门id，就潜意识认为企业微信返回的员工信息是没问题的！</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属部门列表，每个元素都是部门id</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>], <span style="color:#f00">#</span> <span style="color:#f00">所属元素与department一一对应，1为是对应的部门leader，否则为0</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;main_department&#34;</span>: <span style="color:#ff0;font-weight:bold">60</span> <span style="color:#f00">#</span> <span style="color:#f00">主部门id</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>按照我们的经验来看，main_department应该是非空字段（当然有权限限制，但是我们属于内部开发，肯定有权限），我们在平时的开发和测试中也没有发现员工没有主部门的情况。而当时接口的返回值是这样的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;department&#34;</span>:[<span style="color:#ff0;font-weight:bold">60</span>], 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;is_leader_in_dept&#34;</span>: [<span style="color:#ff0;font-weight:bold">0</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>是的，没有main_department！所以员工的部门身份没有同步过去！我们上次看到了department里边有部门id，就潜意识认为企业微信返回的员工信息是没问题的！</p>
 <h2 id="最后">最后</h2>
 <p>虽然找到了问题，但是浪费了大半个下午的时间，还是有点可惜的。那么为什么会花费这么多时间呢？总结下此次“事故”的解决办法：</p>
 <ol>
@@ -228,7 +232,7 @@
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 

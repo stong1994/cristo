@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="背景 学习一门语言，首先要了解的就是其包管理工具（想一想，当你打开pycharm并创建第一个python项目时，是不是要选择包管理工具🤔），而Python并不是只有一个包管理工具，因此，如何选择就成了新手们的第一个问题。
+pip pip是通用的python包管理工具，提供了基本的包管理手段：查找、下载、卸载、更新等。
+常用命令 更新pip源：国内访问国外的网站不稳定，因此最好使用国内的源。 永久使用：pip config set global.index-url {源地址} 临时使用：pip install -i {源地址} {package name} 源地址： 阿里云：https://mirrors.aliyun.com/pypi/simple/ 清华：https://pypi.tuna.tsinghua.edu.cn/simple 一键导出所使用的pip包：pip freeze &gt; requirement.txt 一键安装所有的pip包：pip install -r requirement.txt 查看pip安装的模块名和版本：pip list 查看pip版本：pip -v	安装模块: pip install 模块名 安装指定版本: pip install 模块名==版本号 卸载模块: pip uninstall 模块名 缺点 pip的缺点就是对每个包一个系统只能安装一个版本，而实际项目中往往需要使用不同的版本。由此诞生了每个项目对“虚拟环境”的需求。
+Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。
+常用命令 安装：pip3 install virtualenv 搭建虚拟环境：virtualenv venv，可指定python解释器：virtualenv -p /usr/bin/python3.6 venv。 激活虚拟环境：source env/bin/activate 停用虚拟环境：deactivate 缺点 每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。 功能简单，只是建立虚拟环境。 从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。 Virtualenvwrapper virtualenvwrapper被用来管理virtualenv。
+安装 pip install virtualenvwrapper">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="python之包管理工具"/>
+<meta name="twitter:description" content="背景 学习一门语言，首先要了解的就是其包管理工具（想一想，当你打开pycharm并创建第一个python项目时，是不是要选择包管理工具🤔），而Python并不是只有一个包管理工具，因此，如何选择就成了新手们的第一个问题。
+pip pip是通用的python包管理工具，提供了基本的包管理手段：查找、下载、卸载、更新等。
+常用命令 更新pip源：国内访问国外的网站不稳定，因此最好使用国内的源。 永久使用：pip config set global.index-url {源地址} 临时使用：pip install -i {源地址} {package name} 源地址： 阿里云：https://mirrors.aliyun.com/pypi/simple/ 清华：https://pypi.tuna.tsinghua.edu.cn/simple 一键导出所使用的pip包：pip freeze &gt; requirement.txt 一键安装所有的pip包：pip install -r requirement.txt 查看pip安装的模块名和版本：pip list 查看pip版本：pip -v	安装模块: pip install 模块名 安装指定版本: pip install 模块名==版本号 卸载模块: pip uninstall 模块名 缺点 pip的缺点就是对每个包一个系统只能安装一个版本，而实际项目中往往需要使用不同的版本。由此诞生了每个项目对“虚拟环境”的需求。
+Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。
+常用命令 安装：pip3 install virtualenv 搭建虚拟环境：virtualenv venv，可指定python解释器：virtualenv -p /usr/bin/python3.6 venv。 激活虚拟环境：source env/bin/activate 停用虚拟环境：deactivate 缺点 每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。 功能简单，只是建立虚拟环境。 从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。 Virtualenvwrapper virtualenvwrapper被用来管理virtualenv。
+安装 pip install virtualenvwrapper"/>
+
+    <meta property="og:title" content="python之包管理工具" />
+<meta property="og:description" content="背景 学习一门语言，首先要了解的就是其包管理工具（想一想，当你打开pycharm并创建第一个python项目时，是不是要选择包管理工具🤔），而Python并不是只有一个包管理工具，因此，如何选择就成了新手们的第一个问题。
+pip pip是通用的python包管理工具，提供了基本的包管理手段：查找、下载、卸载、更新等。
+常用命令 更新pip源：国内访问国外的网站不稳定，因此最好使用国内的源。 永久使用：pip config set global.index-url {源地址} 临时使用：pip install -i {源地址} {package name} 源地址： 阿里云：https://mirrors.aliyun.com/pypi/simple/ 清华：https://pypi.tuna.tsinghua.edu.cn/simple 一键导出所使用的pip包：pip freeze &gt; requirement.txt 一键安装所有的pip包：pip install -r requirement.txt 查看pip安装的模块名和版本：pip list 查看pip版本：pip -v	安装模块: pip install 模块名 安装指定版本: pip install 模块名==版本号 卸载模块: pip uninstall 模块名 缺点 pip的缺点就是对每个包一个系统只能安装一个版本，而实际项目中往往需要使用不同的版本。由此诞生了每个项目对“虚拟环境”的需求。
+Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。
+常用命令 安装：pip3 install virtualenv 搭建虚拟环境：virtualenv venv，可指定python解释器：virtualenv -p /usr/bin/python3.6 venv。 激活虚拟环境：source env/bin/activate 停用虚拟环境：deactivate 缺点 每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。 功能简单，只是建立虚拟环境。 从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。 Virtualenvwrapper virtualenvwrapper被用来管理virtualenv。
+安装 pip install virtualenvwrapper" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/python/package_manager/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-07-31T16:14:00+08:00" />
+<meta property="article:modified_time" content="2022-07-31T16:14:00+08:00" />
+
+
+
+    <title>
+  python之包管理工具 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/python/package_manager/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#pip">pip</a>
+      <ul>
+        <li><a href="#常用命令">常用命令</a></li>
+        <li><a href="#缺点">缺点</a></li>
+      </ul>
+    </li>
+    <li><a href="#virtualenv">Virtualenv</a>
+      <ul>
+        <li><a href="#常用命令-1">常用命令</a></li>
+        <li><a href="#缺点-1">缺点</a></li>
+        <li><a href="#virtualenvwrapper">Virtualenvwrapper</a></li>
+      </ul>
+    </li>
+    <li><a href="#pipenv">PipEnv</a>
+      <ul>
+        <li><a href="#命令-1">命令</a></li>
+        <li><a href="#缺点-2">缺点</a></li>
+      </ul>
+    </li>
+    <li><a href="#poetry">Poetry</a>
+      <ul>
+        <li><a href="#命令-2">命令</a></li>
+        <li><a href="#缺点-3">缺点</a></li>
+      </ul>
+    </li>
+    <li><a href="#pdm">PDM</a></li>
+    <li><a href="#conda">Conda</a>
+      <ul>
+        <li><a href="#命令-3">命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#相关阅读">相关阅读</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>python之包管理工具</h1>
+    </header>
+
+    <h2 id="背景">背景</h2>
+<p>学习一门语言，首先要了解的就是其包管理工具（想一想，当你打开pycharm并创建第一个python项目时，是不是要选择包管理工具🤔），而Python并不是只有一个包管理工具，因此，如何选择就成了新手们的第一个问题。</p>
+<h2 id="pip">pip</h2>
+<p>pip是通用的python包管理工具，提供了基本的包管理手段：查找、下载、卸载、更新等。</p>
+<h3 id="常用命令">常用命令</h3>
+<ol>
+<li>更新pip源：国内访问国外的网站不稳定，因此最好使用国内的源。
+<ol>
+<li>永久使用：<code>pip config set global.index-url {源地址}</code></li>
+<li>临时使用：<code>pip install -i {源地址} {package name} </code></li>
+<li>源地址：
+<ol>
+<li>阿里云：https://mirrors.aliyun.com/pypi/simple/</li>
+<li>清华：https://pypi.tuna.tsinghua.edu.cn/simple</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>一键导出所使用的pip包：<code>pip freeze &gt; requirement.txt</code></li>
+<li>一键安装所有的pip包：<code>pip install -r requirement.txt</code></li>
+<li>查看pip安装的模块名和版本：<code>pip list</code></li>
+<li>查看pip版本：<code>pip -v	</code></li>
+<li>安装模块: <code>pip install 模块名</code></li>
+<li>安装指定版本: <code>pip install 模块名==版本号</code></li>
+<li>卸载模块: <code>pip uninstall 模块名</code></li>
+</ol>
+<h3 id="缺点">缺点</h3>
+<p>pip的缺点就是对每个包一个系统只能安装一个版本，而实际项目中往往需要使用不同的版本。由此诞生了每个项目对“虚拟环境”的需求。</p>
+<h2 id="virtualenv">Virtualenv</h2>
+<p>为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。</p>
+<h3 id="常用命令-1">常用命令</h3>
+<ol>
+<li>安装：<code>pip3 install virtualenv</code></li>
+<li>搭建虚拟环境：<code>virtualenv venv</code>，可指定python解释器：<code>virtualenv -p /usr/bin/python3.6 venv</code>。</li>
+<li>激活虚拟环境：<code>source env/bin/activate</code></li>
+<li>停用虚拟环境：<code>deactivate</code></li>
+</ol>
+<h3 id="缺点-1">缺点</h3>
+<ol>
+<li>每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。</li>
+<li>功能简单，只是建立虚拟环境。</li>
+<li>从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。</li>
+</ol>
+<h3 id="virtualenvwrapper">Virtualenvwrapper</h3>
+<p>virtualenvwrapper被用来管理virtualenv。</p>
+<h4 id="安装">安装</h4>
+<ol>
+<li>
+<p><code>pip install virtualenvwrapper</code></p>
+</li>
+<li>
+<p><code>vim ~/.bashrc</code>开始配置virtualenvwrapper:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>export WORKON_HOME=$HOME/.virtualenvs
+</span></span><span style="display:flex;"><span>source /usr/local/bin/virtualenvwrapper.sh
+</span></span></code></pre></div><p>使配置生效：<code>source ~/.bashrc(或./zshrc)</code></p>
+</li>
+</ol>
+<h4 id="命令">命令</h4>
+<ul>
+<li><code>workon</code>: 打印所有的虚拟环境；</li>
+<li><code>mkvirtualenv xxx</code>: 创建 xxx 虚拟环境，可以&ndash;python=/usr/bin/python3.6 指定python版本;</li>
+<li><code>workon xxx</code>: 使用 xxx 虚拟环境;</li>
+<li><code>deactivate</code>: 退出 xxx 虚拟环境；</li>
+<li><code>rmvirtualenv xxx</code>: 删除 xxx 虚拟环境。</li>
+<li><code>lsvirtualenv</code> : 列举所有的环境。</li>
+<li><code>cdvirtualenv</code>: 导航到当前激活的虚拟环境的目录中，比如说这样您就能够浏览它的 site-packages。</li>
+<li><code>cdsitepackages</code>: 和上面的类似，但是是直接进入到 site-packages 目录中。</li>
+<li><code>lssitepackages</code> : 显示 site-packages 目录中的内容。</li>
+</ul>
+<h2 id="pipenv">PipEnv</h2>
+<p>pipenv优化了Virtualenv中没有很好的满足包依赖关系的问题。</p>
+<h3 id="命令-1">命令</h3>
+<ol>
+<li>安装：<code>pip install pipenv</code></li>
+<li>为项目创建虚拟环境：<code>pipenv --python 3.9.9</code></li>
+<li>项目目录下会生成一个Pipfile文件，如果系统中没有 3.9.8 版本的Python，pipenv 会调用 pyenv 来安装对应的 Python 的版本。</li>
+<li>激活虚拟环境：<code>pipenv shell</code></li>
+<li>删除虚拟环境: <code>pipenv --rm</code></li>
+<li>安装指定依赖包: <code>pipenv install 软件包名称</code></li>
+<li>使用国内源安装：<code>pipenv install --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple 软件包名称</code></li>
+<li>删除依赖包: <code>pipenv uninstall pytest</code></li>
+<li>安装项目依赖包（项目已存在Pipfile和Pipfile.lock）：<code>pipenv install</code>(拉取最新版本的包)、<code>pipenv install --ignore-pipfile</code>（拉取Pipfile.lock中指定的版本包）</li>
+<li>Pipfile.lock文件： Pipfile 中安装的包不包含包的具体版本号，而Pipfile.lock 是包含包的具体的版本号的。</li>
+</ol>
+<h3 id="缺点-2">缺点</h3>
+<ol>
+<li>锁定文件中的包版本管理存在bug。</li>
+<li>维护者没有很好的反馈社区提供的问题。</li>
+</ol>
+<h2 id="poetry">Poetry</h2>
+<p>作为一个“更”新的管理工具，poetry解决了pipenv存在的一些问题。</p>
+<h3 id="命令-2">命令</h3>
+<ol>
+<li>创建项目版本管理文件pyproject.toml：<code>poetry init</code></li>
+<li>创建项目模版：<code>poetry new 项目名称</code></li>
+<li>创建虚拟环境: <code>poetry install</code></li>
+<li>激活虚拟环境: <code>poetry shell</code></li>
+<li>直接在虚拟环境中执行命令：<code>poetry run {command}</code></li>
+<li>安装包: <code>poetry add {package}</code></li>
+<li>查看所有安装的依赖: <code>poetry show --tree</code></li>
+<li>更新所有锁定版本的依赖: <code>poetry update</code></li>
+<li>卸载一个包: <code>poetry remove {package}</code></li>
+</ol>
+<h3 id="缺点-3">缺点</h3>
+<p>新的管理工具，还不是很稳定。</p>
+<h2 id="pdm">PDM</h2>
+<p>作者认为pipenv和poetry都不够好用，因此开发了pdm。pdm最大的优点是：</p>
+<ol>
+<li>不需要安装虚拟环境</li>
+<li>拥有灵活且强大的插件系统</li>
+<li>中心化安装缓存，节省磁盘空间</li>
+</ol>
+<h2 id="conda">Conda</h2>
+<p>在做机器学习时，往往需要使用Anaconda，Anaconda有自己的虚拟环境系统，称为conda。</p>
+<h3 id="命令-3">命令</h3>
+<ol>
+<li>创建虚拟环境：<code>conda create --name environment_name python=3.6</code></li>
+<li>激活虚拟环境: <code>conda activate</code></li>
+<li>conda环境的卸载: <code>conda remove -n environment_name --all</code></li>
+</ol>
+<h2 id="相关阅读">相关阅读</h2>
+<ul>
+<li>[<a href="https://www.cnblogs.com/Neeo/articles/10272880.html">扯淡！Python包管理工具的发展史</a>](<a href="https://www.cnblogs.com/Neeo/articles/10272880.html#pip">https://www.cnblogs.com/Neeo/articles/10272880.html#pip</a>)</li>
+<li><a href="https://zhuanlan.zhihu.com/p/163023998">Pipenv vs Virtualenv vs Conda environment</a></li>
+<li><a href="https://juejin.cn/post/7063699409703272485#heading-9">Python 包管理工具</a></li>
+<li><a href="https://greyli.com/do-not-use-pipenv/">不要用 Pipenv</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/81025311">相比 Pipenv，Poetry 是一个更好的选择</a></li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

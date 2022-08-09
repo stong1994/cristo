@@ -12,21 +12,23 @@
 先来了解下MySQL体系架构。
 MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
 以上图为对照，MySQL的查询会经历大致以下过程：
- 客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果  那么我们就来分别看看这几步都做了哪些事情。
+客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果 那么我们就来分别看看这几步都做了哪些事情。
 建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
 mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
- MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
- 查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
+MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
+查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
 这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
 解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
 查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
- 根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个  执行语句 只讨论增删改查。
+根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个 执行语句 只讨论增删改查。
 读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
 每次读取数据页时，都从一个哈希表（key为表空间号&#43;页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
 每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
 InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
-在聚簇索引中定位一条记录 通过索引页定位数据页  在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页  在数据页中定位目标记录  在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。  在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
-锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）">
+在聚簇索引中定位一条记录 通过索引页定位数据页 在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页 在数据页中定位目标记录 在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。 在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
+锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）
+事务中加锁的读 对读加锁有两种方式：
+SELECT .. LOCK IN SHARE MODE; : 这是一个S锁 SELECT .">
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
@@ -35,42 +37,46 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
 先来了解下MySQL体系架构。
 MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
 以上图为对照，MySQL的查询会经历大致以下过程：
- 客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果  那么我们就来分别看看这几步都做了哪些事情。
+客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果 那么我们就来分别看看这几步都做了哪些事情。
 建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
 mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
- MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
- 查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
+MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
+查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
 这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
 解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
 查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
- 根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个  执行语句 只讨论增删改查。
+根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个 执行语句 只讨论增删改查。
 读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
 每次读取数据页时，都从一个哈希表（key为表空间号&#43;页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
 每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
 InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
-在聚簇索引中定位一条记录 通过索引页定位数据页  在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页  在数据页中定位目标记录  在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。  在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
-锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）"/>
+在聚簇索引中定位一条记录 通过索引页定位数据页 在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页 在数据页中定位目标记录 在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。 在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
+锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）
+事务中加锁的读 对读加锁有两种方式：
+SELECT .. LOCK IN SHARE MODE; : 这是一个S锁 SELECT ."/>
 
     <meta property="og:title" content="查询、插入、删除、更新一条MySQL记录都经历了什么" />
 <meta property="og:description" content="一直对MySQL这个黑盒子是如何运行的不甚清楚，因此在这里总结下。
 先来了解下MySQL体系架构。
 MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
 以上图为对照，MySQL的查询会经历大致以下过程：
- 客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果  那么我们就来分别看看这几步都做了哪些事情。
+客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果 那么我们就来分别看看这几步都做了哪些事情。
 建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
 mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
- MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
- 查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
+MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
+查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
 这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
 解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
 查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
- 根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个  执行语句 只讨论增删改查。
+根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个 执行语句 只讨论增删改查。
 读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
 每次读取数据页时，都从一个哈希表（key为表空间号&#43;页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
 每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
 InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
-在聚簇索引中定位一条记录 通过索引页定位数据页  在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页  在数据页中定位目标记录  在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。  在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
-锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）" />
+在聚簇索引中定位一条记录 通过索引页定位数据页 在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键&#43;页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页 在数据页中定位目标记录 在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。 在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
+锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）
+事务中加锁的读 对读加锁有两种方式：
+SELECT .. LOCK IN SHARE MODE; : 这是一个S锁 SELECT ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stong1994.github.io/internet/MySQL/curd/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2022-01-06T17:05:00+08:00" />
@@ -93,7 +99,7 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -121,7 +127,7 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -155,6 +161,10 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -247,8 +257,8 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
 <p>那么我们就来分别看看这几步都做了哪些事情。</p>
 <h1 id="建立连接">建立连接</h1>
 <p>客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mysql -h 127.0.0.1 -u root -p
-</code></pre></div><p>连接时会查询<code>mysql.user</code>表进行权限校验。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -h 127.0.0.1 -u root -p
+</span></span></code></pre></div><p>连接时会查询<code>mysql.user</code>表进行权限校验。</p>
 <blockquote>
 <p>MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。</p>
 </blockquote>
@@ -368,18 +378,18 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
 <h4 id="插入意向锁">插入意向锁</h4>
 <p>如果新记录插入的<strong>间隙被其他事务加了gap锁</strong>，那么插入操作会<strong>阻塞</strong>，并且当前事务在间隙上增加一个<strong>插入意向锁</strong>。插入意向锁能够加速并发插入——<strong>插入意向锁之间并不互斥，对一个间隙内的多条记录，可以同时插入</strong>。</p>
 <p>插入意向锁example：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#f00">：</span>mysql&gt; begin;<span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">where</span> id &lt;= <span style="color:#ff0;font-weight:bold">8</span> <span style="color:#fff;font-weight:bold">for</span> <span style="color:#fff;font-weight:bold">update</span>;<span style="color:#007f7f">#对id小于8的记录加gap锁
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">6</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>); <span style="color:#007f7f"># 此时生成插入意向锁，并进入等待
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">3</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">7</span>, <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span>); <span style="color:#007f7f"># 此时生成插入意向锁，并进入等待
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: commit; <span style="color:#007f7f"># 此时终端2和3同时获取到锁，并执行语句。
-</span></code></pre></div><h4 id="隐式锁">隐式锁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#f00">：</span>mysql&gt; begin;<span style="color:#fff;font-weight:bold">SELECT</span> * <span style="color:#fff;font-weight:bold">FROM</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">where</span> id &lt;= <span style="color:#ff0;font-weight:bold">8</span> <span style="color:#fff;font-weight:bold">for</span> <span style="color:#fff;font-weight:bold">update</span>;<span style="color:#007f7f">#对id小于8的记录加gap锁
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">6</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>); <span style="color:#007f7f"># 此时生成插入意向锁，并进入等待
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">3</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">7</span>, <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span>); <span style="color:#007f7f"># 此时生成插入意向锁，并进入等待
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: commit; <span style="color:#007f7f"># 此时终端2和3同时获取到锁，并执行语句。
+</span></span></span></code></pre></div><h4 id="隐式锁">隐式锁</h4>
 <p>新插入的数据受<strong>隐式锁</strong>保护：当事务在读取一条新插入的记录时，会根据这条记录的事务id来判断是否能够读取。如果<strong>事务id大于Read View中的最大事务id，那么就不能读取</strong>，如果<strong>事务id是Read View中的活跃事务id，那么不能立即读取，需要帮助这条记录创建一个X锁结构，然后再为自己创建一个S锁结构，标识为等待</strong>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">6</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>); <span style="color:#007f7f"># 此时新记录未提交
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">where</span> id = <span style="color:#ff0;font-weight:bold">6</span> <span style="color:#fff;font-weight:bold">LOCK</span> <span style="color:#fff;font-weight:bold">IN</span> SHARE MODE; <span style="color:#007f7f"># 此时为id=6生成X锁，未自身生成S锁，并等待(如果没有加S锁，则不会等待)
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">3</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">update</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">set</span> name = <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span> <span style="color:#fff;font-weight:bold">where</span> id = <span style="color:#ff0;font-weight:bold">6</span>; <span style="color:#007f7f"># 此时未获得锁，等待
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: commit; <span style="color:#007f7f"># 此时终端2获取到锁，并执行查询语句，能够查询到id=6的记录。
-</span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: commit; <span style="color:#007f7f"># 此时终端3获取到锁，并执行update语句，能够正常更新。
-</span></code></pre></div><h4 id="undo-log">undo log</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">insert</span> <span style="color:#fff;font-weight:bold">into</span> <span style="color:#fff;font-weight:bold">user</span>(id, name) <span style="color:#fff;font-weight:bold">values</span>(<span style="color:#ff0;font-weight:bold">6</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>); <span style="color:#007f7f"># 此时新记录未提交
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">select</span> * <span style="color:#fff;font-weight:bold">from</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">where</span> id = <span style="color:#ff0;font-weight:bold">6</span> <span style="color:#fff;font-weight:bold">LOCK</span> <span style="color:#fff;font-weight:bold">IN</span> SHARE MODE; <span style="color:#007f7f"># 此时为id=6生成X锁，未自身生成S锁，并等待(如果没有加S锁，则不会等待)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">3</span>: mysql&gt; begin;<span style="color:#fff;font-weight:bold">update</span> <span style="color:#fff;font-weight:bold">user</span> <span style="color:#fff;font-weight:bold">set</span> name = <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span> <span style="color:#fff;font-weight:bold">where</span> id = <span style="color:#ff0;font-weight:bold">6</span>; <span style="color:#007f7f"># 此时未获得锁，等待
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">1</span>: commit; <span style="color:#007f7f"># 此时终端2获取到锁，并执行查询语句，能够查询到id=6的记录。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#f00">终端</span><span style="color:#ff0;font-weight:bold">2</span>: commit; <span style="color:#007f7f"># 此时终端3获取到锁，并执行update语句，能够正常更新。
+</span></span></span></code></pre></div><h4 id="undo-log">undo log</h4>
 <p>向undo log中加入一条记录，主要记录事务id、主键信息等，用于执行回滚。</p>
 <h3 id="二级索引">二级索引</h3>
 <p>二级索引记录的插入和聚簇索引相似，但二级索引记录中没有事务id，每次对页进行更新时，需要把Page Header中的最大事务ID进行更新。</p>
@@ -450,7 +460,7 @@ InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoD
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 

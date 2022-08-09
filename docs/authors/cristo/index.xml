@@ -215,21 +215,21 @@
     </item>
     
     <item>
-      <title>DDD进阶-笔记篇</title>
-      <link>https://stong1994.github.io/internet/ddd/advance/</link>
-      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/ddd/advance/</guid>
-      <description>领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果</description>
-    </item>
-    
-    <item>
       <title>《卓有成效的管理者》</title>
       <link>https://stong1994.github.io/book/improve/the_effective_executive/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
       
       <guid>https://stong1994.github.io/book/improve/the_effective_executive/</guid>
       <description>作者：彼得·德鲁克 豆瓣评分：8.7 微信评分：8.9 出版年: 2005-6 提纲 1. 谁是管理者 如果一个工作者能够凭借其职位和知识，对其组织负有贡献的责任并能够</description>
+    </item>
+    
+    <item>
+      <title>DDD进阶-笔记篇</title>
+      <link>https://stong1994.github.io/internet/ddd/advance/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/ddd/advance/</guid>
+      <description>领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果</description>
     </item>
     
   </channel>

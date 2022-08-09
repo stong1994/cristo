@@ -39,7 +39,7 @@
     
       
       
-      <link rel="stylesheet" href="/css/coder.min.6d489c9de70b01718344ed2ac642db21c4bb3c62941cb95963c2b67c66c07fdc.css" integrity="sha256-bUicnecLAXGDRO0qxkLbIcS7PGKUHLlZY8K2fGbAf9w=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -67,7 +67,7 @@
         integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
     
 
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.101.0" />
   </head>
 
   
@@ -101,6 +101,10 @@
           
             <li class="navigation-item">
               <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
             </li>
           
             <li class="navigation-item">
@@ -218,16 +222,16 @@
 <h4 id="踩坑">踩坑</h4>
 <p>有些主题需要使用<code>extended version</code>，比如<a href="https://themes.gohugo.io/hugo-coder/">hugo-coder</a>，如果使用了这类主题，在启动hugo时会报错</p>
 <blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ERROR 2020/xx/xx TOCSS: failed to transform &#34;style.coder-dark.css&#34; (text/x-scss): resource &#34;scss/scss/coder-dark.scss_9e20ccd2d8034c8e0fd83b11fb6e2bd5&#34; not found in file cache
-Built in 75 ms
-Error: Error building site: TOCSS: failed to transform &#34;style.coder.css&#34; (text/x-scss): resource &#34;scss/scss/coder.scss_fd4b5b3f9a48bc0c7f005d2f7a4cc30f&#34; 
-not found in file cache
-</code></pre></div></blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>ERROR 2020/xx/xx TOCSS: failed to transform &#34;style.coder-dark.css&#34; (text/x-scss): resource &#34;scss/scss/coder-dark.scss_9e20ccd2d8034c8e0fd83b11fb6e2bd5&#34; not found in file cache
+</span></span><span style="display:flex;"><span>Built in 75 ms
+</span></span><span style="display:flex;"><span>Error: Error building site: TOCSS: failed to transform &#34;style.coder.css&#34; (text/x-scss): resource &#34;scss/scss/coder.scss_fd4b5b3f9a48bc0c7f005d2f7a4cc30f&#34; 
+</span></span><span style="display:flex;"><span>not found in file cache
+</span></span></code></pre></div></blockquote>
 <p>因此在使用这类主题时需要使用hugo的extended版本，安装步骤如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone https://github.com/gohugoio/hugo.git
-cd hugo
-go install --tags extended
-</code></pre></div><p><a href="https://gohugo.io/getting-started/installing/">文档地址</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>git clone https://github.com/gohugoio/hugo.git
+</span></span><span style="display:flex;"><span>cd hugo
+</span></span><span style="display:flex;"><span>go install --tags extended
+</span></span></code></pre></div><p><a href="https://gohugo.io/getting-started/installing/">文档地址</a></p>
 <h4 id="校验是否安装成功">校验是否安装成功</h4>
 <p><code>hugo version</code></p>
 <p>看到版本信息即为成功。</p>
@@ -242,9 +246,9 @@ go install --tags extended
 <ol>
 <li>
 <p>关联主题仓库</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cd cristo
-git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-v" data-lang="v"><span style="display:flex;"><span>cd cristo
+</span></span><span style="display:flex;"><span>git submodule add https:<span style="color:#007f7f">//github.com/luizdepra/hugo-coder.git themes/hugo-coder
+</span></span></span></code></pre></div></li>
 <li>
 <p>修改配置文件</p>
 <p>配置文件为项目下的<code>config.toml</code>文件</p>
@@ -254,28 +258,28 @@ git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder
 <p>启动hugo</p>
 <p>在项目路径下执行命令<code>hugo server</code></p>
 <p>输出内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Start building sites …
-
-                   | EN | PT-BR
--------------------+----+--------
-  Pages            | 11 |    11
-  Paginator pages  |  0 |     0
-  Non-page files   |  0 |     0
-  Static files     |  5 |     5
-  Processed images |  0 |     0
-  Aliases          |  5 |     4
-  Sitemaps         |  2 |     1
-  Cleaned          |  0 |     0
-
-Built in 242 ms
-Watching for changes in /xxx/cristo/{archetypes,content,data,layouts,static,themes}
-Watching for config changes in /xxx/cristo/config.toml
-Environment: &#34;development&#34;
-Serving pages from memory
-Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
-Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-Press Ctrl+C to stop
-</code></pre></div><p>按照提示打开浏览器，输入地址：<code>http://localhost:1313/</code>，即可看到一个简单的博客。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Start building sites …
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   | EN | PT-BR
+</span></span><span style="display:flex;"><span>-------------------+----+--------
+</span></span><span style="display:flex;"><span>  Pages            | 11 |    11
+</span></span><span style="display:flex;"><span>  Paginator pages  |  0 |     0
+</span></span><span style="display:flex;"><span>  Non-page files   |  0 |     0
+</span></span><span style="display:flex;"><span>  Static files     |  5 |     5
+</span></span><span style="display:flex;"><span>  Processed images |  0 |     0
+</span></span><span style="display:flex;"><span>  Aliases          |  5 |     4
+</span></span><span style="display:flex;"><span>  Sitemaps         |  2 |     1
+</span></span><span style="display:flex;"><span>  Cleaned          |  0 |     0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Built in 242 ms
+</span></span><span style="display:flex;"><span>Watching for changes in /xxx/cristo/{archetypes,content,data,layouts,static,themes}
+</span></span><span style="display:flex;"><span>Watching for config changes in /xxx/cristo/config.toml
+</span></span><span style="display:flex;"><span>Environment: &#34;development&#34;
+</span></span><span style="display:flex;"><span>Serving pages from memory
+</span></span><span style="display:flex;"><span>Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+</span></span><span style="display:flex;"><span>Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+</span></span><span style="display:flex;"><span>Press Ctrl+C to stop
+</span></span></code></pre></div><p>按照提示打开浏览器，输入地址：<code>http://localhost:1313/</code>，即可看到一个简单的博客。</p>
 <p><img src="https:/raw.githubusercontent.com/stong1994/images/master/picgo/20210124160116.png" alt=""></p>
 </li>
 </ol>
@@ -291,34 +295,34 @@ Press Ctrl+C to stop
 <h3 id="填充博客">填充博客</h3>
 <p>此时点击Blog会显示404.</p>
 <p>在 content/posts 目录下新增一个文件：<code>_index.md</code>，内容如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">---
-title: &#34;文章列表&#34;
----
-</code></pre></div><p>再次点击Blog标签，会显示上述信息。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>title: &#34;文章列表&#34;
+</span></span><span style="display:flex;"><span>---
+</span></span></code></pre></div><p>再次点击Blog标签，会显示上述信息。</p>
 <h4 id="增加关于页面">增加关于页面</h4>
 <p>同样的，在 content/posts 目录下新增文件 <code>about.md</code>，正文内容随意，类似这样：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">---
-title: &#34;关于&#34;
-date: &#34;2020-12-01&#34;
----
-
-这是关于页面。
-</code></pre></div><h4 id="增加博客">增加博客</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>title: &#34;关于&#34;
+</span></span><span style="display:flex;"><span>date: &#34;2020-12-01&#34;
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>这是关于页面。
+</span></span></code></pre></div><h4 id="增加博客">增加博客</h4>
 <p>新博客文件名为test-post.md，执行命令：<code>hugo new posts/test-post.md</code></p>
 <p>posts目录下会新增test-post.md，内容如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">+++
-draft = true
-date = 2021-01-24T23:36:51+08:00
-title = &#34;&#34;
-description = &#34;&#34;
-slug = &#34;&#34;
-authors = []
-tags = []
-categories = []
-externalLink = &#34;&#34;
-series = []
-+++
-</code></pre></div><p>其中加号间的内容为元数据，在 Hugo 中叫做 Front Matter。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>+++
+</span></span><span style="display:flex;"><span>draft = true
+</span></span><span style="display:flex;"><span>date = 2021-01-24T23:36:51+08:00
+</span></span><span style="display:flex;"><span>title = &#34;&#34;
+</span></span><span style="display:flex;"><span>description = &#34;&#34;
+</span></span><span style="display:flex;"><span>slug = &#34;&#34;
+</span></span><span style="display:flex;"><span>authors = []
+</span></span><span style="display:flex;"><span>tags = []
+</span></span><span style="display:flex;"><span>categories = []
+</span></span><span style="display:flex;"><span>externalLink = &#34;&#34;
+</span></span><span style="display:flex;"><span>series = []
+</span></span><span style="display:flex;"><span>+++
+</span></span></code></pre></div><p>其中加号间的内容为元数据，在 Hugo 中叫做 Front Matter。</p>
 <ul>
 <li>加号表示toml格式</li>
 <li>减号表示yaml格式</li>
@@ -345,15 +349,15 @@ series = []
 <li>Content with a past <code>expirydate</code> value</li>
 </ol>
 <h2 id="hugo-基本目录">hugo 基本目录</h2>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">.
-├── archetypes
-├── config.toml
-├── content
-├── data
-├── layouts
-├── static
-└── themes
-</code></pre></div><h3 id="archetypeshttpsgohugoiocontent-managementarchetypes"><a href="https://gohugo.io/content-management/archetypes/"><code>archetypes</code></a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── archetypes
+</span></span><span style="display:flex;"><span>├── config.toml
+</span></span><span style="display:flex;"><span>├── content
+</span></span><span style="display:flex;"><span>├── data
+</span></span><span style="display:flex;"><span>├── layouts
+</span></span><span style="display:flex;"><span>├── static
+</span></span><span style="display:flex;"><span>└── themes
+</span></span></code></pre></div><h3 id="archetypeshttpsgohugoiocontent-managementarchetypes"><a href="https://gohugo.io/content-management/archetypes/"><code>archetypes</code></a></h3>
 <p>使用<code>hugo new</code>命令来创建内容文件，这些文件至少会包含<code>date</code>, <code>title</code>以及<code>draft = true</code></p>
 <h3 id="assetshttpsgohugoiohugo-pipesintroductionasset-directory"><a href="https://gohugo.io/hugo-pipes/introduction/#asset-directory"><code>assets</code></a></h3>
 <p>存储所有需要在 <a href="https://gohugo.io/hugo-pipes/">Hugo Pipes</a>中处理的文件，只有那些使用了<code>.Permalink</code> 或者 <code>.RelPermalink</code>的文件会被放到<code>public</code>目录下</p>
@@ -376,161 +380,161 @@ series = []
 <h3 id="hascjklanguage"><strong>hasCJKLanguage</strong></h3>
 <p>如果是true，自动检测中文/日文/韩文内容，使得 <code>.Summary</code> 和 <code>.WordCount</code> 表现正确</p>
 <h3 id="imaging">imaging</h3>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[imaging]
-# Default resample filter used for resizing. Default is Box,
-# a simple and fast averaging filter appropriate for downscaling.
-# See https://github.com/disintegration/imaging
-resampleFilter = &#34;box&#34;
-
-# Default JPEG quality setting. Default is 75.
-quality = 75
-
-# Anchor used when cropping pictures.
-# Default is &#34;smart&#34; which does Smart Cropping, using https://github.com/muesli/smartcrop
-# Smart Cropping is content aware and tries to find the best crop for each image.
-# Valid values are Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
-anchor = &#34;smart&#34;
-
-# Default background color.
-# Hugo will preserve transparency for target formats that supports it,
-# but will fall back to this color for JPEG.
-# Expects a standard HEX color string with 3 or 6 digits.
-# See https://www.google.com/search?q=color+picker
-bgColor = &#34;#ffffff&#34;
-
-[imaging.exif]
- # Regexp matching the fields you want to Exclude from the (massive) set of Exif info
-# available. As we cache this info to disk, this is for performance and
-# disk space reasons more than anything.
-# If you want it all, put &#34;.*&#34; in this config setting.
-# Note that if neither this or ExcludeFields is set, Hugo will return a small
-# default set.
-includeFields = &#34;&#34;
-
-# Regexp matching the Exif fields you want to exclude. This may be easier to use
-# than IncludeFields above, depending on what you want.
-excludeFields = &#34;&#34;
-
-# Hugo extracts the &#34;photo taken&#34; date/time into .Date by default.
-# Set this to true to turn it off.
-disableDate = false
-
-# Hugo extracts the &#34;photo taken where&#34; (GPS latitude and longitude) into
-# .Long and .Lat. Set this to true to turn it off.
-disableLatLong = false
-</code></pre></div><h3 id="markup">markup</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>[imaging]
+</span></span><span style="display:flex;"><span># Default resample filter used for resizing. Default is Box,
+</span></span><span style="display:flex;"><span># a simple and fast averaging filter appropriate for downscaling.
+</span></span><span style="display:flex;"><span># See https://github.com/disintegration/imaging
+</span></span><span style="display:flex;"><span>resampleFilter = &#34;box&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Default JPEG quality setting. Default is 75.
+</span></span><span style="display:flex;"><span>quality = 75
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Anchor used when cropping pictures.
+</span></span><span style="display:flex;"><span># Default is &#34;smart&#34; which does Smart Cropping, using https://github.com/muesli/smartcrop
+</span></span><span style="display:flex;"><span># Smart Cropping is content aware and tries to find the best crop for each image.
+</span></span><span style="display:flex;"><span># Valid values are Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
+</span></span><span style="display:flex;"><span>anchor = &#34;smart&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Default background color.
+</span></span><span style="display:flex;"><span># Hugo will preserve transparency for target formats that supports it,
+</span></span><span style="display:flex;"><span># but will fall back to this color for JPEG.
+</span></span><span style="display:flex;"><span># Expects a standard HEX color string with 3 or 6 digits.
+</span></span><span style="display:flex;"><span># See https://www.google.com/search?q=color+picker
+</span></span><span style="display:flex;"><span>bgColor = &#34;#ffffff&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[imaging.exif]
+</span></span><span style="display:flex;"><span> # Regexp matching the fields you want to Exclude from the (massive) set of Exif info
+</span></span><span style="display:flex;"><span># available. As we cache this info to disk, this is for performance and
+</span></span><span style="display:flex;"><span># disk space reasons more than anything.
+</span></span><span style="display:flex;"><span># If you want it all, put &#34;.*&#34; in this config setting.
+</span></span><span style="display:flex;"><span># Note that if neither this or ExcludeFields is set, Hugo will return a small
+</span></span><span style="display:flex;"><span># default set.
+</span></span><span style="display:flex;"><span>includeFields = &#34;&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Regexp matching the Exif fields you want to exclude. This may be easier to use
+</span></span><span style="display:flex;"><span># than IncludeFields above, depending on what you want.
+</span></span><span style="display:flex;"><span>excludeFields = &#34;&#34;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Hugo extracts the &#34;photo taken&#34; date/time into .Date by default.
+</span></span><span style="display:flex;"><span># Set this to true to turn it off.
+</span></span><span style="display:flex;"><span>disableDate = false
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Hugo extracts the &#34;photo taken where&#34; (GPS latitude and longitude) into
+</span></span><span style="display:flex;"><span># .Long and .Lat. Set this to true to turn it off.
+</span></span><span style="display:flex;"><span>disableLatLong = false
+</span></span></code></pre></div><h3 id="markup">markup</h3>
 <p>装饰Markdown，有多种装饰器，目前默认的装饰器为Goldmark</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">markup:
-  asciidocExt:
-    attributes: {}
-    backend: html5
-    extensions: []
-    failureLevel: fatal
-    noHeaderOrFooter: true
-    preserveTOC: false
-    safeMode: unsafe
-    sectionNumbers: false
-    trace: false
-    verbose: false
-    workingFolderCurrent: false
-  blackFriday:
-    angledQuotes: false
-    extensions: null
-    extensionsMask: null
-    footnoteAnchorPrefix: &#34;&#34;
-    footnoteReturnLinkContents: &#34;&#34;
-    fractions: true
-    hrefTargetBlank: false
-    latexDashes: true
-    nofollowLinks: false
-    noreferrerLinks: false
-    plainIDAnchors: true
-    skipHTML: false
-    smartDashes: true
-    smartypants: true
-    smartypantsQuotesNBSP: false
-    taskLists: true
-  defaultMarkdownHandler: goldmark
-  goldmark:
-    extensions:
-      definitionList: true
-      footnote: true
-      linkify: true
-      strikethrough: true
-      table: true
-      taskList: true
-      typographer: true
-    parser:
-      attribute: true
-      autoHeadingID: true
-      autoHeadingIDType: github
-    renderer:
-      hardWraps: false
-      unsafe: false
-      xhtml: false
-  highlight:
-    anchorLineNos: false
-    codeFences: true
-    guessSyntax: false
-    hl_Lines: &#34;&#34;
-    lineAnchors: &#34;&#34;
-    lineNoStart: 1
-    lineNos: false
-    lineNumbersInTable: true
-    noClasses: true
-    style: monokai
-    tabWidth: 4
-  tableOfContents:
-    endLevel: 3
-    ordered: false
-    startLevel: 2
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>markup:
+</span></span><span style="display:flex;"><span>  asciidocExt:
+</span></span><span style="display:flex;"><span>    attributes: {}
+</span></span><span style="display:flex;"><span>    backend: html5
+</span></span><span style="display:flex;"><span>    extensions: []
+</span></span><span style="display:flex;"><span>    failureLevel: fatal
+</span></span><span style="display:flex;"><span>    noHeaderOrFooter: true
+</span></span><span style="display:flex;"><span>    preserveTOC: false
+</span></span><span style="display:flex;"><span>    safeMode: unsafe
+</span></span><span style="display:flex;"><span>    sectionNumbers: false
+</span></span><span style="display:flex;"><span>    trace: false
+</span></span><span style="display:flex;"><span>    verbose: false
+</span></span><span style="display:flex;"><span>    workingFolderCurrent: false
+</span></span><span style="display:flex;"><span>  blackFriday:
+</span></span><span style="display:flex;"><span>    angledQuotes: false
+</span></span><span style="display:flex;"><span>    extensions: null
+</span></span><span style="display:flex;"><span>    extensionsMask: null
+</span></span><span style="display:flex;"><span>    footnoteAnchorPrefix: &#34;&#34;
+</span></span><span style="display:flex;"><span>    footnoteReturnLinkContents: &#34;&#34;
+</span></span><span style="display:flex;"><span>    fractions: true
+</span></span><span style="display:flex;"><span>    hrefTargetBlank: false
+</span></span><span style="display:flex;"><span>    latexDashes: true
+</span></span><span style="display:flex;"><span>    nofollowLinks: false
+</span></span><span style="display:flex;"><span>    noreferrerLinks: false
+</span></span><span style="display:flex;"><span>    plainIDAnchors: true
+</span></span><span style="display:flex;"><span>    skipHTML: false
+</span></span><span style="display:flex;"><span>    smartDashes: true
+</span></span><span style="display:flex;"><span>    smartypants: true
+</span></span><span style="display:flex;"><span>    smartypantsQuotesNBSP: false
+</span></span><span style="display:flex;"><span>    taskLists: true
+</span></span><span style="display:flex;"><span>  defaultMarkdownHandler: goldmark
+</span></span><span style="display:flex;"><span>  goldmark:
+</span></span><span style="display:flex;"><span>    extensions:
+</span></span><span style="display:flex;"><span>      definitionList: true
+</span></span><span style="display:flex;"><span>      footnote: true
+</span></span><span style="display:flex;"><span>      linkify: true
+</span></span><span style="display:flex;"><span>      strikethrough: true
+</span></span><span style="display:flex;"><span>      table: true
+</span></span><span style="display:flex;"><span>      taskList: true
+</span></span><span style="display:flex;"><span>      typographer: true
+</span></span><span style="display:flex;"><span>    parser:
+</span></span><span style="display:flex;"><span>      attribute: true
+</span></span><span style="display:flex;"><span>      autoHeadingID: true
+</span></span><span style="display:flex;"><span>      autoHeadingIDType: github
+</span></span><span style="display:flex;"><span>    renderer:
+</span></span><span style="display:flex;"><span>      hardWraps: false
+</span></span><span style="display:flex;"><span>      unsafe: false
+</span></span><span style="display:flex;"><span>      xhtml: false
+</span></span><span style="display:flex;"><span>  highlight:
+</span></span><span style="display:flex;"><span>    anchorLineNos: false
+</span></span><span style="display:flex;"><span>    codeFences: true
+</span></span><span style="display:flex;"><span>    guessSyntax: false
+</span></span><span style="display:flex;"><span>    hl_Lines: &#34;&#34;
+</span></span><span style="display:flex;"><span>    lineAnchors: &#34;&#34;
+</span></span><span style="display:flex;"><span>    lineNoStart: 1
+</span></span><span style="display:flex;"><span>    lineNos: false
+</span></span><span style="display:flex;"><span>    lineNumbersInTable: true
+</span></span><span style="display:flex;"><span>    noClasses: true
+</span></span><span style="display:flex;"><span>    style: monokai
+</span></span><span style="display:flex;"><span>    tabWidth: 4
+</span></span><span style="display:flex;"><span>  tableOfContents:
+</span></span><span style="display:flex;"><span>    endLevel: 3
+</span></span><span style="display:flex;"><span>    ordered: false
+</span></span><span style="display:flex;"><span>    startLevel: 2
+</span></span></code></pre></div><ul>
 <li>unsafe: Goldmark默认情况下是不会渲染原生HTML和安全性未知的链接，如果需要内联很多HTML或者JavaScript，需要将其设置为true</li>
 </ul>
 <h3 id="menuhttpsgohugoiocontent-managementmenus"><a href="https://gohugo.io/content-management/menus/">menu</a></h3>
 <p>hugo允许通过内容的<code>front matter</code>来增加内容到菜单，也可以通过配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[menu]
-
-  [[menu.main]]
-    identifier = &#34;about&#34;
-    name = &#34;about hugo&#34;
-    pre = &#34;&lt;i class=&#39;fa fa-heart&#39;&gt;&lt;/i&gt;&#34;
-    url = &#34;/about/&#34;
-    weight = -110
-
-  [[menu.main]]
-    name = &#34;getting started&#34;
-    post = &#34;&lt;span class=&#39;alert&#39;&gt;New!&lt;/span&gt;&#34;
-    pre = &#34;&lt;i class=&#39;fa fa-road&#39;&gt;&lt;/i&gt;&#34;
-    url = &#34;/getting-started/&#34;
-    weight = -100
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>[menu]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[menu.main]]
+</span></span><span style="display:flex;"><span>    identifier = &#34;about&#34;
+</span></span><span style="display:flex;"><span>    name = &#34;about hugo&#34;
+</span></span><span style="display:flex;"><span>    pre = &#34;&lt;i class=&#39;fa fa-heart&#39;&gt;&lt;/i&gt;&#34;
+</span></span><span style="display:flex;"><span>    url = &#34;/about/&#34;
+</span></span><span style="display:flex;"><span>    weight = -110
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[menu.main]]
+</span></span><span style="display:flex;"><span>    name = &#34;getting started&#34;
+</span></span><span style="display:flex;"><span>    post = &#34;&lt;span class=&#39;alert&#39;&gt;New!&lt;/span&gt;&#34;
+</span></span><span style="display:flex;"><span>    pre = &#34;&lt;i class=&#39;fa fa-road&#39;&gt;&lt;/i&gt;&#34;
+</span></span><span style="display:flex;"><span>    url = &#34;/getting-started/&#34;
+</span></span><span style="display:flex;"><span>    weight = -100
+</span></span></code></pre></div><ul>
 <li>url: 相对于<code>baseURL</code>的路径</li>
 </ul>
 <h3 id="paginatehttpsgohugoiotemplatespagination"><strong><a href="https://gohugo.io/templates/pagination/">paginate</a></strong></h3>
 <p>默认的分页数量</p>
 <h3 id="taxonomieshttpsgohugoiocontent-managementtaxonomiesconfigure-taxonomies"><strong><a href="https://gohugo.io/content-management/taxonomies#configure-taxonomies">taxonomies</a></strong></h3>
 <p>内容间逻辑关系的分类</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[taxonomies]
-  category = &#34;categories&#34;
-  categories_weight = 44
-  tag = &#34;tags&#34;
-  tags_weight = 22
-</code></pre></div><p>每个内容都会产生category和tag，并且按照权重来渲染顺序。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>[taxonomies]
+</span></span><span style="display:flex;"><span>  category = &#34;categories&#34;
+</span></span><span style="display:flex;"><span>  categories_weight = 44
+</span></span><span style="display:flex;"><span>  tag = &#34;tags&#34;
+</span></span><span style="display:flex;"><span>  tags_weight = 22
+</span></span></code></pre></div><p>每个内容都会产生category和tag，并且按照权重来渲染顺序。</p>
 <p>如果某些内容需要自定义的元数据，则创建文件<code>/content/&lt;TAXONOMY&gt;/&lt;TERM&gt;/_index.md</code></p>
 <p>YAML格式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">---
-title: &#34;Bruce Willis&#34;
-wikipedia: &#34;https://en.wikipedia.org/wiki/Bruce_Willis&#34;
----
-</code></pre></div><p>TOML格式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">+++
-aliases = [
-    &#34;/posts/my-original-url/&#34;,
-    &#34;/2010/01/01/even-earlier-url.html&#34;
-]
-+++
-</code></pre></div><h3 id="theme"><strong>theme</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>title: &#34;Bruce Willis&#34;
+</span></span><span style="display:flex;"><span>wikipedia: &#34;https://en.wikipedia.org/wiki/Bruce_Willis&#34;
+</span></span><span style="display:flex;"><span>---
+</span></span></code></pre></div><p>TOML格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>+++
+</span></span><span style="display:flex;"><span>aliases = [
+</span></span><span style="display:flex;"><span>    &#34;/posts/my-original-url/&#34;,
+</span></span><span style="display:flex;"><span>    &#34;/2010/01/01/even-earlier-url.html&#34;
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>+++
+</span></span></code></pre></div><h3 id="theme"><strong>theme</strong></h3>
 <p>主题</p>
 <h3 id="themesdir"><strong>themesDir</strong></h3>
 <p>hugo读取主题的文件目录</p>
@@ -543,22 +547,22 @@ aliases = [
 <p>两种分类方式：<code>categories</code>与<code>tags</code>(暂时不清楚两者的区别)</p>
 <p>通过在<code>frontmatter</code>中标记标签，可以对文章进行分组，这样可以通过路径<strong>host</strong>/tags或者<strong>host</strong>/categories就可以看到所有分组的博客。</p>
 <p>如果不喜欢路径中存在复数，可以在<code>config.toml</code>中指定为单数</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[taxonomies]
-  category = &#34;category&#34;
-  tag = &#34;tag&#34;
-</code></pre></div><p>这样在<code>frontmatter</code>中也需要使用单数:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tag: 
-  -- post
-</code></pre></div><p>查看分组的路径更改为：<strong>host</strong>/tag</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>[taxonomies]
+</span></span><span style="display:flex;"><span>  category = &#34;category&#34;
+</span></span><span style="display:flex;"><span>  tag = &#34;tag&#34;
+</span></span></code></pre></div><p>这样在<code>frontmatter</code>中也需要使用单数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>tag: 
+</span></span><span style="display:flex;"><span>  -- post
+</span></span></code></pre></div><p>查看分组的路径更改为：<strong>host</strong>/tag</p>
 <h2 id="目录项toc">目录项TOC</h2>
 <p>根据markdown的目录设置博客目录</p>
 <ol>
 <li>
 <p>找到<code>themes/{theme}/layouts/_default/single.html</code> ，在<code>{{ define &quot;content&quot; }}下</code>添加</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;div id=&#34;toc&#34; class=&#34;well col-md-4 col-sm-6&#34;&gt;
-{{ .TableOfContents }}
-&lt;/div&gt;
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&lt;div id=&#34;toc&#34; class=&#34;well col-md-4 col-sm-6&#34;&gt;
+</span></span><span style="display:flex;"><span>{{ .TableOfContents }}
+</span></span><span style="display:flex;"><span>&lt;/div&gt;
+</span></span></code></pre></div></li>
 <li>
 <p>在markdown博客中，设置<code>toc=true</code></p>
 </li>
@@ -602,7 +606,7 @@ aliases = [
     
       
         
-        <script src="/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
       
     
 
