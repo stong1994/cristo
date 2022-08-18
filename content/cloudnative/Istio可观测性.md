@@ -1,6 +1,6 @@
 +++
 
-date = 2022-018-07T21:19:00+08:00
+date = 2022-08-17T21:19:00+08:00
 title = "Istio可观测性"
 url = "/cloudnative/istio/observe/"
 
