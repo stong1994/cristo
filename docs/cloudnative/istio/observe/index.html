@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。
+可观测性可分为三大块：监控、日志和链路追踪。
+监控 Prometheus Prometheus是当下最流行的监控工具，其主要组件包括：
+Prometheus server：核心组件，拉取数据并存入时序数据库 Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。 Service discovery：服务发现组件基本上已经成为微服务时代的标配。 Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。 Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。 Grafana Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。
+Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。
+Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。
+另外，Grafana还有一系列的”周边“开源项目，如：
+Grafana Loki：提供了更丰富的日志堆栈。 Grafana Tempo: 提供了更强大的分布式追踪能力。 Grafana Mimir: 为Prometheus提供了可扩展的长期存储服务。 Kiali Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
+可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。 健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。 更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等 监控Istio基础设施的状态。 Istio配置工具：提供了web页面来配置Istio，并提供校验能力。 日志 日志采集 日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。
+单独的日志采集Pod 基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。
+日志采集Sidecar Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
+ELK Stack ELK是三种工具的简称：
+Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。 Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。 Kibana：具有日志分析、查询、汇总等功能的web管理端。 EFK 区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash&#43;Filebeat。
+不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。
+链路追踪 链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。
+OpenTracing &amp; Jaeger OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：
+Trace：一个请求从开始到结束的整个过程。 Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。 Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。 Jaeger已经成为了OpenTracing首选的实现组件，OpenTracing官网使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。
+架构 Jaeger的整体架构由以下部分组成：
+jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。 jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。 jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库 DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。 UI：主要的用户交互页面，用于查询、展示数据。 ">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio可观测性"/>
+<meta name="twitter:description" content="Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。
+可观测性可分为三大块：监控、日志和链路追踪。
+监控 Prometheus Prometheus是当下最流行的监控工具，其主要组件包括：
+Prometheus server：核心组件，拉取数据并存入时序数据库 Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。 Service discovery：服务发现组件基本上已经成为微服务时代的标配。 Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。 Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。 Grafana Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。
+Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。
+Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。
+另外，Grafana还有一系列的”周边“开源项目，如：
+Grafana Loki：提供了更丰富的日志堆栈。 Grafana Tempo: 提供了更强大的分布式追踪能力。 Grafana Mimir: 为Prometheus提供了可扩展的长期存储服务。 Kiali Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
+可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。 健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。 更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等 监控Istio基础设施的状态。 Istio配置工具：提供了web页面来配置Istio，并提供校验能力。 日志 日志采集 日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。
+单独的日志采集Pod 基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。
+日志采集Sidecar Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
+ELK Stack ELK是三种工具的简称：
+Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。 Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。 Kibana：具有日志分析、查询、汇总等功能的web管理端。 EFK 区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash&#43;Filebeat。
+不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。
+链路追踪 链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。
+OpenTracing &amp; Jaeger OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：
+Trace：一个请求从开始到结束的整个过程。 Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。 Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。 Jaeger已经成为了OpenTracing首选的实现组件，OpenTracing官网使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。
+架构 Jaeger的整体架构由以下部分组成：
+jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。 jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。 jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库 DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。 UI：主要的用户交互页面，用于查询、展示数据。 "/>
+
+    <meta property="og:title" content="Istio可观测性" />
+<meta property="og:description" content="Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。
+可观测性可分为三大块：监控、日志和链路追踪。
+监控 Prometheus Prometheus是当下最流行的监控工具，其主要组件包括：
+Prometheus server：核心组件，拉取数据并存入时序数据库 Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。 Service discovery：服务发现组件基本上已经成为微服务时代的标配。 Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。 Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。 Grafana Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。
+Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。
+Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。
+另外，Grafana还有一系列的”周边“开源项目，如：
+Grafana Loki：提供了更丰富的日志堆栈。 Grafana Tempo: 提供了更强大的分布式追踪能力。 Grafana Mimir: 为Prometheus提供了可扩展的长期存储服务。 Kiali Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
+可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。 健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。 更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等 监控Istio基础设施的状态。 Istio配置工具：提供了web页面来配置Istio，并提供校验能力。 日志 日志采集 日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。
+单独的日志采集Pod 基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。
+日志采集Sidecar Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
+ELK Stack ELK是三种工具的简称：
+Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。 Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。 Kibana：具有日志分析、查询、汇总等功能的web管理端。 EFK 区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash&#43;Filebeat。
+不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。
+链路追踪 链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。
+OpenTracing &amp; Jaeger OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：
+Trace：一个请求从开始到结束的整个过程。 Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。 Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。 Jaeger已经成为了OpenTracing首选的实现组件，OpenTracing官网使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。
+架构 Jaeger的整体架构由以下部分组成：
+jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。 jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。 jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库 DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。 UI：主要的用户交互页面，用于查询、展示数据。 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/istio/observe/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-08-17T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-08-17T21:19:00+08:00" />
+
+
+
+    <title>
+  Istio可观测性 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/istio/observe/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#监控">监控</a>
+      <ul>
+        <li><a href="#prometheus">Prometheus</a></li>
+        <li><a href="#grafana">Grafana</a></li>
+        <li><a href="#kiali">Kiali</a></li>
+      </ul>
+    </li>
+    <li><a href="#日志">日志</a>
+      <ul>
+        <li><a href="#日志采集">日志采集</a></li>
+        <li><a href="#elk-stack">ELK Stack</a></li>
+        <li><a href="#efk">EFK</a></li>
+      </ul>
+    </li>
+    <li><a href="#链路追踪">链路追踪</a>
+      <ul>
+        <li><a href="#opentracing--jaeger">OpenTracing &amp; Jaeger</a></li>
+        <li><a href="#架构">架构</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>Istio可观测性</h1>
+    </header>
+
+    <p>Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。</p>
+<p>可观测性可分为三大块：监控、日志和链路追踪。</p>
+<h2 id="监控">监控</h2>
+<h3 id="prometheus">Prometheus</h3>
+<p>Prometheus是当下最流行的监控工具，其主要组件包括：</p>
+<ul>
+<li>Prometheus server：核心组件，拉取数据并存入时序数据库</li>
+<li>Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。</li>
+<li>Service discovery：服务发现组件基本上已经成为微服务时代的标配。</li>
+<li>Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。</li>
+<li>Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208171239086.png" alt=""></p>
+<h3 id="grafana">Grafana</h3>
+<p>Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。</p>
+<p>Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。</p>
+<p>Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。</p>
+<p>另外，Grafana还有一系列的”周边“开源项目，如：</p>
+<ul>
+<li><a href="https://grafana.com/docs/loki/latest/">Grafana Loki</a>：提供了更丰富的日志堆栈。</li>
+<li><a href="https://grafana.com/docs/tempo/latest/?pg=oss-tempo&amp;plcmt=hero-txt/">Grafana Tempo</a>: 提供了更强大的分布式追踪能力。</li>
+<li><a href="https://grafana.com/docs/mimir/latest/">Grafana Mimir</a>: 为Prometheus提供了可扩展的长期存储服务。</li>
+</ul>
+<h3 id="kiali">Kiali</h3>
+<p>Kiali是专用于Istio服务网格的管理工具，其核心功能包括：</p>
+<ol>
+<li>可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。</li>
+<li>健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。</li>
+<li>更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等</li>
+<li>监控Istio基础设施的状态。</li>
+<li>Istio配置工具：提供了web页面来配置Istio，并提供校验能力。</li>
+</ol>
+<h2 id="日志">日志</h2>
+<h3 id="日志采集">日志采集</h3>
+<p>日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。</p>
+<h4 id="单独的日志采集pod">单独的日志采集Pod</h4>
+<p>基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。</p>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208151236876.png" style="zoom:25%;" />
+<h4 id="日志采集sidecar">日志采集Sidecar</h4>
+<p>Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。</p>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208151241562.png" style="zoom:25%;" />
+<h3 id="elk-stack">ELK Stack</h3>
+<p>ELK是三种工具的简称：</p>
+<ul>
+<li>Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。</li>
+<li>Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。</li>
+<li>Kibana：具有日志分析、查询、汇总等功能的web管理端。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208151256899.png" alt=""></p>
+<h3 id="efk">EFK</h3>
+<p>区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash+Filebeat。</p>
+<p>不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208151308500.png" alt=""></p>
+<h2 id="链路追踪">链路追踪</h2>
+<p>链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。</p>
+<h3 id="opentracing--jaeger">OpenTracing &amp; Jaeger</h3>
+<p>OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：</p>
+<ul>
+<li>Trace：一个请求从开始到结束的整个过程。</li>
+<li>Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。</li>
+<li>Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208161255535.png" alt=""></p>
+<p>Jaeger已经成为了OpenTracing首选的实现组件，<a href="https://opentracing.io">OpenTracing官网</a>使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。</p>
+<h3 id="架构">架构</h3>
+<p>Jaeger的整体架构由以下部分组成：</p>
+<ul>
+<li>jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。</li>
+<li>jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。</li>
+<li>jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库</li>
+<li>DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。</li>
+<li>UI：主要的用户交互页面，用于查询、展示数据。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208161257799.png" alt=""></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
