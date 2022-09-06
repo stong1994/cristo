@@ -603,7 +603,192 @@ fn grade_msg(grade: Grade) -> String {
 }
 ```
 
+## 动态数组
 
+1. 数组中只能存储同一类型的元素
+2. 当需要存储不同类型的元素时，可以将其定义为同一种枚举类型
+
+```rust
+fn main() {
+    let arr1: Vec<i32> = Vec::new(); // []
+    let mut arr2 = vec![1,2,3]; // [1, 2, 3]
+    let arr3 = vec!([1,2,3]); // [[1, 2, 3]]
+    println!("{:?}, {:?}, {:?}", arr1, arr2, arr3);
+    
+    // 添加
+    arr2.push(4); // [1, 2, 3, 4]
+    println!("{:?}", arr2);
+    
+    // 两种读取
+    let two: &i32 = &arr2[1]; // 2，数组越界会panic
+    println!("{}", two);
+    match arr2.get(1) { // get方法返回Option<&T>类型，数组越界会返回None
+        Some(two) => println!("second elem is {}", two),
+        None => println!("not found"),
+    }
+    // 遍历
+    for i in &mut arr2 {
+        *i *= 2;
+    }
+    println!("{:?}", arr2); // [2, 4, 6, 8]
+} // 离开作用域，销毁
+
+```
+
+## 字符串
+
+1. Rust中的字符串使用了UTF-8编码
+2. 编译器可以自动将&String类型的参数强制转换为&str类型
+3. Rust不允许我们通过索引来获得String中的字符
+
+```rust
+fn main() {
+    // 三种创建方式
+    let s1 = String::new();
+    let s2 = String::from("hello");
+    let s3 = "hello".to_string();
+    println!("{}, {}, {}", s1, s2, s3);
+    
+    // 更新: push_str() push() + fromat!
+    let mut h = String::from("hello");
+    h.push_str(" world"); // push 字符串
+    println!("{}", h);  // hello world
+    h.push('!'); // push 字符
+    println!("{}", h);// hello world!
+    
+    let a1 = String::from("hi");
+    let a2 = String::from("world");
+    let a3 = a1 + &a2; // a1失效，a2仍有效
+    println!("{}", a3);
+    
+    let a1 = String::from("hi");
+    let a2 = String::from("world");
+    let a3 = format!("{} {}", a1, a2); // a1 a2仍有效
+    println!("{}", a3);
+    
+    // 索引获取,要注意正确的字节计算
+    let c1 = String::from("你好！");
+    // let c2 = &c1[0..4]; // panicked at 'byte index 4 is not a char boundary; it is inside '好' (bytes 3..6) of `你好！`'
+    let c2 = &c1[0..3]; // 你
+    println!("{}", c2);
+    
+    // 遍历
+    for c in c1.chars() { // 能正常遍历 你好！
+        println!("{}", c);
+    }
+    for c in c1.bytes() { // 按照字节遍历，每个汉字三个字节
+        println!("{}", c);
+    }
+    
+}
+```
+
+## 哈希表
+
+1. 所有的键必须拥有相同的类型，所有的值也必须拥有相同的类型。
+1. 对于具有控制权的file_name和field_value，在调用insert方法后，field_name和field_value变量被移动到哈希映射中，我们再也没有办法使用这两个变量了.
+
+```rust
+use std::collections::HashMap;
+
+fn main() {
+    // 初始化空哈希表——insert
+    let mut scores = HashMap::new() ;
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
+    println!("{:?}", scores);
+    
+    // 通过zip来构建元组的数组，通过collect来将数组转为哈希
+    let team = vec![String::from("blue"), String::from("yellow")];
+    let init_score = vec![1, 5];
+    let mut score: HashMap<_,_> = team.iter().zip(init_score.iter()).collect();
+    println!("{:?}", score);
+    
+    // 读取
+    let blue = score.get(&String::from("blue")); // 返回值为Option类型 ： Some(1)
+    println!("{:?}", blue);
+    
+    // 遍历
+    for (k, v) in &score {
+        println!("{}, {}", k, v);
+    }
+    
+    // 不存在时再插入
+    let k_b = String::from("blue");
+    let k_r = String::from("red");
+    score.entry(&k_b).or_insert(&2);
+    score.entry(&k_r).or_insert(&3);
+    println!("{:?}", score);
+    
+    // 基于旧值更新
+    let words = "h e l l o";
+    let mut word_map = HashMap::new();
+    for word in words.split_whitespace() {
+        let count = word_map.entry(word).or_insert(0);
+        *count+=1;
+    }
+    println!("{:?}", word_map);
+}
+```
+
+## 错误处理
+
+1. 失败时触发panic的快捷方式：
+
+   1. unwrap：`let f = File::open("a.txt").unwrap();`，当open()出错时，直接panic，当没有错误时，将open()返回的Result<T,E>中的正常返回值解析出来赋值给f。
+   2. expect：区别于unwrap，expect能够指定报错信息。`let f = File::open("a.txt").expect("open Failed");`
+
+2. 错误传播：使用`?`运算符来将错误返回给调用者(`?`运算符只能被用于返回Result的函数)
+
+   ```rust
+   use std::io;
+   use std::io::Read;
+   use std::fs::File;
+   
+   fn read_username_from_file() -> Result<String, io::Error> {
+       let f = File::open("hello. txt");
+       let mut f = match f {
+           Ok(file) => file,
+           Err(e) => return Err(e),
+       }; 
+       let mut s = String::new(); 
+       match f.read_to_string(&mut s) {
+           Ok(_) => Ok(s),
+           Err(e) => return Err(e),
+       }
+   }
+   ```
+
+   使用`?`运算符。
+
+   ```rust
+   use std::io;
+   use std::io::Read;
+   use std::fs::File;
+   
+   fn read_username_from_file() -> Result<String, io::Error> {
+       let mut f = File::open("hello. txt")?; 
+       let mut s = String::new(); 
+       f.read_to_string(&mut s)?;
+       Ok (s)
+   }
+   ```
+
+   使用**链式调用**进一步优化
+
+   ```rust
+   use std::io;
+   use std::io::Read;
+   use std::fs::File;
+   
+   fn read_username_from_file() -> Result<String, io::Error> {
+       let mut s = String::new(); 
+       File::open("hello. txt")?.read_to_string(&mut s)?;
+       Ok(s) // 此处不能加;
+   }
+   ```
+
+   
 
 
 
