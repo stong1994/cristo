@@ -731,6 +731,162 @@ fn main() {
 }
 ```
 
+## 泛型
+
+1. Rust实现泛型的方式决定了使用泛型的代码与使用具体类型的代码相比不会有任何速度上的差异。
+为了实现这一点，Rust会在编译时执行泛型代码的**单态化**（monomorphization）。单态化
+ 是一个在编译期将泛型代码转换为特定代码的过程，它会将所有使用过的具体类型填入泛型参数从而得到有具体类型的代码。
+在这个过程中，编译器所做的工作建泛型函数时相反：它会寻找所有泛型代码被调用过的地方，并基于该泛型代码所使用的具体类型生成代码。
+
+```rust
+#[derive(Debug)]
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+
+impl<T,U> Point<T, U> {
+    fn mix_up<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+        Point{
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point{
+        x: 1,
+        y: 2.0,
+    };
+    let p2 = Point{
+        x: "hello",
+        y: "world",
+    };
+    let p3 = p1.mix_up(p2); // Point { x: 1, y: "world" }
+    println!("{:?}", p3);
+}
+
+```
+
+## trait
+
+trait（特征）被用来向Rust编译器描述某些特定类型拥有的且能够被其他类型共享的功能，它使我们可以以一种抽象的方式来定义共享行为。我们还可以使用trait约束来将泛型参数指定为实现了某些特定行为的类型。
+
+```rust
+use std::fmt::Debug;
+
+// 定义trait
+pub trait User {
+    fn ID(self) -> String;
+}
+
+// 实现User
+pub struct Emp {
+    id: String,
+}
+
+impl User for Emp {
+    fn ID(self) -> String {
+        self.id
+    }
+}
+
+// trait作为参数
+fn print_user(user: impl User) {
+    println!("{:?}", user.ID());
+}
+// 等价于
+fn print_user2<T: User>(user: T) {
+    println!("{:?}", user.ID());
+}
+
+// 通过+来指定多个trait
+pub trait Teacher{
+    fn Grade(self) -> i32;    
+}
+
+fn print_teacher(teacher: impl User+Teacher+ Debug) {
+    println!("{:?}", teacher);
+}
+
+// 使用where语句优化trait约束
+fn print_teacher2<T:User+Debug, U: User+Teacher+ Debug>(teacher: T , user: U) {
+    println!("{:?}", teacher);
+    println!("{:?}", user);
+}
+// 优化后：
+fn print_teacher3<T, U>(teacher:T, user:U)
+    where T: User+Debug,
+          U: User+Teacher+ Debug
+{
+    println!("{:?}", teacher);
+    println!("{:?}", user);
+}
+
+// 返回值中使用trait
+fn return_user() -> impl User {
+    Emp{
+        id: String::from("default_user"),
+    }
+}
+
+fn main() {
+    let bob = Emp{
+        id: String::from("bob"),
+    };
+    print_user(bob);
+    
+}
+```
+
+## 引用中的生命周期
+
+当引用的生命周期可能以不同的方式相互关联时，我们就必须手动标注生命周期。Rust需要我们注明泛型生命周期参数之间的关系，来确保运行时实际使用的引用一定是有效的。
+
+生命周期的标注使用了一种明显不同的语法：它们的参数名称必须以撇号（'）开头，且通常使用全小写字符。与泛型一样，它们的名称通常也会非常简短。'a被大部分开发者选择作为默认使用的名称。我们会将生命周期参数的标注填写在&引用运算符之后，并通过一个空格符来将标注与引用类型区分开来。
+
+```rust
+fn main() {
+    let s = longest("hi", "hello");
+    println!("{}", s);
+}
+
+fn longest<'a> (x: &'a str, y: &'a str) -> &'a str { // 泛型生命周期'a会被具体化为x与y两者中生命周期较短的那一个
+    if x.len() > y.len() {
+        x
+    }else {
+        y
+    }
+}
+
+```
+
+> 当我们在函数签名中指定生命周期参数时，我们并没有改变任何传入值或返回值的生命周期。我们只是向借用检查器指出了一些可以用于检查非法调用的约束。
+>
+
+### 计算生命周期的三个原则
+
+> 函数参数或方法参数中的生命周期被称为输入生命周期（input lifetime），而返回值的生命周期则被称为输出生命周期（output lifetime）。
+
+在没有显式标注的情况下，编译器目前使用了3种规则来计算引用的生命周期:
+
+1. 每一个引用参数都会拥有自己的生命周期参数。换句话说，单参数函数拥有一个生命周期参数：fn foo<'a>(x: &'a i32)；双参数函数拥有两个不同的生命周期参数：fn foo<'a, 'b>(x: &'a i32, y: &'b i32)；以此类推。
+2. 当只存在一个输入生命周期参数时，这个生命周期会被赋予给所有输出生命周期参数，例如fn foo<'a>(x: &'a i32) -> &'a i32。
+3. 当拥有多个输入生命周期参数，而其中一个是&self或&mut self时，self的生命周期会被赋予给所有的输出生命周期参数。这条规则使方法更加易于阅读和编写，因为它省略了一些不必要的符号。
+
+当不满足以上三个原则时，编译器无法确认生命周期，于是会报错。
+
+### 静态生命周期
+
+Rust中还存在一种特殊的生命周期'static，它表示整个程序的执行期。所有的字符串字面量都拥有'static生命周期。
+
+```rust
+let s: &'static str = "I have a static lifetime.";
+```
+
+
+
 ## 错误处理
 
 1. 失败时触发panic的快捷方式：
