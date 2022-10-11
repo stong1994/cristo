@@ -885,7 +885,58 @@ Rust中还存在一种特殊的生命周期'static，它表示整个程序的执
 let s: &'static str = "I have a static lifetime.";
 ```
 
+## 迭代器
 
+1. 所有的迭代器都实现了定义于标准库中的Iterator trait
+
+2. Iterator trait只要求实现者手动定义一个方法：next方法，它会在每次被调用时返回一个包裹在Some中的迭代器元素，并在迭代结束时返回None。
+
+3. iter方法生成的是一个不可变引用的迭代器，我们通过next取得的值实际上是指向动态数组中各个元素的不可变引用。如果你需要创建一个取得v1所有权并返回元素本身的迭代器，那么你可以使用into_iter方法。类似地，如果你需要可变引用的迭代器，那么你可以使用iter_mut方法。
+4. 尽管迭代器是一种高层次的抽象，但它在编译后生成了与手写底层代码几乎一样的产物。迭代器是Rust语言中的一种零开销抽象（zero-cost abstraction），这个词意味着我们在使用这些抽象时不会引入额外的运行时开销
+
+```rust
+fn main() {
+    let v1 = vec![1,2,3];
+    let mut v1_iter = v1.iter();
+    let n1 = v1_iter.next();
+    println!("{:#?}", n1);
+} 
+//Some(
+//    1,
+//)
+```
+
+
+
+```rust
+fn main() {
+    let v1: Vec<i32> = vec![1,2,3];
+    let v2: Vec<_> = v1.iter().map(|x| x+1).collect();
+    println!("{:#?}", v2);
+    let shoes: Vec<_> = shoes_in_my_size(vec![Shoe{size: 10},Shoe{size: 30}], 10);
+    println!("{:#?}", shoes);
+}
+
+#[derive (PartialEq, Debug) ]
+struct Shoe {
+    size: u32,
+}
+
+fn shoes_in_my_size (shoes: Vec<Shoe>, shoe_size: u32) ->Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size==shoe_size).collect ()
+}
+
+// [
+//     2,
+//     3,
+//     4,
+// ]
+// [
+//     Shoe {
+//         size: 10,
+//     },
+// ]
+```
 
 ## 错误处理
 

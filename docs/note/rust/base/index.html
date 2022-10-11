@@ -193,6 +193,14 @@
     <li><a href="#动态数组">动态数组</a></li>
     <li><a href="#字符串-1">字符串</a></li>
     <li><a href="#哈希表">哈希表</a></li>
+    <li><a href="#泛型">泛型</a></li>
+    <li><a href="#trait">trait</a></li>
+    <li><a href="#引用中的生命周期">引用中的生命周期</a>
+      <ul>
+        <li><a href="#计算生命周期的三个原则">计算生命周期的三个原则</a></li>
+        <li><a href="#静态生命周期">静态生命周期</a></li>
+      </ul>
+    </li>
     <li><a href="#错误处理">错误处理</a></li>
     <li><a href="#版本控制">版本控制</a></li>
     <li><a href="#其他">其他</a>
@@ -774,6 +782,138 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, word_map);
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="泛型">泛型</h2>
+<ol>
+<li>Rust实现泛型的方式决定了使用泛型的代码与使用具体类型的代码相比不会有任何速度上的差异。
+为了实现这一点，Rust会在编译时执行泛型代码的<strong>单态化</strong>（monomorphization）。单态化
+是一个在编译期将泛型代码转换为特定代码的过程，它会将所有使用过的具体类型填入泛型参数从而得到有具体类型的代码。
+在这个过程中，编译器所做的工作建泛型函数时相反：它会寻找所有泛型代码被调用过的地方，并基于该泛型代码所使用的具体类型生成代码。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Point&lt;T, U&gt; {
+</span></span><span style="display:flex;"><span>    x: T,
+</span></span><span style="display:flex;"><span>    y: U,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span>&lt;T,U&gt; Point&lt;T, U&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> mix_up&lt;V, W&gt;(self, other: Point&lt;V, W&gt;) -&gt; Point&lt;T, W&gt; {
+</span></span><span style="display:flex;"><span>        Point{
+</span></span><span style="display:flex;"><span>            x: self.x,
+</span></span><span style="display:flex;"><span>            y: other.y,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p1 = Point{
+</span></span><span style="display:flex;"><span>        x: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        y: <span style="color:#ff0;font-weight:bold">2.0</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p2 = Point{
+</span></span><span style="display:flex;"><span>        x: <span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>,
+</span></span><span style="display:flex;"><span>        y: <span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p3 = p1.mix_up(p2); <span style="color:#007f7f">// Point { x: 1, y: &#34;world&#34; }
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, p3);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="trait">trait</h2>
+<p>trait（特征）被用来向Rust编译器描述某些特定类型拥有的且能够被其他类型共享的功能，它使我们可以以一种抽象的方式来定义共享行为。我们还可以使用trait约束来将泛型参数指定为实现了某些特定行为的类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fmt::Debug;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 定义trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">trait</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> ID(self) -&gt; <span style="color:#fff;font-weight:bold">String</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 实现User
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">struct</span> Emp {
+</span></span><span style="display:flex;"><span>    id: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User <span style="color:#fff;font-weight:bold">for</span> Emp {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> ID(self) -&gt; <span style="color:#fff;font-weight:bold">String</span> {
+</span></span><span style="display:flex;"><span>        self.id
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// trait作为参数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_user(user: impl User) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user.ID());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 等价于
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_user2&lt;T: User&gt;(user: T) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user.ID());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 通过+来指定多个trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">trait</span> Teacher{
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> Grade(self) -&gt; <span style="color:#fff;font-weight:bold">i32</span>;    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> print_teacher(teacher: impl User+Teacher+ Debug) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 使用where语句优化trait约束
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_teacher2&lt;T:User+Debug, U: User+Teacher+ Debug&gt;(teacher: T , user: U) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 优化后：
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_teacher3&lt;T, U&gt;(teacher:T, user:U)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">where</span> T: User+Debug,
+</span></span><span style="display:flex;"><span>          U: User+Teacher+ Debug
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 返回值中使用trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> return_user() -&gt; impl User {
+</span></span><span style="display:flex;"><span>    Emp{
+</span></span><span style="display:flex;"><span>        id: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;default_user&#34;</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> bob = Emp{
+</span></span><span style="display:flex;"><span>        id: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;bob&#34;</span>),
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    print_user(bob);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="引用中的生命周期">引用中的生命周期</h2>
+<p>当引用的生命周期可能以不同的方式相互关联时，我们就必须手动标注生命周期。Rust需要我们注明泛型生命周期参数之间的关系，来确保运行时实际使用的引用一定是有效的。</p>
+<p>生命周期的标注使用了一种明显不同的语法：它们的参数名称必须以撇号（&rsquo;）开头，且通常使用全小写字符。与泛型一样，它们的名称通常也会非常简短。&lsquo;a被大部分开发者选择作为默认使用的名称。我们会将生命周期参数的标注填写在&amp;引用运算符之后，并通过一个空格符来将标注与引用类型区分开来。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = longest(<span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> longest&lt;&#39;<span style="color:#007f7f">a</span>&gt; (x: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>, y: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span> { <span style="color:#007f7f">// 泛型生命周期&#39;a会被具体化为x与y两者中生命周期较短的那一个
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">if</span> x.len() &gt; y.len() {
+</span></span><span style="display:flex;"><span>        x
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        y
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>当我们在函数签名中指定生命周期参数时，我们并没有改变任何传入值或返回值的生命周期。我们只是向借用检查器指出了一些可以用于检查非法调用的约束。</p>
+</blockquote>
+<h3 id="计算生命周期的三个原则">计算生命周期的三个原则</h3>
+<blockquote>
+<p>函数参数或方法参数中的生命周期被称为输入生命周期（input lifetime），而返回值的生命周期则被称为输出生命周期（output lifetime）。</p>
+</blockquote>
+<p>在没有显式标注的情况下，编译器目前使用了3种规则来计算引用的生命周期:</p>
+<ol>
+<li>每一个引用参数都会拥有自己的生命周期参数。换句话说，单参数函数拥有一个生命周期参数：fn foo&lt;&lsquo;a&gt;(x: &amp;&lsquo;a i32)；双参数函数拥有两个不同的生命周期参数：fn foo&lt;&lsquo;a, &lsquo;b&gt;(x: &amp;&lsquo;a i32, y: &amp;&lsquo;b i32)；以此类推。</li>
+<li>当只存在一个输入生命周期参数时，这个生命周期会被赋予给所有输出生命周期参数，例如fn foo&lt;&lsquo;a&gt;(x: &amp;&lsquo;a i32) -&gt; &amp;&lsquo;a i32。</li>
+<li>当拥有多个输入生命周期参数，而其中一个是&amp;self或&amp;mut self时，self的生命周期会被赋予给所有的输出生命周期参数。这条规则使方法更加易于阅读和编写，因为它省略了一些不必要的符号。</li>
+</ol>
+<p>当不满足以上三个原则时，编译器无法确认生命周期，于是会报错。</p>
+<h3 id="静态生命周期">静态生命周期</h3>
+<p>Rust中还存在一种特殊的生命周期&rsquo;static，它表示整个程序的执行期。所有的字符串字面量都拥有&rsquo;static生命周期。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> s: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">str</span> = <span style="color:#0ff;font-weight:bold">&#34;I have a static lifetime.&#34;</span>;
 </span></span></code></pre></div><h2 id="错误处理">错误处理</h2>
 <ol>
 <li>
