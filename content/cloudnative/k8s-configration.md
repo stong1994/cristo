@@ -1,12 +1,12 @@
 +++
 
-date = 2022-08-07T21:19:00+08:00
+date = 2022-10-07T21:19:00+08:00
 title = "k8s-volume"
 url = "/cloudnative/k8s/configration"
 
 toc = true
 
-draft = true
+draft = false
 
 +++
 

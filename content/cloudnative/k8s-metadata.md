@@ -1,12 +1,12 @@
 +++
 
-date = 2022-08-07T21:19:00+08:00
+date = 2022-10-06T21:19:00+08:00
 title = "k8s-metadata"
 url = "/cloudnative/k8s/metadata"
 
 toc = true
 
-draft = true
+draft = false
 
 +++
 
@@ -315,3 +315,4 @@ spec:
    ```
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210071604508.png)
+

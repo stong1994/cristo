@@ -1,12 +1,12 @@
 +++
 
-date = 2022-08-07T21:19:00+08:00
+date = 2022-10-01T21:19:00+08:00
 title = "k8s-对象"
 url = "/cloudnative/k8s/pod"
 
 toc = true
 
-draft = true
+draft = false
 
 +++
 
@@ -14,7 +14,16 @@ draft = true
 
 ## 对象范畴
 
-对象包括：pod、node
+对象包括：
+
+- pod：简写po
+- node
+- ReplicationController：简写rc
+- ReplicaSet：简写rs
+- events
+- ServiceAccount：简写sc
+- Secret
+- ConfigMap
 
 ## label
 

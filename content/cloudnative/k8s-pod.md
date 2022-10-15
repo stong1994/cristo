@@ -1,12 +1,12 @@
 +++
 
-date = 2022-08-07T21:19:00+08:00
+date = 2022-10-08T21:19:00+08:00
 title = "k8s-pod"
 url = "/cloudnative/k8s/pod"
 
 toc = true
 
-draft = true
+draft = false
 
 +++
 
@@ -23,6 +23,12 @@ Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性�
 容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
 
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。 
+
+### 实现pod内容器”去隔离“
+
+在节点上执行命令`docker ps`，会看到一个`pause`容器，这个容器的作用是持有pod的namespace——**该pod下的用户定义的容器都使用`pause`容器的namespace**。
+
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png)
 
 ## 决策：是否将容器放到同一个pod
 
