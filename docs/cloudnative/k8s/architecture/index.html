@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="组件 k8s可分为三大块：控制平面、节点和其他。
+控制平面包括：
+API Server Scheduler Controller Manager etcd 节点包括：
+kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
+DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
+通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
+API server 鉴权&amp;准入 一个对API server的请求需要经过多个插件。
+鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
+鉴权插件again
+再次遍历鉴权插件，判断用户是否有权限执行这个请求。
+准入插件
+如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
+异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
+这些控制器有：
+Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例：">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s架构设计"/>
+<meta name="twitter:description" content="组件 k8s可分为三大块：控制平面、节点和其他。
+控制平面包括：
+API Server Scheduler Controller Manager etcd 节点包括：
+kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
+DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
+通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
+API server 鉴权&amp;准入 一个对API server的请求需要经过多个插件。
+鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
+鉴权插件again
+再次遍历鉴权插件，判断用户是否有权限执行这个请求。
+准入插件
+如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
+异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
+这些控制器有：
+Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例："/>
+
+    <meta property="og:title" content="k8s架构设计" />
+<meta property="og:description" content="组件 k8s可分为三大块：控制平面、节点和其他。
+控制平面包括：
+API Server Scheduler Controller Manager etcd 节点包括：
+kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
+DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
+通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
+API server 鉴权&amp;准入 一个对API server的请求需要经过多个插件。
+鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
+鉴权插件again
+再次遍历鉴权插件，判断用户是否有权限执行这个请求。
+准入插件
+如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
+异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
+这些控制器有：
+Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/architecture/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-15T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-15T21:19:00+08:00" />
+
+
+
+    <title>
+  k8s架构设计 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/architecture/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#组件">组件</a></li>
+    <li><a href="#插件化">插件化</a>
+      <ul>
+        <li><a href="#数据流向">数据流向</a></li>
+        <li><a href="#数据一致性">数据一致性</a></li>
+      </ul>
+    </li>
+    <li><a href="#api-server">API server</a>
+      <ul>
+        <li><a href="#鉴权准入">鉴权&amp;准入</a></li>
+        <li><a href="#异步通知">异步通知</a></li>
+        <li><a href="#调度器">调度器</a></li>
+      </ul>
+    </li>
+    <li><a href="#controller-manager">Controller Manager</a>
+      <ul>
+        <li><a href="#replication-manager">Replication Manager</a></li>
+        <li><a href="#endpoints-controller">Endpoints controller</a></li>
+      </ul>
+    </li>
+    <li><a href="#kubelet">kubelet</a></li>
+    <li><a href="#事件">事件</a>
+      <ul>
+        <li><a href="#部署deployment时的事件链">部署Deployment时的事件链</a></li>
+      </ul>
+    </li>
+    <li><a href="#高可用">高可用</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>k8s架构设计</h1>
+    </header>
+
+    <h2 id="组件">组件</h2>
+<p>k8s可分为三大块：控制平面、节点和其他。</p>
+<p>控制平面包括：</p>
+<ul>
+<li>API Server</li>
+<li>Scheduler</li>
+<li>Controller Manager</li>
+<li>etcd</li>
+</ul>
+<p>节点包括：</p>
+<ul>
+<li>kubelet</li>
+<li>kube-proxy</li>
+<li>容器运行时（docker、rkt等）</li>
+</ul>
+<p>其他包括：</p>
+<ul>
+<li>DNS Server</li>
+<li>Dashboard</li>
+<li>Ingress</li>
+<li>Heapster</li>
+<li>网络插件</li>
+<li>等</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210072025710.png" alt=""></p>
+<h2 id="插件化">插件化</h2>
+<h3 id="数据流向">数据流向</h3>
+<ol>
+<li>k8s中的组件只与API server交流</li>
+<li>API server只能与etcd交流</li>
+<li>组件如果需要存储/读取数据，统一通过API server处理</li>
+</ol>
+<h3 id="数据一致性">数据一致性</h3>
+<p>k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？</p>
+<p>通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。</p>
+<h2 id="api-server">API server</h2>
+<h3 id="鉴权准入">鉴权&amp;准入</h3>
+<p>一个对API server的请求需要经过多个插件。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210072131829.png" alt=""></p>
+<ol>
+<li>鉴权插件</li>
+</ol>
+<p>​		API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。</p>
+<ol start="2">
+<li>
+<p>鉴权插件again</p>
+<p>再次遍历鉴权插件，判断用户是否有权限执行这个请求。</p>
+</li>
+<li>
+<p>准入插件</p>
+<p>如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount</p>
+</li>
+</ol>
+<h3 id="异步通知">异步通知</h3>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210131222890.png" alt=""></p>
+<ol>
+<li>客户端通过HTTP连接API Server，用于获取对象更新事件</li>
+<li>修改对象</li>
+<li>API Server更新对象到etcd</li>
+<li>etcd通知API server对象更新</li>
+<li>API Server将对象更新事件发送到所有监听该对象的客户端</li>
+</ol>
+<h3 id="调度器">调度器</h3>
+<h2 id="controller-manager">Controller Manager</h2>
+<p>k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100050.png" alt=""></p>
+<p>这些控制器有：</p>
+<ul>
+<li>Replication Manager</li>
+<li>eplicaSet, DaemonSet, and Job controllers</li>
+<li>Deployment controller</li>
+<li>StatefulSet controller</li>
+<li>Node controller</li>
+<li>Service controller</li>
+<li>Endpoints controller</li>
+<li>Namespace controller</li>
+<li>PersistentVolume controller</li>
+<li>等等</li>
+</ul>
+<p>大部分控制器的逻辑都相同，以ReplicationManager为例：</p>
+<h3 id="replication-manager">Replication Manager</h3>
+<p>ReplicationController不会直接创建或删除Pod，而是通过监听机制，让ReplicationManager来监听到pod变更，并创建或修改Pod声明文件，调度器和kubelet会根据pod声明文件进行调度。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210151441710.png" alt=""></p>
+<h3 id="endpoints-controller">Endpoints controller</h3>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152103527.png" alt=""></p>
+<p>Endpoint控制器会监听Service和Pod两种资源，一旦Service增加或修改了Pod，或者Pod被新增、修改和删除后，Endpoint控制器会根据Service的pod选择器来选择合适的pod，并且将选择的pod的ip和端口更新到Endpoint资源上。</p>
+<h2 id="kubelet">kubelet</h2>
+<p>kubelet是一个节点上用来为所有正在运行的事物负责的组件。</p>
+<ol>
+<li>当kubelet启动时，会将所在节点的信息注册到API server。</li>
+<li>kubelet会持续监听API server，一旦有pod被调度到该节点，则创建该pod对应的容器。</li>
+<li>kubelet会监控节点上所有容器，并上报其状态、事件和资源消耗情况到API server。</li>
+</ol>
+<p>除监听API server外，kubelet还能通过指定声明文件来创建pod。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152059337.png" alt=""></p>
+<h2 id="事件">事件</h2>
+<h3 id="部署deployment时的事件链">部署Deployment时的事件链</h3>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100135.png" alt=""></p>
+<h2 id="高可用">高可用</h2>
+<p>todo</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

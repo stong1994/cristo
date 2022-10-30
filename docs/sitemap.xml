@@ -3,13 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://stong1994.github.io/cloudnative/</loc>
-    <lastmod>2022-08-17T21:19:00+08:00</lastmod>
+    <lastmod>2022-10-15T21:19:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/istio/observe/</loc>
-    <lastmod>2022-08-17T21:19:00+08:00</lastmod>
+    <loc>https://stong1994.github.io/cloudnative/k8s/architecture/</loc>
+    <lastmod>2022-10-15T21:19:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/</loc>
+    <lastmod>2022-10-15T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/volume/</loc>
+    <lastmod>2022-10-12T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/service/</loc>
+    <lastmod>2022-10-11T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/</loc>
+    <lastmod>2022-10-11T14:43:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/tool/athens/</loc>
+    <lastmod>2022-10-11T14:43:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/pod/</loc>
+    <lastmod>2022-10-08T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/configration/</loc>
+    <lastmod>2022-10-07T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/metadata/</loc>
+    <lastmod>2022-10-06T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/k8s/pod/</loc>
+    <lastmod>2022-10-01T21:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/cloudnative/istio/observe/</loc>
     <lastmod>2022-08-17T21:19:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/cloudnative/istio/traffic/</loc>
@@ -17,10 +45,6 @@
   </url><url>
     <loc>https://stong1994.github.io/cloudnative/istio/overview/</loc>
     <lastmod>2022-08-07T21:19:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2022-07-31T16:14:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/internet/python/package_manager/</loc>
     <lastmod>2022-07-31T16:14:00+08:00</lastmod>
@@ -130,6 +154,9 @@
     <lastmod>2022-03-21T11:08:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/go/channel/</loc>
+    <lastmod>2022-03-10T14:43:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/tool/plantuml/</loc>
     <lastmod>2022-03-10T14:43:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/life/leader_mentality_change/</loc>

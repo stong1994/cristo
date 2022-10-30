@@ -6,7 +6,157 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 17 Aug 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k8s架构设计</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
+      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/architecture/</guid>
+      <description>组件 k8s可分为三大块：控制平面、节点和其他。
+控制平面包括：
+API Server Scheduler Controller Manager etcd 节点包括：
+kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
+DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
+通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
+API server 鉴权&amp;amp;准入 一个对API server的请求需要经过多个插件。
+鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
+鉴权插件again
+再次遍历鉴权插件，判断用户是否有权限执行这个请求。
+准入插件
+如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
+异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
+这些控制器有：
+Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例：</description>
+    </item>
+    
+    <item>
+      <title>k8s-volume</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/volume/</link>
+      <pubDate>Wed, 12 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/volume/</guid>
+      <description>容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
+volume正是为了解决这一问题而产生的。
+emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
+emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
+apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
+由于使用的是节点的文件系统，因此hostPath是持久性的volume。
+docker的日志文件存储在宿主机就是最经典的一个例子。
+Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp;amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。</description>
+    </item>
+    
+    <item>
+      <title>k8s-service</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/service/</link>
+      <pubDate>Tue, 11 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/service/</guid>
+      <description>在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
+在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
+于是k8s增加了service用于提供稳定的对外访问的服务（ip+port）。
+创建Service 通过命令创建 kubectl expose
+通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
+对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
+如果Service的名称具有中划线，则转为环境变量时会转为下划线。
+通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
+FQDN EXAMPLE: kubia.default.svc.cluster.local
+kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
+Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
+Endpoint是一个地址（ip+端口）列表，
+如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
+可以通过配置文件来创建一个Endpoint：
+apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11.</description>
+    </item>
+    
+    <item>
+      <title>Athens安装及使用</title>
+      <link>https://stong1994.github.io/internet/tool/athens/</link>
+      <pubDate>Tue, 11 Oct 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/athens/</guid>
+      <description>Athens 官方网站
+Athens是一个go packages服务器，也就是go module的代理。
+优势 能够存储使用过的依赖库，防止维护人员对依赖库进行删除、代码变更等导致项目构建失败。 作为代理访问速度要比go get快，go get是采用git clone的方式下载，而设置了GOPROXY的go get直接下载zip文件。 能够代理私有模块 安装 有多种安装方式：下载源码、docker、k8s等。这里只介绍源码安装。
+下载源码 git clone https://github.com/gomods/athens 修改配置文件
+cd athens mv config.dev.toml	athens.toml # 代码中默认启动的配置文件为athens.toml，之后运行代码就不用指定文件 需要修改的配置
+key value Port 根据需要，默认3000 NETRCPath .netrc的地址，.netrc可以用来存储私有仓库的账号和密码 NoSumPatterns 私有仓库不能进行checksum验证，所以要在这里过滤掉私有仓库，比如我的测试仓库[&amp;ldquo;gitlabxxx/xxx/*&amp;rdquo;] GoBinaryEnvVars 设置GO代理相关的环境变量，因为有墙，所以需要使用其他代理，如https://goproxy.io、https://goproxy.cn等，推荐https://goproxy.cn,验证源GOSUMDB也需要使用支持国内的，这里可以设置为[&amp;ldquo;GOPROXY=https://goproxy.cn,direct&amp;rdquo;, &amp;ldquo;GOSUMDB=sum.golang.google.cn&amp;rdquo;] 设置私有仓库的访问权限
+使用NETRAPath配置
+创建.netrc文件
+# 我测试用的gitlab machine https://gitlabxxx/xxx # 项目匹配路径 login xx # 账号 password xxx # 密码 在上边的athens.toml配置文件中配置NETRAPath，值为.netrc地址。我的.netrc就在项目根路径，则直接设置为./.netrc
+使用ssh替换http
+生成rsa密钥ssh-keygen，设置私钥为id_rsa_athens，公钥存入gitlab服务
+在.ssh目录下创建config文件
+Host gitlabxxx.com HostName gitlabxxx.com Port {gitlab服务ssh端口} StrictHostKeyChecking no IdentityFile {密钥目录}/id_rsa_athens 在gitlab上找到user settings =&amp;gt; Access Tokens 权限设置仓库只读，生成token</description>
+    </item>
+    
+    <item>
+      <title>k8s-pod</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <pubDate>Sat, 08 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
+      <description>什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
+Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
+最小的构建单元&amp;amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
+容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
+通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
+实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置：
+apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 命令 命令 说明 kubectl explain pods 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec kubectl create -f xx.yaml 通过xx.yaml创建资源，如pod kubectl get pod ex_pod -o yaml 将ex_pod资源定义以yaml格式输出，可支持json格式 kubectl logs ex_pod 查看ex_pod的日志 kubectl logs ex_pod -c ex_container 查看ex_pod下的ex_container容器日志 kubectl port-forward ex_pod 8888:8000 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 kubectl label po xx_pod xx_tag=xx_value &amp;ndash;overwrite 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 kubectl get po -l xx_tag=xx_vlaue 展示label中xx_tag是xx_value的pod kubectl get po -l env 展示label中含有env标签的pod kubectl get po -l &amp;lsquo;!</description>
+    </item>
+    
+    <item>
+      <title>k8s-volume</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/configration/</link>
+      <pubDate>Fri, 07 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/configration/</guid>
+      <description>配置程序通常有三种方式：
+命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
+ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&amp;quot;node&amp;quot;, &amp;quot;app.js&amp;quot;] 两种格式的不同之处在于是否会调用shell。
+以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
+以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
+因此我们应该使用EXEC格式。
+k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
+example:
+kind: Pod spec: containers: - image: some/image command: [&amp;#34;/bin/command&amp;#34;] args: [&amp;#34;arg1&amp;#34;, &amp;#34;arg2&amp;#34;, &amp;#34;arg3&amp;#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &amp;#34;30&amp;#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &amp;#34;foo&amp;#34; - name: SECOND VAR value: &amp;#34;$(FIRST_VAR)bar&amp;#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。</description>
+    </item>
+    
+    <item>
+      <title>k8s-metadata</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/metadata/</link>
+      <pubDate>Thu, 06 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/metadata/</guid>
+      <description>Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
+downward API能够解决这个问题。
+downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
+pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
+通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status.</description>
+    </item>
+    
+    <item>
+      <title>k8s-对象</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <pubDate>Sat, 01 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
+      <description>对象范畴 对象包括：
+pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap label label用于对象分组。
+可以通过label来筛选对象。
+annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
+namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
+通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
+命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
+通过kubectl explain pod.spec可获取pod下的spec的使用说明。
+其他对象同理。
+对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
+其他对象同理。
+根据yaml文件创建资源 kubectl create -f xxx.yaml
+指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&amp;rsquo; {&amp;ldquo;spec&amp;rdquo; : {&amp;ldquo;template&amp;rdquo;: {&amp;ldquo;spec&amp;rdquo;: {&amp;ldquo;containers&amp;rdquo;: [{&amp;ldquo;name&amp;rdquo;: &amp;ldquo;nodejs&amp;rdquo;, &amp;ldquo;image&amp;rdquo; : &amp;ldquo;luksa/kubia:v2&amp;rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2.</description>
+    </item>
+    
     <item>
       <title>Istio可观测性</title>
       <link>https://stong1994.github.io/cloudnative/istio/observe/</link>
@@ -475,6 +625,21 @@ channel的核心逻辑 读和写 作为数据的管理者，channel内部使用�
     </item>
     
     <item>
+      <title>plantuml安装</title>
+      <link>https://stong1994.github.io/internet/tool/plantuml/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/plantuml/</guid>
+      <description>1. 预安装软件 Java Graphviz Graphviz在安装过程中需要下载大量依赖包，有些会下载失败，报错如下：
+==&amp;gt; Installing dependencies for graphviz: gts, gdk-pixbuf and librsvg ==&amp;gt; Installing graphviz dependency: gts ==&amp;gt; Pouring gts-0.7.6_2.arm64_monterey.bottle.tar.gz 🍺 /opt/homebrew/Cellar/gts/0.7.6_2: 26 files, 1.6MB ==&amp;gt; Installing graphviz dependency: gdk-pixbuf ==&amp;gt; Pouring gdk-pixbuf-2.42.8_1.arm64_monterey.bottle.tar.gz Error: No such file or directory @ rb_sysopen - /Users/stong/Library/Caches/Homebrew/downloads/e02b07db95c1fcc05fd80893fef0e3ae95358e4b73d64bcf7048b53af47a53d9--gdk-pixbuf-2.42.8_1.arm64_monterey.bottle.tar.gz 这时可手动使用brew install xx进行下载。
+依赖包比较多，因此可以使用脚本批量安装。
+#!/bin/bash array=(gts gdk-pixbuf librsvg) for i in &amp;#34;${array[@]}&amp;#34; do brew install $i done 2. 下载plantuml 直接在官网下载pantuml的jar包即可。
+3. 测试 编写plantuml文件
+创建out.txt文件，并写入
+@startuml Alice -&amp;gt; Bob: 你好 @enduml 执行命令</description>
+    </item>
+    
+    <item>
       <title>论领导者在团队扩张后的心态变化</title>
       <link>https://stong1994.github.io/life/leader_mentality_change/</link>
       <pubDate>Fri, 04 Mar 2022 11:03:00 +0800</pubDate>
@@ -920,7 +1085,7 @@ local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;
       <description>背景 随着业务的增长，一个事件开始被多个子系统订阅，如用户注册事件就可能被处理用户逻辑的子系统和日志系统订阅。以往我们在处理这些逻辑的时候，要么在处理完注册逻辑后，调用多个子服务接口，要么用消息队列中间件来处理。这些都导致了较高的维护成本。
 另外，整体系统使用了严格的分层，下层服务不能调用上层服务，同层之间也不能调用。如果有回调等需求，也要通过事件的方式来传递数据。
 因此，我们基于消息队列的思想，创建了事件分发平台。
-架构设计 整个事件分发系统大致由以下构成：
+为什么不直接使用MQ 架构设计 整个事件分发系统大致由以下构成：
 事件发送方：即事件的生产者 事件订阅方：即事件的消费者 事件分发服务：接收事件，处理事件的发送逻辑 事件管理平台：通过web页面管理事件的配置，显示错误日志等信息 我们主要关注事件分发服务：
 订阅者队列组：每个订阅方（事件接收方）都有自己单独的队列，因此生产者和订阅者队列是一对多的关系。订阅者队列组来管理一个事件的多个订阅队列（实际上订阅队列组在上层还有一个订阅者队列管理器，来统一管理这些订阅队列组，与业务逻辑无关，因此图中未显示）。 订阅者集群组：每个订阅者队列都对应着一个订阅者集群，该集群由多个channel组成，用来加快事件的消费速度。集群具备自动扩容、缩容的功能。 配置中心：配置中心是通过内存来存储着事件的订阅关系。配置中心通过读取或者监听redis的变动，来管理订阅关系。订阅者队列组和订阅者集群组都会读取配置中心并监听配置中心变动，来管理自己的队列或集群。 消息队列中间件的选择 事件分发平台是基于消息队列的思想来构建的，因此需要使用消息队列中间件来管理消息队列。
 市面上有许多消息队列中间件，如kafka、rabbitmq等。我们考虑到所需吞吐量并不大，所以初步选择使用redis的列表来实现。使用redis的列表来实现，优势在于能够更快速的完成开发，且整体系统更轻量。

@@ -24,6 +24,11 @@ draft = false
 - ServiceAccount：简写sc
 - Secret
 - ConfigMap
+- PodSecurityPolicy：简写psp
+- LimitRange
+- ResourceQuota：简写quota
+- HorizontalPodAutoscaler：简写hpa
+- PodDisruptionBudget
 
 ## label
 

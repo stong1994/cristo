@@ -24,11 +24,13 @@ Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性�
 
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。 
 
-### 实现pod内容器”去隔离“
+### pause container—实现pod内容器”去隔离“
 
 在节点上执行命令`docker ps`，会看到一个`pause`容器，这个容器的作用是持有pod的namespace——**该pod下的用户定义的容器都使用`pause`容器的namespace**。
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png)
+
+
 
 ## 决策：是否将容器放到同一个pod
 
@@ -38,7 +40,7 @@ Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性�
 
 ## 配置
 
-一个最简单的配置：
+### 一个最简单的配置
 
 ```yml
 apiVersion: v1
@@ -52,6 +54,82 @@ spec:
     ports:
     - containerPort: 80
 ```
+
+### 使用宿主机的PID和IPC namespace
+
+```yaml
+spec:
+  hostPID: true
+  hostIPC: true
+```
+
+### 使用宿主机的网络namespace
+
+```yaml
+spec:
+  hostNetwork: true
+```
+
+### 绑定宿主机的端口但不使用hostNetwork
+
+```yaml
+spec:
+  containers:
+  - image: luksa/kubia
+    name: kubia
+    ports: 
+    - containerPort: 8080 # 指定容器端口为8080
+      hostPort: 9000 # 指定宿主机端口为9000
+      protocol: TCP
+```
+
+### PodSecurityPolicy
+
+PodSecurityPolicy定义了pod的安全策略。包括：
+
+- 是否能够使用宿主机的IPC、PID、网络等命名空间
+- 能够绑定宿主机的哪些端口
+- 能够使用哪些userID
+- 能否创建privileged container
+- 限定内核能力
+- 能够使用哪些SELinux标签
+- 能够使用哪些文件系统
+- 能够使用哪些挂载卷
+- 等
+
+example；
+
+```yaml
+	apiVersion: extensions/v1beta1
+  kind: PodSecurityPolicy
+  metadata:
+    name: default
+  spec:
+    hostIPC: false
+    hostPID: false
+    hostNetwork: false
+    hostPorts:
+    - min: 10000
+      max: 11000
+    - min: 13000
+      max: 14000
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsUser:
+      rule: RunAsAny
+    fsGroup:
+      rule: RunAsAny
+    supplementalGroups:
+      rule: RunAsAny
+    seLinux:
+      rule: RunAsAny
+    volumes:
+		- '*'
+```
+
+PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterRole。
+
+
 
 ### 命令
 
@@ -69,6 +147,86 @@ spec:
 | kubectl get po -l '!env'                            | 展示label中不含有env标签的pod                                |
 | kubectl get po -l env in (prod, dev)                | 展示label中含有env标签为prod或者dev的pod                     |
 | kubectl get po -l env notin (prod, dev)             | 展示label中含有env标签为不为prod且不为dev的pod               |
+
+### 
+
+## Pod lifecycle
+
+### init container—初始化pod
+
+init容器用于pod的初始化，pod可拥有任意数量的init容器。
+
+pod定义的init容器会在pod启动后一个接一个的线性执行，当所有init容器执行完后才会执行主容器。
+
+init容器往往用于等待主容器所依赖的service或者资源准备就绪。
+
+example：
+
+```yaml
+spec:
+  initContainers: # 定义init容器
+  - name: init
+    image: busybox
+    command: # 循环等待http://fortune准备就绪
+    - sh
+    - -c
+	  - 'while true; do echo "Waiting for fortune service to come up...";
+    wget http://fortune -q -T 1 -O /dev/null >/dev/null 2>/dev/null 
+    && break; sleep 1; done; echo "Service is up! Starting main container."'
+```
+
+### post-start hook
+
+当容器的主程序启动后，会执行post-start钩子。
+
+可以用于执行额外的应用命令而不用修改服务代码。
+
+如果post-start钩子退出状态不是0，则主容器会被kill。
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-poststart-hook
+spec:
+containers:
+- image: luksa/kubia
+  name: kubia
+  lifecycle:
+    postStart: # 定义posst-start钩子
+      exec:
+        command:
+        - sh
+        - -c
+        - "echo 'hook will fail with exit code 15'; sleep 5; exit 15"
+```
+
+### pre-stop hook
+
+当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。
+
+example：
+
+```yaml
+lifecycle:
+    preStop: # 定义pre-stop钩子
+      httpGet:
+        port: 8080
+        path: shutdown
+```
+
+当容器中断后会发送`SIGTERM`信号到钩子。钩子会发送一个http请求，地址为`http:// POD_IP:8080/shutdown`.
+
+### pod关闭流程
+
+在k8s中，API server控制所有的对象的生命周期。
+
+当API server收到一个请求删除对象的请求后，并不会直接删除对象，而是设置`deletionTimestamp`字段到这个对象上。pod上的kubelet监听到`deletionTimestamp`字段生成，会执行关闭流程。
+
+1. 执行pre-stop钩子
+2. 发送`SIGTERM`信号到容器的主程序。
+3. 等待程序优雅关闭或者关闭超时。
+4. 如果程序没有优雅关闭，则使用`SIGKILL`信号强制关闭。
 
 
 

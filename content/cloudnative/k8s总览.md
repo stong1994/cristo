@@ -10,6 +10,8 @@ draft = true
 
 +++
 
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210222008237.png)
+
 ## Deploying workloads
 
 ### Pod
@@ -63,3 +65,4 @@ Pod是k8s中的最小的构建单元。
 ## 文档
 
 - [jsonpath](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
+

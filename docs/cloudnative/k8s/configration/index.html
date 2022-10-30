@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="配置程序通常有三种方式：
+命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
+ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&quot;node&quot;, &quot;app.js&quot;] 两种格式的不同之处在于是否会调用shell。
+以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
+以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
+因此我们应该使用EXEC格式。
+k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
+example:
+kind: Pod spec: containers: - image: some/image command: [&#34;/bin/command&#34;] args: [&#34;arg1&#34;, &#34;arg2&#34;, &#34;arg3&#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &#34;30&#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &#34;foo&#34; - name: SECOND VAR value: &#34;$(FIRST_VAR)bar&#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s-volume"/>
+<meta name="twitter:description" content="配置程序通常有三种方式：
+命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
+ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&quot;node&quot;, &quot;app.js&quot;] 两种格式的不同之处在于是否会调用shell。
+以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
+以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
+因此我们应该使用EXEC格式。
+k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
+example:
+kind: Pod spec: containers: - image: some/image command: [&#34;/bin/command&#34;] args: [&#34;arg1&#34;, &#34;arg2&#34;, &#34;arg3&#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &#34;30&#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &#34;foo&#34; - name: SECOND VAR value: &#34;$(FIRST_VAR)bar&#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。"/>
+
+    <meta property="og:title" content="k8s-volume" />
+<meta property="og:description" content="配置程序通常有三种方式：
+命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
+ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&quot;node&quot;, &quot;app.js&quot;] 两种格式的不同之处在于是否会调用shell。
+以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
+以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
+因此我们应该使用EXEC格式。
+k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
+example:
+kind: Pod spec: containers: - image: some/image command: [&#34;/bin/command&#34;] args: [&#34;arg1&#34;, &#34;arg2&#34;, &#34;arg3&#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &#34;30&#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &#34;foo&#34; - name: SECOND VAR value: &#34;$(FIRST_VAR)bar&#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/configration/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-07T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-07T21:19:00+08:00" />
+
+
+
+    <title>
+  k8s-volume · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/configration/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#命令行参数">命令行参数</a>
+      <ul>
+        <li><a href="#docker中的命令参数">docker中的命令参数</a></li>
+        <li><a href="#两种命令格式">两种命令格式</a></li>
+        <li><a href="#k8s的命令参数">k8s的命令参数</a></li>
+      </ul>
+    </li>
+    <li><a href="#环境变量">环境变量</a>
+      <ul>
+        <li><a href="#在容器中的定义">在容器中的定义</a></li>
+        <li><a href="#根据先前定义的环境变量定义环境变量">根据先前定义的环境变量定义环境变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#configmap">ConfigMap</a>
+      <ul>
+        <li><a href="#多种创建方式">多种创建方式</a></li>
+        <li><a href="#使用">使用</a></li>
+        <li><a href="#热更新">热更新</a></li>
+      </ul>
+    </li>
+    <li><a href="#secret">Secret</a>
+      <ul>
+        <li><a href="#创建">创建</a></li>
+        <li><a href="#定义为环境变量-1">定义为环境变量</a></li>
+        <li><a href="#定义为配置文件-1">定义为配置文件</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>k8s-volume</h1>
+    </header>
+
+    <p>配置程序通常有三种方式：</p>
+<ol>
+<li>命令行参数</li>
+<li>环境变量</li>
+<li>指定配置文件</li>
+</ol>
+<h2 id="命令行参数">命令行参数</h2>
+<h3 id="docker中的命令参数">docker中的命令参数</h3>
+<p>dockerfile中存在两个命令相关的属性：</p>
+<ul>
+<li>ENTRYPOINT：容器启动时执行的命令</li>
+<li>CMD：容器启动时执行的命令的参数</li>
+</ul>
+<h3 id="两种命令格式">两种命令格式</h3>
+<ul>
+<li>SHELL：ex，<code>ENTRYPOINT node app.js</code></li>
+<li>EXEC: ex, <code>ENTRYPOINT [&quot;node&quot;, &quot;app.js&quot;]</code></li>
+</ul>
+<p>两种格式的不同之处在于是否会调用shell。</p>
+<p>以EXEC格式运行的docker，应用进程（node app.js）的PID是1；</p>
+<p>以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。</p>
+<p>因此我们应该使用EXEC格式。</p>
+<h3 id="k8s的命令参数">k8s的命令参数</h3>
+<p>对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。</p>
+<p>example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: some/image 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">command</span>: [<span style="color:#0ff;font-weight:bold">&#34;/bin/command&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">args</span>: [<span style="color:#0ff;font-weight:bold">&#34;arg1&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;arg2&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;arg3&#34;</span>]
+</span></span></code></pre></div><h2 id="环境变量">环境变量</h2>
+<h3 id="在容器中的定义">在容器中的定义</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod 
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: luksa/fortune:env
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">env</span>: 
+</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">name</span>: INTERVAL
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">value</span>: <span style="color:#0ff;font-weight:bold">&#34;30&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: html-generator
+</span></span></code></pre></div><h3 id="根据先前定义的环境变量定义环境变量">根据先前定义的环境变量定义环境变量</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">env</span>: 
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">name</span>: FIRST_VAR
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">value</span>: <span style="color:#0ff;font-weight:bold">&#34;foo&#34;</span>
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">name</span>: SECOND VAR
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">value</span>: <span style="color:#0ff;font-weight:bold">&#34;$(FIRST_VAR)bar&#34;</span>
+</span></span></code></pre></div><h2 id="configmap">ConfigMap</h2>
+<p>同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。</p>
+<h3 id="多种创建方式">多种创建方式</h3>
+<ol>
+<li>
+<p>通过命令中的字面量直接创建</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create configmap fortune-config --from-literal=one=<span style="color:#ff0;font-weight:bold">1</span>
+</span></span></code></pre></div><p>该命令创建的的配置key为one，value为1</p>
+</li>
+<li>
+<p>通过configmap配置文件直接创建</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubect1 create -f fortune-config.yaml
+</span></span></code></pre></div></li>
+<li>
+<p>指定配置文件或目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create configmap my-config--from-file=/path/to/dir
+</span></span></code></pre></div></li>
+</ol>
+<p>多种创建方式example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create configmap my-config
+</span></span><span style="display:flex;"><span>	--from-file-foo.json
+</span></span><span style="display:flex;"><span>  --from-file-bar=foobar.conf
+</span></span><span style="display:flex;"><span>  --from-file=config-opts/
+</span></span><span style="display:flex;"><span>  --from-literal=some=thing
+</span></span></code></pre></div><p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210061624881.png" alt=""></p>
+<h3 id="使用">使用</h3>
+<h4 id="定义为环境变量">定义为环境变量</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: luksa/fortune:env
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">env</span>: 
+</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">name</span>: INTERVAL
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">configMapKeyRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">name</span>: fortune-config
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">key</span>: sleep-interval
+</span></span></code></pre></div><p>批量定义：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: some-image
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">envfrom</span>: 
+</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">prefix</span>: CONFIG_
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">configMapRef</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">name</span>: my-config-map
+</span></span></code></pre></div><p>通过将env替换为envfrom，k8s会将configmap（my-config-map）中的键值对批量写入到环境变量中，并且附加了前缀CONFIG_</p>
+<h4 id="定义为命令行参数">定义为命令行参数</h4>
+<p>不能直接在pod.spec.containers.args中使用configmap，但是可以先将其定义为环境变量，然后在args中引用环境变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: luksa/fortune:args
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">env</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: INTERVAL
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">configMapKeyRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">name</span>: fortune-config 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">key</span>: sleep-interval
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">args</span>: [<span style="color:#0ff;font-weight:bold">&#34;$(INTERVAL)&#34;</span>]
+</span></span></code></pre></div><h4 id="定义为配置文件">定义为配置文件</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: nginx:alpine
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">name </span>: web-server
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: config
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">mountPath</span>: /etc/nginx/conf.d 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">readOnly</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: config
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">configMap</span>:
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">name</span>: fortune-config
+</span></span></code></pre></div><p>将name为fortune-config的configmap中的内容写到容器的/etc/nginx/conf.d目录下。</p>
+<h5 id="指定configmap中的实体">指定configmap中的实体</h5>
+<p>configmap中的每个key都是实体，使用时可以指定具体的实体。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">volumes</span>: 
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">name</span>: config
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">configMap</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">name</span>: fortune-config
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">items</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">key</span>: my-nginx-config.conf
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">path</span>: gzip.conf
+</span></span></code></pre></div><h5 id="追加文件而不覆盖目录">追加文件而不覆盖目录</h5>
+<p>默认情况下会直接将容器中的整个目录“覆盖”掉，可以使用subPath来指定追加文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: some/image
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">name</span>: myvolume
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">mountPath</span>: /etc/someconfig.conf <span style="color:#007f7f"># 指定目的文件</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">subPath</span>: myconfig.conf <span style="color:#007f7f"># 指定要挂载的文件</span>
+</span></span></code></pre></div><h5 id="指定文件权限">指定文件权限</h5>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">volumes</span>: 
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">name</span>: config 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">configMap</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">name</span>: fortune-config 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">defaultMode</span>: <span style="color:#0ff;font-weight:bold">&#34;6600&#34;</span> <span style="color:#007f7f"># 默认为644（-rw-r-r--）</span>
+</span></span></code></pre></div><h3 id="热更新">热更新</h3>
+<p>修改cofigmap</p>
+<h4 id="配置文件">配置文件</h4>
+<p>容器中的文件是一个指向具有实际数据文件的软连接。</p>
+<p>如果将configmap中的配置以配置文件的方式挂载到容器中，一旦修改configmap，k8s会创建一个新的临时文件，并将容器中指定的文件软连接到新的临时文件。</p>
+<h2 id="secret">Secret</h2>
+<p>敏感信息往往需要加密，这时候就需要用到Secret。</p>
+<p>Secret的使用方式和ConfigMap相似。</p>
+<h3 id="创建">创建</h3>
+<p>提前准备好https.key https.cert等证书文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create secret generic fortune-https 
+</span></span><span style="display:flex;"><span>	--from-file=https.key
+</span></span><span style="display:flex;"><span>  --from-file=https.cert
+</span></span><span style="display:flex;"><span>  --from-file=foo
+</span></span></code></pre></div><p>通过以上命令创建了名为fortune-https的generic  Secret。</p>
+<h3 id="定义为环境变量-1">定义为环境变量</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">env</span>: 
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">name</span>: FOO_SECRET
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">valueFrom</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">secretKeyRef</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">name</span>: fortune-https
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">key</span>: foo
+</span></span></code></pre></div><h3 id="定义为配置文件-1">定义为配置文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: nginx:alpine 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">name </span>: web-server 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>		- <span style="font-weight:bold">name </span>: certs 
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">mountPath</span>: /etc/nginx/certs/ 
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">readOnly</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name </span>: certs 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">secret</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">secretName</span>: fortune-https
+</span></span></code></pre></div>
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -201,6 +201,7 @@
         <li><a href="#静态生命周期">静态生命周期</a></li>
       </ul>
     </li>
+    <li><a href="#迭代器">迭代器</a></li>
     <li><a href="#错误处理">错误处理</a></li>
     <li><a href="#版本控制">版本控制</a></li>
     <li><a href="#其他">其他</a>
@@ -914,7 +915,58 @@
 <h3 id="静态生命周期">静态生命周期</h3>
 <p>Rust中还存在一种特殊的生命周期&rsquo;static，它表示整个程序的执行期。所有的字符串字面量都拥有&rsquo;static生命周期。</p>
 <div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> s: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">str</span> = <span style="color:#0ff;font-weight:bold">&#34;I have a static lifetime.&#34;</span>;
-</span></span></code></pre></div><h2 id="错误处理">错误处理</h2>
+</span></span></code></pre></div><h2 id="迭代器">迭代器</h2>
+<ol>
+<li>
+<p>所有的迭代器都实现了定义于标准库中的Iterator trait</p>
+</li>
+<li>
+<p>Iterator trait只要求实现者手动定义一个方法：next方法，它会在每次被调用时返回一个包裹在Some中的迭代器元素，并在迭代结束时返回None。</p>
+</li>
+<li>
+<p>iter方法生成的是一个不可变引用的迭代器，我们通过next取得的值实际上是指向动态数组中各个元素的不可变引用。如果你需要创建一个取得v1所有权并返回元素本身的迭代器，那么你可以使用into_iter方法。类似地，如果你需要可变引用的迭代器，那么你可以使用iter_mut方法。</p>
+</li>
+<li>
+<p>尽管迭代器是一种高层次的抽象，但它在编译后生成了与手写底层代码几乎一样的产物。迭代器是Rust语言中的一种零开销抽象（zero-cost abstraction），这个词意味着我们在使用这些抽象时不会引入额外的运行时开销</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v1 = vec![<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> v1_iter = v1.iter();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> n1 = v1_iter.next();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, n1);
+</span></span><span style="display:flex;"><span>} 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//Some(
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//    1,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//)
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v1: <span style="color:#fff;font-weight:bold">Vec</span>&lt;<span style="color:#fff;font-weight:bold">i32</span>&gt; = vec![<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v2: <span style="color:#fff;font-weight:bold">Vec</span>&lt;_&gt; = v1.iter().map(|x| x+<span style="color:#ff0;font-weight:bold">1</span>).collect();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, v2);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> shoes: <span style="color:#fff;font-weight:bold">Vec</span>&lt;_&gt; = shoes_in_my_size(vec![Shoe{size: <span style="color:#ff0;font-weight:bold">10</span>},Shoe{size: <span style="color:#ff0;font-weight:bold">30</span>}], <span style="color:#ff0;font-weight:bold">10</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, shoes);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive (PartialEq, Debug) ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Shoe {
+</span></span><span style="display:flex;"><span>    size: <span style="color:#fff;font-weight:bold">u32</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> shoes_in_my_size (shoes: <span style="color:#fff;font-weight:bold">Vec</span>&lt;Shoe&gt;, shoe_size: <span style="color:#fff;font-weight:bold">u32</span>) -&gt;<span style="color:#fff;font-weight:bold">Vec</span>&lt;Shoe&gt; {
+</span></span><span style="display:flex;"><span>    shoes.into_iter().filter(|s| s.size==shoe_size).collect ()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// [
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     2,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     3,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     4,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// ]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// [
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     Shoe {
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//         size: 10,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     },
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// ]
+</span></span></span></code></pre></div><h2 id="错误处理">错误处理</h2>
 <ol>
 <li>
 <p>失败时触发panic的快捷方式：</p>
