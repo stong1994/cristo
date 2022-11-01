@@ -6,7 +6,25 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 11 Oct 2022 14:43:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Oct 2022 14:43:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>并发请求之errgroup</title>
+      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>并发请求之errgroup</title>
+      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Athens安装及使用</title>
       <link>https://stong1994.github.io/internet/tool/athens/</link>
@@ -133,6 +151,17 @@ backlog 如果有大量连接同时发起，应用层不能及时处理或者操
 TCP会将已完成握手的连接放入一个FIFO队列（全连接队列）中，应用层会从这个队列中获取已完成的连接进行处理。
 同样，未完成的连接也有一个FIFO队列（半连接队列）。
 两个队列的大小是固定值，如果应用层不能及时消费全连接队列导致队列已满，那么完成握手的新连接服务进入全连接队列，最终导致半连接队列被填满。半连接队列已满后将不再理会SYN报文，表现为客户端的连接状态一直为TCP_SENT，服务端的连接状态为TCP_RECV，最终客户端的连接将超时.</description>
+    </item>
+    
+    <item>
+      <title>antlr4-减号和负号</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
+      <pubDate>Sun, 27 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
+      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
+支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
+grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
     </item>
     
     <item>
@@ -278,6 +307,34 @@ AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，
 “同步到磁盘”有三种方式：
 将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
 一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
+    </item>
+    
+    <item>
+      <title>antlr4 with go</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>1. 安装antlr4 直接按照 官网步骤安装即可。
+2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
+grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
+antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
+➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
+    </item>
+    
+    <item>
+      <title>antlr4实战</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl+D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
     </item>
     
     <item>

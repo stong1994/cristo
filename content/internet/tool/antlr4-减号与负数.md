@@ -1,6 +1,6 @@
 +++
 
-date = 2022-03-27T20:43:00+08:00
+date = 2022-10-30T20:43:00+08:00
 title = "antlr4-减号和负号"
 url = "/internet/tool/antlr4-negative-and-minus"
 
@@ -275,3 +275,4 @@ func TestNegativeNum(t *testing.T) {
 1. [ANTLR 4中处理负号]( https://liucs.net/cs664s16/antlr.html)
 
 2. [文中的代码地址](https://github.com/stong1994/antlr4-go-example/blob/master/calculator/calculator.g4)
+

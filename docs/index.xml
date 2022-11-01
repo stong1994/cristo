@@ -6,7 +6,99 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 15 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker基础理论</title>
+      <link>https://stong1994.github.io/cloudnative/docker/base/</link>
+      <pubDate>Sat, 22 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/docker/base/</guid>
+      <description>背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
+Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
+核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
+这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
+Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
+以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
+查看容器中的PID：
+$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
+$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S+ 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0.</description>
+    </item>
+    
+    <item>
+      <title>并发请求之errgroup</title>
+      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>并发请求之errgroup</title>
+      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s-ServiceAccount&amp;RBAC</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</link>
+      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</guid>
+      <description>ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
+分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
+内置的分组：
+system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&amp;lt;namespace&amp;gt;: 包含指定命名空间的所有ServiceAccount example：
+apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
+RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
+RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
+RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
+Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
+动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
+HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac.</description>
+    </item>
+    
+    <item>
+      <title>k8s-调度器</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
+      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
+      <description>taint &amp;amp; toleration taint和toleration用来限制pod部署到特定的node。taint是node的属性，toleration是pod的属性。一个pod只会被调度到能够容忍（toleration）它的污点（taint）的节点上。
+taints的格式为&amp;lt;key&amp;gt;=&amp;lt;value&amp;gt;:&amp;lt;effect&amp;gt;，其中effect可以为：
+NoSchedule：如果pod不容忍节点的污点，则不会被调度到该节点。 PreferNoSchedule：一个软NoSchedule，pod尽量不被调度到这些有不能容忍的污点的节点上，但是如果没有其他可用的节点，那么仍会部署到这些节点上。 NoExecute：前两者只会影响待调度的pod，而NoExecute则也会影响已经运行的pod，如果向节点添加一个NoExecute污点，那么节点上的pod会被驱逐。 查看k8s的主节点：kubectl describe node master.k8s
+Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/os=linux kubernetes.io/hostname=master.k8s node-role.kubernetes.io/master= Annotations: node.alpha.kubernetes.io/ttl=0 volumes.kubernetes.io/controller-managed-attach-detach=true Taints: node-role.kubernetes.io/master:NoSchedule affinity affinity是pod的属性，每个pod都可以定义其亲和性（affinity）规则，这意味着k8s会更青睐于将其调度到对应的节点上。</description>
+    </item>
+    
+    <item>
+      <title>k8s-可计算资源管理</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
+      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
+      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
+example：
+apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
+    </item>
+    
+    <item>
+      <title>k8s-自动伸缩</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
+      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
+      <description>Pod水平伸缩-HorizontalPodAutoscaler 自动伸缩过程 获取所有被伸缩资源对象管理的所有pod的指标。 计算使指标达到（或接近）指定目的值所需的pod数量。 更新伸缩对象的replicas字段。 三种指标类型 Resource：如cpu、内存 Pods：关联到Pod上的任意指标，如QPS Object：适用于不直接关联到pod上的指标，如其他对象的指标是否达到目的值 Pod垂直伸缩 相对于水平伸缩的调整pod的数量，垂直伸缩是调整pod的cpu、内存请求/限制数量。
+Node水平伸缩 当请求数量猛增时，需要增加pod的数量来应对。k8s会匹配到合适的node，但是如果node资源紧缺，则无法找到合适的node，这时就需要node的自动伸缩。
+node的自动伸缩需要云服务商提供支持。
+自动扩容过程 自动伸缩器发现pod不能被调度到存在的节点上。 自动伸缩器找到能够适用于该pod的节点类型。 自动伸缩器进行node扩容。 自动缩容 为了减少云服务器的开销，当一个节点上所有的pod的cpu和内存的请求都低于50%，则可以认为该节点是多余的。当然还需要考虑其他情况，如是否是系统pod。
+当一个节点被关闭时，该节点会先被标记为不可调度，然后再驱逐节点上的pod。
+PodDisruptionBudget 一些服务需要保证最少数量的pod能够运行，这时可使用PodDisruptionBudget资源来避免自动缩容。
+apiVersion: policy/v1beta1 kind: PodDisruptionBudget metadata: name: kubia-pdb spec: minAvailable: 3 # 最少3个pod可用 selector: matchLabels: app: kubia ... </description>
+    </item>
+    
     <item>
       <title>k8s架构设计</title>
       <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
@@ -101,9 +193,9 @@ Pod是一组容器——这意味着它可以只包含一个容器，也可以�
 最小的构建单元&amp;amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
 容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置：
-apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 命令 命令 说明 kubectl explain pods 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec kubectl create -f xx.yaml 通过xx.yaml创建资源，如pod kubectl get pod ex_pod -o yaml 将ex_pod资源定义以yaml格式输出，可支持json格式 kubectl logs ex_pod 查看ex_pod的日志 kubectl logs ex_pod -c ex_container 查看ex_pod下的ex_container容器日志 kubectl port-forward ex_pod 8888:8000 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 kubectl label po xx_pod xx_tag=xx_value &amp;ndash;overwrite 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 kubectl get po -l xx_tag=xx_vlaue 展示label中xx_tag是xx_value的pod kubectl get po -l env 展示label中含有env标签的pod kubectl get po -l &amp;lsquo;!</description>
+pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；</description>
     </item>
     
     <item>
@@ -143,7 +235,7 @@ pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service
       
       <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
       <description>对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap label label用于对象分组。
+pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
 可以通过label来筛选对象。
 annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
 namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
@@ -458,6 +550,17 @@ TCP会将已完成握手的连接放入一个FIFO队列（全连接队列）中�
     </item>
     
     <item>
+      <title>antlr4-减号和负号</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
+      <pubDate>Sun, 27 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
+      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
+支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
+grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
+    </item>
+    
+    <item>
       <title>在浏览器访问一个网址都经历了哪些</title>
       <link>https://stong1994.github.io/internet/internet/browser_visit/</link>
       <pubDate>Fri, 25 Mar 2022 15:58:00 +0800</pubDate>
@@ -600,6 +703,34 @@ AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，
 “同步到磁盘”有三种方式：
 将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
 一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
+    </item>
+    
+    <item>
+      <title>antlr4 with go</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>1. 安装antlr4 直接按照 官网步骤安装即可。
+2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
+grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
+antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
+➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
+    </item>
+    
+    <item>
+      <title>antlr4实战</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl+D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
     </item>
     
     <item>

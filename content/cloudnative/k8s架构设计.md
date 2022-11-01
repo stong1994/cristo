@@ -1,6 +1,6 @@
 +++
 
-date = 2022-10-15T21:19:00+08:00
+date = 2022-10-13T21:19:00+08:00
 title = "k8s架构设计"
 url = "/cloudnative/k8s/architecture"
 

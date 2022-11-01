@@ -1,6 +1,6 @@
 +++
 
-date = 2022-10-16T21:19:00+08:00
+date = 2022-10-15T21:19:00+08:00
 title = "k8s-自动伸缩"
 url = "/cloudnative/k8s/autoscaling"
 

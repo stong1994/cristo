@@ -1,6 +1,6 @@
 +++
 
-date = 2022-03-17T20:43:00+08:00
+date = 2022-10-29T20:43:00+08:00
 title = "antlr4实战"
 url = "/internet/tool/antlr4-with-go"
 
@@ -700,6 +700,34 @@ comment:  should be 110
 ```
 
 
+
+## 计算器6-计算结果赋值
+
+有时我们需要将计算结果赋值给一个变量，比如`a=1+2-3`，这时候需要先计算等号右边，即对等号使用**右结合律**。
+
+一个简单的例子：
+
+```js
+grammar right;
+
+stat : expr;
+
+expr : expr AddSub expr
+     | <assoc=right> expr '=' expr
+     | INT
+     | ID
+     ;
+
+AddSub : '+' | '-' ;
+
+INT  : [0-9]+ ;
+ID : [a-zA-Z]+;
+WS : [ \t\r\n]+ -> skip ;
+```
+
+关键的语法是`<assoc=right>`，它表示先解析右边，上述的语法树为：
+
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202211011605490.png)
 
 ## 错误监听器
 

@@ -1,6 +1,6 @@
 +++
 
-date = 2022-10-16T21:19:00+08:00
+date = 2022-10-18T21:19:00+08:00
 title = "k8s-ServiceAccount&RBAC"
 url = "/cloudnative/k8s/serviceAccount_rbac"
 

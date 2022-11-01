@@ -13,9 +13,9 @@ Pod是一组容器——这意味着它可以只包含一个容器，也可以�
 最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
 容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置：
-apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 命令 命令 说明 kubectl explain pods 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec kubectl create -f xx.yaml 通过xx.yaml创建资源，如pod kubectl get pod ex_pod -o yaml 将ex_pod资源定义以yaml格式输出，可支持json格式 kubectl logs ex_pod 查看ex_pod的日志 kubectl logs ex_pod -c ex_container 查看ex_pod下的ex_container容器日志 kubectl port-forward ex_pod 8888:8000 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 kubectl label po xx_pod xx_tag=xx_value &ndash;overwrite 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 kubectl get po -l xx_tag=xx_vlaue 展示label中xx_tag是xx_value的pod kubectl get po -l env 展示label中含有env标签的pod kubectl get po -l &lsquo;!">
+pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；">
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
@@ -25,9 +25,9 @@ Pod是一组容器——这意味着它可以只包含一个容器，也可以�
 最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
 容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置：
-apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 命令 命令 说明 kubectl explain pods 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec kubectl create -f xx.yaml 通过xx.yaml创建资源，如pod kubectl get pod ex_pod -o yaml 将ex_pod资源定义以yaml格式输出，可支持json格式 kubectl logs ex_pod 查看ex_pod的日志 kubectl logs ex_pod -c ex_container 查看ex_pod下的ex_container容器日志 kubectl port-forward ex_pod 8888:8000 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 kubectl label po xx_pod xx_tag=xx_value &ndash;overwrite 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 kubectl get po -l xx_tag=xx_vlaue 展示label中xx_tag是xx_value的pod kubectl get po -l env 展示label中含有env标签的pod kubectl get po -l &lsquo;!"/>
+pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；"/>
 
     <meta property="og:title" content="k8s-pod" />
 <meta property="og:description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
@@ -35,9 +35,9 @@ Pod是一组容器——这意味着它可以只包含一个容器，也可以�
 最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
 容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
 通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置：
-apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 命令 命令 说明 kubectl explain pods 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec kubectl create -f xx.yaml 通过xx.yaml创建资源，如pod kubectl get pod ex_pod -o yaml 将ex_pod资源定义以yaml格式输出，可支持json格式 kubectl logs ex_pod 查看ex_pod的日志 kubectl logs ex_pod -c ex_container 查看ex_pod下的ex_container容器日志 kubectl port-forward ex_pod 8888:8000 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 kubectl label po xx_pod xx_tag=xx_value &ndash;overwrite 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 kubectl get po -l xx_tag=xx_vlaue 展示label中xx_tag是xx_value的pod kubectl get po -l env 展示label中含有env标签的pod kubectl get po -l &lsquo;!" />
+pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/pod/" /><meta property="article:section" content="cloudnative" />
 <meta property="article:published_time" content="2022-10-08T21:19:00+08:00" />
@@ -164,13 +164,27 @@ apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx i
     <li><a href="#什么是pod">什么是pod</a></li>
     <li><a href="#最小的构建单元为什么需要pod">最小的构建单元&amp;为什么需要pod</a>
       <ul>
-        <li><a href="#实现pod内容器去隔离">实现pod内容器”去隔离“</a></li>
+        <li><a href="#pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</a></li>
       </ul>
     </li>
     <li><a href="#决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</a></li>
     <li><a href="#配置">配置</a>
       <ul>
+        <li><a href="#一个最简单的配置">一个最简单的配置</a></li>
+        <li><a href="#使用宿主机的pid和ipc-namespace">使用宿主机的PID和IPC namespace</a></li>
+        <li><a href="#使用宿主机的网络namespace">使用宿主机的网络namespace</a></li>
+        <li><a href="#绑定宿主机的端口但不使用hostnetwork">绑定宿主机的端口但不使用hostNetwork</a></li>
+        <li><a href="#podsecuritypolicy">PodSecurityPolicy</a></li>
         <li><a href="#命令">命令</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+    <li><a href="#pod-lifecycle">Pod lifecycle</a>
+      <ul>
+        <li><a href="#init-container初始化pod">init container—初始化pod</a></li>
+        <li><a href="#post-start-hook">post-start hook</a></li>
+        <li><a href="#pre-stop-hook">pre-stop hook</a></li>
+        <li><a href="#pod关闭流程">pod关闭流程</a></li>
       </ul>
     </li>
     <li><a href="#pod-manager">Pod Manager</a>
@@ -203,7 +217,7 @@ apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx i
 <p>Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。</p>
 <p>容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。</p>
 <p>通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。</p>
-<h3 id="实现pod内容器去隔离">实现pod内容器”去隔离“</h3>
+<h3 id="pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</h3>
 <p>在节点上执行命令<code>docker ps</code>，会看到一个<code>pause</code>容器，这个容器的作用是持有pod的namespace——<strong>该pod下的用户定义的容器都使用<code>pause</code>容器的namespace</strong>。</p>
 <p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt=""></p>
 <h2 id="决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</h2>
@@ -213,7 +227,7 @@ apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx i
 <li>如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod</li>
 </ol>
 <h2 id="配置">配置</h2>
-<p>一个最简单的配置：</p>
+<h3 id="一个最简单的配置">一个最简单的配置</h3>
 <div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
 </span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
 </span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
@@ -224,7 +238,63 @@ apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx i
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: nginx:1.14.2
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>:
 </span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span></code></pre></div><h3 id="命令">命令</h3>
+</span></span></code></pre></div><h3 id="使用宿主机的pid和ipc-namespace">使用宿主机的PID和IPC namespace</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostPID</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostIPC</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span></code></pre></div><h3 id="使用宿主机的网络namespace">使用宿主机的网络namespace</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostNetwork</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span></code></pre></div><h3 id="绑定宿主机的端口但不使用hostnetwork">绑定宿主机的端口但不使用hostNetwork</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">8080</span> <span style="color:#007f7f"># 指定容器端口为8080</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">hostPort</span>: <span style="color:#ff0;font-weight:bold">9000</span> <span style="color:#007f7f"># 指定宿主机端口为9000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">protocol</span>: TCP
+</span></span></code></pre></div><h3 id="podsecuritypolicy">PodSecurityPolicy</h3>
+<p>PodSecurityPolicy定义了pod的安全策略。包括：</p>
+<ul>
+<li>是否能够使用宿主机的IPC、PID、网络等命名空间</li>
+<li>能够绑定宿主机的哪些端口</li>
+<li>能够使用哪些userID</li>
+<li>能否创建privileged container</li>
+<li>限定内核能力</li>
+<li>能够使用哪些SELinux标签</li>
+<li>能够使用哪些文件系统</li>
+<li>能够使用哪些挂载卷</li>
+<li>等</li>
+</ul>
+<p>example；</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>	<span style="font-weight:bold">apiVersion</span>: extensions/v1beta1
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">kind</span>: PodSecurityPolicy
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: default
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostIPC</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostPID</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostNetwork</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostPorts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">min</span>: <span style="color:#ff0;font-weight:bold">10000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">max</span>: <span style="color:#ff0;font-weight:bold">11000</span>
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">min</span>: <span style="color:#ff0;font-weight:bold">13000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">max</span>: <span style="color:#ff0;font-weight:bold">14000</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">privileged</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">readOnlyRootFilesystem</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">runAsUser</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">fsGroup</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">supplementalGroups</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">seLinux</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>		- <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>
+</span></span></code></pre></div><p>PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterRole。</p>
+<h3 id="命令">命令</h3>
 <table>
 <thead>
 <tr>
@@ -283,6 +353,60 @@ apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx i
 </tr>
 </tbody>
 </table>
+<h3 id="heading"></h3>
+<h2 id="pod-lifecycle">Pod lifecycle</h2>
+<h3 id="init-container初始化pod">init container—初始化pod</h3>
+<p>init容器用于pod的初始化，pod可拥有任意数量的init容器。</p>
+<p>pod定义的init容器会在pod启动后一个接一个的线性执行，当所有init容器执行完后才会执行主容器。</p>
+<p>init容器往往用于等待主容器所依赖的service或者资源准备就绪。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">initContainers</span>: <span style="color:#007f7f"># 定义init容器</span>
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: init
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: busybox
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">command</span>: <span style="color:#007f7f"># 循环等待http://fortune准备就绪</span>
+</span></span><span style="display:flex;"><span>    - sh
+</span></span><span style="display:flex;"><span>    - -c
+</span></span><span style="display:flex;"><span>	  - <span style="color:#0ff;font-weight:bold">&#39;while true; do echo &#34;Waiting for fortune service to come up...&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">    wget http://fortune -q -T 1 -O /dev/null &gt;/dev/null 2&gt;/dev/null 
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">    &amp;&amp; break; sleep 1; done; echo &#34;Service is up! Starting main container.&#34;&#39;</span>
+</span></span></code></pre></div><h3 id="post-start-hook">post-start hook</h3>
+<p>当容器的主程序启动后，会执行post-start钩子。</p>
+<p>可以用于执行额外的应用命令而不用修改服务代码。</p>
+<p>如果post-start钩子退出状态不是0，则主容器会被kill。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: pod-with-poststart-hook
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">lifecycle</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">postStart</span>: <span style="color:#007f7f"># 定义posst-start钩子</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">exec</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">command</span>:
+</span></span><span style="display:flex;"><span>        - sh
+</span></span><span style="display:flex;"><span>        - -c
+</span></span><span style="display:flex;"><span>        - <span style="color:#0ff;font-weight:bold">&#34;echo &#39;hook will fail with exit code 15&#39;; sleep 5; exit 15&#34;</span>
+</span></span></code></pre></div><h3 id="pre-stop-hook">pre-stop hook</h3>
+<p>当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">lifecycle</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">preStop</span>: <span style="color:#007f7f"># 定义pre-stop钩子</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">httpGet</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">path</span>: shutdown
+</span></span></code></pre></div><p>当容器中断后会发送<code>SIGTERM</code>信号到钩子。钩子会发送一个http请求，地址为<code>http:// POD_IP:8080/shutdown</code>.</p>
+<h3 id="pod关闭流程">pod关闭流程</h3>
+<p>在k8s中，API server控制所有的对象的生命周期。</p>
+<p>当API server收到一个请求删除对象的请求后，并不会直接删除对象，而是设置<code>deletionTimestamp</code>字段到这个对象上。pod上的kubelet监听到<code>deletionTimestamp</code>字段生成，会执行关闭流程。</p>
+<ol>
+<li>执行pre-stop钩子</li>
+<li>发送<code>SIGTERM</code>信号到容器的主程序。</li>
+<li>等待程序优雅关闭或者关闭超时。</li>
+<li>如果程序没有优雅关闭，则使用<code>SIGKILL</code>信号强制关闭。</li>
+</ol>
 <h2 id="pod-manager">Pod Manager</h2>
 <h3 id="存活探针liveness-probe">存活探针（liveness probe）</h3>
 <p>pod管理器管理pod的生命周期，因此需要知道pod当前的状态，即pod是否存活。</p>

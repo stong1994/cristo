@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
+Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
+核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
+这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
+Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
+以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
+查看容器中的PID：
+$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
+$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S&#43; 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="docker基础理论"/>
+<meta name="twitter:description" content="背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
+Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
+核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
+这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
+Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
+以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
+查看容器中的PID：
+$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
+$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S&#43; 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0."/>
+
+    <meta property="og:title" content="docker基础理论" />
+<meta property="og:description" content="背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
+Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
+核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
+这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
+Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
+以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
+查看容器中的PID：
+$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
+$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S&#43; 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/docker/base/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-22T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-22T21:19:00+08:00" />
+
+
+
+    <title>
+  docker基础理论 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/docker/base/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#核心功能">核心功能</a>
+      <ul>
+        <li><a href="#namespaces-视图隔离">Namespaces-视图隔离</a></li>
+        <li><a href="#cgroups-资源限制">Cgroups-资源限制</a></li>
+        <li><a href="#层级镜像">层级镜像</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>docker基础理论</h1>
+    </header>
+
+    <h2 id="背景">背景</h2>
+<p>Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。</p>
+<p>Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。</p>
+<h2 id="核心功能">核心功能</h2>
+<blockquote>
+<p>容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“</p>
+</blockquote>
+<p>这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。</p>
+<h3 id="namespaces-视图隔离">Namespaces-视图隔离</h3>
+<p>Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。</p>
+<p>以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。</p>
+<p>查看容器中的PID：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ docker run -it busybox /bin/sh
+</span></span><span style="display:flex;"><span>/ <span style="color:#007f7f"># ps</span>
+</span></span><span style="display:flex;"><span>PID   USER     TIME  COMMAND
+</span></span><span style="display:flex;"><span>    <span style="color:#ff0;font-weight:bold">1</span> root      0:00 /bin/sh
+</span></span><span style="display:flex;"><span>    <span style="color:#ff0;font-weight:bold">7</span> root      0:00 ps
+</span></span></code></pre></div><p>在宿主机查看容器的PID:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ ps aux | grep busybox
+</span></span><span style="display:flex;"><span>xxx            <span style="color:#ff0;font-weight:bold">22834</span>   0.0  0.0 <span style="color:#ff0;font-weight:bold">408628368</span>   <span style="color:#ff0;font-weight:bold">1648</span> s003  S+    9:39PM   0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox
+</span></span><span style="display:flex;"><span>xxx            <span style="color:#ff0;font-weight:bold">22438</span>   0.0  0.2 <span style="color:#ff0;font-weight:bold">409266240</span>  <span style="color:#ff0;font-weight:bold">35632</span>   ??  S     9:31PM   0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh
+</span></span><span style="display:flex;"><span>xxx            <span style="color:#ff0;font-weight:bold">22437</span>   0.0  0.2 <span style="color:#ff0;font-weight:bold">409280112</span>  <span style="color:#ff0;font-weight:bold">37104</span>   ??  S     9:31PM   0:00.09 docker run -it busybox /bin/sh
+</span></span></code></pre></div><p>通过这个例子即可明白，<strong>容器本质上就是一个进程</strong>，用户的应用进程就是容器里PID为1的进程，也是其他后续创建的所有进程的父进程。</p>
+<h3 id="cgroups-资源限制">Cgroups-资源限制</h3>
+<p>在Linux中，Cgroups向用户暴露出来的操作接口是文件系统，可查看<code>/sys/fs/cgroup</code>下的文件:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ ll /sys/fs/cgroup/
+</span></span><span style="display:flex;"><span>total <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">5</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> blkio
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">11</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> cpu -&gt; cpu,cpuacct
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">11</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> cpuacct -&gt; cpu,cpuacct
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> cpu,cpuacct
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> cpuset
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">5</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> devices
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> freezer
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> hugetlb
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">5</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> memory
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">16</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> net_cls -&gt; net_cls,net_prio
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> net_cls,net_prio
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">16</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> net_prio -&gt; net_cls,net_prio
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> perf_event
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">5</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> pids
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">2</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> rdma
+</span></span><span style="display:flex;"><span>dr-xr-xr-x <span style="color:#ff0;font-weight:bold">5</span> root root  <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> systemd
+</span></span></code></pre></div><p>也可通过mount命令来显示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ mount -t cgroup
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/systemd <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,xattr,release_agent=/usr/lib/systemd/systemd-cgroups-agent,name=systemd)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/cpuset <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/blkio <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/hugetlb <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/pids <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,pids)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/rdma <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,rdma)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/perf_event <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/memory <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/devices <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/cpu,cpuacct <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/net_cls,net_prio <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio)
+</span></span><span style="display:flex;"><span>cgroup on /sys/fs/cgroup/freezer <span style="color:#fff;font-weight:bold">type</span> cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+</span></span></code></pre></div><p>可以看到<code>/sys/fs/cgroup</code>下有很多目录，也可以称其为子系统。</p>
+<p>查看cpu子系统的配置文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cgroup.clone_children
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Feb <span style="color:#ff0;font-weight:bold">17</span>  <span style="color:#ff0;font-weight:bold">2022</span> cgroup.procs
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cgroup.sane_behavior
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.stat
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_all
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_percpu
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_percpu_sys
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_percpu_user
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_sys
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpuacct.usage_user
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.cfs_period_us
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.cfs_quota_us
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.rt_period_us
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.rt_runtime_us
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.shares
+</span></span><span style="display:flex;"><span>-r--r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 cpu.stat
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 notify_on_release
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 release_agent
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ff0;font-weight:bold">1</span> root root <span style="color:#ff0;font-weight:bold">0</span> Oct <span style="color:#ff0;font-weight:bold">22</span> 20:57 tasks
+</span></span></code></pre></div><p>这些配置文件即资源的控制配置。</p>
+<p>在<code>/sys/fs/cgroup/cpu</code>下创建一个目录就是创建一个控制组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ mkdir container
+</span></span><span style="display:flex;"><span>$ ls container/
+</span></span><span style="display:flex;"><span>cgroup.clone_children  cpuacct.usage_percpu_sys   cpu.rt_period_us
+</span></span><span style="display:flex;"><span>cgroup.procs           cpuacct.usage_percpu_user  cpu.rt_runtime_us
+</span></span><span style="display:flex;"><span>cpuacct.stat           cpuacct.usage_sys          cpu.shares
+</span></span><span style="display:flex;"><span>cpuacct.usage          cpuacct.usage_user         cpu.stat
+</span></span><span style="display:flex;"><span>cpuacct.usage_all      cpu.cfs_period_us          notify_on_release
+</span></span><span style="display:flex;"><span>cpuacct.usage_percpu   cpu.cfs_quota_us           tasks
+</span></span></code></pre></div><p>可以看到会自动在文件下生成配置文件。</p>
+<p>执行脚本来使用cpu</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#fff;font-weight:bold">while</span> : ; <span style="color:#fff;font-weight:bold">do</span> : ; <span style="color:#fff;font-weight:bold">done</span> &amp;
+</span></span><span style="display:flex;"><span>[1] <span style="color:#ff0;font-weight:bold">110625</span>
+</span></span></code></pre></div><p>通过top命令可以看到cpu已跑满。</p>
+<p>查看配置文件，发现没有对cpu做任何限制。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat /sys/fs/cgroup/cpu/container/cpu.cfs_quota_us
+</span></span><span style="display:flex;"><span>-1
+</span></span><span style="display:flex;"><span>$ cat /sys/fs/cgroup/cpu/container/cpu.cfs_period_us
+</span></span><span style="display:flex;"><span><span style="color:#ff0;font-weight:bold">100000</span>
+</span></span></code></pre></div><p>修改cpu的资源限制，并将脚本进程写入tasks文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ <span style="color:#fff;font-weight:bold">echo</span> <span style="color:#ff0;font-weight:bold">20000</span> &gt; /sys/fs/cgroup/cpu/container/cpu.cfs_quota_us
+</span></span><span style="display:flex;"><span>$ <span style="color:#fff;font-weight:bold">echo</span> <span style="color:#ff0;font-weight:bold">110625</span> &gt; /sys/fs/cgroup/cpu/container/tasks
+</span></span></code></pre></div><p>再次通过top命令查看，发现cpu资源目前只使用了20%。</p>
+<p>通过这个例子即可明白，通过在子系统目录上添加配置即可实现对容器进程的资源限制。</p>
+<h3 id="层级镜像">层级镜像</h3>
+<p>镜像提供了对容器的封装能力。对于一个镜像来说，往往需要很多文件组成。而不同的镜像又往往包含大量相同的文件，因此复用这些文件能够减轻存储上的负担。</p>
+<h4 id="aufs">aufs</h4>
+<p>Docker使用了联合文件系统（UnionFS）来将不同位置的文件挂在到同一个目录下。如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ mkdir A
+</span></span><span style="display:flex;"><span>$ touch A/a
+</span></span><span style="display:flex;"><span>$ touch A/x
+</span></span><span style="display:flex;"><span>$ mkdir B
+</span></span><span style="display:flex;"><span>$ touch B/b
+</span></span><span style="display:flex;"><span>$ touch B/x
+</span></span><span style="display:flex;"><span>$ tree .
+</span></span><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── A
+</span></span><span style="display:flex;"><span>│   ├── a
+</span></span><span style="display:flex;"><span>│   └── x
+</span></span><span style="display:flex;"><span>└── B
+</span></span><span style="display:flex;"><span>    ├── b
+</span></span><span style="display:flex;"><span>    └── x
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>$ mkdir C
+</span></span><span style="display:flex;"><span>$ mount -t aufs -o dirs=./A:./B none ./C
+</span></span><span style="display:flex;"><span>$ tree ./C
+</span></span><span style="display:flex;"><span>├── C
+</span></span><span style="display:flex;"><span>    ├── a
+</span></span><span style="display:flex;"><span> 		├── b
+</span></span><span style="display:flex;"><span>    └── x
+</span></span></code></pre></div><p><em>aufs目前未进入Linux内核主干，因此需要在Ubuntu或者Debian中使用。</em></p>
+<p>查看一个真实的镜像的rootfs：mongo:latest</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker image inspect mongo:latest
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;RootFS&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#0ff;font-weight:bold">&#34;Type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;layers&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#0ff;font-weight:bold">&#34;Layers&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:9beca9c8e2ecd104c677c9641a49185b9f8378ea324deb0fe9cf27110b1b6d63&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:9b15e449fc8674321a15ba2a95524c97ab7d00100e455557e62710fa523cf18d&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:cd29c6aca3eace87b2f1fa23298091b08ef0690bebae3057800ed850905e4a40&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:16208120a67a2d53b08746d1e2247509610deaec5b7171679d34271d57a93acd&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:1086bc23cfe49c43bb9b3dd087c779a12a2b2a67cd5fbf122c0e6920686057b6&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:ef164b7459da57e99f803812c147ece267bea290adbf46dbeac3a24d58aff884&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:88258f62562c3cae2688d5fbee79558f3fedd801e3a3d07bf269030b5a17908e&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:fed744844078c1ba0e96a9485b700a5a37582f15fe04e7f116b717f5783db491&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#0ff;font-weight:bold">&#34;sha256:7a9de8ac1cd283c2a7ecc7f336bc0b31302955d5c13b780745db57e96f663dc3&#34;</span>
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>可以看到这个镜像由9个层组成。</p>
+<h4 id="只读层">只读层</h4>
+<p>一个容器的rootfs可以分为三类：只读层、可读写层和Init层。其中只读层就对应于其镜像包含的层。</p>
+<h4 id="init层">Init层</h4>
+<p>只读层上边是Init层，是Docker用来存储/etc/hosts、/etc/resolv.conf 等信息的。</p>
+<p>修改这层的内容只对当前容器有效，在docker commit时，不会包含Init层。</p>
+<h4 id="可读写层">可读写层</h4>
+<p>可读写层是这个容器的rootfs最上面的一层，在容器里边的写操作都会以增量的方式出现在该层中。</p>
+<p>如果是删除操作，则会创建一个名为.wh.foo的文件并将此内容写到这个文件中，用于遮挡该内容。</p>
+<p>当docker commit时，可读写层会被提交。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

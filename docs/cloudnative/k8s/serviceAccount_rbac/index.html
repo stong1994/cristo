@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
+分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
+内置的分组：
+system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&lt;namespace&gt;: 包含指定命名空间的所有ServiceAccount example：
+apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&#34;sleep&#34;, &#34;9999999&#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
+RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
+RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
+RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
+Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
+动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
+HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s-ServiceAccount&amp;RBAC"/>
+<meta name="twitter:description" content="ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
+分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
+内置的分组：
+system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&lt;namespace&gt;: 包含指定命名空间的所有ServiceAccount example：
+apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&#34;sleep&#34;, &#34;9999999&#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
+RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
+RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
+RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
+Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
+动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
+HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac."/>
+
+    <meta property="og:title" content="k8s-ServiceAccount&amp;RBAC" />
+<meta property="og:description" content="ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
+分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
+内置的分组：
+system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&lt;namespace&gt;: 包含指定命名空间的所有ServiceAccount example：
+apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&#34;sleep&#34;, &#34;9999999&#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
+RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
+RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
+RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
+Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
+动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
+HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-16T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-16T21:19:00+08:00" />
+
+
+
+    <title>
+  k8s-ServiceAccount&amp;RBAC · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#serviceaccount">ServiceAccount</a>
+      <ul>
+        <li><a href="#分组">分组</a></li>
+      </ul>
+    </li>
+    <li><a href="#rbac">RBAC</a>
+      <ul>
+        <li><a href="#rbac鉴权插件">RBAC鉴权插件</a></li>
+        <li><a href="#rbac资源">RBAC资源</a></li>
+        <li><a href="#动词">动词</a></li>
+        <li><a href="#example">Example</a></li>
+        <li><a href="#四种角色资源的使用">四种角色资源的使用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>k8s-ServiceAccount&amp;RBAC</h1>
+    </header>
+
+    <h2 id="serviceaccount">ServiceAccount</h2>
+<p>k8s中管理pod的访问权限的实体是ServiceAccount。</p>
+<h3 id="分组">分组</h3>
+<p>为一批用户绑定一个分组，能够实现用户和权限之间的解耦。</p>
+<p>内置的分组：</p>
+<ul>
+<li><code>system:unauthenticated</code>: 适用于无需任何权限校验的请求</li>
+<li><code>system:authenticated</code>: 适用于权限认证已通过的请求</li>
+<li><code>system:serviceaccounts</code>:  包含系统中所有的ServiceAccount</li>
+<li><code>system:serviceaccounts:&lt;namespace&gt;</code>: 包含指定命名空间的所有ServiceAccount</li>
+</ul>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: curl-custom-sa
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">serviceAccountName</span>: foo
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: tutum/curl
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">command</span>: [<span style="color:#0ff;font-weight:bold">&#34;sleep&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;9999999&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: ambassador
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: luksa/kubectl-proxy:1.6.2
+</span></span></code></pre></div><h2 id="rbac">RBAC</h2>
+<p>ROLE BASE ACCESS CONTROL</p>
+<h3 id="rbac鉴权插件">RBAC鉴权插件</h3>
+<p>RBAC鉴权插件用于检查是否允许用户执行某行为。</p>
+<p>RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。</p>
+<h3 id="rbac资源">RBAC资源</h3>
+<p>RBAC鉴权插件中的角色是一种资源，这种资源分成四种：</p>
+<ul>
+<li>Role和ClusterRole：指定动作能够用于哪些资源。</li>
+<li>RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。</li>
+</ul>
+<p><strong>Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。</strong></p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152058567.png" alt=""></p>
+<h3 id="动词">动词</h3>
+<p>访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：</p>
+<table>
+<thead>
+<tr>
+<th>HTTP 方法</th>
+<th>单个资源动词</th>
+<th>多资源动词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET, HEAD</td>
+<td>get (and watch for watching)</td>
+<td>list (and watch)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>create</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>update</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>patch</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>delete</td>
+<td>deletecollection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example</h3>
+<h4 id="创建只读role">创建只读Role</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: rbac.authorization.k8s.io/v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Role
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">namespace</span>: foo <span style="color:#007f7f"># role需要指定namespace</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: service-reader
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">rules</span>:
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">apiGroups</span>: [<span style="color:#0ff;font-weight:bold">&#34;&#34;</span>] <span style="color:#007f7f"># 指定apiGroup为空</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">verbs</span>: [<span style="color:#0ff;font-weight:bold">&#34;get&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;list&#34;</span>] <span style="color:#007f7f"># 指定动词</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">resources</span>: [<span style="color:#0ff;font-weight:bold">&#34;services&#34;</span>] <span style="color:#007f7f"># 指定资源，必须使用复数</span>
+</span></span></code></pre></div><p>应用上述配置会生成一个名为service-reader的在foo命名空间下用于空的apiGroup且get和list动词的所有资源。</p>
+<h4 id="绑定role到serviceaccount">绑定Role到ServiceAccount</h4>
+<ol>
+<li>通过声明文件：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: rbac.authorization.k8s.io/v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: RoleBinding
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: test
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">namespace</span>: foo
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">apiGroup</span>: rbac.authorization.k8s.io
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">kind</span>: Role
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: service-reader
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">kind</span>: ServiceAccount
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: default
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">namespace</span>: foo
+</span></span></code></pre></div><ol start="2">
+<li>通过命令：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl create rolebinding <span style="color:#fff;font-weight:bold">test</span> --role=service-reader --serviceaccount=foo:default -n foo
+</span></span></code></pre></div><p>在foo命名空间下创建一个名为test的RoleBinding，并绑定名为service-reader的Role与名为default的ServiceAccount。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152056911.png" alt=""></p>
+<h3 id="四种角色资源的使用">四种角色资源的使用</h3>
+<table>
+<thead>
+<tr>
+<th>访问</th>
+<th>角色类型</th>
+<th>绑定类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集群级别的资源，如节点、持久卷</td>
+<td>ClusterRole</td>
+<td>ClusterRoleBinding</td>
+</tr>
+<tr>
+<td>非资源类url，如/health</td>
+<td>ClusterRole</td>
+<td>ClusterRoleBinding</td>
+</tr>
+<tr>
+<td>在任意namespace使用namespaced资源</td>
+<td>ClusterRole</td>
+<td>ClusterRoleBinding</td>
+</tr>
+<tr>
+<td>在特定namespace使用namespaced资源(多个namespace使用同一个ClusterRole)</td>
+<td>ClusterRole</td>
+<td>RoleBinding</td>
+</tr>
+<tr>
+<td>在特定namespace使用namespaced资源(各个namespace各自定义Role)</td>
+<td>Role</td>
+<td>RoleBinding</td>
+</tr>
+</tbody>
+</table>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

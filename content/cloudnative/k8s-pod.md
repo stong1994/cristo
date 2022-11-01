@@ -16,23 +16,17 @@ Pod是一个逻辑概念——它代表了一组共同协作的容器。
 
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
 
-## 最小的构建单元&为什么需要pod
+## 为什么需要pod
 
-Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
+**pod解决了需要在同一个节点部署的多个容器的资源调度问题。**
 
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
 
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。 
-
-### pause container—实现pod内容器”去隔离“
-
-在节点上执行命令`docker ps`，会看到一个`pause`容器，这个容器的作用是持有pod的namespace——**该pod下的用户定义的容器都使用`pause`容器的namespace**。
-
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png)
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 
 
 
-## 决策：是否将容器放到同一个pod
+### 决策：是否将容器放到同一个pod
 
 1. 如果容器之间一定要共享namespace（如文件）就要放到同一个pod
 2. 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod
@@ -151,6 +145,18 @@ PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterR
 ### 
 
 ## Pod lifecycle
+
+### pause container—实现pod内容器”去隔离“
+
+同一个pod下的容器需要共享资源，彼此之间没有视图上的限制。容器之间实现资源限制和视图隔离是通过Cgroups和Namespace来实现的——他们都是Linux上的文件，因此，实现pod之间“去隔离”的方式就是共享这些文件。
+
+在pod中，管理这些资源文件的容器是pause容器，pod中其他的容器与pause共享这些文件。
+
+在节点上执行命令`docker ps`，会看到一个`pause`容器，这个容器的作用是持有pod的namespace——**该pod下的用户定义的容器都使用`pause`容器的namespace**。
+
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png)
+
+
 
 ### init container—初始化pod
 

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &#39;hello&#39; ID ; // match keyword hello followed by an identifier ID : [a-z]&#43; ; // match lower-case identifiers WS : [ \t\r\n]&#43; -&gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl&#43;D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0] [@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6] [@2,12:11=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0] 以[@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="antlr4实战"/>
+<meta name="twitter:description" content="官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &#39;hello&#39; ID ; // match keyword hello followed by an identifier ID : [a-z]&#43; ; // match lower-case identifiers WS : [ \t\r\n]&#43; -&gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl&#43;D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0] [@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6] [@2,12:11=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0] 以[@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。"/>
+
+    <meta property="og:title" content="antlr4实战" />
+<meta property="og:description" content="官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &#39;hello&#39; ID ; // match keyword hello followed by an identifier ID : [a-z]&#43; ; // match lower-case identifiers WS : [ \t\r\n]&#43; -&gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl&#43;D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0] [@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6] [@2,12:11=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0] 以[@1,6:10=&#39;world&#39;,&lt;ID&gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/tool/antlr4-with-go/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-03-17T20:43:00+08:00" />
+<meta property="article:modified_time" content="2022-03-17T20:43:00+08:00" />
+
+
+
+    <title>
+  antlr4实战 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/tool/antlr4-with-go/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#官方例子-hello">官方例子-hello</a></li>
+    <li><a href="#计算器1-堆栈存储值">计算器1-堆栈存储值</a>
+      <ul>
+        <li><a href="#编写calculatorg4文件">编写calculator.g4文件</a></li>
+        <li><a href="#生成go文件">生成go文件</a></li>
+        <li><a href="#实现监听器内置堆栈">实现监听器(内置堆栈)</a></li>
+        <li><a href="#编写运行文件">编写运行文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#计算器2-节点存储值">计算器2-节点存储值</a>
+      <ul>
+        <li><a href="#修改calcultatorg4文件">修改calcultator.g4文件</a></li>
+        <li><a href="#修改监听器">修改监听器</a></li>
+        <li><a href="#修改运行文件">修改运行文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#计算器3-访问者模式">计算器3-访问者模式</a>
+      <ul>
+        <li><a href="#生成go文件-1">生成go文件</a></li>
+        <li><a href="#实现访问者">实现访问者</a></li>
+        <li><a href="#修改运行文件-1">修改运行文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#计算器4-嵌入动作">计算器4-嵌入动作</a>
+      <ul>
+        <li><a href="#calcultatorg4中嵌入动作">calcultator.g4中嵌入动作</a></li>
+        <li><a href="#生成go文件-2">生成go文件</a></li>
+        <li><a href="#修改运行文件-2">修改运行文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#计算器5-词法模式">计算器5-词法模式</a>
+      <ul>
+        <li><a href="#编写词法分析文件">编写词法分析文件</a></li>
+        <li><a href="#编写语法分析文件">编写语法分析文件</a></li>
+        <li><a href="#生成go文件-3">生成go文件</a></li>
+        <li><a href="#编写运行文件-1">编写运行文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#错误监听器">错误监听器</a>
+      <ul>
+        <li><a href="#创建错误监听器">创建错误监听器</a></li>
+        <li><a href="#将监听器嵌入解析解析器">将监听器嵌入解析解析器</a></li>
+      </ul>
+    </li>
+    <li><a href="#相关文档">相关文档</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>antlr4实战</h1>
+    </header>
+
+    <h2 id="官方例子-hello">官方例子-hello</h2>
+<ol>
+<li>
+<p>创建文件hello.g4，写入内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// Define a grammar called Hello
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>grammar hello;
+</span></span><span style="display:flex;"><span>r  : <span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span> ID ;         <span style="color:#007f7f">// match keyword hello followed by an identifier
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>ID : [a-z]+ ;             <span style="color:#007f7f">// match lower-case identifiers
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ; <span style="color:#007f7f">// skip spaces, tabs, newlines
+</span></span></span></code></pre></div></li>
+<li>
+<p>解析为java文件并编译</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>antlr4 hello.g4
+</span></span><span style="display:flex;"><span>javac hello*.java
+</span></span></code></pre></div></li>
+<li>
+<p>解析语法中的r规则</p>
+<p><em>输入hello world后需要按<code>Ctrl+D</code>来结束输入。</em></p>
+<ol>
+<li>
+<p>以LISP格式打印法分析树。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ grun hello r -tree
+</span></span><span style="display:flex;"><span>hello world
+</span></span><span style="display:flex;"><span>(r hello world)
+</span></span></code></pre></div></li>
+<li>
+<p>打印出词法符号流。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ grun hello r -tokens
+</span></span><span style="display:flex;"><span>hello world
+</span></span><span style="display:flex;"><span>[@0,0:4=<span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span>,&lt;<span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span>&gt;,1:0]
+</span></span><span style="display:flex;"><span>[@1,6:10=<span style="color:#0ff;font-weight:bold">&#39;world&#39;</span>,&lt;ID&gt;,1:6]
+</span></span><span style="display:flex;"><span>[@2,12:11=<span style="color:#0ff;font-weight:bold">&#39;&lt;EOF&gt;&#39;</span>,&lt;EOF&gt;,2:0]
+</span></span></code></pre></div><p>以<code>[@1,6:10='world',&lt;ID&gt;,1:6]</code>为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</p>
+</li>
+<li>
+<p>在对话框中以可视化方式显示语法分析树</p>
+</li>
+</ol>
+</li>
+</ol>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210221953622.png" style="zoom: 33%;" />
+<h2 id="计算器1-堆栈存储值">计算器1-堆栈存储值</h2>
+<h3 id="编写calculatorg4文件">编写calculator.g4文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>grammar calculator;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stat : expr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>expr : expr op=(<span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>) expr <span style="color:#f00">#</span> MulDiv
+</span></span><span style="display:flex;"><span>     | expr op=(<span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>) expr <span style="color:#f00">#</span> AddSub
+</span></span><span style="display:flex;"><span>     | INT <span style="color:#f00">#</span> <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>     | <span style="color:#0ff;font-weight:bold">&#39;(&#39;</span> expr <span style="color:#0ff;font-weight:bold">&#39;)&#39;</span> <span style="color:#f00">#</span> parens
+</span></span><span style="display:flex;"><span>     ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MUL : <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span> ;
+</span></span><span style="display:flex;"><span>DIV : <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span> ;
+</span></span><span style="display:flex;"><span>ADD : <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span> ;
+</span></span><span style="display:flex;"><span>SUB : <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INT  : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ ;
+</span></span><span style="display:flex;"><span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ;
+</span></span></code></pre></div><h3 id="生成go文件">生成go文件</h3>
+<p>执行<code>antlr4  calculator.g4 -Dlanguage=Go -o parser</code>可看到生成了一堆go文件，其中calculator_listener.go中生成了接口calculatorListener，并提供了默认实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// calculatorListener is a complete listener for a parse tree produced by calculatorParser.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> calculatorListener <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeListener
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// EnterStat is called when entering the stat production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	EnterStat(c *StatContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// EnterParens is called when entering the parens production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	EnterParens(c *ParensContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// EnterMulDiv is called when entering the MulDiv production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	EnterMulDiv(c *MulDivContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// EnterAddSub is called when entering the AddSub production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	EnterAddSub(c *AddSubContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// EnterInt is called when entering the int production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	EnterInt(c *IntContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// ExitStat is called when exiting the stat production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ExitStat(c *StatContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// ExitParens is called when exiting the parens production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ExitParens(c *ParensContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// ExitMulDiv is called when exiting the MulDiv production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ExitMulDiv(c *MulDivContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// ExitAddSub is called when exiting the AddSub production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ExitAddSub(c *AddSubContext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// ExitInt is called when exiting the int production.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ExitInt(c *IntContext)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="实现监听器内置堆栈">实现监听器(内置堆栈)</h3>
+<p>由于antlr只提供解析功能，具体的操作还需要开发者自行处理，因此我们需要实现这个接口，并嵌入自己的逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;strconv&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> calcListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*BasecalculatorListener
+</span></span><span style="display:flex;"><span>	stack []<span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewCalcListener() *calcListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;calcListener{
+</span></span><span style="display:flex;"><span>		BasecalculatorListener: &amp;BasecalculatorListener{},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) push(i <span style="color:#fff;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	c.stack = <span style="color:#fff;font-weight:bold">append</span>(c.stack, i)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) pop() <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(c.stack) == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;stack is empty, unable to pop&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	rst := c.stack[<span style="color:#fff;font-weight:bold">len</span>(c.stack)-<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span><span style="display:flex;"><span>	c.stack = c.stack[:<span style="color:#fff;font-weight:bold">len</span>(c.stack)-<span style="color:#ff0;font-weight:bold">1</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> rst
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitMulDiv is called when production MulDiv is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitMulDiv(ctx *MulDivContext) {
+</span></span><span style="display:flex;"><span>	right, left := c.pop(), c.pop()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;*&#34;</span>:
+</span></span><span style="display:flex;"><span>		c.push(left * right)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;/&#34;</span>:
+</span></span><span style="display:flex;"><span>		c.push(left / right)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitAddSub is called when production AddSub is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitAddSub(ctx *AddSubContext) {
+</span></span><span style="display:flex;"><span>	right, left := c.pop(), c.pop()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;+&#34;</span>:
+</span></span><span style="display:flex;"><span>		c.push(left + right)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;-&#34;</span>:
+</span></span><span style="display:flex;"><span>		c.push(left - right)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitId is called when production id is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitInt(ctx *IntContext) {
+</span></span><span style="display:flex;"><span>	n, err := strconv.Atoi(ctx.GetText())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	c.push(n)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个版本的实现通过内置的堆栈来记录各个节点的值。</p>
+<h3 id="编写运行文件">编写运行文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2+3*4&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := NewcalculatorLexer(input)
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := NewcalculatorParser(stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	calculator := NewCalcListener()
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeWalkerDefault.Walk(calculator, parser.Stat())
+</span></span><span style="display:flex;"><span>	result := calculator.pop()
+</span></span><span style="display:flex;"><span>	fmt.Println(result)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>执行命令：<code>go run main.go</code>得到结果：14。符合预期。</p>
+<h2 id="计算器2-节点存储值">计算器2-节点存储值</h2>
+<p>上述办法通过在实现监听器时内置一个堆栈来存储节点值，另一个方法是在节点本身存储值。</p>
+<h3 id="修改calcultatorg4文件">修改calcultator.g4文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>grammar calculator;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stat : expr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>expr returns [<span style="color:#fff;font-weight:bold">int</span> value]
+</span></span><span style="display:flex;"><span>     : expr op=(<span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>) expr <span style="color:#f00">#</span> MulDiv
+</span></span><span style="display:flex;"><span>     | expr op=(<span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>) expr <span style="color:#f00">#</span> AddSub
+</span></span><span style="display:flex;"><span>     | INT <span style="color:#f00">#</span> num
+</span></span><span style="display:flex;"><span>     | <span style="color:#0ff;font-weight:bold">&#39;(&#39;</span> expr <span style="color:#0ff;font-weight:bold">&#39;)&#39;</span> <span style="color:#f00">#</span> parens
+</span></span><span style="display:flex;"><span>     ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MUL : <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span> ;
+</span></span><span style="display:flex;"><span>DIV : <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span> ;
+</span></span><span style="display:flex;"><span>ADD : <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span> ;
+</span></span><span style="display:flex;"><span>SUB : <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INT  : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ | <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ ;
+</span></span><span style="display:flex;"><span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ;
+</span></span></code></pre></div><p>区别在于expr后增加了return，并且指定返回值为int类型的value。</p>
+<h3 id="修改监听器">修改监听器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator2/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;strconv&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> calcListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*BasecalculatorListener
+</span></span><span style="display:flex;"><span>	result <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewCalcListener() *calcListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;calcListener{
+</span></span><span style="display:flex;"><span>		BasecalculatorListener: &amp;BasecalculatorListener{},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitMulDiv is called when production MulDiv is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitMulDiv(ctx *MulDivContext) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;*&#34;</span>:
+</span></span><span style="display:flex;"><span>		ctx.SetValue(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>).GetValue() * ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>).GetValue())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;/&#34;</span>:
+</span></span><span style="display:flex;"><span>		ctx.SetValue(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>).GetValue() / ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>).GetValue())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitAddSub is called when production AddSub is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitAddSub(ctx *AddSubContext) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;+&#34;</span>:
+</span></span><span style="display:flex;"><span>		ctx.SetValue(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>).GetValue() + ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>).GetValue())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;-&#34;</span>:
+</span></span><span style="display:flex;"><span>		ctx.SetValue(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>).GetValue() - ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>).GetValue())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// ExitId is called when production id is exited.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitNum(ctx *NumContext) {
+</span></span><span style="display:flex;"><span>	n, err := strconv.Atoi(ctx.GetText())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	ctx.SetValue(n)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) ExitStat(ctx *StatContext) {
+</span></span><span style="display:flex;"><span>	c.result = ctx.Expr().GetValue()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calcListener) Result() <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> c.result
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>修改内容就是将堆栈删掉，然后对每个节点计算值，并存入对应节点的value。</p>
+<h3 id="修改运行文件">修改运行文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator2/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2--4)&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := NewcalculatorLexer(input)
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := NewcalculatorParser(stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	calculator := NewCalcListener()
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeWalkerDefault.Walk(calculator, parser.Stat())
+</span></span><span style="display:flex;"><span>	fmt.Println(calculator.Result())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="计算器3-访问者模式">计算器3-访问者模式</h2>
+<p>上述两种方式都是通过监听器模式来实现的，还可以使用访问者模式实现。</p>
+<h3 id="生成go文件-1">生成go文件</h3>
+<p>g4文件无需修改，修改执行命令为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>antlr4  calculator.g4 -Dlanguage=Go -o parser -no-listener -visitor
+</span></span></code></pre></div><p>可以看到生成的<code>calculator_base_visitor.go</code>文件中的内容减少了很多：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BasecalculatorVisitor <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*antlr.BaseParseTreeVisitor
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (v *BasecalculatorVisitor) VisitStat(ctx *StatContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> v.VisitChildren(ctx)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (v *BasecalculatorVisitor) VisitParens(ctx *ParensContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> v.VisitChildren(ctx)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (v *BasecalculatorVisitor) VisitMulDiv(ctx *MulDivContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> v.VisitChildren(ctx)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (v *BasecalculatorVisitor) VisitAddSub(ctx *AddSubContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> v.VisitChildren(ctx)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (v *BasecalculatorVisitor) VisitNum(ctx *NumContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> v.VisitChildren(ctx)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>基本上是减少了一半，由“进入”和“退出”变为了“访问”。</p>
+<h3 id="实现访问者">实现访问者</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator3/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;strconv&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> calculator <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*BasecalculatorVisitor
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewCalculator() *calculator {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;calculator{
+</span></span><span style="display:flex;"><span>		BasecalculatorVisitor: &amp;BasecalculatorVisitor{},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calculator) VisitStat(ctx *StatContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> c.VisitChildren(ctx.Expr())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calculator) VisitMulDiv(ctx *MulDivContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;*&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>)).(<span style="color:#fff;font-weight:bold">int</span>) * c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>)).(<span style="color:#fff;font-weight:bold">int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;/&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>)).(<span style="color:#fff;font-weight:bold">int</span>) / c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>)).(<span style="color:#fff;font-weight:bold">int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calculator) VisitAddSub(ctx *AddSubContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> ctx.GetOp().GetText() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;+&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>)).(<span style="color:#fff;font-weight:bold">int</span>) + c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>)).(<span style="color:#fff;font-weight:bold">int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;-&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">0</span>)).(<span style="color:#fff;font-weight:bold">int</span>) - c.VisitChildren(ctx.Expr(<span style="color:#ff0;font-weight:bold">1</span>)).(<span style="color:#fff;font-weight:bold">int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;unexpected op: &#34;</span> + ctx.GetOp().GetText())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calculator) VisitNum(ctx *NumContext) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	n, err := strconv.Atoi(ctx.GetText())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> n
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *calculator) VisitChildren(node antlr.RuleNode) <span style="color:#fff;font-weight:bold">interface</span>{} {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> node.Accept(c)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>相较于监听器模式，访问器模式需要返回值，以及手动调用children。</p>
+<h3 id="修改运行文件-1">修改运行文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator3/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2--4)&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := NewcalculatorLexer(input)
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := NewcalculatorParser(stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	calculator := NewCalculator()
+</span></span><span style="display:flex;"><span>	result := parser.Stat().Accept(calculator)
+</span></span><span style="display:flex;"><span>	fmt.Println(result)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="计算器4-嵌入动作">计算器4-嵌入动作</h2>
+<p>有时为了免于手动编写监听器或者访问者，可以通过在g4文件中嵌入动作。</p>
+<h3 id="calcultatorg4中嵌入动作">calcultator.g4中嵌入动作</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>grammar calculator;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">@</span>parser::members { <span style="color:#007f7f">// 在语法分析器中增加handleExpr函数，词法分析器中不需要
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>func handleExpr(op, left, right <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> op {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> calculatorParserADD:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left+right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> calculatorParserSUB:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left-right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> calculatorParserMUL:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left*right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> calculatorParserDIV:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left/right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stat : expr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>expr returns [<span style="color:#fff;font-weight:bold">int</span> value]
+</span></span><span style="display:flex;"><span>     : a=expr op=(<span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>) b=expr
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = handleExpr($op.type, $a.value, $b.value)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;%d %s %d = %d\n&#34;</span>,$a.value, $op.text, $b.value, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> MulDiv
+</span></span><span style="display:flex;"><span>     | a=expr op=(<span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>) b=expr
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = handleExpr($op.type, $a.value, $b.value)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;got %s\n&#34;</span>, $op.text)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;calculating:\t%d %s %d = %d\n&#34;</span>,$a.value, $op.text, $b.value, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> AddSub
+</span></span><span style="display:flex;"><span>     | <span style="color:#0ff;font-weight:bold">&#39;(&#39;</span> expr <span style="color:#0ff;font-weight:bold">&#39;)&#39;</span>
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value=$expr.value;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> parens
+</span></span><span style="display:flex;"><span>     | INT
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = $INT.<span style="color:#fff;font-weight:bold">int</span>;
+</span></span><span style="display:flex;"><span>     fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;got&#34;</span>, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> num
+</span></span><span style="display:flex;"><span>     ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MUL : <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span> ;
+</span></span><span style="display:flex;"><span>DIV : <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span> ;
+</span></span><span style="display:flex;"><span>ADD : <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span> ;
+</span></span><span style="display:flex;"><span>SUB : <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INT  : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ ;
+</span></span><span style="display:flex;"><span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ;
+</span></span></code></pre></div><h3 id="生成go文件-2">生成go文件</h3>
+<p>运行<code>antlr4 -Dlanguage=Go -o ./parser calculator.g4 -no-listener</code>. 在这个例子中我们不需要监听器或者访问者。</p>
+<h3 id="修改运行文件-2">修改运行文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/calculator4/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2-4)&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := NewcalculatorLexer(input)
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := NewcalculatorParser(stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	listener := BasecalculatorListener{}
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeWalkerDefault.Walk(&amp;listener, parser.Expr())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程序执行后输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">4</span>
+</span></span><span style="display:flex;"><span>got -
+</span></span><span style="display:flex;"><span>calculating:    <span style="color:#ff0;font-weight:bold">2</span> - <span style="color:#ff0;font-weight:bold">4</span> = -<span style="color:#ff0;font-weight:bold">2</span>
+</span></span></code></pre></div><h2 id="计算器5-词法模式">计算器5-词法模式</h2>
+<p>有时在一个解析器中我们需要多个词法模式，这时候就需要进行词法模式的上下文切换。</p>
+<p>在计算器4的基础上，我们可以增加评论。即此时有两个词法模式，一个是默认的计算器，一个是评论。</p>
+<h3 id="编写词法分析文件">编写词法分析文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>lexer grammar cal_lexer;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 默认模式下的词法规则
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>OPEN : <span style="color:#0ff;font-weight:bold">&#39;&lt;&#39;</span> -&gt; mode(MARK) ; <span style="color:#007f7f">// 进入MARK模式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>MUL : <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span> ;
+</span></span><span style="display:flex;"><span>DIV : <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span> ;
+</span></span><span style="display:flex;"><span>ADD : <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span> ;
+</span></span><span style="display:flex;"><span>SUB : <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INT  : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ ;
+</span></span><span style="display:flex;"><span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// MARK模式下的词法规则
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>mode MARK;
+</span></span><span style="display:flex;"><span>CLOSE : <span style="color:#0ff;font-weight:bold">&#39;&gt;&#39;</span> -&gt; mode(DEFAULT_MODE) ; <span style="color:#007f7f">// 回到SEA模式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>CONTENT : ~[&gt;]+ ; <span style="color:#007f7f">// 匹配所有字符
+</span></span></span></code></pre></div><p>除了制定模式外，也可以用pushMode和popMode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>lexer grammar cal_lexer;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 默认模式下的词法规则
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>OPEN : <span style="color:#0ff;font-weight:bold">&#39;&lt;&#39;</span> -&gt; pushMode(MARK) ; <span style="color:#007f7f">// 进入MARK模式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>MUL : <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span> ;
+</span></span><span style="display:flex;"><span>DIV : <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span> ;
+</span></span><span style="display:flex;"><span>ADD : <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span> ;
+</span></span><span style="display:flex;"><span>SUB : <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>INT  : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+ ;
+</span></span><span style="display:flex;"><span>WS : [ <span style="color:#f00">\</span>t<span style="color:#f00">\</span>r<span style="color:#f00">\</span>n]+ -&gt; skip ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// MARK模式下的词法规则
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>mode MARK;
+</span></span><span style="display:flex;"><span>CLOSE : <span style="color:#0ff;font-weight:bold">&#39;&gt;&#39;</span> -&gt; popMode ; <span style="color:#007f7f">// 回到SEA模式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>CONTENT : ~[&gt;]+ ; <span style="color:#007f7f">// 匹配所有字符
+</span></span></span></code></pre></div><h3 id="编写语法分析文件">编写语法分析文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>parser grammar cal_parser;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>options { tokenVocab=cal_lexer; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">@</span>parser::members {
+</span></span><span style="display:flex;"><span>func handleExpr(op, left, right <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> op {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> cal_lexerADD:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left+right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> cal_lexerSUB:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left-right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> cal_lexerMUL:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left*right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> cal_lexerDIV:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> left/right
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stat : (expr|mark)+;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>expr returns [<span style="color:#fff;font-weight:bold">int</span> value]
+</span></span><span style="display:flex;"><span>     : a=expr op=(<span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>) b=expr
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = handleExpr($op.type, $a.value, $b.value)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;%d %s %d = %d\n&#34;</span>,$a.value, $op.text, $b.value, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> MulDiv
+</span></span><span style="display:flex;"><span>     | a=expr op=(<span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>) b=expr
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = handleExpr($op.type, $a.value, $b.value)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;got %s\n&#34;</span>, $op.text)
+</span></span><span style="display:flex;"><span>     fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;calculating:\t%d %s %d = %d\n&#34;</span>,$a.value, $op.text, $b.value, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> AddSub
+</span></span><span style="display:flex;"><span>     | INT
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>     $ctx.value = $INT.<span style="color:#fff;font-weight:bold">int</span>;
+</span></span><span style="display:flex;"><span>     fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;got&#34;</span>, $ctx.value)
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     <span style="color:#f00">#</span> num
+</span></span><span style="display:flex;"><span>     ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mark : <span style="color:#0ff;font-weight:bold">&#39;&lt;&#39;</span> CONTENT <span style="color:#0ff;font-weight:bold">&#39;&gt;&#39;</span> {fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;comment: &#34;</span>, $CONTENT.text)};
+</span></span></code></pre></div><h3 id="生成go文件-3">生成go文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ antlr4 -Dlanguage=Go  cal_lexer.g4 -no-listener
+</span></span><span style="display:flex;"><span>$ antlr4 -Dlanguage=Go cal_parser.g4 -no-listener
+</span></span></code></pre></div><h3 id="编写运行文件-1">编写运行文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> parser
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> TestParser(t *testing.T) {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2-4&lt;should be -2&gt; 100+10 &lt;should be 110&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := Newcal_lexer(input)
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := Newcal_parser(stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeWalkerDefault.Walk(&amp;antlr.BaseParseTreeListener{}, parser.Stat())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>运行，输出为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">4</span>
+</span></span><span style="display:flex;"><span>got -
+</span></span><span style="display:flex;"><span>calculating:	<span style="color:#ff0;font-weight:bold">2</span> - 4 = -2
+</span></span><span style="display:flex;"><span>comment:  should be -2
+</span></span><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">100</span>
+</span></span><span style="display:flex;"><span>got <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>got +
+</span></span><span style="display:flex;"><span>calculating:	<span style="color:#ff0;font-weight:bold">100</span> + 10 = <span style="color:#ff0;font-weight:bold">110</span>
+</span></span><span style="display:flex;"><span>comment:  should be <span style="color:#ff0;font-weight:bold">110</span>
+</span></span></code></pre></div><h2 id="错误监听器">错误监听器</h2>
+<p>antlr在解析时会通过一系列手段来跳过错误，但在生产环境中我们需要判断解析是否正确，因此需要捕获解析中的错误。</p>
+<h3 id="创建错误监听器">创建错误监听器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ErrListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	antlr.DefaultErrorListener
+</span></span><span style="display:flex;"><span>	errList []<span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (el *ErrListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>,
+</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>, e antlr.RecognitionException) {
+</span></span><span style="display:flex;"><span>	el.errList = <span style="color:#fff;font-weight:bold">append</span>(el.errList, fmt.Sprintf(<span style="color:#0ff;font-weight:bold">&#34;pos: %d:%d, msg: %s&#34;</span>, line, column, msg))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (el *ErrListener) Print() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, err := <span style="color:#fff;font-weight:bold">range</span> el.errList {
+</span></span><span style="display:flex;"><span>		fmt.Println(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="将监听器嵌入解析解析器">将监听器嵌入解析解析器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	. <span style="color:#0ff;font-weight:bold">&#34;antlr4-go-example/listen_err/parser&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;github.com/antlr/antlr4/runtime/Go/antlr/v4&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	input := antlr.NewInputStream(<span style="color:#0ff;font-weight:bold">&#34;2--4&#34;</span>)
+</span></span><span style="display:flex;"><span>	lexer := Newlisten_errLexer(input)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+</span></span><span style="display:flex;"><span>	parser := Newlisten_errParser(stream)
+</span></span><span style="display:flex;"><span>	errListener := &amp;ErrListener{}
+</span></span><span style="display:flex;"><span>	parser.RemoveErrorListeners() <span style="color:#007f7f">// 默认会使用ConsoleErrorListener，需要移除。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	parser.AddErrorListener(errListener)
+</span></span><span style="display:flex;"><span>	parser.GetInterpreter().SetPredictionMode(antlr.PredictionModeLLExactAmbigDetection)
+</span></span><span style="display:flex;"><span>	antlr.ParseTreeWalkerDefault.Walk(&amp;Baselisten_errListener{}, parser.Stat())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	errListener.Print()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>注意：解析器会默认使用<code>ConsoleErrorListener</code>来捕获错误，该错误监听器会将错误打印到终端，为了避免该错误监听器对我们的影响，我们需要将其移除。</p>
+<p>另外，也需要设置预测模型，如果想要获取所有的错误，将模型设置为<code>antlr.PredictionModeLLExactAmbigDetection</code></p>
+<h2 id="相关文档">相关文档</h2>
+<ol>
+<li><a href="https://github.com/antlr/antlr4/blob/master/doc/actions.md">action介绍-github</a></li>
+<li><a href="https://github.com/stong1994/antlr4-go-example">文中的代码地址</a></li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

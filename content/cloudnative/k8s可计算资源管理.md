@@ -1,6 +1,6 @@
 +++
 
-date = 2022-10-16T21:19:00+08:00
+date = 2022-10-17T21:19:00+08:00
 title = "k8s-可计算资源管理"
 url = "/cloudnative/k8s/computational_resource"
 
