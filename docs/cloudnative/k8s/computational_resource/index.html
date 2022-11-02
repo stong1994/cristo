@@ -25,8 +25,8 @@ example：
 apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/computational_resource/" /><meta property="article:section" content="cloudnative" />
-<meta property="article:published_time" content="2022-10-16T21:19:00+08:00" />
-<meta property="article:modified_time" content="2022-10-16T21:19:00+08:00" />
+<meta property="article:published_time" content="2022-10-17T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-17T21:19:00+08:00" />
 
 
 

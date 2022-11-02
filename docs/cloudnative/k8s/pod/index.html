@@ -10,10 +10,9 @@
     
     <meta name="description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
 是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；">
     <meta name="keywords" content="">
@@ -22,20 +21,18 @@ pause container—实现pod内容器”去隔离“ 在节点上执行命令dock
 <meta name="twitter:title" content="k8s-pod"/>
 <meta name="twitter:description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
 是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；"/>
 
     <meta property="og:title" content="k8s-pod" />
 <meta property="og:description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-最小的构建单元&amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
 是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；" />
 <meta property="og:type" content="article" />
@@ -162,12 +159,11 @@ pause container—实现pod内容器”去隔离“ 在节点上执行命令dock
     <nav id="TableOfContents">
   <ul>
     <li><a href="#什么是pod">什么是pod</a></li>
-    <li><a href="#最小的构建单元为什么需要pod">最小的构建单元&amp;为什么需要pod</a>
+    <li><a href="#为什么需要pod">为什么需要pod</a>
       <ul>
-        <li><a href="#pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</a></li>
+        <li><a href="#决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</a></li>
       </ul>
     </li>
-    <li><a href="#决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</a></li>
     <li><a href="#配置">配置</a>
       <ul>
         <li><a href="#一个最简单的配置">一个最简单的配置</a></li>
@@ -181,6 +177,7 @@ pause container—实现pod内容器”去隔离“ 在节点上执行命令dock
     </li>
     <li><a href="#pod-lifecycle">Pod lifecycle</a>
       <ul>
+        <li><a href="#pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</a></li>
         <li><a href="#init-container初始化pod">init container—初始化pod</a></li>
         <li><a href="#post-start-hook">post-start hook</a></li>
         <li><a href="#pre-stop-hook">pre-stop hook</a></li>
@@ -213,14 +210,11 @@ pause container—实现pod内容器”去隔离“ 在节点上执行命令dock
     <h2 id="什么是pod">什么是pod</h2>
 <p>Pod是一个逻辑概念——它代表了一组共同协作的容器。</p>
 <p>Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。</p>
-<h2 id="最小的构建单元为什么需要pod">最小的构建单元&amp;为什么需要pod</h2>
-<p>Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。</p>
-<p>容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。</p>
-<p>通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。</p>
-<h3 id="pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</h3>
-<p>在节点上执行命令<code>docker ps</code>，会看到一个<code>pause</code>容器，这个容器的作用是持有pod的namespace——<strong>该pod下的用户定义的容器都使用<code>pause</code>容器的namespace</strong>。</p>
-<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt=""></p>
-<h2 id="决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</h2>
+<h2 id="为什么需要pod">为什么需要pod</h2>
+<p><strong>pod解决了需要在同一个节点部署的多个容器的资源调度问题。</strong></p>
+<p>我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。</p>
+<p>通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。</p>
+<h3 id="决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</h3>
 <ol>
 <li>如果容器之间一定要共享namespace（如文件）就要放到同一个pod</li>
 <li>如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod</li>
@@ -355,6 +349,11 @@ pause container—实现pod内容器”去隔离“ 在节点上执行命令dock
 </table>
 <h3 id="heading"></h3>
 <h2 id="pod-lifecycle">Pod lifecycle</h2>
+<h3 id="pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</h3>
+<p>同一个pod下的容器需要共享资源，彼此之间没有视图上的限制。容器之间实现资源限制和视图隔离是通过Cgroups和Namespace来实现的——他们都是Linux上的文件，因此，实现pod之间“去隔离”的方式就是共享这些文件。</p>
+<p>在pod中，管理这些资源文件的容器是pause容器，pod中其他的容器与pause共享这些文件。</p>
+<p>在节点上执行命令<code>docker ps</code>，会看到一个<code>pause</code>容器，这个容器的作用是持有pod的namespace——<strong>该pod下的用户定义的容器都使用<code>pause</code>容器的namespace</strong>。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt=""></p>
 <h3 id="init-container初始化pod">init container—初始化pod</h3>
 <p>init容器用于pod的初始化，pod可拥有任意数量的init容器。</p>
 <p>pod定义的init容器会在pod启动后一个接一个的线性执行，当所有init容器执行完后才会执行主容器。</p>

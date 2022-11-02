@@ -27,7 +27,7 @@ $ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S+ 9:39PM 0:00.00 
     <item>
       <title>k8s-ServiceAccount&amp;RBAC</title>
       <link>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</guid>
       <description>ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
@@ -44,6 +44,17 @@ HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watc
     </item>
     
     <item>
+      <title>k8s-可计算资源管理</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
+      <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
+      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
+example：
+apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
+    </item>
+    
+    <item>
       <title>k8s-调度器</title>
       <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
@@ -56,20 +67,9 @@ Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/
     </item>
     
     <item>
-      <title>k8s-可计算资源管理</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
-      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
-example：
-apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
-    </item>
-    
-    <item>
       <title>k8s-自动伸缩</title>
       <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
       <description>Pod水平伸缩-HorizontalPodAutoscaler 自动伸缩过程 获取所有被伸缩资源对象管理的所有pod的指标。 计算使指标达到（或接近）指定目的值所需的pod数量。 更新伸缩对象的replicas字段。 三种指标类型 Resource：如cpu、内存 Pods：关联到Pod上的任意指标，如QPS Object：适用于不直接关联到pod上的指标，如其他对象的指标是否达到目的值 Pod垂直伸缩 相对于水平伸缩的调整pod的数量，垂直伸缩是调整pod的cpu、内存请求/限制数量。
@@ -84,7 +84,7 @@ apiVersion: policy/v1beta1 kind: PodDisruptionBudget metadata: name: kubia-pdb s
     <item>
       <title>k8s架构设计</title>
       <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
-      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/architecture/</guid>
       <description>组件 k8s可分为三大块：控制平面、节点和其他。
@@ -151,10 +151,9 @@ apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Servi
       <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
       <description>什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-最小的构建单元&amp;amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
 是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；</description>
     </item>

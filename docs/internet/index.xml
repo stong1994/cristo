@@ -6,14 +6,84 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 22 Oct 2022 14:43:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Oct 2022 11:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>并发请求之errgroup</title>
+      <title>go设计之sync.Map</title>
+      <link>https://stong1994.github.io/internet/go/syncmap/</link>
+      <pubDate>Mon, 31 Oct 2022 11:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/syncmap/</guid>
+      <description>前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map+sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
+然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
+源码 源码位于src/sync/map.go.
+基础结构Map type Map struct { mu Mutex // read contains the portion of the map&amp;#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held.</description>
+    </item>
+    
+    <item>
+      <title>go设计之errgroup</title>
       <link>https://stong1994.github.io/internet/go/errgroup/</link>
-      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
+      <pubDate>Mon, 31 Oct 2022 00:01:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
-      <description></description>
+      <description>前瞻 在工作中，如果遇到需要并发访问，并且接受返回值的功能，一般都是使用sync.WaitGroup+channel来实现。
+但go社区中已经提供了这个功能的封装——errgroup.
+虽然errgroup这个轮子和我们自己造的轮子差不多，但是既然别人已经造好了，我们就没必要再重复造轮子了。
+源码 源码非常简洁，算上注释也才100来行。源码位置：golang.org/x/sync/errgroup
+Group // A Group is a collection of goroutines working on subtasks that are part of // the same overall task. // // A zero Group is valid, has no limit on the number of active goroutines, // and does not cancel on error. type Group struct { cancel func() wg sync.WaitGroup sem chan token errOnce sync.Once err error } Group结构非常简单：
+cancel：取消函数，并发请求一般都会使用带cancel的context，能非常方便的控制并发中的请求生命周期。 wg: 并发中最常用的组件，用于等待异步任务完成。 sem：一个用于控制并发数量的channel，token的数据类型是一个空结构体（空结构体的好处是不占内存）。 errOnce: 一个只执行一次的并发控制器，由命名可以推断出并发中的错误只会捕获一次。 err: 存储error sem sem是一个非常巧妙的设计，一般控制并发数量，可以使用一个原子值来记录当前的并发数，使用锁来控制请求。errgroup中使用了channel来实现了这个功能。我们看下他的用法。</description>
+    </item>
+    
+    <item>
+      <title>antlr4-减号和负号</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
+      <pubDate>Sun, 30 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
+      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
+支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
+grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
+    </item>
+    
+    <item>
+      <title>antlr4实战</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Sat, 29 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl+D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
+    </item>
+    
+    <item>
+      <title>antlr4-理论基础</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-theory/</link>
+      <pubDate>Fri, 28 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-theory/</guid>
+      <description>解析文件example grammar calc; MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
+重复的元素可用圆括号包裹。
+*: 表示没有或者多个 +: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
+field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
+词法符号依赖模式 一个词法符号依赖多个词法符号，如
+expr: &amp;#39;(&amp;#39; field &amp;#39;)&amp;#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x.</description>
+    </item>
+    
+    <item>
+      <title>antlr4-安装</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-install/</link>
+      <pubDate>Thu, 27 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-install/</guid>
+      <description>安装 1. 安装antlr4 直接按照 官网步骤安装即可。
+2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
+grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
+antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
+➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
     </item>
     
     <item>
@@ -151,17 +221,6 @@ backlog 如果有大量连接同时发起，应用层不能及时处理或者操
 TCP会将已完成握手的连接放入一个FIFO队列（全连接队列）中，应用层会从这个队列中获取已完成的连接进行处理。
 同样，未完成的连接也有一个FIFO队列（半连接队列）。
 两个队列的大小是固定值，如果应用层不能及时消费全连接队列导致队列已满，那么完成握手的新连接服务进入全连接队列，最终导致半连接队列被填满。半连接队列已满后将不再理会SYN报文，表现为客户端的连接状态一直为TCP_SENT，服务端的连接状态为TCP_RECV，最终客户端的连接将超时.</description>
-    </item>
-    
-    <item>
-      <title>antlr4-减号和负号</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
-      <pubDate>Sun, 27 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
-      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
-支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
-grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
     </item>
     
     <item>
@@ -307,34 +366,6 @@ AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，
 “同步到磁盘”有三种方式：
 将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
 一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
-    </item>
-    
-    <item>
-      <title>antlr4 with go</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
-      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
-      <description>1. 安装antlr4 直接按照 官网步骤安装即可。
-2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
-grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
-antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
-➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
-    </item>
-    
-    <item>
-      <title>antlr4实战</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
-      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
-      <description>官方例子-hello 创建文件hello.g4，写入内容：
-// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
-antlr4 hello.g4 javac hello*.java 解析语法中的r规则
-输入hello world后需要按Ctrl+D来结束输入。
-以LISP格式打印法分析树。
-$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
-$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
     </item>
     
     <item>

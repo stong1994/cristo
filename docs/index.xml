@@ -6,7 +6,86 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Oct 2022 11:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go设计之sync.Map</title>
+      <link>https://stong1994.github.io/internet/go/syncmap/</link>
+      <pubDate>Mon, 31 Oct 2022 11:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/syncmap/</guid>
+      <description>前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map+sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
+然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
+源码 源码位于src/sync/map.go.
+基础结构Map type Map struct { mu Mutex // read contains the portion of the map&amp;#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held.</description>
+    </item>
+    
+    <item>
+      <title>go设计之errgroup</title>
+      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <pubDate>Mon, 31 Oct 2022 00:01:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
+      <description>前瞻 在工作中，如果遇到需要并发访问，并且接受返回值的功能，一般都是使用sync.WaitGroup+channel来实现。
+但go社区中已经提供了这个功能的封装——errgroup.
+虽然errgroup这个轮子和我们自己造的轮子差不多，但是既然别人已经造好了，我们就没必要再重复造轮子了。
+源码 源码非常简洁，算上注释也才100来行。源码位置：golang.org/x/sync/errgroup
+Group // A Group is a collection of goroutines working on subtasks that are part of // the same overall task. // // A zero Group is valid, has no limit on the number of active goroutines, // and does not cancel on error. type Group struct { cancel func() wg sync.WaitGroup sem chan token errOnce sync.Once err error } Group结构非常简单：
+cancel：取消函数，并发请求一般都会使用带cancel的context，能非常方便的控制并发中的请求生命周期。 wg: 并发中最常用的组件，用于等待异步任务完成。 sem：一个用于控制并发数量的channel，token的数据类型是一个空结构体（空结构体的好处是不占内存）。 errOnce: 一个只执行一次的并发控制器，由命名可以推断出并发中的错误只会捕获一次。 err: 存储error sem sem是一个非常巧妙的设计，一般控制并发数量，可以使用一个原子值来记录当前的并发数，使用锁来控制请求。errgroup中使用了channel来实现了这个功能。我们看下他的用法。</description>
+    </item>
+    
+    <item>
+      <title>antlr4-减号和负号</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
+      <pubDate>Sun, 30 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
+      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
+支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
+grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
+    </item>
+    
+    <item>
+      <title>antlr4实战</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <pubDate>Sat, 29 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
+      <description>官方例子-hello 创建文件hello.g4，写入内容：
+// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
+antlr4 hello.g4 javac hello*.java 解析语法中的r规则
+输入hello world后需要按Ctrl+D来结束输入。
+以LISP格式打印法分析树。
+$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
+$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
+    </item>
+    
+    <item>
+      <title>antlr4-理论基础</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-theory/</link>
+      <pubDate>Fri, 28 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-theory/</guid>
+      <description>解析文件example grammar calc; MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
+重复的元素可用圆括号包裹。
+*: 表示没有或者多个 +: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
+field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
+词法符号依赖模式 一个词法符号依赖多个词法符号，如
+expr: &amp;#39;(&amp;#39; field &amp;#39;)&amp;#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x.</description>
+    </item>
+    
+    <item>
+      <title>antlr4-安装</title>
+      <link>https://stong1994.github.io/internet/tool/antlr4-install/</link>
+      <pubDate>Thu, 27 Oct 2022 20:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/tool/antlr4-install/</guid>
+      <description>安装 1. 安装antlr4 直接按照 官网步骤安装即可。
+2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
+grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
+antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
+➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
+    </item>
+    
     <item>
       <title>docker基础理论</title>
       <link>https://stong1994.github.io/cloudnative/docker/base/</link>
@@ -34,18 +113,9 @@ $ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S+ 9:39PM 0:00.00 
     </item>
     
     <item>
-      <title>并发请求之errgroup</title>
-      <link>https://stong1994.github.io/internet/go/errgroup/</link>
-      <pubDate>Sat, 22 Oct 2022 14:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>k8s-ServiceAccount&amp;RBAC</title>
       <link>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</guid>
       <description>ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
@@ -62,6 +132,17 @@ HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watc
     </item>
     
     <item>
+      <title>k8s-可计算资源管理</title>
+      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
+      <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
+      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
+example：
+apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
+    </item>
+    
+    <item>
       <title>k8s-调度器</title>
       <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
@@ -74,20 +155,9 @@ Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/
     </item>
     
     <item>
-      <title>k8s-可计算资源管理</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
-      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
-example：
-apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
-    </item>
-    
-    <item>
       <title>k8s-自动伸缩</title>
       <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
-      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
       <description>Pod水平伸缩-HorizontalPodAutoscaler 自动伸缩过程 获取所有被伸缩资源对象管理的所有pod的指标。 计算使指标达到（或接近）指定目的值所需的pod数量。 更新伸缩对象的replicas字段。 三种指标类型 Resource：如cpu、内存 Pods：关联到Pod上的任意指标，如QPS Object：适用于不直接关联到pod上的指标，如其他对象的指标是否达到目的值 Pod垂直伸缩 相对于水平伸缩的调整pod的数量，垂直伸缩是调整pod的cpu、内存请求/限制数量。
@@ -102,7 +172,7 @@ apiVersion: policy/v1beta1 kind: PodDisruptionBudget metadata: name: kubia-pdb s
     <item>
       <title>k8s架构设计</title>
       <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
-      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
+      <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
       
       <guid>https://stong1994.github.io/cloudnative/k8s/architecture/</guid>
       <description>组件 k8s可分为三大块：控制平面、节点和其他。
@@ -190,10 +260,9 @@ Host gitlabxxx.com HostName gitlabxxx.com Port {gitlab服务ssh端口} StrictHos
       <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
       <description>什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
 Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-最小的构建单元&amp;amp;为什么需要pod Pod是k8s中的最小的构建单元。这是因为容器的“隔离”特性导致的。
-容器通过namespace实现了隔离，但实际使用中往往需要多个容器进行协作，如一个容器生产日志文件，另一个容器解析日志文件。
-通过指定相同的namespace可以实现多个容器之间”取消隔离“，但这无疑会增加运维的工作复杂性。所以k8s将这一功能抽象出来，形成了一个新的概念——pod。
-pause container—实现pod内容器”去隔离“ 在节点上执行命令docker ps，会看到一个pause容器，这个容器的作用是持有pod的namespace——该pod下的用户定义的容器都使用pause容器的namespace。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
 是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；</description>
     </item>
@@ -550,17 +619,6 @@ TCP会将已完成握手的连接放入一个FIFO队列（全连接队列）中�
     </item>
     
     <item>
-      <title>antlr4-减号和负号</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
-      <pubDate>Sun, 27 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
-      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
-支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
-grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
-    </item>
-    
-    <item>
       <title>在浏览器访问一个网址都经历了哪些</title>
       <link>https://stong1994.github.io/internet/internet/browser_visit/</link>
       <pubDate>Fri, 25 Mar 2022 15:58:00 +0800</pubDate>
@@ -703,34 +761,6 @@ AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，
 “同步到磁盘”有三种方式：
 将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
 一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
-    </item>
-    
-    <item>
-      <title>antlr4 with go</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
-      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
-      <description>1. 安装antlr4 直接按照 官网步骤安装即可。
-2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
-grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
-antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
-➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
-    </item>
-    
-    <item>
-      <title>antlr4实战</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
-      <pubDate>Thu, 17 Mar 2022 20:43:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
-      <description>官方例子-hello 创建文件hello.g4，写入内容：
-// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
-antlr4 hello.g4 javac hello*.java 解析语法中的r规则
-输入hello world后需要按Ctrl+D来结束输入。
-以LISP格式打印法分析树。
-$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
-$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
     </item>
     
     <item>

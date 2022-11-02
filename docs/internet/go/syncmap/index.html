@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map&#43;sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
+然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
+源码 源码位于src/sync/map.go.
+基础结构Map type Map struct { mu Mutex // read contains the portion of the map&#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="go设计之sync.Map"/>
+<meta name="twitter:description" content="前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map&#43;sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
+然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
+源码 源码位于src/sync/map.go.
+基础结构Map type Map struct { mu Mutex // read contains the portion of the map&#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held."/>
+
+    <meta property="og:title" content="go设计之sync.Map" />
+<meta property="og:description" content="前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map&#43;sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
+然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
+源码 源码位于src/sync/map.go.
+基础结构Map type Map struct { mu Mutex // read contains the portion of the map&#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/syncmap/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-10-31T11:00:00+08:00" />
+<meta property="article:modified_time" content="2022-10-31T11:00:00+08:00" />
+
+
+
+    <title>
+  go设计之sync.Map · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/syncmap/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/book/">读书</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/life/">生活</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前瞻">前瞻</a></li>
+    <li><a href="#源码">源码</a>
+      <ul>
+        <li><a href="#基础结构map">基础结构Map</a></li>
+        <li><a href="#读操作-load">读操作-Load</a></li>
+        <li><a href="#写操作-store">写操作-Store</a></li>
+        <li><a href="#删除-delete">删除-Delete</a></li>
+        <li><a href="#遍历-range">遍历-Range</a></li>
+      </ul>
+    </li>
+    <li><a href="#设计点">设计点</a>
+      <ul>
+        <li><a href="#双map">双map</a></li>
+        <li><a href="#更新数据的lock-free">更新数据的lock-free</a></li>
+        <li><a href="#删除数据的lock-free">删除数据的lock-free</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>go设计之sync.Map</h1>
+    </header>
+
+    <h2 id="前瞻">前瞻</h2>
+<p>go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（<code>map+sync.Mutex/sync.RWMutex</code>）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。</p>
+<p>然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。</p>
+<h2 id="源码">源码</h2>
+<p>源码位于<code>src/sync/map.go</code>.</p>
+<h3 id="基础结构map">基础结构Map</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Map <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	mu Mutex
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// read contains the portion of the map&#39;s contents that are safe for
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// concurrent access (with or without mu held).
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// The read field itself is always safe to load, but must only be stored with
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// mu held.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// Entries stored in read may be updated concurrently without mu, but updating
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// a previously-expunged entry requires that the entry be copied to the dirty
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// map and unexpunged with mu held.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	read atomic.Value <span style="color:#007f7f">// readOnly
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// dirty contains the portion of the map&#39;s contents that require mu to be
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// held. To ensure that the dirty map can be promoted to the read map quickly,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// it also includes all of the non-expunged entries in the read map.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// Expunged entries are not stored in the dirty map. An expunged entry in the
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// clean map must be unexpunged and added to the dirty map before a new value
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// can be stored to it.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// If the dirty map is nil, the next write to the map will initialize it by
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// making a shallow copy of the clean map, omitting stale entries.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	dirty <span style="color:#fff;font-weight:bold">map</span>[any]*entry
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// misses counts the number of loads since the read map was last updated that
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// needed to lock mu to determine whether the key was present.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// Once enough misses have occurred to cover the cost of copying the dirty
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// map, the dirty map will be promoted to the read map (in the unamended
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// state) and the next store to the map will make a new dirty copy.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	misses <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Map非常简洁，只有四个字段：</p>
+<ul>
+<li>mu: 一个互斥锁。既然sync.Map是在并发场景下应用的，因此锁的存在是能够预料到的，后续看下sync.Map中是如何使用的。</li>
+<li>read: 一个原子值，sync.Map的“无锁的读”就是读取该字段。</li>
+<li>dirty: 一个map，用来存储需要加锁才能访问的数据。dirty中存储read中不存在或者已经被抹除的数据。</li>
+<li>misses: 用来计算没有在read中获取到数据的次数，sync.Map会根据misses的大小来决定是否将dirty“更新”到read。</li>
+</ul>
+<p>dirty中使用了entry类型的数据作为map中的值，我们看下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>type entry struct {
+</span></span><span style="display:flex;"><span>	// p points to the interface{} value stored for the entry.
+</span></span><span style="display:flex;"><span>	//
+</span></span><span style="display:flex;"><span>	// If p == nil, the entry has been deleted, and either m.dirty == nil or
+</span></span><span style="display:flex;"><span>	// m.dirty[key] is e.
+</span></span><span style="display:flex;"><span>	//
+</span></span><span style="display:flex;"><span>	// If p == expunged, the entry has been deleted, m.dirty != nil, and the entry
+</span></span><span style="display:flex;"><span>	// is missing from m.dirty.
+</span></span><span style="display:flex;"><span>	//
+</span></span><span style="display:flex;"><span>	// Otherwise, the entry is valid and recorded in m.read.m[key] and, if m.dirty
+</span></span><span style="display:flex;"><span>	// != nil, in m.dirty[key].
+</span></span><span style="display:flex;"><span>	//
+</span></span><span style="display:flex;"><span>	// An entry can be deleted by atomic replacement with nil: when m.dirty is
+</span></span><span style="display:flex;"><span>	// next created, it will atomically replace nil with expunged and leave
+</span></span><span style="display:flex;"><span>	// m.dirty[key] unset.
+</span></span><span style="display:flex;"><span>	//
+</span></span><span style="display:flex;"><span>	// An entry&#39;s associated value can be updated by atomic replacement, provided
+</span></span><span style="display:flex;"><span>	// p != expunged. If p == expunged, an entry&#39;s associated value can be updated
+</span></span><span style="display:flex;"><span>	// only after first setting m.dirty[key] = e so that lookups using the dirty
+</span></span><span style="display:flex;"><span>	// map find the entry.
+</span></span><span style="display:flex;"><span>	p unsafe.Pointer // *interface{}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到entry就是存储数据指针p的结构。通过注释，我们了解到：</p>
+<ol>
+<li>
+<p>如果p指针为空，说明entry被删除了，并且要么dirty为空，要么dirty[key]为空。</p>
+</li>
+<li>
+<p>如果p指针是expunged，说明entry被删除了，并且dirty不为空，dirty中的该entry不存在了。expunged数据如下，是一个“全局”的变量，用来表示该数据被抹除了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> expunged = unsafe.Pointer(<span style="color:#fff;font-weight:bold">new</span>(any))
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="读操作-load">读操作-Load</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// Load returns the value stored in the map for a key, or nil if no
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// value is present.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// The ok result indicates whether value was found in the map.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (m *Map) Load(key any) (value any, ok <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	read, _ := m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>	e, ok := read.m[key]
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> !ok &amp;&amp; read.amended {
+</span></span><span style="display:flex;"><span>		m.mu.Lock()
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// Avoid reporting a spurious miss if m.dirty got promoted while we were
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// blocked on m.mu. (If further loads of the same key will not miss, it&#39;s
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// not worth copying the dirty map for this key.)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		read, _ = m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>		e, ok = read.m[key]
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !ok &amp;&amp; read.amended {
+</span></span><span style="display:flex;"><span>			e, ok = m.dirty[key]
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// Regardless of whether the entry was present, record a miss: this key
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// will take the slow path until the dirty map is promoted to the read
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// map.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			m.missLocked()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		m.mu.Unlock()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> e.load()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol>
+<li>读取数据时，sync.Map会先在read中读取，该操作是不需要加锁的。</li>
+<li>如果在read中没有读取到并且dirty中存在read中不存在的数据，则会加锁，再次读取read。再次读取是因为：如果直接读取dirty，那么有可能在读取read和dirty中间dirty中的数据被提升到read，这样就会在dirty中读不到数据，这是单例模式常用的方式。</li>
+<li>若仍在read中读不到数据，并且dirty中存在read中不存在的数据，那么就读取dirty，并且进行<code>missLocked</code></li>
+</ol>
+<p>通过以上分析我们得知：</p>
+<ul>
+<li>使用sync.Map时，<strong>读操作应尽量保证能够读取到数据，否则仍会进行加锁操作，而且很可能是两次加锁操作。</strong></li>
+<li>只要在read中没有读到数据，那么不管是否能够在dirty中读到数据，都会进行missLocked，因此使用sync.Map时，读操作应尽量保证能够读取到数据。</li>
+</ul>
+<h4 id="read中读不到数据-misslocked">read中读不到数据-missLocked</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m *Map) missLocked() {
+</span></span><span style="display:flex;"><span>	m.misses++
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> m.misses &lt; <span style="color:#fff;font-weight:bold">len</span>(m.dirty) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	m.read.Store(readOnly{m: m.dirty})
+</span></span><span style="display:flex;"><span>	m.dirty = <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>	m.misses = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>missLocked会将misses加1，并且如果此时misses不小于dirty的大小，则会将dirty中的数据覆盖到read，并且重置dirty和misses。</p>
+<h3 id="写操作-store">写操作-Store</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// Store sets the value for a key.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (m *Map) Store(key, value any) {
+</span></span><span style="display:flex;"><span>	read, _ := m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> e, ok := read.m[key]; ok &amp;&amp; e.tryStore(&amp;value) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	m.mu.Lock()
+</span></span><span style="display:flex;"><span>	read, _ = m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> e, ok := read.m[key]; ok {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> e.unexpungeLocked() {
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// The entry was previously expunged, which implies that there is a
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// non-nil dirty map and this entry is not in it.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			m.dirty[key] = e
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		e.storeLocked(&amp;value)
+</span></span><span style="display:flex;"><span>	} <span style="color:#fff;font-weight:bold">else</span> <span style="color:#fff;font-weight:bold">if</span> e, ok := m.dirty[key]; ok {
+</span></span><span style="display:flex;"><span>		e.storeLocked(&amp;value)
+</span></span><span style="display:flex;"><span>	} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !read.amended {
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// We&#39;re adding the first new key to the dirty map.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// Make sure it is allocated and mark the read-only map as incomplete.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			m.dirtyLocked()
+</span></span><span style="display:flex;"><span>			m.read.Store(readOnly{m: read.m, amended: <span style="color:#fff;font-weight:bold">true</span>})
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		m.dirty[key] = newEntry(value)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	m.mu.Unlock()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// tryStore stores a value if the entry has not been expunged.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// If the entry is expunged, tryStore returns false and leaves the entry
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// unchanged.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (e *entry) tryStore(i *any) <span style="color:#fff;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>		p := atomic.LoadPointer(&amp;e.p)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> p == expunged {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> atomic.CompareAndSwapPointer(&amp;e.p, p, unsafe.Pointer(i)) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol>
+<li>
+<p>存储数据时，会先判断read中是否存在该键值对，如果key存在并且没有被标识为删除更新该entry。这个过程是不需要加锁的。</p>
+</li>
+<li>
+<p>若read中匹配不到该键值对，则会进行加锁，这时候再次读取read，判断read中是否存在key，如果存在（如果存在的entry已经被标为删除，则要将此键值对写入到dirty中），则将value写到对应的key上。</p>
+</li>
+<li>
+<p>若read中不存在此key，但是dirty中存在，则直接写入到dirty中。</p>
+</li>
+<li>
+<p>如果read和dirty中都不存在，则将数据写入到dirty中，并判断read的修正标识是否为false，如果是false，则要将修正标识改为true，表示dirty中含有read中不存在的数据。</p>
+</li>
+</ol>
+<p>通过以上分析可知：<strong>写入read中已存在的key，并且该key未被标识为删除，是不需要加锁的。</strong></p>
+<h3 id="删除-delete">删除-Delete</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// Delete deletes the value for a key.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (m *Map) Delete(key any) {
+</span></span><span style="display:flex;"><span>	m.LoadAndDelete(key)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m *Map) LoadAndDelete(key any) (value any, loaded <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	read, _ := m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>	e, ok := read.m[key]
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> !ok &amp;&amp; read.amended {
+</span></span><span style="display:flex;"><span>		m.mu.Lock()
+</span></span><span style="display:flex;"><span>		read, _ = m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>		e, ok = read.m[key]
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !ok &amp;&amp; read.amended {
+</span></span><span style="display:flex;"><span>			e, ok = m.dirty[key]
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">delete</span>(m.dirty, key)
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// Regardless of whether the entry was present, record a miss: this key
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// will take the slow path until the dirty map is promoted to the read
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#007f7f">// map.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			m.missLocked()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		m.mu.Unlock()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> ok {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> e.<span style="color:#fff;font-weight:bold">delete</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (e *entry) <span style="color:#fff;font-weight:bold">delete</span>() (value any, ok <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>		p := atomic.LoadPointer(&amp;e.p)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> p == <span style="color:#fff;font-weight:bold">nil</span> || p == expunged {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> atomic.CompareAndSwapPointer(&amp;e.p, p, <span style="color:#fff;font-weight:bold">nil</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> *(*any)(p), <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol>
+<li>如果read中有该key，并且read不需要被修正，则直接删除该entry（若该entry已被抹除，或者已经是空指针，则忽略，否则将其赋值为空指针）。</li>
+<li>如果read中不存在该key，或者read需要被修正，则判断dirty中是否存在，若已存在，则直接删除。</li>
+</ol>
+<h3 id="遍历-range">遍历-Range</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (m *Map) Range(f <span style="color:#fff;font-weight:bold">func</span>(key, value any) <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// We need to be able to iterate over all of the keys that were already
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// present at the start of the call to Range.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// If read.amended is false, then read.m satisfies that property without
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// requiring us to hold m.mu for a long time.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	read, _ := m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> read.amended {
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// m.dirty contains keys not in read.m. Fortunately, Range is already O(N)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// (assuming the caller does not break out early), so a call to Range
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// amortizes an entire copy of the map: we can promote the dirty copy
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// immediately!
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		m.mu.Lock()
+</span></span><span style="display:flex;"><span>		read, _ = m.read.Load().(readOnly)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> read.amended {
+</span></span><span style="display:flex;"><span>			read = readOnly{m: m.dirty}
+</span></span><span style="display:flex;"><span>			m.read.Store(read)
+</span></span><span style="display:flex;"><span>			m.dirty = <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>			m.misses = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		m.mu.Unlock()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> k, e := <span style="color:#fff;font-weight:bold">range</span> read.m {
+</span></span><span style="display:flex;"><span>		v, ok := e.load()
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !f(k, v) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ol>
+<li>如果read不需要被修正，则进行读取read中的数据</li>
+<li>如果read需要被修正，则需要加锁，并将dirty中的数据覆盖到read中</li>
+</ol>
+<h2 id="设计点">设计点</h2>
+<h3 id="双map">双map</h3>
+<p>sync.Map中定义了两个map：一个read，用于只读；一个dirty，用于存储read中不存在的值。</p>
+<p>通过这两种方式<strong>实现了部分操作的lock-free</strong>，这些操作有：</p>
+<ul>
+<li>读取read已存在的key或者读取时read不需要被修正。</li>
+<li>更新read中已有key，并且该key未标识为删除。</li>
+<li>删除read已存在的key或者删除时read不需要被修正。</li>
+</ul>
+<h3 id="更新数据的lock-free">更新数据的lock-free</h3>
+<p>删除数据的lock-free是通过entry实现的。</p>
+<p>使用指针来存储value（将value抽象为entry），使得sync.Map可以直接通过原子操作来修改value。</p>
+<p>这个过程中与map的读写无关。sync.Map通过这种方式实现了更新数据的lock-free.</p>
+<h3 id="删除数据的lock-free">删除数据的lock-free</h3>
+<p>在更新数据的lock-free基础上，删除数据的lock-free还使用了expunged。</p>
+<p>sync.Map为了避免加锁，定义了一个删除指针expunged。当删除key时，如果read中存在该数据，则将value的指针地址指向这个删除指针即可。当访问该key时，sync.Map会判断entry为expunged，因此返回零值.</p>
+<p>这个过程中与map的读写无关。sync.Map通过这种方式实现了删除数据的lock-free.</p>
+<h2 id="总结">总结</h2>
+<p>我们不能单纯的说sync.Map适用于读多写少的场景——毕竟更新和删除操作很可能也是lock-free的。</p>
+<p>对于<strong>不能使用sync.Map的使用场景</strong>我们可以归纳为：</p>
+<ul>
+<li>读操作多且经常读不存在的数据：这时候读操作还是通过加锁来读取dirty（而且还是加两次锁）。</li>
+<li>经常写入新key：写入新key是一定要加锁的。</li>
+<li>大量删除、更新的操作，并且访问的数据不存在：更新、删除不存在的数据也是要加锁的。</li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
