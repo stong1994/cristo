@@ -237,3 +237,73 @@ Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/
   </body>
 
 </html>
+�低于50%，则可以认为该节点是多余的。当然还需要考虑其他情况，如是否是系统pod。</p>
+<p>当一个节点被关闭时，该节点会先被标记为不可调度，然后再驱逐节点上的pod。</p>
+<h3 id="poddisruptionbudget">PodDisruptionBudget</h3>
+<p>一些服务需要保证最少数量的pod能够运行，这时可使用<code>PodDisruptionBudget</code>资源来避免自动缩容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: policy/v1beta1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: PodDisruptionBudget
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: kubia-pdb
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">minAvailable</span>: <span style="color:#ff0;font-weight:bold">3</span> <span style="color:#007f7f"># 最少3个pod可用</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">app</span>: kubia
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div>
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
