@@ -105,15 +105,15 @@ pygmentsCodeFencesGuessSyntax = true
             weight = 3
             url = "web3/"
 
-            [[languages.zh.menu.main]]
-            name = "读书"
-            weight = 4
-            url = "book/"
+            #[[languages.zh.menu.main]]
+            #name = "读书"
+            #weight = 4
+            #url = "book/"
 
             [[languages.zh.menu.main]]
-            name = "生活"
+            name = "杂谈"
             weight = 5
-	    url = "life/"
+	    url = "other/"
 
 	    [[languages.zh.menu.main]]
             name = "心智模型"

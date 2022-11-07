@@ -6,7 +6,29 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 02 Nov 2022 17:23:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Nov 2022 17:23:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SOLID原则</title>
+      <link>https://stong1994.github.io/internet/design/solid/</link>
+      <pubDate>Fri, 04 Nov 2022 17:23:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/solid/</guid>
+      <description>对于一个刚入行的程序员来说，写好的代码是很难的。这并不是说他们（或者说那时的我们）不了解编程语言的写法，也不是说他们不了解设计模式，而是说他们缺少编程思想，这种思想是需要通过经验总结出来的，也需要经验才能体会的到。SOLID原则就是面向对象编程中的一种思想的体现。
+S-单一职责 全称：Single-responsiblity Principle
+A class should have one and only one reason to change, meaning that a class should have only one job.
+单一职责并不是说一个对象只能有一个功能，而是说一个对象应该对其使用方负责，当一方更改它时，不应该需要考虑其他使用方是否会被影响，也就是说，一个对象只能对一个使用方负责。
+换句话说，一个对象不能够混合关注点。
+比如说我们有一个Employee，Employee需要：
+上报工作时间（ReportHours） 计薪（CalcPay） 写入到数据库（WriteEmployee）。 如果我们使用Employee实现了这三个功能，那么Employee就同时对工时汇总人员、计薪人员、员工三方负责。当我们修改计薪人员提出的bug或者功能时，就需要考虑会不会对工时汇总人员和员工产生影响。
+此时，Employee违反了单一职责原则。
+O-开闭原则 全称：Open-closed Principle
+Objects or entities should be open for extension but closed for modification.
+当产品经理提出新的需求时，应该将新业务扩展为新的对象，而不是在原有对象上修改。
+比如说我们有一个Employee，它有一个计薪（CalcPay）的功能。
+func (e Employee) CalcPay() float64{ return 1000 } 现在，我们需要对管理员（Admin）额外提供200块钱的补助。
+func (e Employee) CalcPay() float64{ salary := float64(1000) if e.isAdmin() { salary += 200 } return salary } 这段代码有什么缺点呢？它将普通员工和负责人耦合在了一起！</description>
+    </item>
+    
     <item>
       <title>zap-优雅的可选配置</title>
       <link>https://stong1994.github.io/internet/go/zap/options/</link>
