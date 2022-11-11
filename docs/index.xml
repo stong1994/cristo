@@ -6,7 +6,16 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 04 Nov 2022 17:23:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 18:30:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用景观思维解决复杂问题</title>
+      <link>https://stong1994.github.io/other/landscape_thinking/</link>
+      <pubDate>Mon, 07 Nov 2022 18:30:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/other/landscape_thinking/</guid>
+      <description>安德烈亚斯·瓦格纳在**《如何解决复杂问题》中介绍了一种用于解决高复杂度问题的思维方式，这种思维方式就是景观思维**。 景观思维的灵感来源于生</description>
+    </item>
+    
     <item>
       <title>SOLID原则</title>
       <link>https://stong1994.github.io/internet/design/solid/</link>
@@ -457,15 +466,6 @@ Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个
     </item>
     
     <item>
-      <title>《全球科技通史》</title>
-      <link>https://stong1994.github.io/book/anthropology/global_tech_history/</link>
-      <pubDate>Mon, 27 Jun 2022 07:36:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/book/anthropology/global_tech_history/</guid>
-      <description>《全球科技通史》是一本科技类的通识读物。每个人都应该了解一点科技史，对于技术人员来说更是如此。 吴军将整个人类技术分为了四个阶段：远古科技、古</description>
-    </item>
-    
-    <item>
       <title>WHY-IS-HOW</title>
       <link>https://stong1994.github.io/life/why_is_how/</link>
       <pubDate>Wed, 22 Jun 2022 10:23:00 +0800</pubDate>
@@ -484,7 +484,7 @@ Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个
     </item>
     
     <item>
-      <title>《第一性原理》</title>
+      <title>第一性原理</title>
       <link>https://stong1994.github.io/book/philosophy/first_principle/</link>
       <pubDate>Mon, 13 Jun 2022 16:50:00 +0800</pubDate>
       

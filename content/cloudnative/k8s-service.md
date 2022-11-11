@@ -252,5 +252,6 @@ spec:
    好处是当需要修改port时，只修改pod的端口即可。
 
 4. Service ip不能ping通，这是因为Service的ip是一个虚拟ip，只有和port一起使用才有意义。
-5. 
+
+
 

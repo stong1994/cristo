@@ -2,7 +2,7 @@
 
 date = 2022-10-16T21:19:00+08:00
 title = "k8s-调度器"
-url = "/cloudnative/k8s/autoscaling"
+url = "/cloudnative/k8s/scheduler"
 
 toc = true
 

@@ -6,7 +6,16 @@
     <description>Recent content in stong on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 04 Jun 2022 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 18:30:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>用景观思维解决复杂问题</title>
+      <link>https://stong1994.github.io/other/landscape_thinking/</link>
+      <pubDate>Mon, 07 Nov 2022 18:30:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/other/landscape_thinking/</guid>
+      <description>安德烈亚斯·瓦格纳在**《如何解决复杂问题》中介绍了一种用于解决高复杂度问题的思维方式，这种思维方式就是景观思维**。 景观思维的灵感来源于生</description>
+    </item>
+    
     <item>
       <title>rust基础笔记</title>
       <link>https://stong1994.github.io/note/rust/base/</link>
