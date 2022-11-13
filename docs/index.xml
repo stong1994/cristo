@@ -6,7 +6,24 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 07 Nov 2022 18:30:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Nov 2022 19:45:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式之观察者模式</title>
+      <link>https://stong1994.github.io/internet/design/observer/</link>
+      <pubDate>Fri, 11 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/observer/</guid>
+      <description>What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
+观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
+观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
+Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
+package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
+如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
+Topic和观察者耦合在了一起。
+How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
+package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t.</description>
+    </item>
+    
     <item>
       <title>用景观思维解决复杂问题</title>
       <link>https://stong1994.github.io/other/landscape_thinking/</link>
@@ -183,10 +200,10 @@ apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Po
     
     <item>
       <title>k8s-调度器</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
+      <link>https://stong1994.github.io/cloudnative/k8s/scheduler/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
+      <guid>https://stong1994.github.io/cloudnative/k8s/scheduler/</guid>
       <description>taint &amp;amp; toleration taint和toleration用来限制pod部署到特定的node。taint是node的属性，toleration是pod的属性。一个pod只会被调度到能够容忍（toleration）它的污点（taint）的节点上。
 taints的格式为&amp;lt;key&amp;gt;=&amp;lt;value&amp;gt;:&amp;lt;effect&amp;gt;，其中effect可以为：
 NoSchedule：如果pod不容忍节点的污点，则不会被调度到该节点。 PreferNoSchedule：一个软NoSchedule，pod尽量不被调度到这些有不能容忍的污点的节点上，但是如果没有其他可用的节点，那么仍会部署到这些节点上。 NoExecute：前两者只会影响待调度的pod，而NoExecute则也会影响已经运行的pod，如果向节点添加一个NoExecute污点，那么节点上的pod会被驱逐。 查看k8s的主节点：kubectl describe node master.k8s

@@ -6,7 +6,24 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 04 Nov 2022 17:23:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Nov 2022 19:45:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式之观察者模式</title>
+      <link>https://stong1994.github.io/internet/design/observer/</link>
+      <pubDate>Fri, 11 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/observer/</guid>
+      <description>What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
+观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
+观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
+Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
+package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
+如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
+Topic和观察者耦合在了一起。
+How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
+package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t.</description>
+    </item>
+    
     <item>
       <title>SOLID原则</title>
       <link>https://stong1994.github.io/internet/design/solid/</link>
