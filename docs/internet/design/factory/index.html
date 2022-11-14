@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="工厂模式，顾名思义，是一种用来生产实例的模式。
+工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。
+《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。
+再现场景——披萨 假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：
+type Pizza interface { Prepare() Bake() Cut() Box() } 并且三种披萨都实现了这个披萨接口：
+// 具体实现方法略 type CheesePizza struct { } type GreekPizza struct { } type PepperoniPizza struct { } 那么这时一个用户下单一个披萨的方法就可以是：
+type PizzaStore struct {} func (p PizzaStore) OrderPizza(typ string) Pizza { var pizza Pizza switch typ { case &#34;cheese&#34;: pizza = new(CheesePizza) case &#34;greek&#34;: pizza = new(GreekPizza) case &#34;pepperoni&#34;: pizza = new(PepperoniPizza) } pizza.Prepare() pizza.Bake() pizza.Cut() pizza.Box() return pizza } 用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式之工厂模式"/>
+<meta name="twitter:description" content="工厂模式，顾名思义，是一种用来生产实例的模式。
+工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。
+《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。
+再现场景——披萨 假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：
+type Pizza interface { Prepare() Bake() Cut() Box() } 并且三种披萨都实现了这个披萨接口：
+// 具体实现方法略 type CheesePizza struct { } type GreekPizza struct { } type PepperoniPizza struct { } 那么这时一个用户下单一个披萨的方法就可以是：
+type PizzaStore struct {} func (p PizzaStore) OrderPizza(typ string) Pizza { var pizza Pizza switch typ { case &#34;cheese&#34;: pizza = new(CheesePizza) case &#34;greek&#34;: pizza = new(GreekPizza) case &#34;pepperoni&#34;: pizza = new(PepperoniPizza) } pizza.Prepare() pizza.Bake() pizza.Cut() pizza.Box() return pizza } 用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。"/>
+
+    <meta property="og:title" content="设计模式之工厂模式" />
+<meta property="og:description" content="工厂模式，顾名思义，是一种用来生产实例的模式。
+工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。
+《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。
+再现场景——披萨 假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：
+type Pizza interface { Prepare() Bake() Cut() Box() } 并且三种披萨都实现了这个披萨接口：
+// 具体实现方法略 type CheesePizza struct { } type GreekPizza struct { } type PepperoniPizza struct { } 那么这时一个用户下单一个披萨的方法就可以是：
+type PizzaStore struct {} func (p PizzaStore) OrderPizza(typ string) Pizza { var pizza Pizza switch typ { case &#34;cheese&#34;: pizza = new(CheesePizza) case &#34;greek&#34;: pizza = new(GreekPizza) case &#34;pepperoni&#34;: pizza = new(PepperoniPizza) } pizza.Prepare() pizza.Bake() pizza.Cut() pizza.Box() return pizza } 用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/factory/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-11-13T19:45:00+08:00" />
+<meta property="article:modified_time" content="2022-11-13T19:45:00+08:00" />
+
+
+
+    <title>
+  设计模式之工厂模式 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/factory/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#再现场景披萨">再现场景——披萨</a></li>
+    <li><a href="#简单工厂模式-封装对象的创建过程">简单工厂模式-封装对象的创建过程</a></li>
+    <li><a href="#工厂方法-让子类决定创建何种对象">工厂方法-让子类决定创建何种对象</a></li>
+    <li><a href="#抽象工厂-通过接口倒置依赖">抽象工厂-通过接口倒置依赖</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>设计模式之工厂模式</h1>
+    </header>
+
+    <p>工厂模式，顾名思义，是一种用来生产实例的模式。</p>
+<p>工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。</p>
+<p>《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。</p>
+<h2 id="再现场景披萨">再现场景——披萨</h2>
+<p>假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Pizza <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	Prepare()
+</span></span><span style="display:flex;"><span>	Bake()
+</span></span><span style="display:flex;"><span>	Cut()
+</span></span><span style="display:flex;"><span>	Box()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>并且三种披萨都实现了这个披萨接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// 具体实现方法略
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> CheesePizza <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> GreekPizza <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PepperoniPizza <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>那么这时一个用户下单一个披萨的方法就可以是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PizzaStore <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p PizzaStore) OrderPizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(CheesePizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(GreekPizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;pepperoni&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(PepperoniPizza)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	pizza.Prepare()
+</span></span><span style="display:flex;"><span>	pizza.Bake()
+</span></span><span style="display:flex;"><span>	pizza.Cut()
+</span></span><span style="display:flex;"><span>	pizza.Box()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。</p>
+<h2 id="简单工厂模式-封装对象的创建过程">简单工厂模式-封装对象的创建过程</h2>
+<p>但是，如果此时我们的披萨店里去掉了意大利披萨，并且新增了素食披萨，这时我们要修改OrderPizza为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> VeggiePizza <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PizzaStore <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p PizzaStore) OrderPizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(CheesePizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(GreekPizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">//case &#34;pepperoni&#34;: 删除
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">//	pizza = new(PepperoniPizza)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>: <span style="color:#007f7f">// 新增
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(VeggiePizza)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	pizza.Prepare()
+</span></span><span style="display:flex;"><span>	pizza.Bake()
+</span></span><span style="display:flex;"><span>	pizza.Cut()
+</span></span><span style="display:flex;"><span>	pizza.Box()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>OrderPizza最大的问题就是将<strong>创建披萨的代码和处理披萨的代码耦合在了一起</strong>——新增或者删除一个披萨都会对OrderPizza做修改——虽然没有修改处理披萨的流程，但是修改了处理披萨流程所在的方法。</p>
+<p>我们可以说OrderPizza违反了开闭原则（没有对修改关闭），也可以说其违反了单一职责原则（同时具有创建披萨和处理披萨两个职责）。但不管我们将其定义为违反了哪些原则，最重要的是我们在扩展代码时，发现了“坏味道”。</p>
+<p>这时，我们需要通过<strong>简单工厂模式</strong>来将创建披萨的代码封装起来。</p>
+<p>修改后的代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PizzaStore <span style="color:#fff;font-weight:bold">struct</span>{
+</span></span><span style="display:flex;"><span>	factory SimplePizzaFactory
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p PizzaStore) OrderPizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	pizza := p.factory.CreatePizza(typ)
+</span></span><span style="display:flex;"><span>	pizza.Prepare()
+</span></span><span style="display:flex;"><span>	pizza.Bake()
+</span></span><span style="display:flex;"><span>	pizza.Cut()
+</span></span><span style="display:flex;"><span>	pizza.Box()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> SimplePizzaFactory <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (spf SimplePizzaFactory) CreatePizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(CheesePizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(GreekPizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(VeggiePizza)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>通过封装创建的过程，使处理披萨和创建披萨的代码得到了隔离，那么这时再新增或者删除一种披萨，就不需要在OrderPizza中修改，避免影响到处理披萨的代码。</p>
+<h2 id="工厂方法-让子类决定创建何种对象">工厂方法-让子类决定创建何种对象</h2>
+<p>现在让我们将披萨店开到全世界！</p>
+<p>但是这时候有了新问题：每个地区的披萨口味都应该是”因地制宜“的，所以每个披萨店都有自己独特的CreatePizza。</p>
+<p>虽然创建披萨的过程变了，但是每个地区处理披萨（准备、烘焙、裁剪、装盒）的流程没变，这时我们需要抽象出一个基础类——这个基础类提供了处理披萨的方法，但是创建披萨的方法需要注入。每个地区的披萨店都实现了自己的创建披萨的方法，并组装基础类。</p>
+<p>基础类：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BasePizzaStore <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	store PizzaStore
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (bps BasePizzaStore) OrderPizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	pizza := bps.store.CreatePizza(typ)
+</span></span><span style="display:flex;"><span>	pizza.Prepare()
+</span></span><span style="display:flex;"><span>	pizza.Bake()
+</span></span><span style="display:flex;"><span>	pizza.Cut()
+</span></span><span style="display:flex;"><span>	pizza.Box()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PizzaStore <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	CreatePizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>基础类中包含了一个披萨商店，这个商店在运行时提供具体的创建披萨的方法。</p>
+<p>再看下两个地区的披萨店实例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ChinaPizzaStore <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	BasePizzaStore
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewChinaPizzaStore() ChinaPizzaStore {
+</span></span><span style="display:flex;"><span>	store := ChinaPizzaStore{}
+</span></span><span style="display:flex;"><span>	store.BasePizzaStore = BasePizzaStore{store: store}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> store
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaPizzaStore) CreatePizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(ChinaCheesePizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(ChinaGreekPizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(ChinaVeggiePizza)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> AmericaPizzaStore <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	BasePizzaStore
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewAmericaPizzaStore() AmericaPizzaStore {
+</span></span><span style="display:flex;"><span>	store := AmericaPizzaStore{}
+</span></span><span style="display:flex;"><span>	store.BasePizzaStore = BasePizzaStore{store: store}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> store
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c AmericaPizzaStore) CreatePizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(AmericaCheesePizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(AmericaGreekPizza)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>:
+</span></span><span style="display:flex;"><span>		pizza = <span style="color:#fff;font-weight:bold">new</span>(AmericaVeggiePizza)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>重点在于每个地区的商店都组装了BasePizzaStore，所以每个商店都统一使用其OrderPizza。并且每个商店都将自己的实例注入到了BasePizzaStore的实例中，也就是在OrderPizza中创建披萨的过程使用的是各个地区商店自己的CreatePizza。</p>
+<p>让我们在这两个地区分别下单一个披萨：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	chinaStore := NewChinaPizzaStore()
+</span></span><span style="display:flex;"><span>	chinaStore.OrderPizza(<span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	americaStore := NewAmericaPizzaStore()
+</span></span><span style="display:flex;"><span>	americaStore.OrderPizza(<span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>工厂方法模式定义了一个创建对象的接口，但由子类决定要实例化的类是哪一个。工厂方法让类把实例化推迟到子类。</p>
+<h2 id="抽象工厂-通过接口倒置依赖">抽象工厂-通过接口倒置依赖</h2>
+<p>现在我们要对披萨店进一步优化：每个商店都能卖各种地区的披萨，但是味道需要”因地制宜“，所以不同地区的商店制作同一种披萨所使用的原料的分量是不同的！</p>
+<p>我们需要先创建一个原料工厂接口和两个具体的地区工厂实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> PizzaIngredientFactory <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	CreateDough() Dough
+</span></span><span style="display:flex;"><span>	CreateSauce() Sauce
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ChinaPizzaIngredientFactory <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaPizzaIngredientFactory) CreateDough() Dough {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> Dough{Weight: <span style="color:#ff0;font-weight:bold">10</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaPizzaIngredientFactory) CreateSauce() Sauce {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> Sauce{Weight: <span style="color:#ff0;font-weight:bold">20</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> AmericaPizzaIngredientFactory <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c AmericaPizzaIngredientFactory) CreateDough() Dough {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> Dough{Weight: <span style="color:#ff0;font-weight:bold">10</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c AmericaPizzaIngredientFactory) CreateSauce() Sauce {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> Sauce{Weight: <span style="color:#ff0;font-weight:bold">20</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后将原料工厂注入到各种披萨中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ChinaCheesePizza <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	ingredient PizzaIngredientFactory
+</span></span><span style="display:flex;"><span>	dough      Dough
+</span></span><span style="display:flex;"><span>	sauce      Sauce
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewChinaCheesePizza(ingredient PizzaIngredientFactory) *ChinaCheesePizza {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> &amp;ChinaCheesePizza{
+</span></span><span style="display:flex;"><span>		ingredient: ingredient,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *ChinaCheesePizza) Prepare() {
+</span></span><span style="display:flex;"><span>	c.dough = c.ingredient.CreateDough()
+</span></span><span style="display:flex;"><span>	c.sauce = c.ingredient.CreateSauce()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaCheesePizza) Bake() {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaCheesePizza) Cut() {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaCheesePizza) Box() {
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>再回到我们的商店中，修改创建披萨的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ChinaPizzaStore <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	BasePizzaStore
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewChinaPizzaStore() ChinaPizzaStore {
+</span></span><span style="display:flex;"><span>	store := ChinaPizzaStore{}
+</span></span><span style="display:flex;"><span>	store.BasePizzaStore = BasePizzaStore{store: store}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> store
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c ChinaPizzaStore) CreatePizza(typ <span style="color:#fff;font-weight:bold">string</span>) Pizza {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 创建原料工厂
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	ingredient := ChinaPizzaIngredientFactory{}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> pizza Pizza
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> typ {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;cheese&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">//pizza = new(ChinaCheesePizza) 注入
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		pizza = NewChinaCheesePizza(ingredient)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;greek&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">//pizza = new(ChinaGreekPizza)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		pizza = NewChinaGreekPizza(ingredient)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;veggie&#34;</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">//pizza = new(ChinaVeggiePizza)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		pizza = NewChinaVeggiePizza(ingredient)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> pizza
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>抽象工厂模式提供一个接口，用于创建相关或依赖对象的家族，而不需要明确指定具体类——这同样符合<strong>依赖倒置原则</strong>（依赖接口而不是具体类）——实现了披萨制作与原材料选择/供应的解耦。</p>
+<h2 id="总结">总结</h2>
+<ol>
+<li>简单工厂就是对创建对象过程的简单封装。</li>
+<li>工厂方法的应用场景为：将对象共有的方法抽象为基础对象，但是基础对象依赖于对象，这时可以将对象抽象为接口，基础对象依赖于这个接口。当实例化对象后，再实例化其包含的基础对象。</li>
+<li>抽象工厂的应用场景为：对象拥（披萨和地区商店）有一个产品族（原料），可以通过接口来抽象这个产品族。只有当实例化对象时，才将这个产品族的实例注入到对象中，实现对象与产品族之间的解耦。</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -6,7 +6,22 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 11 Nov 2022 19:45:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Nov 2022 19:45:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式之工厂模式</title>
+      <link>https://stong1994.github.io/internet/design/factory/</link>
+      <pubDate>Sun, 13 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/factory/</guid>
+      <description>工厂模式，顾名思义，是一种用来生产实例的模式。
+工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。
+《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。
+再现场景——披萨 假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：
+type Pizza interface { Prepare() Bake() Cut() Box() } 并且三种披萨都实现了这个披萨接口：
+// 具体实现方法略 type CheesePizza struct { } type GreekPizza struct { } type PepperoniPizza struct { } 那么这时一个用户下单一个披萨的方法就可以是：
+type PizzaStore struct {} func (p PizzaStore) OrderPizza(typ string) Pizza { var pizza Pizza switch typ { case &amp;#34;cheese&amp;#34;: pizza = new(CheesePizza) case &amp;#34;greek&amp;#34;: pizza = new(GreekPizza) case &amp;#34;pepperoni&amp;#34;: pizza = new(PepperoniPizza) } pizza.Prepare() pizza.Bake() pizza.Cut() pizza.Box() return pizza } 用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。</description>
+    </item>
+    
     <item>
       <title>设计模式之观察者模式</title>
       <link>https://stong1994.github.io/internet/design/observer/</link>

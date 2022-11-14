@@ -317,7 +317,7 @@ package main type Observer interface { Update(msg string) } type Observer1 struc
 <div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// parser中有一个观察者数组：listeners []ErrorListener
 </span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>parser := NewParser()
 </span></span><span style="display:flex;"><span>parser.AddErrorListener(&amp;ErrListener{})
-</span></span></code></pre></div><p>在实际解析到错误时，会创建一个<strong>代理</strong>来将错误信息分发给观察者。实现如下：</p>
+</span></span></code></pre></div><p>在实际解析到错误时，antlr会创建一个<strong>代理</strong>来将错误信息分发给观察者。实现如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *BaseParser) NotifyErrorListeners(msg <span style="color:#fff;font-weight:bold">string</span>, offendingToken Token, err RecognitionException) {
 </span></span><span style="display:flex;"><span>	p._SyntaxErrors++
 </span></span><span style="display:flex;"><span>	line := offendingToken.GetLine()
