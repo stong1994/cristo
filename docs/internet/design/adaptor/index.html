@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="适配器模式 适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。
+适配器模式也分为”主动适配“和”被动适配“。
+主动适配 仓库模式（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。
+主动适配通过接口来定义行为，使用依赖导致来避免下层逻辑污染上层逻辑。
+被动适配 在开发过程中，我们往往需要被动的去做一些适配，比如：
+老的接口并不是很符合我们的需求，因此需要适配老的接口 我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口 被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。
+防腐层是这类模式的一种体现。
+装饰器模式 与适配器的场景不同，装饰器模式是用来扩展功能的。
+比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 } func (s Sync) SyncEmp() { // 同步员工代码 } 在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 uploadProgress() // 上传进度 } func (s Sync) SyncEmp() { // 同步员工代码 uploadProgress() // 上传进度 } 虽然功能实现了，但是：
+它违反了开闭原则：同步逻辑并不需要修改但是修改了同步逻辑所在的代码 代码更复杂，加重了开发人员的认知负担。 我们先将旧版本的同步抽象为接口：
+type SyncContact interface{ SyncDept() SyncEmp() } 然后装饰进度条功能:">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式之适配器、装饰器、外观"/>
+<meta name="twitter:description" content="适配器模式 适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。
+适配器模式也分为”主动适配“和”被动适配“。
+主动适配 仓库模式（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。
+主动适配通过接口来定义行为，使用依赖导致来避免下层逻辑污染上层逻辑。
+被动适配 在开发过程中，我们往往需要被动的去做一些适配，比如：
+老的接口并不是很符合我们的需求，因此需要适配老的接口 我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口 被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。
+防腐层是这类模式的一种体现。
+装饰器模式 与适配器的场景不同，装饰器模式是用来扩展功能的。
+比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 } func (s Sync) SyncEmp() { // 同步员工代码 } 在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 uploadProgress() // 上传进度 } func (s Sync) SyncEmp() { // 同步员工代码 uploadProgress() // 上传进度 } 虽然功能实现了，但是：
+它违反了开闭原则：同步逻辑并不需要修改但是修改了同步逻辑所在的代码 代码更复杂，加重了开发人员的认知负担。 我们先将旧版本的同步抽象为接口：
+type SyncContact interface{ SyncDept() SyncEmp() } 然后装饰进度条功能:"/>
+
+    <meta property="og:title" content="设计模式之适配器、装饰器、外观" />
+<meta property="og:description" content="适配器模式 适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。
+适配器模式也分为”主动适配“和”被动适配“。
+主动适配 仓库模式（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。
+主动适配通过接口来定义行为，使用依赖导致来避免下层逻辑污染上层逻辑。
+被动适配 在开发过程中，我们往往需要被动的去做一些适配，比如：
+老的接口并不是很符合我们的需求，因此需要适配老的接口 我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口 被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。
+防腐层是这类模式的一种体现。
+装饰器模式 与适配器的场景不同，装饰器模式是用来扩展功能的。
+比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 } func (s Sync) SyncEmp() { // 同步员工代码 } 在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 uploadProgress() // 上传进度 } func (s Sync) SyncEmp() { // 同步员工代码 uploadProgress() // 上传进度 } 虽然功能实现了，但是：
+它违反了开闭原则：同步逻辑并不需要修改但是修改了同步逻辑所在的代码 代码更复杂，加重了开发人员的认知负担。 我们先将旧版本的同步抽象为接口：
+type SyncContact interface{ SyncDept() SyncEmp() } 然后装饰进度条功能:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/adaptor/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-11-15T11:17:00+08:00" />
+<meta property="article:modified_time" content="2022-11-15T11:17:00+08:00" />
+
+
+
+    <title>
+  设计模式之适配器、装饰器、外观 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/adaptor/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#适配器模式">适配器模式</a>
+      <ul>
+        <li><a href="#主动适配">主动适配</a></li>
+        <li><a href="#被动适配">被动适配</a></li>
+      </ul>
+    </li>
+    <li><a href="#装饰器模式">装饰器模式</a></li>
+    <li><a href="#外观模式">外观模式</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>设计模式之适配器、装饰器、外观</h1>
+    </header>
+
+    <h2 id="适配器模式">适配器模式</h2>
+<p>适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。</p>
+<p>适配器模式也分为”主动适配“和”被动适配“。</p>
+<h3 id="主动适配">主动适配</h3>
+<p><strong>仓库模式</strong>（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。</p>
+<p>主动适配通过<strong>接口</strong>来定义行为，使用<strong>依赖导致</strong>来避免下层逻辑污染上层逻辑。</p>
+<h3 id="被动适配">被动适配</h3>
+<p>在开发过程中，我们往往需要被动的去做一些适配，比如：</p>
+<ul>
+<li>老的接口并不是很符合我们的需求，因此需要适配老的接口</li>
+<li>我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口</li>
+</ul>
+<p>被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。</p>
+<p><strong>防腐层</strong>是这类模式的一种体现。</p>
+<h2 id="装饰器模式">装饰器模式</h2>
+<p>与适配器的场景不同，<strong>装饰器模式是用来扩展功能的</strong>。</p>
+<p>比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Sync <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s Sync) SyncDept() {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 同步部门代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s Sync) SyncEmp() {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 同步员工代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p>在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Sync <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s Sync) SyncDept() {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 同步部门代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  uploadProgress() <span style="color:#007f7f">// 上传进度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s Sync) SyncEmp() {
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 同步员工代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  uploadProgress() <span style="color:#007f7f">// 上传进度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p>虽然功能实现了，但是：</p>
+<ol>
+<li>它<strong>违反了开闭原则</strong>：同步逻辑并不需要修改但是修改了同步逻辑所在的代码</li>
+<li><strong>代码更复杂</strong>，加重了开发人员的认知负担。</li>
+</ol>
+<p>我们先将旧版本的同步抽象为接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> SyncContact <span style="color:#fff;font-weight:bold">interface</span>{
+</span></span><span style="display:flex;"><span>  SyncDept()
+</span></span><span style="display:flex;"><span>  SyncEmp()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后装饰进度条功能:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> SyncWithProgress <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	sync Sync
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s SyncWithProgress) SyncDept() {
+</span></span><span style="display:flex;"><span>  s.sync.SyncDept()
+</span></span><span style="display:flex;"><span>  uploadProgress() <span style="color:#007f7f">// 上传进度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (s SyncWithProgress) SyncEmp() {
+</span></span><span style="display:flex;"><span>	s.sync.SyncEmp()
+</span></span><span style="display:flex;"><span>  uploadProgress() <span style="color:#007f7f">// 上传进度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p>这时候只需要将初始化Sync的地方改为初始化SyncWithProgress即可。</p>
+<h2 id="外观模式">外观模式</h2>
+<p><strong>外观模式的目的在于简化使用</strong>，比如go中常用的<code>fmt.Println()</code>的实现为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Println(a ...any) (n <span style="color:#fff;font-weight:bold">int</span>, err <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> Fprintln(os.Stdout, a...)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在开发过程中，也会经常将一个复杂的流程抽象为一个方法，其目的就是为了减少使用者的负担。</p>
+<h2 id="总结">总结</h2>
+<ol>
+<li>当需要使用一个现有的对象/接口/方法时，如果不符合需求，那么就要使用适配器。</li>
+<li>可以通过主动适配的方式来减少关键代码的复杂性。</li>
+<li>如需简化调用方的使用，可以使用外观模式。</li>
+<li>当需要扩展功能时，可以使用装饰器模式。</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

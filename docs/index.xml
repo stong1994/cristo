@@ -6,7 +6,28 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 14 Nov 2022 19:45:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Nov 2022 11:17:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式之适配器、装饰器、外观</title>
+      <link>https://stong1994.github.io/internet/design/adaptor/</link>
+      <pubDate>Tue, 15 Nov 2022 11:17:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/adaptor/</guid>
+      <description>适配器模式 适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。
+适配器模式也分为”主动适配“和”被动适配“。
+主动适配 仓库模式（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。
+主动适配通过接口来定义行为，使用依赖导致来避免下层逻辑污染上层逻辑。
+被动适配 在开发过程中，我们往往需要被动的去做一些适配，比如：
+老的接口并不是很符合我们的需求，因此需要适配老的接口 我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口 被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。
+防腐层是这类模式的一种体现。
+装饰器模式 与适配器的场景不同，装饰器模式是用来扩展功能的。
+比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 } func (s Sync) SyncEmp() { // 同步员工代码 } 在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：
+type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 uploadProgress() // 上传进度 } func (s Sync) SyncEmp() { // 同步员工代码 uploadProgress() // 上传进度 } 虽然功能实现了，但是：
+它违反了开闭原则：同步逻辑并不需要修改但是修改了同步逻辑所在的代码 代码更复杂，加重了开发人员的认知负担。 我们先将旧版本的同步抽象为接口：
+type SyncContact interface{ SyncDept() SyncEmp() } 然后装饰进度条功能:</description>
+    </item>
+    
     <item>
       <title>设计模式之单例模式</title>
       <link>https://stong1994.github.io/internet/design/singleton/</link>
