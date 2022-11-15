@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="单例模式是确保对象只初始化一次的编码模式，常用于全局资源的创建。
+实现单例模式 在其他语言（如java）中，可能需要双重锁检查的方式来实现单例模式，但是在go中直接使用sync.Once即可：
+package singleton import &#34;sync&#34; var ( once sync.Once globalResource *resource ) type resource struct {} func GetResource() *resource { once.Do(func() { globalResource = new(resource) }) return globalResource } 避免使用单例模式 单例模式最需要人们关心的其实并不是如何实现，而是如何避免使用。
+在《游戏编程模式》中总结了如下理由：
+**单例模式所创建的对象可以看做是全局变量，而全局变量增加了代码的复杂度。**假如我们在查bug，我们理应只需关注这个方法内的逻辑，而不应把精力花费在全局变量上。 **全局变量造成了耦合。**由于任何地方都能进行引用，那么开发者就会在一切地方引用。所以这块代码将难以维护——因为没人能修改全局的代码并且确保它不会出错。 **对并发不友好。**这显而易见。 ">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式之单例模式"/>
+<meta name="twitter:description" content="单例模式是确保对象只初始化一次的编码模式，常用于全局资源的创建。
+实现单例模式 在其他语言（如java）中，可能需要双重锁检查的方式来实现单例模式，但是在go中直接使用sync.Once即可：
+package singleton import &#34;sync&#34; var ( once sync.Once globalResource *resource ) type resource struct {} func GetResource() *resource { once.Do(func() { globalResource = new(resource) }) return globalResource } 避免使用单例模式 单例模式最需要人们关心的其实并不是如何实现，而是如何避免使用。
+在《游戏编程模式》中总结了如下理由：
+**单例模式所创建的对象可以看做是全局变量，而全局变量增加了代码的复杂度。**假如我们在查bug，我们理应只需关注这个方法内的逻辑，而不应把精力花费在全局变量上。 **全局变量造成了耦合。**由于任何地方都能进行引用，那么开发者就会在一切地方引用。所以这块代码将难以维护——因为没人能修改全局的代码并且确保它不会出错。 **对并发不友好。**这显而易见。 "/>
+
+    <meta property="og:title" content="设计模式之单例模式" />
+<meta property="og:description" content="单例模式是确保对象只初始化一次的编码模式，常用于全局资源的创建。
+实现单例模式 在其他语言（如java）中，可能需要双重锁检查的方式来实现单例模式，但是在go中直接使用sync.Once即可：
+package singleton import &#34;sync&#34; var ( once sync.Once globalResource *resource ) type resource struct {} func GetResource() *resource { once.Do(func() { globalResource = new(resource) }) return globalResource } 避免使用单例模式 单例模式最需要人们关心的其实并不是如何实现，而是如何避免使用。
+在《游戏编程模式》中总结了如下理由：
+**单例模式所创建的对象可以看做是全局变量，而全局变量增加了代码的复杂度。**假如我们在查bug，我们理应只需关注这个方法内的逻辑，而不应把精力花费在全局变量上。 **全局变量造成了耦合。**由于任何地方都能进行引用，那么开发者就会在一切地方引用。所以这块代码将难以维护——因为没人能修改全局的代码并且确保它不会出错。 **对并发不友好。**这显而易见。 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/singleton/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-11-14T19:45:00+08:00" />
+<meta property="article:modified_time" content="2022-11-14T19:45:00+08:00" />
+
+
+
+    <title>
+  设计模式之单例模式 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/singleton/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实现单例模式">实现单例模式</a></li>
+    <li><a href="#避免使用单例模式">避免使用单例模式</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>设计模式之单例模式</h1>
+    </header>
+
+    <p>单例模式是确保对象只初始化一次的编码模式，常用于全局资源的创建。</p>
+<h2 id="实现单例模式">实现单例模式</h2>
+<p>在其他语言（如java）中，可能需要<strong>双重锁检查</strong>的方式来实现单例模式，但是在go中直接使用sync.Once即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> singleton
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	once           sync.Once
+</span></span><span style="display:flex;"><span>	globalResource *resource
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> resource <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> GetResource() *resource {
+</span></span><span style="display:flex;"><span>	once.Do(<span style="color:#fff;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>		globalResource = <span style="color:#fff;font-weight:bold">new</span>(resource)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> globalResource
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="避免使用单例模式">避免使用单例模式</h2>
+<p>单例模式最需要人们关心的其实并不是如何实现，而是如何避免使用。</p>
+<p>在《游戏编程模式》中总结了如下理由：</p>
+<ol>
+<li>**单例模式所创建的对象可以看做是全局变量，而全局变量增加了代码的复杂度。**假如我们在查bug，我们理应只需关注这个方法内的逻辑，而不应把精力花费在全局变量上。</li>
+<li>**全局变量造成了耦合。**由于任何地方都能进行引用，那么开发者就会在一切地方引用。所以这块代码将难以维护——因为没人能修改全局的代码并且确保它不会出错。</li>
+<li>**对并发不友好。**这显而易见。</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
