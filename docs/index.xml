@@ -42,6 +42,21 @@ package singleton import &amp;#34;sync&amp;#34; var ( once sync.Once globalResou
     </item>
     
     <item>
+      <title>设计模式之模版方法模式</title>
+      <link>https://stong1994.github.io/internet/design/template/</link>
+      <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/template/</guid>
+      <description>介绍 模版方法模式在基础对象中提供通用的方法，而模版的使用者只需关心非通用的方法。
+举个例子，假设数据同步的过程可分为以下几步：
+准备数据 处理新增的数据 处理更新的数据 处理删除的数据 对于不同的场景，数据同步的更新逻辑可能都不同，而其他三个步骤（1、2、4）则不会改变。因此，我们可以制作一个通用的模版，这样，使用方在使用时只需处理更新逻辑即可。
+type Sync interface{ Update() } func SyncData(sync Sync) { prepare() add() sync.Update() delete() } type Syncer struct{} func (s syncer) Update() {} func sync() { SyncData(new(Syncer)) } 官方库中的实例 go中的排序方法就应用了这一模式。
+在src/sort/sort.go中，定义了用户自定义行为的接口：
+type Interface interface { Len() int Less(i, j int) bool Swap(i, j int) } 并且提供了模版方法：
+func Sort(data Interface) { n := data.Len() if n &amp;lt;= 1 { return } limit := bits.Len(uint(n)) pdqsort(data, 0, n, limit) } Interface中的三个方法会在pdqsort中使用，具体算法代码较复杂，可自行阅读源码。</description>
+    </item>
+    
+    <item>
       <title>设计模式之工厂模式</title>
       <link>https://stong1994.github.io/internet/design/factory/</link>
       <pubDate>Sun, 13 Nov 2022 19:45:00 +0800</pubDate>
