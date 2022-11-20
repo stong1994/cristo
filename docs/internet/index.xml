@@ -42,6 +42,23 @@ package singleton import &amp;#34;sync&amp;#34; var ( once sync.Once globalResou
     </item>
     
     <item>
+      <title>设计模式之迭代器、组合</title>
+      <link>https://stong1994.github.io/internet/design/iterator/</link>
+      <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/iterator/</guid>
+      <description>迭代器模式 迭代器模式用于封装遍历过程以达到隐藏内部实现细节的目的。
+迭代器模式分为内部迭代器和外部迭代器两种。
+内部迭代器 内部迭代器由迭代器本身来控制遍历。
+type Student struct{} type Students []Student func (s Students) Iterator(fnc func(student Student)) { for _, student := range s { fnc(student) } } 我们新定义了一个Students类型用来封装Student列表，并且提供了Iterator方法来实现遍历。
+内部迭代器的有点就是实现简单、使用简单，缺点则是使用方不能控制遍历逻辑。
+假设说我们新的处理Student的方法需要一个error返回值，这时候Iterator已经不能满足需求，需要新定义一个方法：
+func (s Students) Iterator2(fnc func(student Student) error) error { for _, student := range s { if err := fnc(student); err != nil { return err } } return nil } 也就是说，内部迭代器的扩展性不够好，且使用不够灵活。假如遍历过程中，fnc找到所需的student就不应该继续遍历其他student，那么我们又需要再写一个新的方法。
+外部迭代器 外部迭代器将迭代的控制权提供给使用方，实现如下：
+type Student struct{} type Students struct{ offset int data []Student } func (s *Students) HasNext() bool { return s.</description>
+    </item>
+    
+    <item>
       <title>设计模式之模版方法模式</title>
       <link>https://stong1994.github.io/internet/design/template/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
