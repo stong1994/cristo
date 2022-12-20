@@ -8,60 +8,42 @@
     
 
     
-    <meta name="description" content="对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
-可以通过label来筛选对象。
-annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
-namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
-通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
-命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
-通过kubectl explain pod.spec可获取pod下的spec的使用说明。
-其他对象同理。
-对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
-其他对象同理。
-根据yaml文件创建资源 kubectl create -f xxx.yaml
-指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&rsquo; {&ldquo;spec&rdquo; : {&ldquo;template&rdquo;: {&ldquo;spec&rdquo;: {&ldquo;containers&rdquo;: [{&ldquo;name&rdquo;: &ldquo;nodejs&rdquo;, &ldquo;image&rdquo; : &ldquo;luksa/kubia:v2&rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2.">
+    <meta name="description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
+Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；">
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="k8s-对象"/>
-<meta name="twitter:description" content="对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
-可以通过label来筛选对象。
-annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
-namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
-通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
-命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
-通过kubectl explain pod.spec可获取pod下的spec的使用说明。
-其他对象同理。
-对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
-其他对象同理。
-根据yaml文件创建资源 kubectl create -f xxx.yaml
-指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&rsquo; {&ldquo;spec&rdquo; : {&ldquo;template&rdquo;: {&ldquo;spec&rdquo;: {&ldquo;containers&rdquo;: [{&ldquo;name&rdquo;: &ldquo;nodejs&rdquo;, &ldquo;image&rdquo; : &ldquo;luksa/kubia:v2&rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2."/>
+<meta name="twitter:title" content="k8s-pod"/>
+<meta name="twitter:description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
+Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；"/>
 
-    <meta property="og:title" content="k8s-对象" />
-<meta property="og:description" content="对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
-可以通过label来筛选对象。
-annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
-namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
-通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
-命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
-通过kubectl explain pod.spec可获取pod下的spec的使用说明。
-其他对象同理。
-对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
-其他对象同理。
-根据yaml文件创建资源 kubectl create -f xxx.yaml
-指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&rsquo; {&ldquo;spec&rdquo; : {&ldquo;template&rdquo;: {&ldquo;spec&rdquo;: {&ldquo;containers&rdquo;: [{&ldquo;name&rdquo;: &ldquo;nodejs&rdquo;, &ldquo;image&rdquo; : &ldquo;luksa/kubia:v2&rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2." />
+    <meta property="og:title" content="k8s-pod" />
+<meta property="og:description" content="什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
+Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
+为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
+我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
+通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
+决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
+是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/pod/" /><meta property="article:section" content="cloudnative" />
-<meta property="article:published_time" content="2022-10-01T21:19:00+08:00" />
-<meta property="article:modified_time" content="2022-10-01T21:19:00+08:00" />
+<meta property="article:published_time" content="2022-10-08T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-08T21:19:00+08:00" />
 
 
 
     <title>
-  k8s-对象 · 北人
+  k8s-pod · 北人
 </title>
 
     
@@ -172,21 +154,44 @@ namespace namespace实现了更大粒度上的分组，往往用于隔离不同�
     <div id="toc" class="well col-md-4 col-sm-6">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#对象范畴">对象范畴</a></li>
-    <li><a href="#label">label</a></li>
-    <li><a href="#annotation">annotation</a></li>
-    <li><a href="#namespace">namespace</a>
+    <li><a href="#什么是pod">什么是pod</a></li>
+    <li><a href="#为什么需要pod">为什么需要pod</a>
       <ul>
-        <li><a href="#通过yaml文件创建">通过yaml文件创建</a></li>
-        <li><a href="#通过命令创建">通过命令创建</a></li>
+        <li><a href="#决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</a></li>
       </ul>
     </li>
-    <li><a href="#命令">命令</a>
+    <li><a href="#配置">配置</a>
       <ul>
-        <li><a href="#对象说明">对象说明</a></li>
-        <li><a href="#对象描述">对象描述</a></li>
-        <li><a href="#根据yaml文件创建资源">根据yaml文件创建资源</a></li>
-        <li><a href="#修改对象">修改对象</a></li>
+        <li><a href="#一个最简单的配置">一个最简单的配置</a></li>
+        <li><a href="#使用宿主机的pid和ipc-namespace">使用宿主机的PID和IPC namespace</a></li>
+        <li><a href="#使用宿主机的网络namespace">使用宿主机的网络namespace</a></li>
+        <li><a href="#绑定宿主机的端口但不使用hostnetwork">绑定宿主机的端口但不使用hostNetwork</a></li>
+        <li><a href="#podsecuritypolicy">PodSecurityPolicy</a></li>
+        <li><a href="#命令">命令</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+    <li><a href="#pod-lifecycle">Pod lifecycle</a>
+      <ul>
+        <li><a href="#pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</a></li>
+        <li><a href="#init-container初始化pod">init container—初始化pod</a></li>
+        <li><a href="#post-start-hook">post-start hook</a></li>
+        <li><a href="#pre-stop-hook">pre-stop hook</a></li>
+        <li><a href="#pod关闭流程">pod关闭流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#pod-manager">Pod Manager</a>
+      <ul>
+        <li><a href="#存活探针liveness-probe">存活探针（liveness probe）</a></li>
+        <li><a href="#就绪探针readiness-probe">就绪探针（readiness probe）</a></li>
+        <li><a href="#replicationcontroller">ReplicationController</a></li>
+        <li><a href="#replicaset">ReplicaSet</a></li>
+        <li><a href="#daemonset">DaemonSet</a></li>
+        <li><a href="#job">Job</a></li>
+        <li><a href="#cronjob">CronJob</a></li>
+        <li><a href="#滚动更新-kubectl命令">滚动更新-kubectl命令</a></li>
+        <li><a href="#deployment">Deployment</a></li>
+        <li><a href="#statefulset">StatefulSet</a></li>
       </ul>
     </li>
   </ul>
@@ -195,85 +200,523 @@ namespace namespace实现了更大粒度上的分组，往往用于隔离不同�
   <section class="container page">
   <article>
     <header>
-      <h1>k8s-对象</h1>
+      <h1>k8s-pod</h1>
     </header>
 
-    <h2 id="对象范畴">对象范畴</h2>
-<p>对象包括：</p>
-<ul>
-<li>pod：简写po</li>
-<li>node</li>
-<li>ReplicationController：简写rc</li>
-<li>ReplicaSet：简写rs</li>
-<li>events</li>
-<li>ServiceAccount：简写sc</li>
-<li>Secret</li>
-<li>ConfigMap</li>
-<li>PodSecurityPolicy：简写psp</li>
-<li>LimitRange</li>
-<li>ResourceQuota：简写quota</li>
-<li>HorizontalPodAutoscaler：简写hpa</li>
-<li>PodDisruptionBudget</li>
-</ul>
-<h2 id="label">label</h2>
-<p>label用于对象分组。</p>
-<p>可以通过label来筛选对象。</p>
-<h2 id="annotation">annotation</h2>
-<p>annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。</p>
-<h2 id="namespace">namespace</h2>
-<p>namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。</p>
-<h3 id="通过yaml文件创建">通过yaml文件创建</h3>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Namespace
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: custom-ns
-</span></span></code></pre></div><h3 id="通过命令创建">通过命令创建</h3>
-<p><code>kubectl create namespace xxx</code></p>
-<h2 id="命令">命令</h2>
-<h3 id="对象说明">对象说明</h3>
-<p>通过<code>kubectl explain pods</code> 可获取pod的使用说明。</p>
-<p>通过<code>kubectl explain pod.spec</code>可获取pod下的spec的使用说明。</p>
-<p>其他对象同理。</p>
-<h3 id="对象描述">对象描述</h3>
-<p>通过<code>kubectl describe rc xxx</code>可获取名为xxx的rc的信息。</p>
-<p>其他对象同理。</p>
-<h3 id="根据yaml文件创建资源">根据yaml文件创建资源</h3>
-<p><code>kubectl create -f xxx.yaml</code></p>
+    <h2 id="什么是pod">什么是pod</h2>
+<p>Pod是一个逻辑概念——它代表了一组共同协作的容器。</p>
+<p>Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。</p>
+<h2 id="为什么需要pod">为什么需要pod</h2>
+<p><strong>pod解决了需要在同一个节点部署的多个容器的资源调度问题。</strong></p>
+<p>我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。</p>
+<p>通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。</p>
+<h3 id="决策是否将容器放到同一个pod">决策：是否将容器放到同一个pod</h3>
 <ol>
-<li>指定namespace：<code>-n custom-namespace</code></li>
-<li></li>
+<li>如果容器之间一定要共享namespace（如文件）就要放到同一个pod</li>
+<li>如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod</li>
+<li>如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod</li>
 </ol>
-<h3 id="修改对象">修改对象</h3>
+<h2 id="配置">配置</h2>
+<h3 id="一个最简单的配置">一个最简单的配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: nginx
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: nginx
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: nginx:1.14.2
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">80</span>
+</span></span></code></pre></div><h3 id="使用宿主机的pid和ipc-namespace">使用宿主机的PID和IPC namespace</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostPID</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostIPC</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span></code></pre></div><h3 id="使用宿主机的网络namespace">使用宿主机的网络namespace</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">hostNetwork</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span></code></pre></div><h3 id="绑定宿主机的端口但不使用hostnetwork">绑定宿主机的端口但不使用hostNetwork</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">8080</span> <span style="color:#007f7f"># 指定容器端口为8080</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">hostPort</span>: <span style="color:#ff0;font-weight:bold">9000</span> <span style="color:#007f7f"># 指定宿主机端口为9000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">protocol</span>: TCP
+</span></span></code></pre></div><h3 id="podsecuritypolicy">PodSecurityPolicy</h3>
+<p>PodSecurityPolicy定义了pod的安全策略。包括：</p>
+<ul>
+<li>是否能够使用宿主机的IPC、PID、网络等命名空间</li>
+<li>能够绑定宿主机的哪些端口</li>
+<li>能够使用哪些userID</li>
+<li>能否创建privileged container</li>
+<li>限定内核能力</li>
+<li>能够使用哪些SELinux标签</li>
+<li>能够使用哪些文件系统</li>
+<li>能够使用哪些挂载卷</li>
+<li>等</li>
+</ul>
+<p>example；</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>	<span style="font-weight:bold">apiVersion</span>: extensions/v1beta1
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">kind</span>: PodSecurityPolicy
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: default
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostIPC</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostPID</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostNetwork</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">hostPorts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">min</span>: <span style="color:#ff0;font-weight:bold">10000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">max</span>: <span style="color:#ff0;font-weight:bold">11000</span>
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">min</span>: <span style="color:#ff0;font-weight:bold">13000</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">max</span>: <span style="color:#ff0;font-weight:bold">14000</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">privileged</span>: <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">readOnlyRootFilesystem</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">runAsUser</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">fsGroup</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">supplementalGroups</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">seLinux</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">rule</span>: RunAsAny
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>		- <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>
+</span></span></code></pre></div><p>PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterRole。</p>
+<h3 id="命令">命令</h3>
 <table>
 <thead>
 <tr>
 <th>命令</th>
-<th>描述</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>kubectl edit</td>
-<td>使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia</td>
+<td>kubectl explain pods</td>
+<td>查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec</td>
 </tr>
 <tr>
-<td>kubectl patch</td>
-<td>更改对象的单个属性，ex: kubect1 patch deployment kubia -p&rsquo; {&ldquo;spec&rdquo; : {&ldquo;template&rdquo;: {&ldquo;spec&rdquo;: {&ldquo;containers&rdquo;: [{&ldquo;name&rdquo;: &ldquo;nodejs&rdquo;, &ldquo;image&rdquo; : &ldquo;luksa/kubia:v2&rdquo;}]}}}}'</td>
+<td>kubectl create -f xx.yaml</td>
+<td>通过xx.yaml创建资源，如pod</td>
 </tr>
 <tr>
-<td>kubectl apply</td>
-<td>根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2. yaml</td>
+<td>kubectl get pod  ex_pod -o yaml</td>
+<td>将ex_pod资源定义以yaml格式输出，可支持json格式</td>
 </tr>
 <tr>
-<td>kubectl replace</td>
-<td>根据配置文件替换（不存在则报错）对象，ex: kubect1 replace -f kubia-deployment-v2. yaml</td>
+<td>kubectl logs ex_pod</td>
+<td>查看ex_pod的日志</td>
 </tr>
 <tr>
-<td>kubectl set image</td>
-<td>更改声明文件（Pod、RC、RS、Deployment、Demonset、Job）中指定的容器镜像，ex: kubectl set image deployment kubia nodejs=luksa/kubia:v2</td>
+<td>kubectl logs ex_pod -c ex_container</td>
+<td>查看ex_pod下的ex_container容器日志</td>
+</tr>
+<tr>
+<td>kubectl port-forward ex_pod 8888:8000</td>
+<td>将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中</td>
+</tr>
+<tr>
+<td>kubectl label po xx_pod xx_tag=xx_value &ndash;overwrite</td>
+<td>将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数</td>
+</tr>
+<tr>
+<td>kubectl get po -l xx_tag=xx_vlaue</td>
+<td>展示label中xx_tag是xx_value的pod</td>
+</tr>
+<tr>
+<td>kubectl get po -l env</td>
+<td>展示label中含有env标签的pod</td>
+</tr>
+<tr>
+<td>kubectl get po -l &lsquo;!env&rsquo;</td>
+<td>展示label中不含有env标签的pod</td>
+</tr>
+<tr>
+<td>kubectl get po -l env in (prod, dev)</td>
+<td>展示label中含有env标签为prod或者dev的pod</td>
+</tr>
+<tr>
+<td>kubectl get po -l env notin (prod, dev)</td>
+<td>展示label中含有env标签为不为prod且不为dev的pod</td>
 </tr>
 </tbody>
 </table>
+<h3 id="heading"></h3>
+<h2 id="pod-lifecycle">Pod lifecycle</h2>
+<h3 id="pause-container实现pod内容器去隔离">pause container—实现pod内容器”去隔离“</h3>
+<p>同一个pod下的容器需要共享资源，彼此之间没有视图上的限制。容器之间实现资源限制和视图隔离是通过Cgroups和Namespace来实现的——他们都是Linux上的文件，因此，实现pod之间“去隔离”的方式就是共享这些文件。</p>
+<p>在pod中，管理这些资源文件的容器是pause容器，pod中其他的容器与pause共享这些文件。</p>
+<p>在节点上执行命令<code>docker ps</code>，会看到一个<code>pause</code>容器，这个容器的作用是持有pod的namespace——<strong>该pod下的用户定义的容器都使用<code>pause</code>容器的namespace</strong>。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt=""></p>
+<h3 id="init-container初始化pod">init container—初始化pod</h3>
+<p>init容器用于pod的初始化，pod可拥有任意数量的init容器。</p>
+<p>pod定义的init容器会在pod启动后一个接一个的线性执行，当所有init容器执行完后才会执行主容器。</p>
+<p>init容器往往用于等待主容器所依赖的service或者资源准备就绪。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">initContainers</span>: <span style="color:#007f7f"># 定义init容器</span>
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: init
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: busybox
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">command</span>: <span style="color:#007f7f"># 循环等待http://fortune准备就绪</span>
+</span></span><span style="display:flex;"><span>    - sh
+</span></span><span style="display:flex;"><span>    - -c
+</span></span><span style="display:flex;"><span>	  - <span style="color:#0ff;font-weight:bold">&#39;while true; do echo &#34;Waiting for fortune service to come up...&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">    wget http://fortune -q -T 1 -O /dev/null &gt;/dev/null 2&gt;/dev/null 
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">    &amp;&amp; break; sleep 1; done; echo &#34;Service is up! Starting main container.&#34;&#39;</span>
+</span></span></code></pre></div><h3 id="post-start-hook">post-start hook</h3>
+<p>当容器的主程序启动后，会执行post-start钩子。</p>
+<p>可以用于执行额外的应用命令而不用修改服务代码。</p>
+<p>如果post-start钩子退出状态不是0，则主容器会被kill。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: pod-with-poststart-hook
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>- <span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">lifecycle</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">postStart</span>: <span style="color:#007f7f"># 定义posst-start钩子</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">exec</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">command</span>:
+</span></span><span style="display:flex;"><span>        - sh
+</span></span><span style="display:flex;"><span>        - -c
+</span></span><span style="display:flex;"><span>        - <span style="color:#0ff;font-weight:bold">&#34;echo &#39;hook will fail with exit code 15&#39;; sleep 5; exit 15&#34;</span>
+</span></span></code></pre></div><h3 id="pre-stop-hook">pre-stop hook</h3>
+<p>当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">lifecycle</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">preStop</span>: <span style="color:#007f7f"># 定义pre-stop钩子</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">httpGet</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">path</span>: shutdown
+</span></span></code></pre></div><p>当容器中断后会发送<code>SIGTERM</code>信号到钩子。钩子会发送一个http请求，地址为<code>http:// POD_IP:8080/shutdown</code>.</p>
+<h3 id="pod关闭流程">pod关闭流程</h3>
+<p>在k8s中，API server控制所有的对象的生命周期。</p>
+<p>当API server收到一个请求删除对象的请求后，并不会直接删除对象，而是设置<code>deletionTimestamp</code>字段到这个对象上。pod上的kubelet监听到<code>deletionTimestamp</code>字段生成，会执行关闭流程。</p>
+<ol>
+<li>执行pre-stop钩子</li>
+<li>发送<code>SIGTERM</code>信号到容器的主程序。</li>
+<li>等待程序优雅关闭或者关闭超时。</li>
+<li>如果程序没有优雅关闭，则使用<code>SIGKILL</code>信号强制关闭。</li>
+</ol>
+<h2 id="pod-manager">Pod Manager</h2>
+<h3 id="存活探针liveness-probe">存活探针（liveness probe）</h3>
+<p>pod管理器管理pod的生命周期，因此需要知道pod当前的状态，即pod是否存活。</p>
+<p>目前有三种存活探针：</p>
+<ol>
+<li>HTTP：能够正常响应（http响应状态码是2xx或者3xx）</li>
+<li>TCP SOCKET：能够正常完成连接</li>
+<li>EXEC：命令的退出状态码是0</li>
+</ol>
+<p>HTTP 探针excample：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia-liveness
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">image</span>: luksa/kubia-unhealthy
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">livenessProbe</span>:
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">httpGet</span>: 
+</span></span><span style="display:flex;"><span>      		<span style="font-weight:bold">path</span>: / 
+</span></span><span style="display:flex;"><span>      		<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span></code></pre></div><p>k8s存在重试机制，如果探针检测到异常，会重试多次，因此客户端无需实现重试。</p>
+<h3 id="就绪探针readiness-probe">就绪探针（readiness probe）</h3>
+<p>pod对外提供服务时，作为为其代理流量的Service需要知道pod是否已准备接收流量。</p>
+<p>同存活探针相同，就绪探针也有三种：</p>
+<ol>
+<li>HTTP</li>
+<li>TCP SOCKET</li>
+<li>EXEC</li>
+</ol>
+<p>一旦就绪探针检测到某个pod没有就绪，就将其移出Endpoints。</p>
+<p>EXEC探针example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: ReplicationController
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">template</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">readinessProbe</span>:
+</span></span><span style="display:flex;"><span>        	<span style="font-weight:bold">exec</span>: 
+</span></span><span style="display:flex;"><span>        		<span style="font-weight:bold">command</span>:
+</span></span><span style="display:flex;"><span>            - ls
+</span></span><span style="display:flex;"><span>            - /var/ready
+</span></span></code></pre></div><p>探针会在容器内执行 <code>ls /var/ready</code>，如果命令返回状态码不是0，则说明命令失败——pod未就绪。</p>
+<h3 id="replicationcontroller">ReplicationController</h3>
+<p>ReplicationController是k8s中的一种资源，用来保证pod一直running。</p>
+<p>如果pod由于某种原因消失，那么ReplicationController就会新建一个。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021129017.png" alt=""></p>
+<p>三个关键元素：</p>
+<ol>
+<li>标签选择器：RC使用标签选择器来控制管理范围</li>
+<li>副本数量: 即期望的pod数量</li>
+<li>pod模版：创建pod副本时使用</li>
+</ol>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: ReplicationController
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">replicas</span>: <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">template</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">labels</span>: 
+</span></span><span style="display:flex;"><span>  			<span style="font-weight:bold">app</span>: kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">image</span>: luksa/kubia
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">ports: containerPort</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span></code></pre></div><p>注意：</p>
+<ol>
+<li>改变模版不会影响正在运行的pod</li>
+<li>修改pod的标签，会导致rc创建新的pod</li>
+<li>修改rc中的标签选择，会导致rc创建新的pod</li>
+<li>默认情况下删除rc会导致其管理的pod被删除，如不想pod被删除，需使用参数cascade。<code>kubectl delete rc xxx --cascade=false</code></li>
+</ol>
+<h3 id="replicaset">ReplicaSet</h3>
+<p>RS是升级版的RC，相较于RC，RS提供了更丰富的标签选择机制。如</p>
+<ol>
+<li>RS可以同时匹配一个标签的多个值，如env=dev和env=pd两种标签，而RC不可以。</li>
+<li>RS可以匹配标签而不管其值如何，RC不可以。</li>
+</ol>
+<p>RS支持的操作符：</p>
+<ol>
+<li>In：标签的值匹配任意指定的值</li>
+<li>NotIn：与上相反</li>
+<li>Exists：必须存在指定标签，不关心值如何</li>
+<li>DoesNotExist：不存在指定标签</li>
+</ol>
+<p>如果指定了多个操作符，则最终的匹配为这些规则都必须满足。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">selector</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">matchExpressions</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">key</span>: app 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">operator</span>: In 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">values</span>: kubia
+</span></span></code></pre></div><p>也可以像RC那样不使用操作符：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">selector</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">matchLabels</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">app</span>: kubia
+</span></span></code></pre></div><h3 id="daemonset">DaemonSet</h3>
+<p>DS保证一个pod在每个节点有且只有一个，常用于基础组件相关的pod。</p>
+<p>DS使用节点选择器来筛选节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: apps/v1beta2
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: DaemonSet
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: ssd-monitor
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">selector</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">matchLabels</span>:
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">app</span>: ssd-monitor
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">template</span>: 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">labels</span>: 
+</span></span><span style="display:flex;"><span>  			<span style="font-weight:bold">app</span>: ssd-monitor
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">nodeSelector</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">disk</span>: ssd
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">image</span>: luksa/ssd-monitor
+</span></span></code></pre></div><p>以上配置会在标签disk为ssd的节点上部署一个只有一个容器的pod，容器镜像为luksa/ssd-monitor</p>
+<h3 id="job">Job</h3>
+<p>Job用于那些只执行一次任务的pod。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: batch/v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Job
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: batch-job
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">completions</span>: <span style="color:#ff0;font-weight:bold">5</span> <span style="color:#007f7f"># 运行5个pod，默认串行执行</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">parallelism</span>: <span style="color:#ff0;font-weight:bold">2</span> <span style="color:#007f7f"># 设置为2，则表示允许最大并行数为2</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">activeDeadlineSeconds</span>: <span style="color:#ff0;font-weight:bold">10</span> <span style="color:#007f7f"># 超时时间，超过此配置则终止pod</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">backoffLimit</span>: <span style="color:#ff0;font-weight:bold">6</span> <span style="color:#007f7f"># 重试次数</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">template</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">labels</span>: 
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">app</span>: batch-job
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">restartPolicy</span>: OnFailure
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">image</span>: luksa/batch-job
+</span></span></code></pre></div><h3 id="cronjob">CronJob</h3>
+<p>CronJob用于执行定时任务。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: batch/v1betal
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: CronJob
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: batch-job-every-fifteen-minutes
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">schedule</span>: <span style="color:#0ff;font-weight:bold">&#34;0,15,30,45 * * * *&#34;</span> <span style="color:#007f7f"># cron规则</span>
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">startingDeadlineSeconds</span>: <span style="color:#ff0;font-weight:bold">15</span> <span style="color:#007f7f"># 必须在指定时间的15s内执行，否则不执行并视为失败</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">jobTemplate</span>: 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">template</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">labels</span>: 
+</span></span><span style="display:flex;"><span>    				<span style="font-weight:bold">app</span>: periodic-batch-job
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">restartPolicy</span>: OnFailure
+</span></span><span style="display:flex;"><span>        	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>        		<span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">image</span>: luksa/batch-job
+</span></span></code></pre></div><h3 id="滚动更新-kubectl命令">滚动更新-kubectl命令</h3>
+<p>升级版本时往往使用滚动更新的方式来避免服务不可用。kubectl提供了命令来实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl rolling-update kubia-vl kubia-v2 --image=luksa/kubia:v2
+</span></span><span style="display:flex;"><span>Created kubia-v2 Scaling up kubia-v2 from <span style="color:#ff0;font-weight:bold">0</span> to 3, scaling down kubia-vl from <span style="color:#ff0;font-weight:bold">3</span> to <span style="color:#ff0;font-weight:bold">0</span> (keep <span style="color:#ff0;font-weight:bold">3</span> pods available, don<span style="color:#f00">&#39;</span>t exceed <span style="color:#ff0;font-weight:bold">4</span> pods)
+</span></span></code></pre></div><p>该命令为：已有旧版本kubia-v1，想要更新为kubia-v2，新的镜像标签为kubia:v2。</p>
+<p>命令执行后会立即创建新的RC：kubia-v2，并且逐渐替换掉旧有的三个pod</p>
+<h3 id="deployment">Deployment</h3>
+<p>相较于RC、RS这些对象而言，Deployment是更高级的对象。Deployment并不直接管理pod，它使用RS来管理pod。当创建一个Deployment后，会自动创建一个RS。</p>
+<p>k8s的核心理念之一就是声明式设计，因此滚动更新也应该通过声明的方式来实现，Deployment正是这样包含滚动更新的pod管理工具。</p>
+<h4 id="部署">部署</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: apps/vibetal
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Deployment
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name </span>: kubia
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">replicas</span>: <span style="color:#ff0;font-weight:bold">3</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">template</span>: 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">name </span>: kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">labels: app</span>: kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">image</span>: luksa/kubia:v1
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">name </span>: nodejs
+</span></span></code></pre></div><p>部署后可以看到该Deployment创建的RS</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get replicasets 
+</span></span><span style="display:flex;"><span>NAME 							DESIRED CURRENT AGE 
+</span></span><span style="display:flex;"><span>kubia-1506449474  <span style="color:#ff0;font-weight:bold">3</span> 		  <span style="color:#ff0;font-weight:bold">3</span> 		  10s
+</span></span></code></pre></div><h4 id="滚动更新">滚动更新</h4>
+<p>更新Deployment中的镜像标签</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl <span style="color:#fff;font-weight:bold">set</span> image deployment kubia nodejs=luksa/kubia:v2 
+</span></span><span style="display:flex;"><span>deployment <span style="color:#0ff;font-weight:bold">&#34;kubia&#34;</span> image updated
+</span></span></code></pre></div><p>命令执行后kubia就会由v1滚动更新至v2</p>
+<h4 id="查看滚动状态">查看滚动状态</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl rollout status deployment kubia
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#fff;font-weight:bold">for</span> rollout to finish: <span style="color:#ff0;font-weight:bold">1</span> out of <span style="color:#ff0;font-weight:bold">3</span> new replicas have been updated... 
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#fff;font-weight:bold">for</span> rollout to finish: <span style="color:#ff0;font-weight:bold">2</span> out of <span style="color:#ff0;font-weight:bold">3</span> new replicas have been updated... 
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#fff;font-weight:bold">for</span> rollout to finish: <span style="color:#ff0;font-weight:bold">1</span> old replicas are pending termination... 
+</span></span><span style="display:flex;"><span>deployment <span style="color:#0ff;font-weight:bold">&#34;kubia&#34;</span> successfully rolled out
+</span></span></code></pre></div><h4 id="回滚">回滚</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl rollout undo deployment kubia
+</span></span><span style="display:flex;"><span>deployment <span style="color:#0ff;font-weight:bold">&#34;kubia&#34;</span> rolled back
+</span></span></code></pre></div><p>指定版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>kubectl rollout undo deployment kubia --to-revision=1
+</span></span></code></pre></div><h4 id="控制滚动频率">控制滚动频率</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">strategy</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">rollingUpdate</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">maxSurge</span>: <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">maxUnavailable</span>: <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">type</span>: RollingUpdate
+</span></span></code></pre></div><ul>
+<li>maxSurge: pod能够同时退出的最大数量，最多且默认是25%</li>
+<li>maxUnavailable：相对于期望的pod数量能够允许多少pod是不可用的，默认是25%</li>
+</ul>
+<h4 id="暂停滚动">暂停滚动</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl rollout pause deployment kubia
+</span></span><span style="display:flex;"><span>deployment <span style="color:#0ff;font-weight:bold">&#34;kubia&#34;</span> paused
+</span></span></code></pre></div><h4 id="启动滚动">启动滚动</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl rollout resume deployment kubia
+</span></span><span style="display:flex;"><span>deployment <span style="color:#0ff;font-weight:bold">&#34;kubia&#34;</span> resumed
+</span></span></code></pre></div><h4 id="配置就绪探针">配置就绪探针</h4>
+<p>如果就绪探针获取到pod未就绪，则不会向外提供该pod的服务。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: apps/v1beta1
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">template</span>:
+</span></span><span style="display:flex;"><span>		...
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>			...
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>			- <span style="font-weight:bold">image</span>: luksa/kubia:v3
+</span></span><span style="display:flex;"><span>				...
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">readinessProbe</span>:
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">periodSeconds</span>: <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">httpGet</span>:
+</span></span><span style="display:flex;"><span>						<span style="font-weight:bold">path</span>: /
+</span></span><span style="display:flex;"><span>						<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span></code></pre></div><h3 id="statefulset">StatefulSet</h3>
+<p>RC、RS、Deployment这些都是用来管理无状态的服务的，对于有状态的服务则需要使用StatefulSet。</p>
+<p>StatefulSet将每个pod视为不可替代的，并且具有固定名称和状态。</p>
+<h4 id="稳定的标识">稳定的标识</h4>
+<p>每个被SS创建的pod都会被分配一个有序的索引号，这个索引号被用来生成pod的name和hostname，并且用了关联一个稳定的存储。序列号从0开始递增。</p>
+<p>由于每个pod都是不可替代的，因此需要使用HeadlessService来提供服务。于是在DNS Server中，每个pod都拥有自己的DNS实体，每个pod都能够通过hostname进行访问。</p>
+<p>当一个pod意外结束后，SS会再创建一个相同标识的pod。</p>
+<h4 id="扩展策略">扩展策略</h4>
+<ol>
+<li>在缩容场景下，SS会自动结束高序列号的pod</li>
+<li>缩容时，SS在同一时间只会关闭一个pod，防止在分布式场景下丢失数据。</li>
+<li>缩容时，只会删除pod而不会删除PVC，防止PV被回收或者删除导致数据丢失。</li>
+</ol>
+<h4 id="example">example</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: apps/v1beta1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: StatefulSet
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">serviceName</span>: kubia
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">replicas</span>: <span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">app</span>: kubia
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">name</span>: kubia
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">image</span>: luksa/kubia-pet
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="font-weight:bold">name</span>: http
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">8080</span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="font-weight:bold">name</span>: data
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">mountPath</span>: /var/data
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">volumeClaimTemplates</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">name</span>: data
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">resources</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">requests</span>:
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">storage</span>: 1Mi
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">accessModes</span>:
+</span></span><span style="display:flex;"><span>      - ReadWriteOnce
+</span></span></code></pre></div><p>与RS相比，多了一个<code>volumeClaimTemplates</code>，上述配置中名为<code>data</code>的<code>volumeClaimTemplates</code>会在创建pod的PVC时使用.</p>
+<p>在部署时，只有前一个pod准备好才会创建下一个pod。</p>
+<h4 id="服务发现">服务发现</h4>
+<h5 id="srv记录">SRV记录</h5>
+<p>k8s通过创建SRV记录来指向headlessService下的pod的hostname和port。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl run -it srvlookup --image=tutum/dnsutils --rm
+</span></span><span style="display:flex;"><span>	--restart=Never -- dig SRV kubia.default.svc.cluster.local
+</span></span></code></pre></div><p>如果一个pod想要查找同一个SS下的其他pod，可以通过SRV DNS查找.</p>
+<h4 id="服务故障">服务故障</h4>
+<p>假设一个节点的网络出现故障无法与其他节点交流，如果api server重新生成一个pod，那么这新旧两个pod的名称可能相同，这意味着他们使用的存储也是相同的。这时数据就有可能出现问题。</p>
+<p>为了避免这种问题，k8s只有在确定一个pod被删掉才会重新创建pod。</p>
+<p>对于上述假设，k8s的处理流程是：</p>
+<ol>
+<li>
+<p>api server将该故障节点状态改为NotReady，pod状态改为Unknown</p>
+</li>
+<li>
+<p>pod状态持续一段时间后仍没有恢复，会被k8s驱逐——删除pod的资源，但是由于节点服务获取到消息，因此pod一直在运行。</p>
+</li>
+<li>
+<p>这种情况下，只能通过手动删除pod。</p>
+</li>
+</ol>
 
   </article>
 </section>

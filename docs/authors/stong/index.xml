@@ -8,6 +8,20 @@
     <language>zh</language>
     <lastBuildDate>Sun, 11 Dec 2022 13:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>go中unmarshal的坑</title>
+      <link>https://stong1994.github.io/internet/go/unmarshal_trap/</link>
+      <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/unmarshal_trap/</guid>
+      <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。
+问题复现 type User struct { Name string `json:&amp;#34;name&amp;#34;` Hobbies []string `json:&amp;#34;hobbies&amp;#34;` } func main() { var u User alice := `{&amp;#34;name&amp;#34;: &amp;#34;alice&amp;#34;, &amp;#34;hobbies&amp;#34;: [&amp;#34;readBook&amp;#34;, &amp;#34;watchTV&amp;#34;]}` bob := `{&amp;#34;name&amp;#34;: &amp;#34;bob&amp;#34;}` err := json.Unmarshal([]byte(alice), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) err = json.Unmarshal([]byte(bob), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) } 我们有两个user：alice和bob。alice有readBook和watchTV两个Hobbies，而bob没有任何Hobbies。
+我们用同一个变量u分别对alice和bob进行反序列化，终端会输出什么呢？
+理想情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[]} 但实际情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[readBook watchTV]} bob“继承”了alice的Hobbies，这显然是错误的结果！</description>
+    </item>
+    
+    <item>
       <title>如何获得更多的摸鱼时间</title>
       <link>https://stong1994.github.io/internet/get_more_free_work_time/</link>
       <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>

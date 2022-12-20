@@ -6,7 +6,34 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Dec 2022 13:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Dec 2022 14:50:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go设计之json</title>
+      <link>https://stong1994.github.io/internet/go/json/</link>
+      <pubDate>Thu, 15 Dec 2022 14:50:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/json/</guid>
+      <description>json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。
+状态机 scanner type scanner struct { // 读取下一个字节，并返回状态 step func(*scanner, byte) int // 是否已扫描完顶层对象，如对象{}或者数组[1,2,3] endTop bool // 扫描一个具有多层嵌套结构(对象、数组)的状态栈 parseState []int err error // 消费的总的字节数量 bytes int64 } scanner就是json在反序列化时使用的状态机。
+可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。
+状态 在scanner中使用的状态有：
+const ( scanContinue = iota // uninteresting byte scanBeginLiteral // end implied by next result != scanContinue scanBeginObject // begin object scanObjectKey // just finished object key (string) scanObjectValue // just finished non-last object value scanEndObject // end object (implies scanObjectValue if possible) scanBeginArray // begin array scanArrayValue // just finished array value scanEndArray // end array (implies scanArrayValue if possible) scanSkipSpace // space byte; can skip; known to be last &amp;#34;continue&amp;#34; result // Stop.</description>
+    </item>
+    
+    <item>
+      <title>go中unmarshal的坑</title>
+      <link>https://stong1994.github.io/internet/go/unmarshal_trap/</link>
+      <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/unmarshal_trap/</guid>
+      <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。
+问题复现 type User struct { Name string `json:&amp;#34;name&amp;#34;` Hobbies []string `json:&amp;#34;hobbies&amp;#34;` } func main() { var u User alice := `{&amp;#34;name&amp;#34;: &amp;#34;alice&amp;#34;, &amp;#34;hobbies&amp;#34;: [&amp;#34;readBook&amp;#34;, &amp;#34;watchTV&amp;#34;]}` bob := `{&amp;#34;name&amp;#34;: &amp;#34;bob&amp;#34;}` err := json.Unmarshal([]byte(alice), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) err = json.Unmarshal([]byte(bob), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) } 我们有两个user：alice和bob。alice有readBook和watchTV两个Hobbies，而bob没有任何Hobbies。
+我们用同一个变量u分别对alice和bob进行反序列化，终端会输出什么呢？
+理想情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[]} 但实际情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[readBook watchTV]} bob“继承”了alice的Hobbies，这显然是错误的结果！</description>
+    </item>
+    
     <item>
       <title>如何获得更多的摸鱼时间</title>
       <link>https://stong1994.github.io/internet/get_more_free_work_time/</link>
