@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？
+比如下方这段代码：
+package main import ( &#34;encoding/json&#34; &#34;fmt&#34; ) type User struct { Name string `json:&#34;name&#34;` Age int `json:&#34;age&#34;` Name2 string `json:&#34;name&#34;` } func main() { a := User{ Name: &#34;John&#34;, Age: 20, Name2: &#34;Doe&#34;, } bytes, err := json.Marshal(&amp;a) if err != nil { panic(err) } fmt.Println(string(bytes)) } 输出什么？
+A: {&quot;age&quot;:20, &quot;name&quot;: &quot;John&quot;}
+B: {&quot;age&quot;:20, &quot;name&quot;: &quot;Doe&quot;}
+C: {&quot;age&quot;:20}
+答案是C。
+在src/encoding/json/encode.go中的typeFields函数中中有这样一段代码：
+out := fields[:0] for advance, i := 0, 0; i &lt; len(fields); i &#43;= advance { fi := fields[i] name := fi.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Marshal具有相同json tag的结构体"/>
+<meta name="twitter:description" content="如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？
+比如下方这段代码：
+package main import ( &#34;encoding/json&#34; &#34;fmt&#34; ) type User struct { Name string `json:&#34;name&#34;` Age int `json:&#34;age&#34;` Name2 string `json:&#34;name&#34;` } func main() { a := User{ Name: &#34;John&#34;, Age: 20, Name2: &#34;Doe&#34;, } bytes, err := json.Marshal(&amp;a) if err != nil { panic(err) } fmt.Println(string(bytes)) } 输出什么？
+A: {&quot;age&quot;:20, &quot;name&quot;: &quot;John&quot;}
+B: {&quot;age&quot;:20, &quot;name&quot;: &quot;Doe&quot;}
+C: {&quot;age&quot;:20}
+答案是C。
+在src/encoding/json/encode.go中的typeFields函数中中有这样一段代码：
+out := fields[:0] for advance, i := 0, 0; i &lt; len(fields); i &#43;= advance { fi := fields[i] name := fi."/>
+
+    <meta property="og:title" content="Marshal具有相同json tag的结构体" />
+<meta property="og:description" content="如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？
+比如下方这段代码：
+package main import ( &#34;encoding/json&#34; &#34;fmt&#34; ) type User struct { Name string `json:&#34;name&#34;` Age int `json:&#34;age&#34;` Name2 string `json:&#34;name&#34;` } func main() { a := User{ Name: &#34;John&#34;, Age: 20, Name2: &#34;Doe&#34;, } bytes, err := json.Marshal(&amp;a) if err != nil { panic(err) } fmt.Println(string(bytes)) } 输出什么？
+A: {&quot;age&quot;:20, &quot;name&quot;: &quot;John&quot;}
+B: {&quot;age&quot;:20, &quot;name&quot;: &quot;Doe&quot;}
+C: {&quot;age&quot;:20}
+答案是C。
+在src/encoding/json/encode.go中的typeFields函数中中有这样一段代码：
+out := fields[:0] for advance, i := 0, 0; i &lt; len(fields); i &#43;= advance { fi := fields[i] name := fi." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/marshal_same_tag/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-12-20T14:50:00+08:00" />
+<meta property="article:modified_time" content="2022-12-20T14:50:00+08:00" />
+
+
+
+    <title>
+  Marshal具有相同json tag的结构体 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/marshal_same_tag/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents"></nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>Marshal具有相同json tag的结构体</h1>
+    </header>
+
+    <p>如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？</p>
+<p>比如下方这段代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> User <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Name  <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	Age   <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`json:&#34;age&#34;`</span>
+</span></span><span style="display:flex;"><span>	Name2 <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	a := User{
+</span></span><span style="display:flex;"><span>		Name:  <span style="color:#0ff;font-weight:bold">&#34;John&#34;</span>,
+</span></span><span style="display:flex;"><span>		Age:   <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>		Name2: <span style="color:#0ff;font-weight:bold">&#34;Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	bytes, err := json.Marshal(&amp;a)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#fff;font-weight:bold">string</span>(bytes))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>输出什么？</p>
+<p>A: <code>{&quot;age&quot;:20, &quot;name&quot;: &quot;John&quot;}</code></p>
+<p>B: <code>{&quot;age&quot;:20, &quot;name&quot;: &quot;Doe&quot;}</code></p>
+<p>C: <code>{&quot;age&quot;:20}</code></p>
+<p>答案是C。</p>
+<p>在<code>src/encoding/json/encode.go</code>中的<code>typeFields</code>函数中中有这样一段代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>	out := fields[:<span style="color:#ff0;font-weight:bold">0</span>]
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> advance, i := <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(fields); i += advance {
+</span></span><span style="display:flex;"><span>		fi := fields[i]
+</span></span><span style="display:flex;"><span>		name := fi.name
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">for</span> advance = <span style="color:#ff0;font-weight:bold">1</span>; i+advance &lt; <span style="color:#fff;font-weight:bold">len</span>(fields); advance++ {
+</span></span><span style="display:flex;"><span>			fj := fields[i+advance]
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// 前面对fields按照name排过序，因此只需要判断相邻字段的name是否相等。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// 如果有相同name的字段，则继续循环，最终的advance就是具有相同name字段的数量
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#fff;font-weight:bold">if</span> fj.name != name {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> advance == <span style="color:#ff0;font-weight:bold">1</span> { <span style="color:#007f7f">// Only one field with this name
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			out = <span style="color:#fff;font-weight:bold">append</span>(out, fi)
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 对这些有相同name的字段，进行优先级判断
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		dominant, ok := dominantField(fields[i : i+advance])
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> ok {
+</span></span><span style="display:flex;"><span>			out = <span style="color:#fff;font-weight:bold">append</span>(out, dominant)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>重点就在于这个<code>dominantField</code>函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> dominantField(fields []field) (field, <span style="color:#fff;font-weight:bold">bool</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// 如果两个字段位于同一层级，并且两个都被打了tag或者都没打tag，那么两者”不分胜负“，否则判断第一个字段为优先字段。这是因为fields已经是排过序的。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// 这里只需要判断前两个字段。实际上只有第一个字段有可能获得优先级（还是因为fields已排序），第二个字段的作用就是协助判断，而第三个及以后的字段则完全无需关心。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(fields) &gt; <span style="color:#ff0;font-weight:bold">1</span> &amp;&amp; <span style="color:#fff;font-weight:bold">len</span>(fields[<span style="color:#ff0;font-weight:bold">0</span>].index) == <span style="color:#fff;font-weight:bold">len</span>(fields[<span style="color:#ff0;font-weight:bold">1</span>].index) &amp;&amp; fields[<span style="color:#ff0;font-weight:bold">0</span>].tag == fields[<span style="color:#ff0;font-weight:bold">1</span>].tag {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> field{}, <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> fields[<span style="color:#ff0;font-weight:bold">0</span>], <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>了解了上述代码后，不仅解决了我们的疑惑，也可以让我们理直气壮的使用字段覆盖掉嵌套结构的字段。如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> User <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Person
+</span></span><span style="display:flex;"><span>	Tag <span style="color:#fff;font-weight:bold">int</span> <span style="color:#0ff;font-weight:bold">`json:&#34;tag&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Person <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Name <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	Age  <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`json:&#34;age&#34;`</span>
+</span></span><span style="display:flex;"><span>	Tag  <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`json:&#34;tag&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> main() {
+</span></span><span style="display:flex;"><span>	p := Person{
+</span></span><span style="display:flex;"><span>		Name: <span style="color:#0ff;font-weight:bold">&#34;John&#34;</span>,
+</span></span><span style="display:flex;"><span>		Age:  <span style="color:#ff0;font-weight:bold">10</span>,
+</span></span><span style="display:flex;"><span>		Tag:  <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	a := User{
+</span></span><span style="display:flex;"><span>		Tag:    <span style="color:#ff0;font-weight:bold">2</span>,
+</span></span><span style="display:flex;"><span>		Person: p,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	bytes, err := json.Marshal(&amp;a)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#fff;font-weight:bold">string</span>(bytes))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>结果输出为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>{&#34;name&#34;:&#34;John&#34;,&#34;age&#34;:10,&#34;tag&#34;:2}
+</span></span></code></pre></div><p>tag被覆盖了！</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

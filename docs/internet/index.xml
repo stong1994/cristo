@@ -6,7 +6,24 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 15 Dec 2022 14:50:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Dec 2022 14:50:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Marshal具有相同json tag的结构体</title>
+      <link>https://stong1994.github.io/internet/go/marshal_same_tag/</link>
+      <pubDate>Tue, 20 Dec 2022 14:50:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/marshal_same_tag/</guid>
+      <description>如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？
+比如下方这段代码：
+package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; ) type User struct { Name string `json:&amp;#34;name&amp;#34;` Age int `json:&amp;#34;age&amp;#34;` Name2 string `json:&amp;#34;name&amp;#34;` } func main() { a := User{ Name: &amp;#34;John&amp;#34;, Age: 20, Name2: &amp;#34;Doe&amp;#34;, } bytes, err := json.Marshal(&amp;amp;a) if err != nil { panic(err) } fmt.Println(string(bytes)) } 输出什么？
+A: {&amp;quot;age&amp;quot;:20, &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;}
+B: {&amp;quot;age&amp;quot;:20, &amp;quot;name&amp;quot;: &amp;quot;Doe&amp;quot;}
+C: {&amp;quot;age&amp;quot;:20}
+答案是C。
+在src/encoding/json/encode.go中的typeFields函数中中有这样一段代码：
+out := fields[:0] for advance, i := 0, 0; i &amp;lt; len(fields); i += advance { fi := fields[i] name := fi.</description>
+    </item>
+    
     <item>
       <title>go设计之json</title>
       <link>https://stong1994.github.io/internet/go/json/</link>
