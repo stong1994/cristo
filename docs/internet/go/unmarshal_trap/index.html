@@ -199,7 +199,7 @@
 <h2 id="猜想">猜想</h2>
 <p>alice和bob共用同一个变量u，并且bob没有Hobbies，但是“继承”了alice的Hobbies。那么可能是Unmarshal方法没有对空的字段进行初始化。</p>
 <h2 id="证实">证实</h2>
-<p>猜想直到被证实的前都没有任何意义。</p>
+<p>猜想直到被证实前都没有任何意义。</p>
 <p>代码问题只能通过代码来解决。</p>
 <p>在<code>src/encoding/json/decode.go</code>中有一个<code>object</code>方法，作用就是对对象类型的json进行解析。</p>
 <p><em>已删掉非关键代码</em></p>
@@ -253,7 +253,7 @@
         
           2021 -
         
-        2022
+        2023
         
       
       

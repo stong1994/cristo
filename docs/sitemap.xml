@@ -3,25 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2022-12-20T14:50:00+08:00</lastmod>
+    <lastmod>2023-01-03T14:10:51+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/marshal_same_tag/</loc>
-    <lastmod>2022-12-20T14:50:00+08:00</lastmod>
+    <loc>https://stong1994.github.io/authors/</loc>
+    <lastmod>2023-01-03T14:10:51+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/go/append_trap/</loc>
+    <lastmod>2023-01-03T14:10:51+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/stong/</loc>
+    <lastmod>2023-01-03T14:10:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/</loc>
+    <lastmod>2023-01-03T14:10:51+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/depth/mongo_index/</loc>
+    <lastmod>2022-12-22T16:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/go/marshal_same_tag/</loc>
     <lastmod>2022-12-20T14:50:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/go/json/</loc>
     <lastmod>2022-12-15T14:50:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2022-12-11T13:10:51+08:00</lastmod>
-  </url><url>
     <loc>https://stong1994.github.io/internet/go/unmarshal_trap/</loc>
-    <lastmod>2022-12-11T13:10:51+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/stong/</loc>
     <lastmod>2022-12-11T13:10:51+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/get_more_free_work_time/</loc>

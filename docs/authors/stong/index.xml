@@ -6,7 +6,23 @@
     <description>Recent content in stong on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 11 Dec 2022 13:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 03 Jan 2023 14:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go中append的坑</title>
+      <link>https://stong1994.github.io/internet/go/append_trap/</link>
+      <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/append_trap/</guid>
+      <description>问题复现 func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:]...) fmt.Println(a) fmt.Println(b) } append(slice[:i], slice[i+1:]...)是很常见的用于去除切片slice中第i个元素的操作。打印b会得到[3,5,8].
+但是打印a会显示什么呢？
+理想情况是a没有任何变化，但实际情况是：
+[3 5 8 8] a被修改了！
+猜想 依稀记得append操作会判断当前切片的容量，如何切片的容量足够容纳添加进来的值，就会复用这个切片。
+因此，在操作append(a[:1], a[2:]...)时，程序发现a的容量足够，不需要扩容，因此会复用a，因此将5, 8 (即a[2]...)添加到了3 (即a[:1])后边，于是就有了3,5,8, 同时，a[3]没有被修改，因此仍是8，所以b的结果就是3, 5, 8, 8
+证实 可以通过阅读append函数的实现代码来证实，但是append是一个内置函数，看不到底层实现。但是我们可以在官方的博客中看到其实现逻辑：
+func Append(slice []int, elements ...int) []int { n := len(slice) total := len(slice) + len(elements) if total &amp;gt; cap(slice) { // Reallocate. Grow to 1.5 times the new size, so we can still grow.</description>
+    </item>
+    
     <item>
       <title>go中unmarshal的坑</title>
       <link>https://stong1994.github.io/internet/go/unmarshal_trap/</link>
