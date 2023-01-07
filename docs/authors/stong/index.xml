@@ -6,7 +6,16 @@
     <description>Recent content in stong on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 03 Jan 2023 14:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Jan 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为什么要读书</title>
+      <link>https://stong1994.github.io/book/philosophy/why_read_book/</link>
+      <pubDate>Sat, 07 Jan 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/why_read_book/</guid>
+      <description>前言 为什么要读书？这是一个问题，又不仅仅只是一个问题，因为在不同的范畴中提问者要问的问题是不同的。比如说他可能在问： 读书有什么好处？ 为什么要</description>
+    </item>
+    
     <item>
       <title>go中append的坑</title>
       <link>https://stong1994.github.io/internet/go/append_trap/</link>
@@ -84,15 +93,6 @@ func Append(slice []int, elements ...int) []int { n := len(slice) total := len(s
       
       <guid>https://stong1994.github.io/note/rust/base/</guid>
       <description>数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同</description>
-    </item>
-    
-    <item>
-      <title>为什么要读书</title>
-      <link>https://stong1994.github.io/book/philosophy/why_read_book/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://stong1994.github.io/book/philosophy/why_read_book/</guid>
-      <description>前言 为什么要读书？这是一个问题，又不仅仅只是一个问题，因为在不同的范畴中提问者要问的问题是不同的。比如说他可能在问： 读书有什么好处？ 为什么要</description>
     </item>
     
   </channel>
