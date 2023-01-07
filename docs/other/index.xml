@@ -133,5 +133,14 @@
       <description>安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extended version，比如hu</description>
     </item>
     
+    <item>
+      <title>为什么要读书</title>
+      <link>https://stong1994.github.io/book/philosophy/why_read_book/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/why_read_book/</guid>
+      <description>前言 为什么要读书？这是一个问题，又不仅仅只是一个问题，因为在不同的范畴中提问者要问的问题是不同的。比如说他可能在问： 读书有什么好处？ 为什么要</description>
+    </item>
+    
   </channel>
 </rss>
