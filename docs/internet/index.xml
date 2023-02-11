@@ -6,7 +6,20 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 03 Jan 2023 14:10:51 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Feb 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快慢双指针中的相对速度</title>
+      <link>https://stong1994.github.io/internet/algorithm/towpointer/</link>
+      <pubDate>Sat, 11 Feb 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/algorithm/towpointer/</guid>
+      <description>前言 在算法中，快慢双指针是一种解决问题的技巧。常用于链表相关的问题中。
+设置两个指针：快指针和慢指针。快指针每次走两步，慢指针每次走一步。
+相对速度 相对速度是理解快慢双指针技巧的关键点。快指针每次走两步，慢指针每次走一步，那么两者的相对速度就是一步。因此：
+能够检测是否有环：当慢指针走到环内时，快指针相对慢指针每次只移动一步，因此一定会相遇而不会错过。 能够获得环的长度：环的长度就是两次相遇之间移动的次数。 能够获得有环链表的节点个数：将慢指针走过的节点存入哈希表中，遇到重复的节点时移动的次数就是节点的个数。 这解决了我们的一部分疑惑：
+为什么快指针每次走两步而不是走三步、四步：因为相对速度变为了两步、三步，不能检测环且有些节点会被漏掉。 相关问题 检测是否有环 获得环的入口 </description>
+    </item>
+    
     <item>
       <title>go中append的坑</title>
       <link>https://stong1994.github.io/internet/go/append_trap/</link>
