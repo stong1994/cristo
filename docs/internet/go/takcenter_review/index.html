@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前言 任务中心是一个通用层的系统，用于统一管理任务进度，对接前端的进度条组件。
+主要流程为：
+用户触发一个任务 业务子系统对接任务中心：添加任务、更新进度和任务状态 任务中心通过WebSocket向用户推送任务状态、进度。 任务中心系统分为三层：
+支撑层：统一管理任务状态、进度 中台层：管理任务和用户的关系 前台层：管理权限、与前端交互 业务子系统对接任务中心的流程为：
+在支撑层获取任务id 在支撑层添加任务信息 在中台层关联任务和用户 在支撑层获取场景中未被消费的任务 执行任务并在支撑层更新任务进度和状态 解释一下为什么在第2步添加了任务后还要在第4步获取呢？这是因为在设计上假设业务子系统分为了生产者和消费者，也就是消费任务的是一个独立的worker，因此需要再次获取任务。
+问题1. 服务划分 任务中心将对任务的管理和对用户与任务的关联进行了拆分，使得两者解耦，任务管理完全不用考虑用户，这是一个好的设计。但问题是它把这种拆分具象到了服务层。
+这意味着如果业务子系统对接任务中心，需要调两个服务的API，这造成了客户的困惑（如果把任务中心看做一个产品，业务子系统就是客户）：我只是对接任务中心组件，为什么需要对接两个服务？
+所以，对任务的管理和对用户与任务的关联应该是一个服务内部的划分，这应该是对客户不可见的。
+问题2. 干涉了使用方的设计 在任务中心的设计中，假设了业务子系统会分为任务task1的生产者和消费者——就像对接MQ那样。这种设计是假定任务task1的消费一定是异步的。
+但问题在于业务子系统实际上有自己的任务task2调度系统，它只用任务中心来更新用户的进度条。
+因此，对于业务子系统来说，它从自己的任务调度系统中获取一个任务task2，然后对接任务中心，在这个task2的消费中，包含了对于task1的生产和消费。
+于是，虽然task2的消费是异步的，但是task1的生产和消费却是同步的。
+这对业务子系统造成了很大困扰：
+如果再把task1的生产和消费分开，无疑会增大开发工作量，也增加了维护工作量 如果不把task1的生产和消费分开，只能在生产了任务task1后，马上开启for循环来尝试消费它。这无疑会让代码变得丑陋且难以接受。 问题3. 定位不明确 问题2的根本原因是任务中心对于自己的定位并不明确。它想把自己包装成一个任务调度系统，但是实际上是一个任务进度管理系统。
+这一点也能从它的名字——任务中心——看出来。
+也就是说，当前的任务中心的需要开发一套通用的任务调度系统，然后将其和任务进度管理模块进行组合、打包给业务子系统。
+综上，任务中心需要包含三个模块：
+任务调度模块 任务进度管理模块 任务与用户的关联模块 问题4. 对接繁琐 对外提供的对接可以进一步简化，比如1.生成任务id 2.添加任务 3.绑定任务和用户 可以简化为一个接口。对于目前的现状，这个接口还可以包括 4. 获取可执行的任务">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="对于任务中心系统设计上的反思"/>
+<meta name="twitter:description" content="前言 任务中心是一个通用层的系统，用于统一管理任务进度，对接前端的进度条组件。
+主要流程为：
+用户触发一个任务 业务子系统对接任务中心：添加任务、更新进度和任务状态 任务中心通过WebSocket向用户推送任务状态、进度。 任务中心系统分为三层：
+支撑层：统一管理任务状态、进度 中台层：管理任务和用户的关系 前台层：管理权限、与前端交互 业务子系统对接任务中心的流程为：
+在支撑层获取任务id 在支撑层添加任务信息 在中台层关联任务和用户 在支撑层获取场景中未被消费的任务 执行任务并在支撑层更新任务进度和状态 解释一下为什么在第2步添加了任务后还要在第4步获取呢？这是因为在设计上假设业务子系统分为了生产者和消费者，也就是消费任务的是一个独立的worker，因此需要再次获取任务。
+问题1. 服务划分 任务中心将对任务的管理和对用户与任务的关联进行了拆分，使得两者解耦，任务管理完全不用考虑用户，这是一个好的设计。但问题是它把这种拆分具象到了服务层。
+这意味着如果业务子系统对接任务中心，需要调两个服务的API，这造成了客户的困惑（如果把任务中心看做一个产品，业务子系统就是客户）：我只是对接任务中心组件，为什么需要对接两个服务？
+所以，对任务的管理和对用户与任务的关联应该是一个服务内部的划分，这应该是对客户不可见的。
+问题2. 干涉了使用方的设计 在任务中心的设计中，假设了业务子系统会分为任务task1的生产者和消费者——就像对接MQ那样。这种设计是假定任务task1的消费一定是异步的。
+但问题在于业务子系统实际上有自己的任务task2调度系统，它只用任务中心来更新用户的进度条。
+因此，对于业务子系统来说，它从自己的任务调度系统中获取一个任务task2，然后对接任务中心，在这个task2的消费中，包含了对于task1的生产和消费。
+于是，虽然task2的消费是异步的，但是task1的生产和消费却是同步的。
+这对业务子系统造成了很大困扰：
+如果再把task1的生产和消费分开，无疑会增大开发工作量，也增加了维护工作量 如果不把task1的生产和消费分开，只能在生产了任务task1后，马上开启for循环来尝试消费它。这无疑会让代码变得丑陋且难以接受。 问题3. 定位不明确 问题2的根本原因是任务中心对于自己的定位并不明确。它想把自己包装成一个任务调度系统，但是实际上是一个任务进度管理系统。
+这一点也能从它的名字——任务中心——看出来。
+也就是说，当前的任务中心的需要开发一套通用的任务调度系统，然后将其和任务进度管理模块进行组合、打包给业务子系统。
+综上，任务中心需要包含三个模块：
+任务调度模块 任务进度管理模块 任务与用户的关联模块 问题4. 对接繁琐 对外提供的对接可以进一步简化，比如1.生成任务id 2.添加任务 3.绑定任务和用户 可以简化为一个接口。对于目前的现状，这个接口还可以包括 4. 获取可执行的任务"/>
+
+    <meta property="og:title" content="对于任务中心系统设计上的反思" />
+<meta property="og:description" content="前言 任务中心是一个通用层的系统，用于统一管理任务进度，对接前端的进度条组件。
+主要流程为：
+用户触发一个任务 业务子系统对接任务中心：添加任务、更新进度和任务状态 任务中心通过WebSocket向用户推送任务状态、进度。 任务中心系统分为三层：
+支撑层：统一管理任务状态、进度 中台层：管理任务和用户的关系 前台层：管理权限、与前端交互 业务子系统对接任务中心的流程为：
+在支撑层获取任务id 在支撑层添加任务信息 在中台层关联任务和用户 在支撑层获取场景中未被消费的任务 执行任务并在支撑层更新任务进度和状态 解释一下为什么在第2步添加了任务后还要在第4步获取呢？这是因为在设计上假设业务子系统分为了生产者和消费者，也就是消费任务的是一个独立的worker，因此需要再次获取任务。
+问题1. 服务划分 任务中心将对任务的管理和对用户与任务的关联进行了拆分，使得两者解耦，任务管理完全不用考虑用户，这是一个好的设计。但问题是它把这种拆分具象到了服务层。
+这意味着如果业务子系统对接任务中心，需要调两个服务的API，这造成了客户的困惑（如果把任务中心看做一个产品，业务子系统就是客户）：我只是对接任务中心组件，为什么需要对接两个服务？
+所以，对任务的管理和对用户与任务的关联应该是一个服务内部的划分，这应该是对客户不可见的。
+问题2. 干涉了使用方的设计 在任务中心的设计中，假设了业务子系统会分为任务task1的生产者和消费者——就像对接MQ那样。这种设计是假定任务task1的消费一定是异步的。
+但问题在于业务子系统实际上有自己的任务task2调度系统，它只用任务中心来更新用户的进度条。
+因此，对于业务子系统来说，它从自己的任务调度系统中获取一个任务task2，然后对接任务中心，在这个task2的消费中，包含了对于task1的生产和消费。
+于是，虽然task2的消费是异步的，但是task1的生产和消费却是同步的。
+这对业务子系统造成了很大困扰：
+如果再把task1的生产和消费分开，无疑会增大开发工作量，也增加了维护工作量 如果不把task1的生产和消费分开，只能在生产了任务task1后，马上开启for循环来尝试消费它。这无疑会让代码变得丑陋且难以接受。 问题3. 定位不明确 问题2的根本原因是任务中心对于自己的定位并不明确。它想把自己包装成一个任务调度系统，但是实际上是一个任务进度管理系统。
+这一点也能从它的名字——任务中心——看出来。
+也就是说，当前的任务中心的需要开发一套通用的任务调度系统，然后将其和任务进度管理模块进行组合、打包给业务子系统。
+综上，任务中心需要包含三个模块：
+任务调度模块 任务进度管理模块 任务与用户的关联模块 问题4. 对接繁琐 对外提供的对接可以进一步简化，比如1.生成任务id 2.添加任务 3.绑定任务和用户 可以简化为一个接口。对于目前的现状，这个接口还可以包括 4. 获取可执行的任务" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/takcenter_review/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-02-11T12:00:00+08:00" />
+<meta property="article:modified_time" content="2023-02-11T12:00:00+08:00" />
+
+
+
+    <title>
+  对于任务中心系统设计上的反思 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/takcenter_review/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#问题1-服务划分">问题1. 服务划分</a></li>
+    <li><a href="#问题2-干涉了使用方的设计">问题2. 干涉了使用方的设计</a></li>
+    <li><a href="#问题3-定位不明确">问题3. 定位不明确</a></li>
+    <li><a href="#问题4-对接繁琐">问题4. 对接繁琐</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>对于任务中心系统设计上的反思</h1>
+    </header>
+
+    <h2 id="前言">前言</h2>
+<p>任务中心是一个通用层的系统，用于<strong>统一管理任务进度，对接前端的进度条组件</strong>。</p>
+<p>主要流程为：</p>
+<ol>
+<li>用户触发一个任务</li>
+<li>业务子系统对接任务中心：添加任务、更新进度和任务状态</li>
+<li>任务中心通过WebSocket向用户推送任务状态、进度。</li>
+</ol>
+<p>任务中心系统分为三层：</p>
+<ol>
+<li>支撑层：统一管理任务状态、进度</li>
+<li>中台层：管理任务和用户的关系</li>
+<li>前台层：管理权限、与前端交互</li>
+</ol>
+<p>业务子系统对接任务中心的流程为：</p>
+<ol>
+<li>在支撑层获取任务id</li>
+<li>在支撑层添加任务信息</li>
+<li>在中台层关联任务和用户</li>
+<li>在支撑层获取场景中未被消费的任务</li>
+<li>执行任务并在支撑层更新任务进度和状态</li>
+</ol>
+<p>解释一下为什么在第2步添加了任务后还要在第4步获取呢？这是因为在设计上假设业务子系统分为了生产者和消费者，也就是消费任务的是一个独立的worker，因此需要再次获取任务。</p>
+<h2 id="问题1-服务划分">问题1. 服务划分</h2>
+<p>任务中心将<strong>对任务的管理</strong>和<strong>对用户与任务的关联</strong>进行了拆分，使得两者解耦，任务管理完全不用考虑用户，这是一个好的设计。但问题是它把这种拆分具象到了服务层。</p>
+<p>这意味着如果业务子系统对接任务中心，需要调两个服务的API，这造成了客户的困惑（如果把任务中心看做一个产品，业务子系统就是客户）：我只是对接任务中心组件，为什么需要对接两个服务？</p>
+<p>所以，<strong>对任务的管理</strong>和<strong>对用户与任务的关联</strong>应该是一个服务内部的划分，这应该是对客户不可见的。</p>
+<h2 id="问题2-干涉了使用方的设计">问题2. 干涉了使用方的设计</h2>
+<p>在任务中心的设计中，假设了业务子系统会分为任务task1的生产者和消费者——就像对接MQ那样。这种设计是假定任务task1的消费一定是异步的。</p>
+<p>但问题在于业务子系统实际上有自己的任务task2调度系统，它只用任务中心来更新用户的进度条。</p>
+<p>因此，对于业务子系统来说，它从自己的任务调度系统中获取一个任务task2，然后对接任务中心，在这个task2的消费中，包含了对于task1的生产和消费。</p>
+<p>于是，虽然task2的消费是异步的，但是task1的生产和消费却是同步的。</p>
+<p>这对业务子系统造成了很大困扰：</p>
+<ul>
+<li>如果再把task1的生产和消费分开，无疑会增大开发工作量，也增加了维护工作量</li>
+<li>如果不把task1的生产和消费分开，只能在生产了任务task1后，马上开启for循环来尝试消费它。这无疑会让代码变得丑陋且难以接受。</li>
+</ul>
+<h2 id="问题3-定位不明确">问题3. 定位不明确</h2>
+<p>问题2的根本原因是任务中心对于自己的定位并不明确。它想把自己包装成一个任务调度系统，但是实际上是一个任务进度管理系统。</p>
+<p>这一点也能从它的名字——任务中心——看出来。</p>
+<p>也就是说，当前的任务中心的需要开发一套通用的任务调度系统，然后将其和任务进度管理模块进行组合、打包给业务子系统。</p>
+<p>综上，任务中心需要包含三个模块：</p>
+<ol>
+<li>任务调度模块</li>
+<li>任务进度管理模块</li>
+<li>任务与用户的关联模块</li>
+</ol>
+<h2 id="问题4-对接繁琐">问题4. 对接繁琐</h2>
+<p>对外提供的对接可以进一步简化，比如1.生成任务id 2.添加任务 3.绑定任务和用户 可以简化为一个接口。对于目前的现状，这个接口还可以包括 4. 获取可执行的任务</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
