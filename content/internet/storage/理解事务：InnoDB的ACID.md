@@ -4,6 +4,8 @@ date = 2022-01-16T17:05:00+08:00
 title = "理解事务：InnoDB的ACID"
 url = "/internet/mysql/acid"
 
+toc = true 
+
 +++
 
 
