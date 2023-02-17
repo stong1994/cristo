@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
+volume正是为了解决这一问题而产生的。
+emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
+emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
+apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
+由于使用的是节点的文件系统，因此hostPath是持久性的volume。
+docker的日志文件存储在宿主机就是最经典的一个例子。
+Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s-volume"/>
+<meta name="twitter:description" content="容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
+volume正是为了解决这一问题而产生的。
+emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
+emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
+apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
+由于使用的是节点的文件系统，因此hostPath是持久性的volume。
+docker的日志文件存储在宿主机就是最经典的一个例子。
+Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。"/>
+
+    <meta property="og:title" content="k8s-volume" />
+<meta property="og:description" content="容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
+volume正是为了解决这一问题而产生的。
+emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
+emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
+apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
+由于使用的是节点的文件系统，因此hostPath是持久性的volume。
+docker的日志文件存储在宿主机就是最经典的一个例子。
+Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/volume/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-12T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-12T21:19:00+08:00" />
+
+
+
+    <title>
+  k8s-volume · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/volume/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#emptydir">emptyDir</a></li>
+    <li><a href="#hostpath">hostPath</a></li>
+    <li><a href="#persistentvolumes--claim">PersistentVolumes &amp; Claim</a>
+      <ul>
+        <li><a href="#persistentvolumes">PersistentVolumes</a></li>
+        <li><a href="#persitentvolumeclaim">PersitentVolumeClaim</a></li>
+        <li><a href="#三种权限">三种权限</a></li>
+        <li><a href="#在pod中使用pvc">在pod中使用pvc</a></li>
+        <li><a href="#reclaimpolicy">ReclaimPolicy</a></li>
+      </ul>
+    </li>
+    <li><a href="#storageclass">StorageClass</a>
+      <ul>
+        <li><a href="#在pvc中使用storageclass">在PVC中使用StorageClass</a></li>
+        <li><a href="#动态的pv供应">动态的PV供应</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>k8s-volume</h1>
+    </header>
+
+    <p>容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。</p>
+<p>volume正是为了解决这一问题而产生的。</p>
+<h2 id="emptydir">emptyDir</h2>
+<p>emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。</p>
+<p>emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: fortune
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: luksa/fortune
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">name </span>: html-generator
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: html
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">mountPath</span>: /var/htdocs 
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">image</span>: nginx:alpine
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">name</span>: web-server
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: html
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">mountPath</span>: /usr/share/nginx/html
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">readOnly</span>: <span style="color:#fff;font-weight:bold">true</span> 
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">80</span>
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">protocol</span>: TCP
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">volumes</span>: 
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: html
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">emptyDir</span>: {}
+</span></span></code></pre></div><h2 id="hostpath">hostPath</h2>
+<p>在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.</p>
+<p>由于使用的是节点的文件系统，因此hostPath是持久性的volume。</p>
+<p>docker的日志文件存储在宿主机就是最经典的一个例子。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">Volumes</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">varlog</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">Type</span>: HostPath (bare host directory volume)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">Path</span>: /var/log
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">varlibdockercontainers</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">Type</span>: HostPath (bare host directory volume)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">Path</span>: /var/lib/docker/containers
+</span></span></code></pre></div><h2 id="persistentvolumes--claim">PersistentVolumes &amp; Claim</h2>
+<h3 id="persistentvolumes">PersistentVolumes</h3>
+<p>在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。</p>
+<p>k8s的理念之一是使开发者无需关心具体的基础设施细节，只需声明就能够使用。于是产生了PersistentVolumes.</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210052046175.png" alt=""></p>
+<ol>
+<li>管理者设置某种类型的网络存储</li>
+<li>管理者在k8s中注册一个PV</li>
+<li>开发者声明存储所需的配置，即PVC</li>
+<li>k8s找到一个符合条件的PV，将其与PVC绑定</li>
+<li>开发者创建一个pod，并关联PVC</li>
+</ol>
+<p>通过这种方式，开发者完全无需关心底层存储的细节。</p>
+<p>PV没有namespace的概念，即被PV定义的资源是“全局”的。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: PersistentVolume
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: mongodb-pv
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">capacity</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">storage</span>: 1Gi
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">accessModes</span>:
+</span></span><span style="display:flex;"><span>  - ReadWriteOnce
+</span></span><span style="display:flex;"><span>  - ReadOnlyMany
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">persistentVolumeReclaimPolicy</span>: Retain
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">qcePersistentDisk</span>:
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">pdName</span>: mongodb
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">fsType</span>: ext4
+</span></span></code></pre></div><h3 id="persitentvolumeclaim">PersitentVolumeClaim</h3>
+<p>开发者并不直接使用PV，而是通过声明一个PVC来使用。</p>
+<p>example：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: PersistentVolumeClaim
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: mongodb-pvc
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">resources</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">requests</span>: 
+</span></span><span style="display:flex;"><span>		  <span style="font-weight:bold">storage</span>: 1Gi
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">accessModes</span>:
+</span></span><span style="display:flex;"><span>  - ReadWriteOnce
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">storageClassName</span>: <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>
+</span></span></code></pre></div><p>k8s会找到大小为1GiB的具有ReadWriteOnce权限的PV，并绑定到这个PVC。</p>
+<h3 id="三种权限">三种权限</h3>
+<ul>
+<li>ReadWriteOnce(RWO): 只有一个node能够挂载并读写这个volume</li>
+<li>ReadOnlyMany(ROX): 多个node能够挂载并且只读这个volume</li>
+<li>ReadWriteMany(RWX): 多个node能够挂载并且读写这个volume</li>
+</ul>
+<h3 id="在pod中使用pvc">在pod中使用pvc</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: mongodb
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>: 
+</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">image</span>: mongo 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">name</span>: mongodb
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: mongodb-data
+</span></span><span style="display:flex;"><span>    	mountPath:/data/db
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>: 
+</span></span><span style="display:flex;"><span>    - containerPort:27017
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">protocol</span>: TCP
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: mongodb-data
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">persistentVolumeClaim</span>:
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">claimName</span>: mongodb-pvc
+</span></span></code></pre></div><p>k8s会找到名为mongodb-pvc的PVC，找到与之绑定的PV并挂在到该pod上。</p>
+<h3 id="reclaimpolicy">ReclaimPolicy</h3>
+<p>当pvc被删除后，PV内存储的数据如何处理有以下几种策略（对应PV配置中的persistentVolumeReclaimPolicy字段）：</p>
+<ul>
+<li>Retain：保留策略，数据不会自动删除。这种策略下只有手动回收PV。</li>
+<li>Recycle: 回收策略，这种策略下删除PVC会自动回收PV。</li>
+<li>Delete：直接删除底层的存储。</li>
+</ul>
+<h2 id="storageclass">StorageClass</h2>
+<p>开发者在使用PVC之前，需要运维人员准备好PV，我们可以优化流程：开发者声明了一个PVC之后就自动创建一个PV。实现这种功能的正是StorageClass。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: storage.k8s.io/vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: StorageClass
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: fast
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">provisioner</span>: kubernetes.io/gce-pd
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">parameters</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">type</span>: pd-ssd
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">zone</span>: europe-westl-b
+</span></span></code></pre></div><h3 id="在pvc中使用storageclass">在PVC中使用StorageClass</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: PersistentVolumeClaim
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: mongodb-pvc
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">storageClassName</span>: fast
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">resources</span>: 
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">requests</span>: 
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">storage</span>: 100Mi
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">accessModes</span>:
+</span></span><span style="display:flex;"><span>  - ReadWriteOnce
+</span></span></code></pre></div><p>如果没有声明storageClassName，则会使用默认的SC。</p>
+<p>如果指定storageClassName为空字符串，则会为其绑定预先提供的PV。</p>
+<p>如果指定storageClassName不为空字符串，则会为其创建一个新的PV。</p>
+<h3 id="动态的pv供应">动态的PV供应</h3>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210052046175.png" alt=""></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

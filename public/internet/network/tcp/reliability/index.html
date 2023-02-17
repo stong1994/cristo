@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T">
+    <meta name="keywords" content="tcp,timeout">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="理解TCP协议的可靠性"/>
+<meta name="twitter:description" content="TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T"/>
+
+    <meta property="og:title" content="理解TCP协议的可靠性" />
+<meta property="og:description" content="TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/network/tcp/reliability/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-03-28T17:20:00+08:00" />
+<meta property="article:modified_time" content="2022-03-28T17:20:00+08:00" />
+
+
+
+    <title>
+  理解TCP协议的可靠性 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/network/tcp/reliability/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ack机制">ACK机制</a>
+      <ul>
+        <li><a href="#累计ack延时ack">累计ACK（延时ACK）</a></li>
+        <li><a href="#nagle算法">Nagle算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#重传机制">重传机制</a>
+      <ul>
+        <li><a href="#超时重传">超时重传</a></li>
+        <li><a href="#快速重传">快速重传</a></li>
+        <li><a href="#带选择确认的重传">带选择确认的重传</a></li>
+        <li><a href="#重新组包">重新组包</a></li>
+      </ul>
+    </li>
+    <li><a href="#流量控制">流量控制</a>
+      <ul>
+        <li><a href="#滑动窗口">滑动窗口</a></li>
+        <li><a href="#拥塞控制">拥塞控制</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>理解TCP协议的可靠性</h1>
+    </header>
+
+    <p>TCP协议最重要的特性之一就是其可靠性。</p>
+<p>在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由TCP协议负责，这样能够让开发者专注于应用层，大幅减轻开发者的负担。</p>
+<p>作为一个可靠的协议，<strong>TCP必须要解决数据报丢失、比特差错这些基本问题，同时还要在尽可能短的时间内完成数据传输</strong>。</p>
+<p>这种ACK机制仍有许多问题需要讨论：</p>
+<ol>
+<li>如何标识所确认的数据报？</li>
+<li>ACK报文丢失了怎么办？</li>
+<li>发送方需要等待多久来接收ACK报文？</li>
+</ol>
+<p>另外，如何在尽可能短的时间内完成数据传输？</p>
+<h2 id="ack机制">ACK机制</h2>
+<p>TCP通过确认机制来保证报文段送达且正常接收，接收方一旦接收到“有效”数据，就会向发送方发送ACK报文用来确认。（有效数据是指需要保证可靠性的数据，如ACK报文、窗口更新报文就不需要保证可靠性，因此无需进行确认）</p>
+<h3 id="累计ack延时ack">累计ACK（延时ACK）</h3>
+<p>TCP不对每个报文段都返回ACK，利用累积ACK字段能够实现“批量”ACK：指定ACK号为这些报文段中最大的ACK号。</p>
+<p>累计确认需要一段时间来“收集数据”，所需的延迟时间最大值往往设置为200ms。</p>
+<h3 id="nagle算法">Nagle算法</h3>
+<p>在一些场景下会发送大量的小包（如SSH连接中每次按键就是一个小包），如果每个小包都要进行一次传输，那么数据报中有效数据的占比就很低，造成网络的利用率很低。</p>
+<p>Nagle算法要求，当一个TCP连接中有在传数据（即已发送但还未确认），小的报文段（长度小于SMSS）就不能被发送。并且，在收到ACK后，TCP需要收集这些小数据，将其整合到一个报文段中发送。</p>
+<p>最终的效果是：ACK返回的越快，数据传输的也越快。</p>
+<p><strong>禁用Nagle算法</strong>：Nagle在有些场景并不适用（那些需要低时延的应用，如游戏），因此需要禁用。此时需要设置TCP_NODEPLAY为1（需要注意该变量不是指禁用延时ACK，而是Nagle算法）。</p>
+<h2 id="重传机制">重传机制</h2>
+<p>重传机制主要有一下几个方面：超时重传、快速重传、带选择确认的重传和重新组包。</p>
+<h3 id="超时重传">超时重传</h3>
+<p>TCP协议的超时重传是指：当TCP发出一个段后，将会启动一个定时器，如果在一段时间内没有收到ACK消息，就会重新发送这个报文段。</p>
+<p>在超时重传中主要关注两方面：超时时间和重传次数。</p>
+<h4 id="超时时间">超时时间</h4>
+<p>重传超时时间RTO的设置与往返时间RTT密切相关：如果RTO小于RTT，那么网络中必然会含有大量冗余数据；如果RTO远大于RTT，那么整体的网络利用率就会下降。</p>
+<p>RTO的估值主要分为两方面，一方面是获取RTT，另一方面是设计算法根据RTT获得合理的RTO。</p>
+<p><strong>获取RTT</strong></p>
+<p>获取往返时间只需要在发送时将当前时间添加到报文段中，接收方返回ACK时携带这个发送时间即可。</p>
+<p>TCP通过设置时间戳选项TSOPT，并将发送时间写入TSV中实现了RTT的获取。</p>
+<p>在数据发送中时，RTT是动态变化的。因此需要找到一个平滑的RTT估计值SRTT。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>SRTT = α(SRTT)+(1-α)RTT (RTT为最新的RTT)
+</span></span></code></pre></div><p>平滑因子α推荐值为0.8~0.9，这样当前的平滑RTT估计值受到最新RTT的影响较小。</p>
+<p><strong>获取RTO算法</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>RTO=min(ubound, max(lbound, SRTT/β))
+</span></span></code></pre></div><p>β为离散因子，推荐值为1.3~2.0，ubound为RTO的上边界值, lbound为RTO的下边界值。</p>
+<p>这种方法在相对稳定的网络中表现良好，但是在RTT变化较大的网络中则需要使用更复杂的算法。</p>
+<p>TCP在计算RTO的过程中使用一个退避系数，每当重传计时器出现超时，则将退避系数加倍，直到收到非重传的数据再将退避系数重置为1</p>
+<h4 id="重传次数">重传次数</h4>
+<p>TCP协议通过两个阈值来决定如何重传同一个报文段：</p>
+<ul>
+<li>愿意尝试重传的次数（或等待时间）</li>
+<li>放弃当前连接的时机（重传次数或者等待时间）</li>
+</ul>
+<p>对于SYN报文段和普通报文段，其设置略有区别。</p>
+<h3 id="快速重传">快速重传</h3>
+<p>当收到三次以上的同一ACK号（假设为N），说明接收方收到了序列号大于N的报文段，并且序列号为N的报文段一直没收到。此时发送方需要立即发送序列号为N的报文段。</p>
+<h3 id="带选择确认的重传">带选择确认的重传</h3>
+<p>由于累计ACK机制的存在，可以在ACK报文段中通过累计ACK号和SACK来记录已接收的报文段中丢失的部分。</p>
+<p>接收方在接收到SACK报文段后，只需要重发这些丢失的部分即可。</p>
+<h3 id="重新组包">重新组包</h3>
+<p>当两个（及以上）较小的连续的报文段需要重传时，可将其合并为一个报文段进行发送。</p>
+<h2 id="流量控制">流量控制</h2>
+<p>对于数据传输的双方，发送方的发送能力和接收方的接收能力是不同的，当接收方的接收速率小于发送方的发送速率时，接收方就会有大量的待接收数据，而发送方也会有大量的待确认数据。当这些积压的数据超过各自的缓冲区大小后，就可能会造成数据丢失。因此我们需要控制发送方的发送速率，实现这种流量控制的方法有两种，一种是提供一个速率，发送方发送数据不能超过速率，另外一种是使用滑动窗口来提供目前能够发送的数据大小信息。TCP协议使用后者。</p>
+<p>这种方法能够很好的保护接收方，但是发送方的速率可能超过了中间网络中的某个路由器的能力，从而导致丢包。解决这种问题的方法称为拥塞控制。</p>
+<h3 id="滑动窗口">滑动窗口</h3>
+<p>为了避免接收方的接收缓冲区溢出，TCP通过滑动窗口来控制发送方的发送速率。</p>
+<p>对于单方向的数据传输，接收方需要设置接收窗口，发送发需要设置发送窗口，两个窗口的大小在握手阶段进行协商。</p>
+<p>滑动窗口的实现类似于ringbuffer，通过指针来标识信息（下文中将缓冲区代称为ringbuffer）。</p>
+<h4 id="接收窗口">接收窗口</h4>
+<p>接收方通过两个指针将ringbuffer划分为三部分，从左到右为：</p>
+<ul>
+<li>已接收：当前区域内的所有数据报都已接收</li>
+<li>等待接收：当前区域的最左边的数据报未接收（数据报按照序列号排列，如果已接收的报文段的左侧仍有未接收的报文段，则该报文段仍处于这个区域。类似于俄罗斯方块）</li>
+<li>不能接收区域：防止发送方发送“溢出”数据，如果未接收区域已满，则不再接收新来的数据报（用于窗口探测的数据报除外）。</li>
+</ul>
+<p>接收窗口指的是等待接收区域。当等待接收区域的最左边的数据报收到ACK并且数据被处理（比如转交给应用层），窗口会向右移动。</p>
+<p>可用的窗口大小为等待接收窗口内右侧待接收的窗口大小。</p>
+<h4 id="发送窗口">发送窗口</h4>
+<p>发送方通过三个指针将ringbuffer划分为四部分，从左到右为：</p>
+<ul>
+<li>已发送且收到ACK</li>
+<li>已发送未收到ACK</li>
+<li>即将发送</li>
+<li>不允许发送</li>
+</ul>
+<p>发送窗口指的是中间两部分。</p>
+<p>当已发送未收到ACK区域的最左侧数据报被确认接收后，中间两个区域整体往右移动，移动距离为最左侧数据报的报文长度。</p>
+<h4 id="零窗口">零窗口</h4>
+<p>当接收方的接收窗口大小为0时，说明接收窗口内的数据报未被处理（不会是最左侧的数据报丢失，因为会触发快速重传），此时发送方会停止发送数据。</p>
+<p>当接收方重新获得可用空间后，会给发送方发送一个<strong>窗口更新</strong>的报文（该报文不能保证可靠传输）。如果接收方发送的窗口更新报文丢失，那么就会导致发送方一直等待。因此，在接收方报告接收窗口为0时，发送方会通过一个<strong>持续计时器</strong>间歇性的查询接收端，接收端对此类报文必须返回ACK报文，并携带窗口大小。</p>
+<h4 id="糊涂窗口综合征">糊涂窗口综合征</h4>
+<p>基于以上的机制，TCP有可能会出现交换的报文段大小不是全长而是较小的报文段，这种缺陷称为糊涂窗口综合征。上述机制的缺陷在于接收端的通告窗口较小，或者发送方没有等待将小包组成大包。</p>
+<ul>
+<li>
+<p>对于接收端：不应通告小的窗口值。在窗口增至min(MSS, 接收端缓存空间的一半)之前，不通告其窗口值</p>
+</li>
+<li>
+<p>对于发送端：不应发送小的报文段，由Nagle算法控制何时发送。</p>
+</li>
+</ul>
+<h3 id="拥塞控制">拥塞控制</h3>
+<p>滑动窗口只能保护接收方的缓存不溢出，但是不能保证网络中间的路由器。路由器由于无法处理高速率到达的流量而被迫丢弃数据信息的现象称为<strong>拥塞</strong>。反应网络传输能力的变量称为<strong>拥塞窗口（cwnd）</strong>。</p>
+<p>在高效传输的稳定状态下，发送的整个链路被填充满。因此，只有发送方接收到了ACK报文，才会发送下一个数据报。这种一个ACK到达（称为<strong>ACK时钟</strong>）触发一个新数据包传输的关系称为<strong>自同步（self-clocking）</strong>。</p>
+<h4 id="减缓tcp发送">减缓TCP发送</h4>
+<p>TCP通过控制发送方的可用窗口大小来控制发送速率。而发送方的可用窗口大小等于接收方的通知窗口awnd和拥塞窗口cwnd的较小值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>W = min(cwnd, awnd)
+</span></span></code></pre></div><p>对于awnd，TCP通过与接收方交换一个数据包就能获得，而获取cwnd则要困难很多。</p>
+<h4 id="慢启动">慢启动</h4>
+<p>在连接建立之初或者检测到由于超时重传导致的丢包时，需要快速找到cwnd，以及帮助TCP建立ACK时钟，这时候需要执行<strong>慢启动</strong>。而在TCP建立连接时执行慢启动后，一旦遇到丢包，就执行<strong>拥塞避免</strong>算法。</p>
+<p>初始窗口IW为SMSS（SMSS为接收方MSS和路径MTU的较小值；实际上根据SMSS大小，IW可能为1~4个SMSS）。后续每接收到一个数据段的ACK（假设没出现丢包），慢启动算法会对cwnd值进行累加，累加的大小为min(N, SMSS), N为该ACK确认的数据报的大小，因此如果成功接收到新的ACK，cwnd会依次变为2SMSS，4SMSS, 8SMSS。。。</p>
+<p>cwnd在这一阶段会呈现<strong>指数型增长</strong>，直到网络瘫痪导致丢包。</p>
+<h4 id="拥塞避免">拥塞避免</h4>
+<p>为了避免慢启动导致的TCP连接占用大量的传输资源，从而影响其他连接传输，TCP设置了一个<strong>慢启动阈值（ssthresh）</strong>，当达到这个阈值后，慢启动停止，进入<strong>拥塞避免</strong>阶段。没接收一个新的ACK，cwnd只会小幅增长而不是成倍增长。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>新cwnd = 旧cwnd + SMSS * SMSS/旧cwnd
+</span></span></code></pre></div><p>当有重传发生时，慢启动阈值会更新为<code>max(在外数据值/2, 2*SMSS)</code>, 在外数据值即发送方已发送但未ACK的数据。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>stong on 北人</title>
+    <link>https://stong1994.github.io/authors/stong/</link>
+    <description>Recent content in stong on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 16 Feb 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/stong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChatGPT 龟兔赛跑 无穷递归</title>
+      <link>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</link>
+      <pubDate>Thu, 16 Feb 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</guid>
+      <description>永远也追不上乌龟的兔子 龟兔赛跑有很多版本，其中一个的结局是乌龟赢了。故事是这样的： 兔子骄傲自大，让乌龟先跑。 乌龟跑到了A点，兔子开始跑。 兔子</description>
+    </item>
+    
+    <item>
+      <title>为什么要读书</title>
+      <link>https://stong1994.github.io/book/philosophy/why_read_book/</link>
+      <pubDate>Sat, 07 Jan 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/why_read_book/</guid>
+      <description>前言 为什么要读书？这是一个问题，又不仅仅只是一个问题，因为在不同的范畴中提问者要问的问题是不同的。比如说他可能在问： 读书有什么好处？ 为什么要</description>
+    </item>
+    
+    <item>
+      <title>go中append的坑</title>
+      <link>https://stong1994.github.io/internet/go/append_trap/</link>
+      <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/append_trap/</guid>
+      <description>问题复现 func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:]...) fmt.Println(a) fmt.Println(b) } append(slice[:i], slice[i+1:]...)是很常见的用于去除切片slice中第i个元素的操作。打印b会得到[3,5,8].
+但是打印a会显示什么呢？
+理想情况是a没有任何变化，但实际情况是：
+[3 5 8 8] a被修改了！
+猜想 依稀记得append操作会判断当前切片的容量，如何切片的容量足够容纳添加进来的值，就会复用这个切片。
+因此，在操作append(a[:1], a[2:]...)时，程序发现a的容量足够，不需要扩容，因此会复用a，因此将5, 8 (即a[2]...)添加到了3 (即a[:1])后边，于是就有了3,5,8, 同时，a[3]没有被修改，因此仍是8，所以b的结果就是3, 5, 8, 8
+证实 可以通过阅读append函数的实现代码来证实，但是append是一个内置函数，看不到底层实现。但是我们可以在官方的博客中看到其实现逻辑：
+func Append(slice []int, elements ...int) []int { n := len(slice) total := len(slice) + len(elements) if total &amp;gt; cap(slice) { // Reallocate. Grow to 1.5 times the new size, so we can still grow.</description>
+    </item>
+    
+    <item>
+      <title>go中unmarshal的坑</title>
+      <link>https://stong1994.github.io/internet/go/unmarshal_trap/</link>
+      <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/unmarshal_trap/</guid>
+      <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。
+问题复现 type User struct { Name string `json:&amp;#34;name&amp;#34;` Hobbies []string `json:&amp;#34;hobbies&amp;#34;` } func main() { var u User alice := `{&amp;#34;name&amp;#34;: &amp;#34;alice&amp;#34;, &amp;#34;hobbies&amp;#34;: [&amp;#34;readBook&amp;#34;, &amp;#34;watchTV&amp;#34;]}` bob := `{&amp;#34;name&amp;#34;: &amp;#34;bob&amp;#34;}` err := json.Unmarshal([]byte(alice), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) err = json.Unmarshal([]byte(bob), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) } 我们有两个user：alice和bob。alice有readBook和watchTV两个Hobbies，而bob没有任何Hobbies。
+我们用同一个变量u分别对alice和bob进行反序列化，终端会输出什么呢？
+理想情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[]} 但实际情况是：
+{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[readBook watchTV]} bob“继承”了alice的Hobbies，这显然是错误的结果！</description>
+    </item>
+    
+    <item>
+      <title>如何获得更多的摸鱼时间</title>
+      <link>https://stong1994.github.io/internet/get_more_free_work_time/</link>
+      <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/get_more_free_work_time/</guid>
+      <description>互联网这个行业最大的好处就是可以不断学习，当然，对于某些人来说，就可能是一个缺点。
+作为一名有追求的程序员，他的TODO List一定排满了要学习的内容，为了尽快“解决”这些TODO，我们需要获得尽可能多的摸鱼时间。
+那么如何做呢？俗话说吃一堑长一智，只有不断总结、优化自己的工作流程，才能不辜负过往的辛酸泪。
+获得更多的摸鱼时间清单 1. 确认产品功能 首先要对产品功能有十分详尽的了解，不能在还有一些模糊想法的时候就去写代码！
+很多时候程序员和产品经理理解的功能并不一致，尤其是在产品经理提供的需求很模糊的时候，所以一定要再三确认产品功能，否则很容易花更多时间去修改代码！
+2. 协助产品经理完善功能 大部分产品经理缺少开发经验，因此设计出来的需求难以完成，这时开发者一定要和产品经理沟通需求、完善功能。
+对于产品设计能力差的产品经理，更是如此！
+开发者按照产品经理提供的需求完成了开发，然后找leader进行产品评审，leader说这个功能有问题，需要重新设计，开发者的代码自然是白写了。
+想要获得更多的摸鱼时间，就要尽可能“只做一遍”，所以协助产品经理完善功能是非常有必要的。
+3. 少写bug 这个在另一篇如何写没有bug的代码中已经进行了详尽的阐述。
+4. 保持积极的情绪 情绪对代码的影响非常大，当开发者情绪差时，开发者所写代码的质量会很差，同时项目成员之间的沟通也会变差，这无疑会加大开发者在项目开发的时间投入。
+5. 维护好项目TODO清单 写代码的过程中往往会产生很多想法：
+这个函数需要优化 另一个功能是不是也有这个问题？ 好像还有一个功能没有实现 上线时这个需要进行配置 此外，其他成员也会不时的提一些问题或者需求。
+开发者需要维护好自己的项目TODO清单，毕竟没有解决这些问题，其他人还是会来“烦”你，这会增加沟通时间以及更多的“想法的上下文切换时间”。</description>
+    </item>
+    
+    <item>
+      <title>程序员思维VS工程师思维</title>
+      <link>https://stong1994.github.io/life/coder_vs_engineer/</link>
+      <pubDate>Sun, 20 Nov 2022 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/coder_vs_engineer/</guid>
+      <description>引子 宋丹丹有个小品，说要把一头大象放到冰箱里需要几步？ 答：三步。第一步：打开冰箱门；第二步：把大象放进去；第三步：把冰箱门关上。 樊登在《可复</description>
+    </item>
+    
+    <item>
+      <title>用景观思维解决复杂问题</title>
+      <link>https://stong1994.github.io/other/landscape_thinking/</link>
+      <pubDate>Mon, 07 Nov 2022 18:30:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/other/landscape_thinking/</guid>
+      <description>安德烈亚斯·瓦格纳在**《如何解决复杂问题》中介绍了一种用于解决高复杂度问题的思维方式，这种思维方式就是景观思维**。 景观思维的灵感来源于生</description>
+    </item>
+    
+    <item>
+      <title>rust基础笔记</title>
+      <link>https://stong1994.github.io/note/rust/base/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/base/</guid>
+      <description>数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同</description>
+    </item>
+    
+  </channel>
+</rss>

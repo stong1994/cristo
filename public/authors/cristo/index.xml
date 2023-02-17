@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cristo on 北人</title>
+    <link>https://stong1994.github.io/authors/cristo/</link>
+    <description>Recent content in cristo on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 09 May 2022 21:30:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/cristo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>每个人都应该做《减法》</title>
+      <link>https://stong1994.github.io/book/improve/subtract/</link>
+      <pubDate>Mon, 09 May 2022 21:30:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/subtract/</guid>
+      <description>近况 前几天搬家房东还没退我押金，她是不想退了吗，等过几天再问下。 最近的一个项目里想出了一个好的idea，这个要记得写篇博客，先把项目完成吧。</description>
+    </item>
+    
+    <item>
+      <title>跳槽是涨薪的最快方式?</title>
+      <link>https://stong1994.github.io/life/not_to_change_job_for_more_money/</link>
+      <pubDate>Thu, 28 Apr 2022 13:24:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/not_to_change_job_for_more_money/</guid>
+      <description>跳槽不会是未来最快的涨薪方式。价值才是。 过去 &amp;ldquo;跳槽是最快的涨薪方式&amp;quot;这一观点基本能够被互联网行业从业者普遍认可。 打开“</description>
+    </item>
+    
+    <item>
+      <title>面试小结2022-04</title>
+      <link>https://stong1994.github.io/life/interview_2022_04/</link>
+      <pubDate>Wed, 27 Apr 2022 19:45:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/interview_2022_04/</guid>
+      <description>最近花了两周时间去“实地考察了下市场”，记录下经历。 考察内容 作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis</description>
+    </item>
+    
+    <item>
+      <title>理解TCP协议的可靠性</title>
+      <link>https://stong1994.github.io/internet/network/tcp/reliability/</link>
+      <pubDate>Mon, 28 Mar 2022 17:20:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/network/tcp/reliability/</guid>
+      <description>TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T</description>
+    </item>
+    
+    <item>
+      <title>论领导者在团队扩张后的心态变化</title>
+      <link>https://stong1994.github.io/life/leader_mentality_change/</link>
+      <pubDate>Fri, 04 Mar 2022 11:03:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/leader_mentality_change/</guid>
+      <description>在我已有的经验中，规模小的创业公司要比规模大一些的公司更关注员工的个人成长（样本较少，容易过拟合，但是可以尝试去解释）。 这种差异的原因可能有</description>
+    </item>
+    
+    <item>
+      <title>跨越时空的对话——袁了凡与阿德勒</title>
+      <link>https://stong1994.github.io/life/dialog/liaofanyuan_adler/</link>
+      <pubDate>Sat, 26 Feb 2022 13:03:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/dialog/liaofanyuan_adler/</guid>
+      <description>话题——关于命运 中国的大部分人应该都是“信命”的。 现在与长辈聊天时，仍旧会不时听到“这就是命啊”这样的言论。 以前我也同样认可“我们的现在是由</description>
+    </item>
+    
+    <item>
+      <title>2021年阅读书单</title>
+      <link>https://stong1994.github.io/book/book_list_2021/</link>
+      <pubDate>Wed, 09 Feb 2022 20:11:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/book_list_2021/</guid>
+      <description>说明 书籍的分类一直都是一个大难题，尽管我在notion的笔记上对书籍类别打了标签，但学科之间本来就是没有界限的，因此就一股脑放在一起。 书籍会</description>
+    </item>
+    
+    <item>
+      <title>2021年个人总结</title>
+      <link>https://stong1994.github.io/life/summory_2021/</link>
+      <pubDate>Wed, 09 Feb 2022 19:27:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/summory_2021/</guid>
+      <description>当我坐着从老家驶向深圳的高铁上时，我意识到这是最后的“年度总结”时间。 在这趟列车达到深圳前，我都有足够的理由安慰自己旧的一年还未结束。对我来</description>
+    </item>
+    
+    <item>
+      <title>解决问题时的短路问题</title>
+      <link>https://stong1994.github.io/life/short_circuit_when_solve_problem/</link>
+      <pubDate>Sun, 09 Jan 2022 17:25:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/short_circuit_when_solve_problem/</guid>
+      <description>场景描述 前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到接到一个工单：有家企业的部分员工的部门信息没有同步过去。 工单描述的有点</description>
+    </item>
+    
+    <item>
+      <title>《洞见》</title>
+      <link>https://stong1994.github.io/book/philosophy/why_buddhism_is_true/</link>
+      <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/why_buddhism_is_true/</guid>
+      <description>作者：罗伯特·赖特 关于书名 最早看到这本书是李录在《文明、现代化、价值投资与中国》一书中，作为推荐书籍介绍的。当时给我留下了很深刻的印象，大半</description>
+    </item>
+    
+    <item>
+      <title>塔勒布四部曲之《黑天鹅》</title>
+      <link>https://stong1994.github.io/book/philosophy/taleb_four_book/</link>
+      <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/taleb_four_book/</guid>
+      <description>塔勒布写作风格很特别，他不会着眼于书中的核心思想，而是像闲聊般的把他想说的内容都放到书中，同时伴随着对某些人的不拘一格的嘲讽。 塔勒布四部曲 《</description>
+    </item>
+    
+    <item>
+      <title>《关键路径》</title>
+      <link>https://stong1994.github.io/book/philosophy/critical_path/</link>
+      <pubDate>Sun, 02 Jan 2022 16:24:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/critical_path/</guid>
+      <description>作者：理查德·巴克敏斯特·富勒 总览 富勒仅以400页书籍描述了其宏大的世界观——实现人类的可持续发展、解决近邻宇宙的可再生问题。 富勒在32岁时</description>
+    </item>
+    
+    <item>
+      <title>和时间赛跑</title>
+      <link>https://stong1994.github.io/life/run_with_time/</link>
+      <pubDate>Sun, 19 Dec 2021 23:39:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/run_with_time/</guid>
+      <description>高中的时候琦哥跟我说：其实我要求并不高，只要有人跟我表白我就答应。 这句话我一直想不明白，要知道像琦哥这种学习好、长得帅、性格好的人，那是校草</description>
+    </item>
+    
+    <item>
+      <title>《HR&#43;三支柱：人力资源管理转型升级与实践创新》</title>
+      <link>https://stong1994.github.io/book/improve/hr_three-pillar-mode/</link>
+      <pubDate>Fri, 17 Dec 2021 13:57:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/hr_three-pillar-mode/</guid>
+      <description>哈蒙兹：人力资源从业者的四宗罪 智力一般 最优秀、最聪明的人都不进入人力资源行业 追求效率大过创造价值 HR总是强调做了什么，而非创造了什么结果 代表</description>
+    </item>
+    
+    <item>
+      <title>《菊与刀》</title>
+      <link>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</link>
+      <pubDate>Sun, 12 Dec 2021 21:36:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</guid>
+      <description>《菊与刀》是鲁思·本尼迪克特于1945年写的，记录了日本人文社会的特点。对于想要了解日本文化的人来说，这是一本必读书籍！ 70多年过去了，也许</description>
+    </item>
+    
+    <item>
+      <title>如何写没有bug的代码</title>
+      <link>https://stong1994.github.io/internet/how_to_code_without_bug/</link>
+      <pubDate>Sat, 04 Dec 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/how_to_code_without_bug/</guid>
+      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
+    </item>
+    
+    <item>
+      <title>琦哥</title>
+      <link>https://stong1994.github.io/life/qi/</link>
+      <pubDate>Sun, 14 Nov 2021 18:07:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/qi/</guid>
+      <description>如何证明自己存在过？ 年轻时候的我决定要干大事，要成就一番丰功伟绩来让我的子孙们铭记他们这个伟大的先祖！ 可惜他们这个先祖并不争气，到现在还只是</description>
+    </item>
+    
+    <item>
+      <title>《深度工作》</title>
+      <link>https://stong1994.github.io/book/improve/deep_work/</link>
+      <pubDate>Thu, 07 Oct 2021 20:20:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/deep_work/</guid>
+      <description>在十一小长假的最后一天，我终于翻开了这本放在书包里很多天的《深度工作》。 本来打算今天只看一半，没想到一口气花了约三个小时，把这本240页的书</description>
+    </item>
+    
+    <item>
+      <title>《论个人在历史上的作用问题》</title>
+      <link>https://stong1994.github.io/book/philosophy/person_and_history/</link>
+      <pubDate>Mon, 15 Mar 2021 00:09:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/person_and_history/</guid>
+      <description>作者：格奥尔基·普列汉诺夫 豆瓣评分：8.6 出版年: 2010-12 提问 个人与历史之间的关系是怎样的呢？是英雄成就了历史，还是历史成就了英雄？ 解释 不应夸大英</description>
+    </item>
+    
+    <item>
+      <title>《债务危机》</title>
+      <link>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
+      <pubDate>Sun, 28 Feb 2021 23:25:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
+      <description>作者：RAY DALID 豆瓣评分：8.7 微信读书评分：8.3 术语 国际收支差额：一个特定国家的个人或机构与世界其他地区之间的所有交易的差额。 国际收支危机</description>
+    </item>
+    
+    <item>
+      <title>《原则》</title>
+      <link>https://stong1994.github.io/book/improve/principles/</link>
+      <pubDate>Sun, 28 Feb 2021 16:19:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/principles/</guid>
+      <description>作者：RAY DALIO 微信读书评分: 8.8 豆瓣读书评分：8.3 出版时间：2018-1 《原则》内容摘录 基调 以原则为基础去生活。 核心原则 保持头脑开放（尽管这</description>
+    </item>
+    
+    <item>
+      <title>不花一分钱搭建一个博客</title>
+      <link>https://stong1994.github.io/life/build_free_blog/</link>
+      <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/build_free_blog/</guid>
+      <description>安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extended version，比如hu</description>
+    </item>
+    
+    <item>
+      <title>《这就是OKR》</title>
+      <link>https://stong1994.github.io/book/improve/measure_what_matters/</link>
+      <pubDate>Sun, 31 Jan 2021 00:10:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/measure_what_matters/</guid>
+      <description>作者：约翰·杜尔（John Doerr） 微信读书评分: 8.4 豆瓣读书评分：7.4 什么是OKR Objectives and Key Results OKR是确保将整个组织的力量都聚焦于完成对所有</description>
+    </item>
+    
+    <item>
+      <title>《卓有成效的管理者》</title>
+      <link>https://stong1994.github.io/book/improve/the_effective_executive/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/improve/the_effective_executive/</guid>
+      <description>作者：彼得·德鲁克 豆瓣评分：8.7 微信评分：8.9 出版年: 2005-6 提纲 1. 谁是管理者 如果一个工作者能够凭借其职位和知识，对其组织负有贡献的责任并能够</description>
+    </item>
+    
+    <item>
+      <title>DDD进阶-笔记篇</title>
+      <link>https://stong1994.github.io/internet/ddd/advance/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/ddd/advance/</guid>
+      <description>领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果</description>
+    </item>
+    
+  </channel>
+</rss>

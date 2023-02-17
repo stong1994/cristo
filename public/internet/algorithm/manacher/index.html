@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="Manacher算法是什么 Manacher算法俗称马拉车算法，用于解决在一个字符串中找到最长的回文子串问题。
+回文串”是一个正读和反读都一样的字符串，如level，noon等都是回文串。
+基础思路-中心扩展 为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。
+// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为： func findPalindrome(s string, mid int) string{ l,r := mid-1, mid&#43;1 for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 需要注意中心处可能是一个元素（如aba），也可能是两个元素（如abba）。所以上述函数要优化为
+func findPalindrome(s string, l, r int) string { for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 那么一个完整的找最长回文子串的算法为">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Manacher算法"/>
+<meta name="twitter:description" content="Manacher算法是什么 Manacher算法俗称马拉车算法，用于解决在一个字符串中找到最长的回文子串问题。
+回文串”是一个正读和反读都一样的字符串，如level，noon等都是回文串。
+基础思路-中心扩展 为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。
+// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为： func findPalindrome(s string, mid int) string{ l,r := mid-1, mid&#43;1 for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 需要注意中心处可能是一个元素（如aba），也可能是两个元素（如abba）。所以上述函数要优化为
+func findPalindrome(s string, l, r int) string { for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 那么一个完整的找最长回文子串的算法为"/>
+
+    <meta property="og:title" content="Manacher算法" />
+<meta property="og:description" content="Manacher算法是什么 Manacher算法俗称马拉车算法，用于解决在一个字符串中找到最长的回文子串问题。
+回文串”是一个正读和反读都一样的字符串，如level，noon等都是回文串。
+基础思路-中心扩展 为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。
+// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为： func findPalindrome(s string, mid int) string{ l,r := mid-1, mid&#43;1 for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 需要注意中心处可能是一个元素（如aba），也可能是两个元素（如abba）。所以上述函数要优化为
+func findPalindrome(s string, l, r int) string { for ; l &gt;= 0 &amp;&amp; r &lt; len(s); l,r = l-1, r&#43;1 { if s[l] != s[r] { break } } return s[l&#43;1: r] } 那么一个完整的找最长回文子串的算法为" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/algorithm/manacher/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-02-12T16:32:00+08:00" />
+<meta property="article:modified_time" content="2022-02-12T16:32:00+08:00" />
+
+
+
+    <title>
+  Manacher算法 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/algorithm/manacher/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#manacher算法是什么">Manacher算法是什么</a></li>
+    <li><a href="#基础思路-中心扩展">基础思路-中心扩展</a></li>
+    <li><a href="#manacher算法">Manacher算法</a>
+      <ul>
+        <li><a href="#改造字符串避免中心元素为偶数个">改造字符串，避免中心元素为偶数个</a></li>
+        <li><a href="#继续改造增加哨兵以避免边界问题">继续改造，增加哨兵以避免边界问题</a></li>
+        <li><a href="#利用已有经验引入回环长度数组">利用已有经验，引入回环长度数组</a></li>
+        <li><a href="#根据回环长度数组找到最长回环子串">根据回环长度数组找到最长回环子串</a></li>
+        <li><a href="#综合">综合</a></li>
+      </ul>
+    </li>
+    <li><a href="#扩展">扩展</a>
+      <ul>
+        <li><a href="#统计字符串中回文子串的数量">统计字符串中回文子串的数量</a></li>
+      </ul>
+    </li>
+    <li><a href="#相关资料">相关资料</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>Manacher算法</h1>
+    </header>
+
+    <h2 id="manacher算法是什么">Manacher算法是什么</h2>
+<p>Manacher算法俗称马拉车算法，用于解决<strong>在一个字符串中找到最长的回文子串问题</strong>。</p>
+<p><strong>回文串</strong>”是一个正读和反读都一样的<strong>字符串</strong>，如level，noon等都是回文串。</p>
+<h2 id="基础思路-中心扩展">基础思路-中心扩展</h2>
+<p>为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为：
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> findPalindrome(s <span style="color:#fff;font-weight:bold">string</span>, mid <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">string</span>{
+</span></span><span style="display:flex;"><span>	l,r := mid-<span style="color:#ff0;font-weight:bold">1</span>, mid+<span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> ; l &gt;= <span style="color:#ff0;font-weight:bold">0</span> &amp;&amp; r &lt; <span style="color:#fff;font-weight:bold">len</span>(s); l,r = l-<span style="color:#ff0;font-weight:bold">1</span>, r+<span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> s[l] != s[r] {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> s[l+<span style="color:#ff0;font-weight:bold">1</span>: r]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>需要注意<strong>中心处可能是一个元素（如aba），也可能是两个元素（如abba）</strong>。所以上述函数要优化为</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> findPalindrome(s <span style="color:#fff;font-weight:bold">string</span>, l, r <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> ; l &gt;= <span style="color:#ff0;font-weight:bold">0</span> &amp;&amp; r &lt; <span style="color:#fff;font-weight:bold">len</span>(s); l,r = l-<span style="color:#ff0;font-weight:bold">1</span>, r+<span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> s[l] != s[r] {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s[l+<span style="color:#ff0;font-weight:bold">1</span>: r]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>那么一个完整的找最长回文子串的算法为</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> findPalindrome(s <span style="color:#fff;font-weight:bold">string</span>, l, r <span style="color:#fff;font-weight:bold">int</span>) <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> ; l &gt;= <span style="color:#ff0;font-weight:bold">0</span> &amp;&amp; r &lt; <span style="color:#fff;font-weight:bold">len</span>(s); l,r = l-<span style="color:#ff0;font-weight:bold">1</span>, r+<span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> s[l] != s[r] {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s[l+<span style="color:#ff0;font-weight:bold">1</span>: r]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> findLongestPalindrome(s <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">string</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(s) &lt;= <span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> s
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> result <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt;<span style="color:#fff;font-weight:bold">len</span>(s)-<span style="color:#ff0;font-weight:bold">1</span>; i++ {
+</span></span><span style="display:flex;"><span>		s1 := findPalindrome(s, i, i)
+</span></span><span style="display:flex;"><span>		s2 := findPalindrome(s, i, i+<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(s1) &lt; <span style="color:#fff;font-weight:bold">len</span>(s2) {
+</span></span><span style="display:flex;"><span>			s1 = s2
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(s1) &gt; <span style="color:#fff;font-weight:bold">len</span>(result) {
+</span></span><span style="display:flex;"><span>			result = s1
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> result
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>时间复杂度为O(n^2)</p>
+<h2 id="manacher算法">Manacher算法</h2>
+<h3 id="改造字符串避免中心元素为偶数个">改造字符串，避免中心元素为偶数个</h3>
+<p>在“中心扩展”算法中每次都要“猜测”中心元素是奇数还是偶数，Manacher算法将原字符串改造后避免了这个问题。改造逻辑为：<strong>在元素间镶嵌特殊字符井号符(#)</strong>，如：</p>
+<ul>
+<li>原字符串为<code>abba</code>，改造后为<code>a#b#b#a</code>，中间元素为第二个<code>#</code></li>
+<li>原字符串为<code>aba</code>，改造后为<code>a#b#a</code>，中间元素为<code>b</code></li>
+</ul>
+<p>因此改造后的字符串能够避免“猜测”中心元素是奇数还是偶数。</p>
+<h3 id="继续改造增加哨兵以避免边界问题">继续改造，增加哨兵以避免边界问题</h3>
+<p>如“中心扩展”算法中，对于l和r两个变量每次都要校验以避免溢出边界。</p>
+<p>Manacher算法在<strong>字符串前后增加两个不同的特殊字符作为哨兵</strong>，当<code>l</code>或者<code>r</code>到达哨兵处时，与另一元素相比总是不等，因此不用每次都校验l和r是否溢出边界。</p>
+<p>一般前哨兵采用<code>^</code>，后哨兵采用<code>$</code>。</p>
+<p>根据“老规矩”，元素之间要加井号符（其实是为了保证原字符串以首字符为中心的回文子串的半径长度为1），因此：</p>
+<ul>
+<li>原字符串为<code>aba</code>，改造后为<code>^#a#b#a#$</code>，中间元素为<code>b</code>，<code>^#a#b</code>中以<code>a</code>为中心的回文串半径长度为1</li>
+</ul>
+<p>改造代码为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> preProcess(s <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(s) == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;^$&#34;</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   result := []<span style="color:#fff;font-weight:bold">byte</span>(<span style="color:#0ff;font-weight:bold">&#34;^&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">for</span> _, v := <span style="color:#fff;font-weight:bold">range</span> s {
+</span></span><span style="display:flex;"><span>      result = <span style="color:#fff;font-weight:bold">append</span>(result, <span style="color:#0ff;font-weight:bold">&#39;#&#39;</span>, <span style="color:#fff;font-weight:bold">byte</span>(v))
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   result = <span style="color:#fff;font-weight:bold">append</span>(result, <span style="color:#0ff;font-weight:bold">&#39;#&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;$&#39;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">string</span>(result)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="利用已有经验引入回环长度数组">利用已有经验，引入回环长度数组</h3>
+<p>有了改造后的字符串<code>rebuild</code>后，我们开始根据“中心”元素找其回环长度。</p>
+<p>假设改造后的字符串为<code>^#a#b#c#b#a#$</code>。</p>
+<p>按照以往经验，我们需要从左到右遍历字符串，利用“中心扩展”算法找到已当前元素为中心的最长回环串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(rebuild)-<span style="color:#ff0;font-weight:bold">1</span>; i++ { <span style="color:#007f7f">// 首尾两个哨兵不用管
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	...
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>当我们遍历到第二个b时，此时已知的最长回环串为<code>#a#b#c#b#a#</code>，中心为字符<code>c</code>。我们既然已经知道<code>#a#b#c</code>与<code>c#b#a#</code>是镜像关系，那么<code>前边的b</code>应该和<code>后边的b</code>的回环是<strong>相同</strong>的。因此以<code>第二个字符b</code>为中心的回环是<strong>不用计算</strong>的。</p>
+<p>于是我们引入<code>回环长度数组p</code>，p中的元素与改造后的字符串字符一一对应，值为以其为中心的<strong>回环的半径长度</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>改造后的字符串</td>
+<td>^</td>
+<td>#</td>
+<td>a</td>
+<td>#</td>
+<td>b</td>
+<td>#</td>
+<td>c</td>
+<td>#</td>
+<td>b</td>
+<td>#</td>
+<td>a</td>
+<td>#</td>
+<td>$</td>
+</tr>
+<tr>
+<td>回环长度数组p</td>
+<td>-</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>当我们遍历到第<code>9</code>（i=8）个字符时，其值<code>p[i]</code>等于其以当前右边界最大的回环串（<code>#a#b#c#b#a#</code>）的中心（字符<code>c</code>）的<strong>镜像字符</strong>（i=4）的值，即<code>p[8] = p[4]</code>.</p>
+<blockquote>
+<p>当前索引的镜像索引 等于 当前最长回环字符中心索引 乘以 2 减去当前索引</p>
+<p><code>iMirror = mid * 2 - i</code></p>
+</blockquote>
+<p><strong>这种“已有经验”不是随时都能使用的</strong>，需要考虑其边界：</p>
+<ul>
+<li>
+<p>如果<strong>当前索引已经超出了已知的回环串的右边界</strong>，如计算第<code>5</code>（i=4）个字符<code>b</code>时，就没有办法利用已有经验（最长回环串<code>#a#</code>的经验对其没有任何作用）。所以在代码中我们需要用一个变量<code>rMax</code>标识当前“右边界”，当当前索引超过了<code>rMax</code>后，我们就只能<strong>将当前元素作为中心进行“中心扩展”</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> i &gt; rMax {
+</span></span><span style="display:flex;"><span>	p[i] = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> rebuild[i+p[i]] == rebuild[i-p[i]] { <span style="color:#007f7f">// 因为哨兵一定与其他元素不等，因此无需考虑边界溢出
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		p[i]++
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>能找到其镜像索引也不表示其值就等于镜像索引的值</p>
+<ul>
+<li>如果其镜像处于回文子串内，此时<strong>其“保底”值为镜像索引的值</strong>。如字符串<code>^#c#c#c#c#c#c#$</code>，<code>第三个c</code>虽然能够根据历史经验<code>#c#c#c#</code>找到其镜像索引（<code>第一个c</code>）的值，但是其仍可以“<strong>向外扩展</strong>”。</li>
+<li>如果镜像值不是当前<code>rMax</code>所在的回文子串对应的值，即<strong>镜像值对应的回文串超出了rMax所在的回文串</strong>，那么就不能取镜像值。由于<strong>对称性</strong>可知<strong>当前索引到右边界的长度即为其保底半径长度</strong>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> i &lt;= rMax {
+</span></span><span style="display:flex;"><span>	p[i] = min(rMax-i, p[mid*<span style="color:#ff0;font-weight:bold">2</span>-i]) <span style="color:#007f7f">// 借鉴下历史经验——镜像值,如果镜像值超过rMax-i，说明借鉴的不是当前的历史经验
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">for</span> rebuild[i+p[i]] == rebuild[i-p[i]] {
+</span></span><span style="display:flex;"><span>		p[i]++
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+<h4 id="动态更新右边界和中心索引">动态更新右边界和中心索引</h4>
+<p>随着遍历的进行，回环串的长度越来越大，回环串的中心索引<code>min</code>与右边界<code>rMax</code>的值也要随时更新。此时比较的条件是回环串的右边界<code>rMax</code>而不是中心索引<code>mid</code>，因为我们能够使用的“已有经验”就是<code>rMax</code>内的回环串</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// 右边界`rMax`与其中心索引`mid`的关系为
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// rMax = mid + p[mid] // 右边界索引 = 当前中心索引+半径长度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">if</span> i + p[i] &gt; rMax {
+</span></span><span style="display:flex;"><span>	mid = i
+</span></span><span style="display:flex;"><span>	rMax = mid + p[mid]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="根据回环长度数组找到最长回环子串">根据回环长度数组找到最长回环子串</h3>
+<p>在改造后的字符串中，对于每个回环子串，每半边的真实元素与井号符的数量相同，因此此时的半径长度就是真实的回环串的长度）</p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>改造后的字符串</td>
+<td>^</td>
+<td>#</td>
+<td>a</td>
+<td>#</td>
+<td>b</td>
+<td>#</td>
+<td>c</td>
+<td>#</td>
+<td>b</td>
+<td>#</td>
+<td>a</td>
+<td>#</td>
+<td>$</td>
+</tr>
+<tr>
+<td>回环长度数组p</td>
+<td>-</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>原始字符串的回环长度</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td>3</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>对应原始字符串的索引</td>
+<td></td>
+<td></td>
+<td>0</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>3</td>
+<td></td>
+<td>4</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>原始字符串的索引<code>j</code>对应改造后的字符串索引<code>i</code>的关系为 <code>j = i/2-1</code></p>
+<p>当<strong>中心索引</strong>位于<strong>井号符</strong>时</p>
+<ul>
+<li>说明对应的原始回文子串的中心元素有两个</li>
+<li>此时改造后的回文字符串的半径maxLen为<strong>偶数</strong>，正好等于其原始回文子串的元素数量</li>
+<li>对应的原始回文子串的左中心索引为 (centerIdx-1)/2-1，由因为<strong>井号符都位于奇数位</strong>，因此(centerIdx-1)/2-1 = centerIdx/2-1</li>
+<li><strong>对应的原始回文子串的起始索引</strong>为 centerIdx/2-1 - (maxLen/2-1) = <code>(centerIdx-maxLen)/2</code></li>
+</ul>
+<p>当<strong>中心索引</strong>位于<strong>非井号符</strong>时</p>
+<ul>
+<li>
+<p>说明对应的原始回文子串的中心元素只有一个</p>
+</li>
+<li>
+<p>此时改造后的回文字符串的半径maxLen为<strong>奇数</strong>，正好等于其原始回文子串的元素数量</p>
+</li>
+<li>
+<p>对应的原始回文子串的中心索引为 centerIdx/2-1，centerIdx一定为偶数，因为所有<strong>非井号符都位于偶数位</strong></p>
+</li>
+<li>
+<p><strong>对应的原始回文子串的起始索引</strong>为 centerIdx/2-1 - (maxLen-1)/2 = (centerIdx-2-maxLen+1)/2 = (centerIdx-maxLen-1)/2，由上可知centerIdx与maxLen相减一定是奇数，因此（centerIdx-maxLen-1)/2 = （centerIdx-maxLen)/2</p>
+</li>
+</ul>
+<p>综上，根据改造后的中心索引centerIdx和最大回文子串半径maxLen能够获得<strong>原始字符串的起始索引</strong>为 <code>startIdx := (centerIdx- length)/2</code>，对应的<strong>原始回文子串</strong>为<code>s[startIdx: startIdx+maxLen]</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>    maxLen = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    centerIdx = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(p) -<span style="color:#ff0;font-weight:bold">1</span>; i++ {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> p[i] &gt; maxLen {
+</span></span><span style="display:flex;"><span>        maxLen = p[i]
+</span></span><span style="display:flex;"><span>        centerIdx = i
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>startIdx := (centerIdx - maxLen)/<span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>result := s[startIdx: startIdx+maxLen]
+</span></span></code></pre></div><h3 id="综合">综合</h3>
+<p>综合以上内容，完整算法即为</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> manacher(s <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>	rebuild := preProcess(s)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>		rMax = <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// 当前右边界
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		p = <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">len</span>(rebuild)) <span style="color:#007f7f">// 回环长度数组
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		mid = <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">// 当前右边界为rMax的回环子串的中心索引
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(rebuild)-<span style="color:#ff0;font-weight:bold">1</span>; i++ { <span style="color:#007f7f">// 首尾两个哨兵不用管
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> i &gt; rMax { <span style="color:#007f7f">// 没有经验可供借鉴，需要从零开始进行中心扩展
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			p[i] = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>		}<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			p[i] = min(rMax-i, p[mid*<span style="color:#ff0;font-weight:bold">2</span>-i]) <span style="color:#007f7f">// 借鉴下历史经验——镜像值,如果镜像值超过rMax-i，说明借鉴的不是当前的历史经验
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 中心扩展
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">for</span> rebuild[i+p[i]+<span style="color:#ff0;font-weight:bold">1</span>] == rebuild[i-p[i]-<span style="color:#ff0;font-weight:bold">1</span>] { <span style="color:#007f7f">// 因为哨兵一定与其他元素不等，因此无需考虑边界溢出
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			p[i]++
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 动态更新右边界和中心索引
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> i + p[i] &gt; rMax {
+</span></span><span style="display:flex;"><span>			mid = i
+</span></span><span style="display:flex;"><span>			rMax = mid + p[mid] <span style="color:#007f7f">// 右边界索引 = 当前中心索引+半径长度
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>		maxLen = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>		centerIdx = <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">1</span>; i &lt; <span style="color:#fff;font-weight:bold">len</span>(p) -<span style="color:#ff0;font-weight:bold">1</span>; i++ {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> p[i] &gt; maxLen {
+</span></span><span style="display:flex;"><span>			maxLen = p[i]
+</span></span><span style="display:flex;"><span>			centerIdx = i
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	startIdx := (centerIdx - maxLen)/<span style="color:#ff0;font-weight:bold">2</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s[startIdx: startIdx+maxLen]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> preProcess(s <span style="color:#fff;font-weight:bold">string</span>) <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(s) == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;^$&#34;</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   result := []<span style="color:#fff;font-weight:bold">byte</span>(<span style="color:#0ff;font-weight:bold">&#34;^&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">for</span> _, v := <span style="color:#fff;font-weight:bold">range</span> s {
+</span></span><span style="display:flex;"><span>      result = <span style="color:#fff;font-weight:bold">append</span>(result, <span style="color:#0ff;font-weight:bold">&#39;#&#39;</span>, <span style="color:#fff;font-weight:bold">byte</span>(v))
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   result = <span style="color:#fff;font-weight:bold">append</span>(result, <span style="color:#0ff;font-weight:bold">&#39;#&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;$&#39;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">string</span>(result)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="扩展">扩展</h2>
+<h3 id="统计字符串中回文子串的数量">统计字符串中回文子串的数量</h3>
+<p><a href="https://leetcode-cn.com/problems/palindromic-substrings">leetcode第647题</a>要求统计字符串中回文子串的数量，能否利用Manacher算法解决？</p>
+<p>虽然Manacher算法解决的是找到最长回文子串问题，但是其构建的回文长度数组能够帮助我们解决回文子串的数量问题（回文子串的数量等于其长度除以2后的向上取整值）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>cnt := <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> _, v := <span style="color:#fff;font-weight:bold">range</span> p {
+</span></span><span style="display:flex;"><span>	cnt += (v+<span style="color:#ff0;font-weight:bold">1</span>)/<span style="color:#ff0;font-weight:bold">2</span> <span style="color:#007f7f">// v/2的向上取整 = (v+1)/2
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p>这种利用中间状态或者数据的算法很常见，如在一个数组中找到中位数时可以使用快速排序时的partition。</p>
+<h2 id="相关资料">相关资料</h2>
+<ul>
+<li><a href="https://www.acwing.com/file_system/file/content/whole/index/content/446985/#fn:1">Manacher 算法详解</a></li>
+<li><a href="http://manacher-viz.s3-website-us-east-1.amazonaws.com/#/">动图</a></li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

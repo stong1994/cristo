@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。
+状态机 scanner type scanner struct { // 读取下一个字节，并返回状态 step func(*scanner, byte) int // 是否已扫描完顶层对象，如对象{}或者数组[1,2,3] endTop bool // 扫描一个具有多层嵌套结构(对象、数组)的状态栈 parseState []int err error // 消费的总的字节数量 bytes int64 } scanner就是json在反序列化时使用的状态机。
+可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。
+状态 在scanner中使用的状态有：
+const ( scanContinue = iota // uninteresting byte scanBeginLiteral // end implied by next result != scanContinue scanBeginObject // begin object scanObjectKey // just finished object key (string) scanObjectValue // just finished non-last object value scanEndObject // end object (implies scanObjectValue if possible) scanBeginArray // begin array scanArrayValue // just finished array value scanEndArray // end array (implies scanArrayValue if possible) scanSkipSpace // space byte; can skip; known to be last &#34;continue&#34; result // Stop.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="go设计之json"/>
+<meta name="twitter:description" content="json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。
+状态机 scanner type scanner struct { // 读取下一个字节，并返回状态 step func(*scanner, byte) int // 是否已扫描完顶层对象，如对象{}或者数组[1,2,3] endTop bool // 扫描一个具有多层嵌套结构(对象、数组)的状态栈 parseState []int err error // 消费的总的字节数量 bytes int64 } scanner就是json在反序列化时使用的状态机。
+可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。
+状态 在scanner中使用的状态有：
+const ( scanContinue = iota // uninteresting byte scanBeginLiteral // end implied by next result != scanContinue scanBeginObject // begin object scanObjectKey // just finished object key (string) scanObjectValue // just finished non-last object value scanEndObject // end object (implies scanObjectValue if possible) scanBeginArray // begin array scanArrayValue // just finished array value scanEndArray // end array (implies scanArrayValue if possible) scanSkipSpace // space byte; can skip; known to be last &#34;continue&#34; result // Stop."/>
+
+    <meta property="og:title" content="go设计之json" />
+<meta property="og:description" content="json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。
+状态机 scanner type scanner struct { // 读取下一个字节，并返回状态 step func(*scanner, byte) int // 是否已扫描完顶层对象，如对象{}或者数组[1,2,3] endTop bool // 扫描一个具有多层嵌套结构(对象、数组)的状态栈 parseState []int err error // 消费的总的字节数量 bytes int64 } scanner就是json在反序列化时使用的状态机。
+可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。
+状态 在scanner中使用的状态有：
+const ( scanContinue = iota // uninteresting byte scanBeginLiteral // end implied by next result != scanContinue scanBeginObject // begin object scanObjectKey // just finished object key (string) scanObjectValue // just finished non-last object value scanEndObject // end object (implies scanObjectValue if possible) scanBeginArray // begin array scanArrayValue // just finished array value scanEndArray // end array (implies scanArrayValue if possible) scanSkipSpace // space byte; can skip; known to be last &#34;continue&#34; result // Stop." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/json/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-12-15T14:50:00+08:00" />
+<meta property="article:modified_time" content="2022-12-15T14:50:00+08:00" />
+
+
+
+    <title>
+  go设计之json · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/json/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#状态机">状态机</a>
+      <ul>
+        <li><a href="#scanner">scanner</a></li>
+        <li><a href="#状态">状态</a></li>
+        <li><a href="#状态函数">状态函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#decode">decode</a>
+      <ul>
+        <li><a href="#校验数据格式">校验数据格式</a></li>
+        <li><a href="#定位到第一个状态">定位到第一个状态</a></li>
+        <li><a href="#解析value">解析value</a></li>
+        <li><a href="#解析字面量">解析字面量</a></li>
+        <li><a href="#解析对象和数组">解析对象和数组</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>go设计之json</h1>
+    </header>
+
+    <p>json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。</p>
+<h2 id="状态机">状态机</h2>
+<h3 id="scanner">scanner</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> scanner <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// 读取下一个字节，并返回状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	step <span style="color:#fff;font-weight:bold">func</span>(*scanner, <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 是否已扫描完顶层对象，如对象{}或者数组[1,2,3]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	endTop <span style="color:#fff;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 扫描一个具有多层嵌套结构(对象、数组)的状态栈
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	parseState []<span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err <span style="color:#fff;font-weight:bold">error</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// 消费的总的字节数量
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	bytes <span style="color:#fff;font-weight:bold">int64</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>scanner就是json在反序列化时使用的状态机。</p>
+<p>可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。</p>
+<h3 id="状态">状态</h3>
+<p>在scanner中使用的状态有：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	scanContinue     = <span style="color:#fff;font-weight:bold">iota</span> <span style="color:#007f7f">// uninteresting byte
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanBeginLiteral        <span style="color:#007f7f">// end implied by next result != scanContinue
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanBeginObject         <span style="color:#007f7f">// begin object
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanObjectKey           <span style="color:#007f7f">// just finished object key (string)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanObjectValue         <span style="color:#007f7f">// just finished non-last object value
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanEndObject           <span style="color:#007f7f">// end object (implies scanObjectValue if possible)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanBeginArray          <span style="color:#007f7f">// begin array
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanArrayValue          <span style="color:#007f7f">// just finished array value
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanEndArray            <span style="color:#007f7f">// end array (implies scanArrayValue if possible)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanSkipSpace           <span style="color:#007f7f">// space byte; can skip; known to be last &#34;continue&#34; result
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// Stop.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanEnd   <span style="color:#007f7f">// top-level value ended *before* this byte; known to be first &#34;stop&#34; result
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	scanError <span style="color:#007f7f">// hit an error, scanner.err.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>)
+</span></span></code></pre></div><ul>
+<li>scanContinue:  使用频率最高的一个状态，也是一个”索然无味“的状态，因为它代表的是”继续扫描下一个字节，不要关心当前状态“，比如说在扫描数字<code>100</code>时，扫描完第一个字节<code>1</code>后，继续扫描下一个字节<code>0</code>。</li>
+<li>scanBeginLiteral：表示开始扫描一个字面量，比如在开始扫描一个数据并且当前字节是双引号、负号、<code>0</code>、<code>'t'</code>、<code>'f'</code>、<code>'n'</code> 或者<code>1</code>到<code>9</code>时,表示这个对象是字符串、数字、布尔类型、null这些字面量，而不是对象或者数组。</li>
+<li>scanBeginObject：表示当前扫描的数据是一个对象，在刚开始扫描数据，并且扫描到的是<code>{</code>时会返回该状态。</li>
+<li>scanObjectKey：刚刚扫描完一个对象的key。</li>
+<li>scanObjectValue：刚刚扫描完一个对象的非最后一个值。</li>
+<li>scanEndObject：刚刚扫描完一个对象。</li>
+<li>scanBeginArray：表示当前扫描的数据是一个数组，在刚开始扫描数据，并且扫描到的是<code>[</code>时会返回该状态。</li>
+<li>scanArrayValue: 刚刚扫描完一个数组的元素</li>
+<li>scanEndArray：刚刚扫描完一个数组。</li>
+<li>scanSkipSpace：当扫描的字节是一个可以忽略的空格时返回该状态。如上一个状态是scanBeginObject时，这些扫描到的空格都是无效的字节。</li>
+<li>scanEnd：扫描已结束。</li>
+</ul>
+<h3 id="状态函数">状态函数</h3>
+<p>状态函数的表达式可以抽象为<code>func stateXXX(s *scanner, c byte) int</code>.</p>
+<p>每次调度入参都是scanner和需要扫描的一个字节，输出为当前状态。</p>
+<p>对每一种扫描场景都有对应的状态函数。</p>
+<h4 id="扫描输入的第一个字节">扫描输入的第一个字节</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// stateBeginValue is the state at the beginning of the input.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> stateBeginValue(s *scanner, c <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> isSpace(c) {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanSkipSpace
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> c {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;{&#39;</span>:
+</span></span><span style="display:flex;"><span>		s.step = stateBeginStringOrEmpty
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> s.pushParseState(c, parseObjectKey, scanBeginObject)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;[&#39;</span>:
+</span></span><span style="display:flex;"><span>		s.step = stateBeginValueOrEmpty
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> s.pushParseState(c, parseArrayValue, scanBeginArray)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>:
+</span></span><span style="display:flex;"><span>		s.step = stateInString
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>:
+</span></span><span style="display:flex;"><span>		s.step = stateNeg
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>: <span style="color:#007f7f">// beginning of 0.123
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s.step = state0
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;t&#39;</span>: <span style="color:#007f7f">// beginning of true
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s.step = stateT
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;f&#39;</span>: <span style="color:#007f7f">// beginning of false
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s.step = stateF
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;n&#39;</span>: <span style="color:#007f7f">// beginning of null
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s.step = stateN
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span> &lt;= c &amp;&amp; c &lt;= <span style="color:#0ff;font-weight:bold">&#39;9&#39;</span> { <span style="color:#007f7f">// beginning of 1234.5
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s.step = state1
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanBeginLiteral
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s.<span style="color:#fff;font-weight:bold">error</span>(c, <span style="color:#0ff;font-weight:bold">&#34;looking for beginning of value&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到json格式支持对象、数组以及字符串、数字等字面量。</p>
+<p>通过判断当前字节，并根据当前字节判断出json的数据类型，对setp函数赋值，并返回对应状态。</p>
+<h4 id="扫描false">扫描false</h4>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// stateF is the state after reading `f`.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> stateF(s *scanner, c <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> c == <span style="color:#0ff;font-weight:bold">&#39;a&#39;</span> {
+</span></span><span style="display:flex;"><span>		s.step = stateFa
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanContinue
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s.<span style="color:#fff;font-weight:bold">error</span>(c, <span style="color:#0ff;font-weight:bold">&#34;in literal false (expecting &#39;a&#39;)&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// stateFa is the state after reading `fa`.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> stateFa(s *scanner, c <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> c == <span style="color:#0ff;font-weight:bold">&#39;l&#39;</span> {
+</span></span><span style="display:flex;"><span>		s.step = stateFal
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanContinue
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s.<span style="color:#fff;font-weight:bold">error</span>(c, <span style="color:#0ff;font-weight:bold">&#34;in literal false (expecting &#39;l&#39;)&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// stateFal is the state after reading `fal`.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> stateFal(s *scanner, c <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> c == <span style="color:#0ff;font-weight:bold">&#39;s&#39;</span> {
+</span></span><span style="display:flex;"><span>		s.step = stateFals
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanContinue
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s.<span style="color:#fff;font-weight:bold">error</span>(c, <span style="color:#0ff;font-weight:bold">&#34;in literal false (expecting &#39;s&#39;)&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// stateFals is the state after reading `fals`.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> stateFals(s *scanner, c <span style="color:#fff;font-weight:bold">byte</span>) <span style="color:#fff;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> c == <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span> {
+</span></span><span style="display:flex;"><span>		s.step = stateEndValue
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scanContinue
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> s.<span style="color:#fff;font-weight:bold">error</span>(c, <span style="color:#0ff;font-weight:bold">&#34;in literal false (expecting &#39;e&#39;)&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果第一个字节是<code>f</code>, 那么可以判断出数据类型是布尔并且值可能是false，因此会依次调用函数<code>stateF、stateFa、stateFal、stateFals</code></p>
+<p>一旦没有扫描到预料到的字节，那么就会返回错误的状态。</p>
+<h4 id="总结">总结</h4>
+<p>通过各个场景的的状态函数，可以及时反馈给状态机当前的状态，而状态机以这种方式简化了整体复杂的逻辑判断，每个状态函数只需维护好自己有限的”可能性“即可。</p>
+<h2 id="decode">decode</h2>
+<p>状态机只会扫描一个数据并返回状态，实际的数据存储还要在decode中实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Unmarshal(data []<span style="color:#fff;font-weight:bold">byte</span>, v any) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// Check for well-formedness.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// Avoids filling out half a data structure
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// before discovering a JSON syntax error.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">var</span> d decodeState
+</span></span><span style="display:flex;"><span>	err := checkValid(data, &amp;d.scan)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	d.init(data)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> d.unmarshal(v)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="校验数据格式">校验数据格式</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> checkValid(data []<span style="color:#fff;font-weight:bold">byte</span>, scan *scanner) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	scan.reset()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, c := <span style="color:#fff;font-weight:bold">range</span> data {
+</span></span><span style="display:flex;"><span>		scan.bytes++
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> scan.step(scan, c) == scanError {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span> scan.err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> scan.eof() == scanError {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> scan.err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Unmarshal在进行实际的反序列化前，会先校验输入的json数据是否是有效的，方法就是扫描每一个字节，并通过状态机返回的状态来判断是否有错误。</p>
+<h3 id="定位到第一个状态">定位到第一个状态</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *decodeState) unmarshal(v any) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	rv := reflect.ValueOf(v)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> rv.Kind() != reflect.Pointer || rv.IsNil() {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> &amp;InvalidUnmarshalError{reflect.TypeOf(v)}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	d.scan.reset()
+</span></span><span style="display:flex;"><span>	d.scanWhile(scanSkipSpace)
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// We decode rv not rv.Elem because the Unmarshaler interface
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// test must be applied at the top level of the value.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	err := d.value(rv)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> d.addErrorContext(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> d.savedError
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// scanWhile processes bytes in d.data[d.off:] until it
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// receives a scan code not equal to op.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (d *decodeState) scanWhile(op <span style="color:#fff;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	s, data, i := &amp;d.scan, d.data, d.off
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(data) {
+</span></span><span style="display:flex;"><span>		newOp := s.step(s, data[i])
+</span></span><span style="display:flex;"><span>		i++
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> newOp != op {
+</span></span><span style="display:flex;"><span>			d.opcode = newOp
+</span></span><span style="display:flex;"><span>			d.off = i
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	d.off = <span style="color:#fff;font-weight:bold">len</span>(data) + <span style="color:#ff0;font-weight:bold">1</span> <span style="color:#007f7f">// mark processed EOF with len+1
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	d.opcode = d.scan.eof()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>通过<code>d.scanWhile(scanSkipSpace)</code>来过滤掉前置空格，以获取到json数据的第一个状态以及位置。</p>
+<h3 id="解析value">解析value</h3>
+<p>对于json格式来说，有三种大的数据类型：数组、对象、字面量。因此，解析的开始一定会是scanBeginArray、scanBeginObject或者scanBeginLiteral这三种状态之一。</p>
+<p><em>删除了部分非关键代码</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *decodeState) value(v reflect.Value) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> d.opcode {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(phasePanicMsg)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> scanBeginArray:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> v.IsValid() {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err := d.array(v); err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			d.skip()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		d.scanNext()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> scanBeginObject:
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> v.IsValid() {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err := d.object(v); err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			d.skip()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		d.scanNext()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> scanBeginLiteral:
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// All bytes inside literal return scanContinue op code.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		start := d.readIndex()
+</span></span><span style="display:flex;"><span>		d.rescanLiteral()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> v.IsValid() {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err := d.literalStore(d.data[start:d.readIndex()], v, <span style="color:#fff;font-weight:bold">false</span>); err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="解析字面量">解析字面量</h3>
+<p>在解析字面量之前，需要获取字面量所在的字符串。字面量第一个字节在json的索引值已经知道（通过状态机扫描到的offset-1），最后一个索引则根据字面量的规则来找到最后一个字面量字节所在的索引。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *decodeState) rescanLiteral() {
+</span></span><span style="display:flex;"><span>	data, i := d.data, d.off
+</span></span><span style="display:flex;"><span>Switch:
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> data[i-<span style="color:#ff0;font-weight:bold">1</span>] {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>: <span style="color:#007f7f">// string
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">for</span> ; i &lt; <span style="color:#fff;font-weight:bold">len</span>(data); i++ {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">switch</span> data[i] {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;\\&#39;</span>:
+</span></span><span style="display:flex;"><span>				i++ <span style="color:#007f7f">// escaped char
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>:
+</span></span><span style="display:flex;"><span>				i++ <span style="color:#007f7f">// tokenize the closing quote too
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>				<span style="color:#fff;font-weight:bold">break</span> Switch
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;2&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;3&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;4&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;5&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;8&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;9&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>: <span style="color:#007f7f">// number
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">for</span> ; i &lt; <span style="color:#fff;font-weight:bold">len</span>(data); i++ {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">switch</span> data[i] {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;2&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;3&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;4&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;5&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;6&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;7&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;8&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;9&#39;</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#0ff;font-weight:bold">&#39;.&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;E&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span> Switch
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;t&#39;</span>: <span style="color:#007f7f">// true
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		i += <span style="color:#fff;font-weight:bold">len</span>(<span style="color:#0ff;font-weight:bold">&#34;rue&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;f&#39;</span>: <span style="color:#007f7f">// false
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		i += <span style="color:#fff;font-weight:bold">len</span>(<span style="color:#0ff;font-weight:bold">&#34;alse&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;n&#39;</span>: <span style="color:#007f7f">// null
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		i += <span style="color:#fff;font-weight:bold">len</span>(<span style="color:#0ff;font-weight:bold">&#34;ull&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> i &lt; <span style="color:#fff;font-weight:bold">len</span>(data) {
+</span></span><span style="display:flex;"><span>		d.opcode = stateEndValue(&amp;d.scan, data[i])
+</span></span><span style="display:flex;"><span>	} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>		d.opcode = scanEnd
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	d.off = i + <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>获取到字面量所在的索引后，现在需要将这个数据通过反射设置到指定字段上去。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *decodeState) literalStore(item []<span style="color:#fff;font-weight:bold">byte</span>, v reflect.Value, fromQuoted <span style="color:#fff;font-weight:bold">bool</span>) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	isNull := item[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;n&#39;</span> <span style="color:#007f7f">// null
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// 检查v是否有自己的json解析器，或者text解析器，都不存在的话会获取v的非指针类型数据
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	u, ut, pv := indirect(v, isNull)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> u != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 如果存在自定义的json解析器，则使用自定义解析器
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">return</span> u.UnmarshalJSON(item)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> ut != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 如果不存在自定义json解析器，但是存在text解析器，则使用text解析器。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s, ok := unquoteBytes(item)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> fromQuoted {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type())
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">panic</span>(phasePanicMsg)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> ut.UnmarshalText(s)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	v = pv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">switch</span> c := item[<span style="color:#ff0;font-weight:bold">0</span>]; c {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;n&#39;</span>: <span style="color:#007f7f">// null
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#007f7f">// 只能是null，否则不符合预期，返回错误
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> fromQuoted &amp;&amp; <span style="color:#fff;font-weight:bold">string</span>(item) != <span style="color:#0ff;font-weight:bold">&#34;null&#34;</span> {
+</span></span><span style="display:flex;"><span>			d.saveError(fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type()))
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">switch</span> v.Kind() {
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 只会对interface{}、指针、map和slice进行初始化为零值，字面量（数字、字符串、布尔等）直接忽略
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Interface, reflect.Pointer, reflect.Map, reflect.Slice:
+</span></span><span style="display:flex;"><span>			v.Set(reflect.Zero(v.Type()))
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;t&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;f&#39;</span>: <span style="color:#007f7f">// true, false
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		value := item[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;t&#39;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">// 只能是true或者false，否则返回错误
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> fromQuoted &amp;&amp; <span style="color:#fff;font-weight:bold">string</span>(item) != <span style="color:#0ff;font-weight:bold">&#34;true&#34;</span> &amp;&amp; <span style="color:#fff;font-weight:bold">string</span>(item) != <span style="color:#0ff;font-weight:bold">&#34;false&#34;</span> {
+</span></span><span style="display:flex;"><span>			d.saveError(fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type()))
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">switch</span> v.Kind() {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> fromQuoted {
+</span></span><span style="display:flex;"><span>				d.saveError(fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type()))
+</span></span><span style="display:flex;"><span>			} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;bool&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Bool:
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// 设置值
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			v.SetBool(value)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Interface:
+</span></span><span style="display:flex;"><span>			<span style="color:#007f7f">// 如果是简单类型，那么直接设置值，否则报错
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>			<span style="color:#fff;font-weight:bold">if</span> v.NumMethod() == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>				v.Set(reflect.ValueOf(value))
+</span></span><span style="display:flex;"><span>			} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;bool&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>: <span style="color:#007f7f">// string
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		s, ok := unquoteBytes(item)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> fromQuoted {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type())
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">panic</span>(phasePanicMsg)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">switch</span> v.Kind() {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>			d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;string&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Slice:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> v.Type().Elem().Kind() != reflect.Uint8 {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;string&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			b := <span style="color:#fff;font-weight:bold">make</span>([]<span style="color:#fff;font-weight:bold">byte</span>, base64.StdEncoding.DecodedLen(<span style="color:#fff;font-weight:bold">len</span>(s)))
+</span></span><span style="display:flex;"><span>			n, err := base64.StdEncoding.Decode(b, s)
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(err)
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.SetBytes(b[:n])
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.String:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> v.Type() == numberType &amp;&amp; !isValidNumber(<span style="color:#fff;font-weight:bold">string</span>(s)) {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid number literal, trying to unmarshal %q into Number&#34;</span>, item)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.SetString(<span style="color:#fff;font-weight:bold">string</span>(s))
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Interface:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> v.NumMethod() == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>				v.Set(reflect.ValueOf(<span style="color:#fff;font-weight:bold">string</span>(s)))
+</span></span><span style="display:flex;"><span>			} <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;string&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">default</span>: <span style="color:#007f7f">// number
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">if</span> c != <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span> &amp;&amp; (c &lt; <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span> || c &gt; <span style="color:#0ff;font-weight:bold">&#39;9&#39;</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> fromQuoted {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type())
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">panic</span>(phasePanicMsg)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		s := <span style="color:#fff;font-weight:bold">string</span>(item)
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">switch</span> v.Kind() {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> v.Kind() == reflect.String &amp;&amp; v.Type() == numberType {
+</span></span><span style="display:flex;"><span>				<span style="color:#007f7f">// s must be a valid number, because it&#39;s
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>				<span style="color:#007f7f">// already been tokenized.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>				v.SetString(s)
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> fromQuoted {
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">return</span> fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;json: invalid use of ,string struct tag, trying to unmarshal %q into %v&#34;</span>, item, v.Type())
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;number&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Interface:
+</span></span><span style="display:flex;"><span>			n, err := d.convertNumber(s)
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(err)
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> v.NumMethod() != <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;number&#34;</span>, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.Set(reflect.ValueOf(n))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+</span></span><span style="display:flex;"><span>			n, err := strconv.ParseInt(s, <span style="color:#ff0;font-weight:bold">10</span>, <span style="color:#ff0;font-weight:bold">64</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> || v.OverflowInt(n) {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;number &#34;</span> + s, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.SetInt(n)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+</span></span><span style="display:flex;"><span>			n, err := strconv.ParseUint(s, <span style="color:#ff0;font-weight:bold">10</span>, <span style="color:#ff0;font-weight:bold">64</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> || v.OverflowUint(n) {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;number &#34;</span> + s, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.SetUint(n)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">case</span> reflect.Float32, reflect.Float64:
+</span></span><span style="display:flex;"><span>			n, err := strconv.ParseFloat(s, v.Type().Bits())
+</span></span><span style="display:flex;"><span>			<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> || v.OverflowFloat(n) {
+</span></span><span style="display:flex;"><span>				d.saveError(&amp;UnmarshalTypeError{Value: <span style="color:#0ff;font-weight:bold">&#34;number &#34;</span> + s, Type: v.Type(), Offset: <span style="color:#fff;font-weight:bold">int64</span>(d.readIndex())})
+</span></span><span style="display:flex;"><span>				<span style="color:#fff;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			v.SetFloat(n)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="解析对象和数组">解析对象和数组</h3>
+<p>对象和数组也是一样的逻辑，只是要遍历其中的字段，因此逻辑上更复杂。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

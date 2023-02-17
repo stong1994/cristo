@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前提 有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。
+为了让逻辑层中的代码更加清晰，我们抽象出了一个规则层来存放领域规则的代码。
+场景 举一个场景：同步企业微信和飞书的组织部门和人员。
+规则层的责任 规则层中抽离了逻辑层中底层的领域规则，如：
+同步企微员工到飞书的规则 同步企微部门到飞书的规则 遇到的问题 同步的方式有两种：
+全量同步：获取两个数据源全量数据，进行比对、映射，然后在目的数据源进行部门、员工的新增、删除、更新等操作 事件同步：监听来源数据源的变更事件，然后在目的数据源进行对应的操作（如部门或者员工的新增、删除、更新） 尽管有不同的同步方式，但是我们的领域规则应该只有一份。这导致了一些问题，以同步一个员工举例。
+同步一个员工大致需要三步：
+获取员工信息（从来源数据源获取信息） 同步员工所在部门（部门在目的数据源可能不存在，因此需要先同步部门） 创建/更新员工（同步到目的数据源） 同步员工需要获取员工和部门信息，在两种同步方式中获取数据的方式不同：
+在全量同步中，已经拉取了双方的信息，这时候获取员工和部门信息就是从内存中获取 在事件同步中，需要通过接口调用来获取员工和部门的信息 由于数据来源不同，所以在旧版本中，同步员工的业务规则有两套代码，那么我们在做功能变更的时候，就要同时修改这两套代码。
+解决问题 一个领域规则应该只有一套代码，如何解决这个问题呢？
+引入一个中间件，我把它命名为DataPool，本质上就是一个使用内存作存储的缓存池.
+DataPool的使用方式是这样的：
+在一次同步中，所有获取到的员工和部门数据都放到数据池。 业务规则代码在获取数据时，统一从DataPool中获取，如果DataPool中存在数据则直接返回，否则调用对应的接口来获取数据，并存储在DataPool中。 通过调用DataPool，解决了由于数据源不一致导致的需要两套代码这个问题！
+总结 DataPool的设计是非常简单的，但是却让代码更加立体，业务领域的规则更加聚合。
+以前我的代码就是根据业务逻辑平铺出来，分不出主次。现在通过端口-适配器模式实现逻辑层与第三方服务的依赖倒置，通过抽象出规则层来聚合领域规则，使得项目代码的质量得到了明显的提升。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="记录一次保持业务规则一致性的小优化"/>
+<meta name="twitter:description" content="前提 有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。
+为了让逻辑层中的代码更加清晰，我们抽象出了一个规则层来存放领域规则的代码。
+场景 举一个场景：同步企业微信和飞书的组织部门和人员。
+规则层的责任 规则层中抽离了逻辑层中底层的领域规则，如：
+同步企微员工到飞书的规则 同步企微部门到飞书的规则 遇到的问题 同步的方式有两种：
+全量同步：获取两个数据源全量数据，进行比对、映射，然后在目的数据源进行部门、员工的新增、删除、更新等操作 事件同步：监听来源数据源的变更事件，然后在目的数据源进行对应的操作（如部门或者员工的新增、删除、更新） 尽管有不同的同步方式，但是我们的领域规则应该只有一份。这导致了一些问题，以同步一个员工举例。
+同步一个员工大致需要三步：
+获取员工信息（从来源数据源获取信息） 同步员工所在部门（部门在目的数据源可能不存在，因此需要先同步部门） 创建/更新员工（同步到目的数据源） 同步员工需要获取员工和部门信息，在两种同步方式中获取数据的方式不同：
+在全量同步中，已经拉取了双方的信息，这时候获取员工和部门信息就是从内存中获取 在事件同步中，需要通过接口调用来获取员工和部门的信息 由于数据来源不同，所以在旧版本中，同步员工的业务规则有两套代码，那么我们在做功能变更的时候，就要同时修改这两套代码。
+解决问题 一个领域规则应该只有一套代码，如何解决这个问题呢？
+引入一个中间件，我把它命名为DataPool，本质上就是一个使用内存作存储的缓存池.
+DataPool的使用方式是这样的：
+在一次同步中，所有获取到的员工和部门数据都放到数据池。 业务规则代码在获取数据时，统一从DataPool中获取，如果DataPool中存在数据则直接返回，否则调用对应的接口来获取数据，并存储在DataPool中。 通过调用DataPool，解决了由于数据源不一致导致的需要两套代码这个问题！
+总结 DataPool的设计是非常简单的，但是却让代码更加立体，业务领域的规则更加聚合。
+以前我的代码就是根据业务逻辑平铺出来，分不出主次。现在通过端口-适配器模式实现逻辑层与第三方服务的依赖倒置，通过抽象出规则层来聚合领域规则，使得项目代码的质量得到了明显的提升。"/>
+
+    <meta property="og:title" content="记录一次保持业务规则一致性的小优化" />
+<meta property="og:description" content="前提 有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。
+为了让逻辑层中的代码更加清晰，我们抽象出了一个规则层来存放领域规则的代码。
+场景 举一个场景：同步企业微信和飞书的组织部门和人员。
+规则层的责任 规则层中抽离了逻辑层中底层的领域规则，如：
+同步企微员工到飞书的规则 同步企微部门到飞书的规则 遇到的问题 同步的方式有两种：
+全量同步：获取两个数据源全量数据，进行比对、映射，然后在目的数据源进行部门、员工的新增、删除、更新等操作 事件同步：监听来源数据源的变更事件，然后在目的数据源进行对应的操作（如部门或者员工的新增、删除、更新） 尽管有不同的同步方式，但是我们的领域规则应该只有一份。这导致了一些问题，以同步一个员工举例。
+同步一个员工大致需要三步：
+获取员工信息（从来源数据源获取信息） 同步员工所在部门（部门在目的数据源可能不存在，因此需要先同步部门） 创建/更新员工（同步到目的数据源） 同步员工需要获取员工和部门信息，在两种同步方式中获取数据的方式不同：
+在全量同步中，已经拉取了双方的信息，这时候获取员工和部门信息就是从内存中获取 在事件同步中，需要通过接口调用来获取员工和部门的信息 由于数据来源不同，所以在旧版本中，同步员工的业务规则有两套代码，那么我们在做功能变更的时候，就要同时修改这两套代码。
+解决问题 一个领域规则应该只有一套代码，如何解决这个问题呢？
+引入一个中间件，我把它命名为DataPool，本质上就是一个使用内存作存储的缓存池.
+DataPool的使用方式是这样的：
+在一次同步中，所有获取到的员工和部门数据都放到数据池。 业务规则代码在获取数据时，统一从DataPool中获取，如果DataPool中存在数据则直接返回，否则调用对应的接口来获取数据，并存储在DataPool中。 通过调用DataPool，解决了由于数据源不一致导致的需要两套代码这个问题！
+总结 DataPool的设计是非常简单的，但是却让代码更加立体，业务领域的规则更加聚合。
+以前我的代码就是根据业务逻辑平铺出来，分不出主次。现在通过端口-适配器模式实现逻辑层与第三方服务的依赖倒置，通过抽象出规则层来聚合领域规则，使得项目代码的质量得到了明显的提升。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/channel/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-05-11T15:39:00+08:00" />
+<meta property="article:modified_time" content="2022-05-11T15:39:00+08:00" />
+
+
+
+    <title>
+  记录一次保持业务规则一致性的小优化 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/channel/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前提">前提</a></li>
+    <li><a href="#场景">场景</a></li>
+    <li><a href="#规则层的责任">规则层的责任</a></li>
+    <li><a href="#遇到的问题">遇到的问题</a></li>
+    <li><a href="#解决问题">解决问题</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>记录一次保持业务规则一致性的小优化</h1>
+    </header>
+
+    <h2 id="前提">前提</h2>
+<p>有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。</p>
+<p>为了让逻辑层中的代码更加清晰，我们抽象出了一个<strong>规则层</strong>来存放<strong>领域规则</strong>的代码。</p>
+<h2 id="场景">场景</h2>
+<p>举一个场景：同步企业微信和飞书的组织部门和人员。</p>
+<h2 id="规则层的责任">规则层的责任</h2>
+<p>规则层中抽离了逻辑层中底层的领域规则，如：</p>
+<ul>
+<li>同步企微员工到飞书的规则</li>
+<li>同步企微部门到飞书的规则</li>
+</ul>
+<h2 id="遇到的问题">遇到的问题</h2>
+<p>同步的方式有两种：</p>
+<ol>
+<li><strong>全量同步</strong>：获取两个数据源全量数据，进行比对、映射，然后在目的数据源进行部门、员工的新增、删除、更新等操作</li>
+<li><strong>事件同步</strong>：监听来源数据源的变更事件，然后在目的数据源进行对应的操作（如部门或者员工的新增、删除、更新）</li>
+</ol>
+<p>尽管有不同的同步方式，但是我们的<strong>领域规则应该只有一份</strong>。这导致了一些问题，以同步一个员工举例。</p>
+<p>同步一个员工大致需要三步：</p>
+<ol>
+<li>获取员工信息（从来源数据源获取信息）</li>
+<li>同步员工所在部门（部门在目的数据源可能不存在，因此需要先同步部门）</li>
+<li>创建/更新员工（同步到目的数据源）</li>
+</ol>
+<p>同步员工需要获取员工和部门信息，在<strong>两种同步方式中获取数据的方式不同</strong>：</p>
+<ul>
+<li>在全量同步中，已经拉取了双方的信息，这时候获取员工和部门信息就是<strong>从内存中获取</strong></li>
+<li>在事件同步中，需要通过<strong>接口调用</strong>来获取员工和部门的信息</li>
+</ul>
+<p>由于数据来源不同，所以在旧版本中，<strong>同步员工的业务规则有两套代码</strong>，那么我们在做功能变更的时候，就要同时修改这两套代码。</p>
+<h2 id="解决问题">解决问题</h2>
+<p>一个领域规则应该只有一套代码，如何解决这个问题呢？</p>
+<p>引入一个中间件，我把它命名为<code>DataPool</code>，本质上就是一个使用内存作存储的<strong>缓存池</strong>.</p>
+<p><code>DataPool</code>的使用方式是这样的：</p>
+<ol>
+<li>在一次同步中，所有获取到的员工和部门数据都放到数据池。</li>
+<li>业务规则代码在获取数据时，统一从<code>DataPool</code>中获取，如果<code>DataPool</code>中存在数据则直接返回，否则调用对应的接口来获取数据，并存储在<code>DataPool</code>中。</li>
+</ol>
+<p>通过调用<code>DataPool</code>，解决了由于数据源不一致导致的需要两套代码这个问题！</p>
+<h2 id="总结">总结</h2>
+<p><code>DataPool</code>的设计是非常简单的，但是却<strong>让代码更加立体</strong>，<strong>业务领域的规则更加聚合</strong>。</p>
+<p>以前我的代码就是<strong>根据业务逻辑平铺出来，分不出主次</strong>。现在通过<strong>端口-适配器模式实现逻辑层与第三方服务的依赖倒置</strong>，通过<strong>抽象出规则层来聚合领域规则</strong>，使得项目代码的质量得到了明显的提升。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/20220511153319.png" alt="服务架构依赖图"></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

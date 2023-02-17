@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>atong on 北人</title>
+    <link>https://stong1994.github.io/authors/atong/</link>
+    <description>Recent content in atong on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 22 Jun 2022 10:23:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/authors/atong/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WHY-IS-HOW</title>
+      <link>https://stong1994.github.io/life/why_is_how/</link>
+      <pubDate>Wed, 22 Jun 2022 10:23:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/why_is_how/</guid>
+      <description>不断优化how 我们每天都有不同的任务需要去完成，把任务分解成更小的模块就能发现：绝大部分模块是重复性的，很少一部分模块是未遇到过的。 对于重复</description>
+    </item>
+    
+    <item>
+      <title>演绎法与归纳法</title>
+      <link>https://stong1994.github.io/life/deduction_conclude/</link>
+      <pubDate>Sat, 18 Jun 2022 23:48:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/life/deduction_conclude/</guid>
+      <description>基本概念 在逻辑学中，演绎法和归纳法是我们认知世界的两种方式。 演绎法：根据基本条件推导出结果 归纳法：根据现象推导出结果 举个例子：5+5=? 归纳</description>
+    </item>
+    
+    <item>
+      <title>第一性原理</title>
+      <link>https://stong1994.github.io/book/philosophy/first_principle/</link>
+      <pubDate>Mon, 13 Jun 2022 16:50:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/first_principle/</guid>
+      <description>最近经常能看到各种公众号、博客在科普第一性原理，但是看来看去还是没看懂。并不是看不懂这些公众号、博客的内容，而是没能理解第一性原理如此“重要</description>
+    </item>
+    
+    <item>
+      <title>《千面英雄》</title>
+      <link>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</link>
+      <pubDate>Sun, 12 Jun 2022 16:41:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</guid>
+      <description>“英雄”是一个广泛的概念，它可以表示传说中的神话英雄、历史中真实存在的民族英雄、电影和小说中构造的虚拟英雄等等。在《千面英雄》中具体讲述的是</description>
+    </item>
+    
+    <item>
+      <title>Solidity笔记</title>
+      <link>https://stong1994.github.io/web3/solidity_note/</link>
+      <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/web3/solidity_note/</guid>
+      <description>基础知识 数据类型 mapping 键值对存储/哈希表。 没有内置的查询长度的方法。 mapping (string =&amp;gt; address) public keyValueMap 函数和构造函数 func getPrice(address user) public view returns(int price, int status){} getPrice: 函数名称 (address user) ：实参列表，用逗号</description>
+    </item>
+    
+    <item>
+      <title>MakerDAO简介</title>
+      <link>https://stong1994.github.io/web3/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/web3/makerdao_base_info/</guid>
+      <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
+    </item>
+    
+    <item>
+      <title>为什么我没有做出这道算法题</title>
+      <link>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</link>
+      <pubDate>Wed, 11 May 2022 10:30:51 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</guid>
+      <description>题目描述 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 计算并返回可以凑成总金额的 组合数量 。 每种硬币的数量是无限的。 心路</description>
+    </item>
+    
+  </channel>
+</rss>

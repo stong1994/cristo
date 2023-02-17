@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同">
+    <meta name="keywords" content="rust">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="rust基础笔记"/>
+<meta name="twitter:description" content="数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同"/>
+
+    <meta property="og:title" content="rust基础笔记" />
+<meta property="og:description" content="数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/note/rust/base/" /><meta property="article:section" content="note" />
+<meta property="article:published_time" content="2022-06-04T14:35:00+08:00" />
+<meta property="article:modified_time" content="2022-06-04T14:35:00+08:00" />
+
+
+
+    <title>
+  rust基础笔记 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/note/rust/base/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#标量类型scalar">标量类型（scalar）</a></li>
+        <li><a href="#复合类型compound">复合类型（compound）</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数">函数</a>
+      <ul>
+        <li><a href="#函数的返回值">函数的返回值</a></li>
+      </ul>
+    </li>
+    <li><a href="#注释">注释</a></li>
+    <li><a href="#变量">变量</a>
+      <ul>
+        <li><a href="#shadow">shadow</a></li>
+      </ul>
+    </li>
+    <li><a href="#常量">常量</a></li>
+    <li><a href="#字符串">字符串</a>
+      <ul>
+        <li><a href="#字符串字面量">字符串字面量</a></li>
+        <li><a href="#字符串类型">字符串类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#所有权">所有权</a>
+      <ul>
+        <li><a href="#引用借用">引用(借用)</a></li>
+        <li><a href="#切片">切片</a></li>
+      </ul>
+    </li>
+    <li><a href="#结构体">结构体</a>
+      <ul>
+        <li><a href="#方法">方法</a></li>
+        <li><a href="#关联函数">关联函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#枚举">枚举</a>
+      <ul>
+        <li><a href="#option枚举">Option枚举</a></li>
+      </ul>
+    </li>
+    <li><a href="#流程控制">流程控制</a>
+      <ul>
+        <li><a href="#if-else">if-else</a></li>
+        <li><a href="#loop">loop</a></li>
+        <li><a href="#while">while</a></li>
+        <li><a href="#for">for</a></li>
+        <li><a href="#match">match</a></li>
+      </ul>
+    </li>
+    <li><a href="#动态数组">动态数组</a></li>
+    <li><a href="#字符串-1">字符串</a></li>
+    <li><a href="#哈希表">哈希表</a></li>
+    <li><a href="#泛型">泛型</a></li>
+    <li><a href="#trait">trait</a></li>
+    <li><a href="#引用中的生命周期">引用中的生命周期</a>
+      <ul>
+        <li><a href="#计算生命周期的三个原则">计算生命周期的三个原则</a></li>
+        <li><a href="#静态生命周期">静态生命周期</a></li>
+      </ul>
+    </li>
+    <li><a href="#迭代器">迭代器</a></li>
+    <li><a href="#错误处理">错误处理</a></li>
+    <li><a href="#版本控制">版本控制</a></li>
+    <li><a href="#其他">其他</a>
+      <ul>
+        <li><a href="#doc">doc</a></li>
+      </ul>
+    </li>
+    <li><a href="#资料">资料</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>rust基础笔记</h1>
+    </header>
+
+    <h2 id="数据类型">数据类型</h2>
+<h3 id="标量类型scalar">标量类型（scalar）</h3>
+<h4 id="整数类型">整数类型</h4>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202209040012877.png" alt=""></p>
+<p>除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同时你也可以使用_作为分隔符以方便读数，比如1_000。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202209040102726.png" alt=""></p>
+<h4 id="浮点类型">浮点类型</h4>
+<p>浮点类型有两种：f32和f64，它们分别占用32位和64位空间。</p>
+<h4 id="布尔类型">布尔类型</h4>
+<p>布尔类型只有两种值：true和false。</p>
+<p>注意：单个布尔类型的值占据单个字节的空间大小</p>
+<h4 id="字符类型">字符类型</h4>
+<p>在Rust中，char类型被用于描述语言中最基础的单个字符。下面的代码展示了它的使用方式，但需要注意的是，char类型使用单引号指定，而不同于字符串使用双引号指定。</p>
+<h3 id="复合类型compound">复合类型（compound）</h3>
+<h4 id="元组">元组</h4>
+<p>元组是一种相当常见的复合类型，它可以将其他不同类型的多个值组合进一个复合类型中。元组还拥有一个固定的长度：你无法在声明结束后增加或减少其中的元素数量.</p>
+<p>两种获取元组内元素值的方式：</p>
+<ol>
+<li>
+<p>通过索引并使用点号（.）来访问元组中的值</p>
+</li>
+<li>
+<p>式匹配来解构元组</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> tup = (<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">1.0</span>, <span style="color:#0ff;font-weight:bold">&#39;1&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> (x, y, _) = tup;
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;The value of x is: {}&#34;</span>, x);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;The value of y is: {}&#34;</span>, y);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;The value of z is: {}&#34;</span>, tup.<span style="color:#ff0;font-weight:bold">2</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="数组类型">数组类型</h4>
+<p>与元组不同，数组中的每一个元素都必须是相同的类型。Rust中的数组拥有固定的长度，一旦声明就再也不能随意更改大小。</p>
+<p>为了写出数组的类型，你需要使用一对方括号，并在方括号中填写数组内所有元素的类型、一个分号及数组内元素的数量，如下所示：
+<code>let a: [i32; 5] = [1, 2, 3, 4, 5];</code></p>
+<p>“即假如你想要创建一个含有相同元素的数组，那么你可以在方括号中指定元素的值，并接着填入一个分号及数组的长度，如下所示：
+<code>let a = [3; 5]；</code>
+以a命名的数组将会拥有5个元素，而这些元素全部拥有相同的初始值3。这一写法等价于<code>let a = [3, 3, 3, 3, 3];</code>，但却更加精简。”</p>
+<h2 id="函数">函数</h2>
+<p>Rust代码使用蛇形命名法（snake case）来作为规范函数和变量名称的风格。蛇形命名法只使用小写的字母进行命名，并以下画线分隔单词。</p>
+<h3 id="函数的返回值">函数的返回值</h3>
+<p>函数可以向调用它的代码返回值。虽然你不用为这个返回值命名，但需要在箭头符号（-&gt;）的后面声明它的类型。在Rust中，函数的返回值等同于函数体最后一个表达式的值。你可以使用return关键字并指定一个值来提前从函数中返回，但大多数函数都隐式地返回了最后的表达式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> rst = one();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, rst);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> one() -&gt;<span style="color:#fff;font-weight:bold">i32</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="注释">注释</h2>
+<p>//</p>
+<h2 id="变量">变量</h2>
+<p>在Rust中，变量都是默认不可变的。</p>
+<p>可变变量需要声明mut，如<code>let mut a = 10;</code></p>
+<h3 id="shadow">shadow</h3>
+<p>Rust允许使用同名的新变量guess来隐藏（shadow）旧变量的值。这一特性通常被用在需要转换值类型的场景中.</p>
+<blockquote>
+<p>在同一个作用域中，新的同名变量可以是不同的类型，避免了amount_str这种业务+类型的名称定义。</p>
+</blockquote>
+<h2 id="常量">常量</h2>
+<p>在Rust程序中，我们约定俗成地使用以下画线分隔的全大写字母来命名一个常量，并在数值中插入下画线来提高可读性。</p>
+<p>如<code>const MAX_POINTS: u32 = 100_000;</code></p>
+<h2 id="字符串">字符串</h2>
+<h3 id="字符串字面量">字符串字面量</h3>
+<p>固定大小的字符串，一旦声明则不可改变。存储在栈中。</p>
+<h3 id="字符串类型">字符串类型</h3>
+<p>大小不固定、可变的字符串。存储在堆中。</p>
+<p>字符串类型的底层由三个属性构成：</p>
+<ul>
+<li>长度</li>
+<li>容量</li>
+<li>数据地址指针</li>
+</ul>
+<p>同golang中的slice一模一样。</p>
+<p>当字符串类型的值被赋值给另外一个字符串类型的值时，底层数据地址指针相同（同golang中的slice,即浅拷贝）,但由于rust的内存机制，同一个地址不能被两个变量使用，因此会报错。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = s;
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}&#34;</span>, s, s2);
+</span></span><span style="display:flex;"><span>}	
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 报错内容：
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// error[E0382]: borrow of moved value: `s
+</span></span></span></code></pre></div><p>此时需要深度拷贝数据——即移动（move）数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = s.clone();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}&#34;</span>, s, s2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="所有权">所有权</h2>
+<p>三个原则：</p>
+<p>• Rust中的每一个值都有一个对应的变量作为它的所有者。
+• 在同一时间内，值有且仅有一个所有者。
+• 当所有者离开自己的作用域时，它持有的值就会被释放掉。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>); <span style="color:#007f7f">// 变量s进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    
+</span></span><span style="display:flex;"><span>    abc(s); <span style="color:#007f7f">// s被移动到abc中，在当前作用域中无效；同时s2进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> x = <span style="color:#ff0;font-weight:bold">5</span>; <span style="color:#007f7f">// 变量x进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    
+</span></span><span style="display:flex;"><span>    def(x); <span style="color:#007f7f">// x是i32类型，是Copy的，因此x仍旧有效；同时 x2进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    
+</span></span><span style="display:flex;"><span>} <span style="color:#007f7f">// x 先离开作用域，然后是x。因为s的值已经发生了移动，因此无事发生。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> abc(s: <span style="color:#fff;font-weight:bold">String</span>) { <span style="color:#007f7f">// s进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s)
+</span></span><span style="display:flex;"><span>} <span style="color:#007f7f">// s离开作用域，自动调用drop函数进行销毁
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> def(x: <span style="color:#fff;font-weight:bold">i32</span>) { <span style="color:#007f7f">// x进入作用域
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, x)
+</span></span><span style="display:flex;"><span>} <span style="color:#007f7f">// x离开作用域，无事发生
+</span></span></span></code></pre></div><h3 id="引用借用">引用(借用)</h3>
+<p>为了避免在函数调用过程中对同一个值的重复移动（每次都要定义为函数的返回值），引入了“引用”。特征：</p>
+<ul>
+<li>在任何一段给定的时间里，你要么只能拥有一个<strong>可变引用</strong>，要么只能拥有任意数量的<strong>不可变引用</strong>。</li>
+<li>引用总是有效的</li>
+</ul>
+<h4 id="可变引用">可变引用</h4>
+<p>即可以修改引用的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    abc(&amp;<span style="color:#fff;font-weight:bold">mut</span> s); 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> abc(s: <span style="color:#fff;font-weight:bold">&amp;</span>mut <span style="color:#fff;font-weight:bold">String</span>) {
+</span></span><span style="display:flex;"><span>    s.push_str(<span style="color:#0ff;font-weight:bold">&#34; world&#34;</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s)
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><h4 id="不可变引用">不可变引用</h4>
+<p>即不可以修改引用的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    abc(&amp;s); 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> abc(s: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">String</span>) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s)
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><h3 id="切片">切片</h3>
+<blockquote>
+<p>切片允许我们引用集合中某一段连续的元素序列，而不是整个集合（类比golang中切片就是对底层数组中的某段连续元素序列的引用）。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = &amp;s[<span style="color:#ff0;font-weight:bold">1</span>..<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s3 = &amp;s[..<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s4 = &amp;s[<span style="color:#ff0;font-weight:bold">1</span>..];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s5 = &amp;s[..];
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s2);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s3);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s4);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s5);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// output
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// el
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// hel
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// ello
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// hello
+</span></span></span></code></pre></div><p><strong>字符串字面量就是切片</strong></p>
+<h2 id="结构体">结构体</h2>
+<p>知识点：</p>
+<ol>
+<li><strong>字段初始化简写</strong></li>
+<li><strong>根据已有结构体覆盖未定义字段</strong></li>
+<li><strong>一旦实例可变，那么实例中的所有字段都将是可变的。Rust不允许我们单独声明某一部分字段的可变性。</strong></li>
+<li><strong>元组结构体</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span> <span style="color:#007f7f">// “添加注解来派生Debug trait，并使用调试格式打印出Rectangle实例”
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">struct</span> User {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    email: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>    active: <span style="color:#fff;font-weight:bold">bool</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Color(<span style="color:#fff;font-weight:bold">i8</span>, <span style="color:#fff;font-weight:bold">i8</span>, <span style="color:#fff;font-weight:bold">i8</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u = User {
+</span></span><span style="display:flex;"><span>        name: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;alice&#34;</span>),
+</span></span><span style="display:flex;"><span>        email: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;alice@outlook.com&#34;</span>),
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        active: true,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, u);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u2 = build_user(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;bob@outlook.com&#34;</span>), <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;bob&#34;</span>));
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, u2);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u3 = build_user(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;chris@outlook.com&#34;</span>), <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;chris&#34;</span>));
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, u3);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u4 = User{
+</span></span><span style="display:flex;"><span>        name: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;david&#34;</span>),
+</span></span><span style="display:flex;"><span>        email: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;david@outlook.com&#34;</span>),
+</span></span><span style="display:flex;"><span>        ..u3 <span style="color:#007f7f">// 根据已有结构体覆盖未定义字段
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    };
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, u4);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> white = Color(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, white);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> build_user(email: <span style="color:#fff;font-weight:bold">String</span>, name: <span style="color:#fff;font-weight:bold">String</span>) -&gt; User {
+</span></span><span style="display:flex;"><span>    User{
+</span></span><span style="display:flex;"><span>        name: name,
+</span></span><span style="display:flex;"><span>        email: email,
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        active: true,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> build_user2(email: <span style="color:#fff;font-weight:bold">String</span>, name: <span style="color:#fff;font-weight:bold">String</span>) -&gt; User {
+</span></span><span style="display:flex;"><span>    User{
+</span></span><span style="display:flex;"><span>        name, <span style="color:#007f7f">// 字段初始化简写
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        email,
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        active: true,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="方法">方法</h3>
+<ol>
+<li>第一个参数永远是self。</li>
+<li>隐式转换：当你使用object.something()调用方法时，Rust会自动为调用者object添加&amp;、&amp;mut或*，以使其能够符合方法的签名。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span> <span style="color:#007f7f">// “添加注解来派生Debug trait，并使用调试格式打印出Rectangle实例”
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">struct</span> User {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    email: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>    active: <span style="color:#fff;font-weight:bold">bool</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> get_name(self) -&gt; <span style="color:#fff;font-weight:bold">String</span> {
+</span></span><span style="display:flex;"><span>        self.name
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u = User {
+</span></span><span style="display:flex;"><span>        name: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;alice&#34;</span>),
+</span></span><span style="display:flex;"><span>        email: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;alice@outlook.com&#34;</span>),
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        active: true,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> name = u.get_name();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, name);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="关联函数">关联函数</h3>
+<ol>
+<li>不接收self的方法。</li>
+<li>常用来构造结构体。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span> <span style="color:#007f7f">// “添加注解来派生Debug trait，并使用调试格式打印出Rectangle实例”
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">struct</span> User {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    email: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>    active: <span style="color:#fff;font-weight:bold">bool</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> default_user(name: <span style="color:#fff;font-weight:bold">String</span>) -&gt; User {
+</span></span><span style="display:flex;"><span>        User{
+</span></span><span style="display:flex;"><span>            name,
+</span></span><span style="display:flex;"><span>            email: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;&#34;</span>),
+</span></span><span style="display:flex;"><span>            age: <span style="color:#ff0;font-weight:bold">0</span>,
+</span></span><span style="display:flex;"><span>            active: false,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> get_name(self) -&gt; <span style="color:#fff;font-weight:bold">String</span> {
+</span></span><span style="display:flex;"><span>        self.name
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> u = User::default_user(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;alice&#34;</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> name = u.get_name();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, name);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="枚举">枚举</h2>
+<ol>
+<li>将同一类数据定义为同一个枚举类型。注意：”同一类数据“可以是不同类型，可以关联不同类型的数据。</li>
+<li>可以通过impl来定义枚举的方法。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span> <span style="color:#007f7f">// “添加注解来派生Debug trait，并使用调试格式打印出Rectangle实例”
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">struct</span> Emp {
+</span></span><span style="display:flex;"><span>    id: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">enum</span> User {
+</span></span><span style="display:flex;"><span>    Vistor(<span style="color:#fff;font-weight:bold">String</span>), <span style="color:#007f7f">// 游客, 关联数据为ip字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    Employee(Emp), <span style="color:#007f7f">// 员工, 关联数据为Emp结构体
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    Admin(<span style="color:#fff;font-weight:bold">i32</span>), <span style="color:#007f7f">// 管理员，关联数据为id
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> say_hi(self) {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> user = User::Vistor(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;127.0.0.1&#34;</span>));
+</span></span><span style="display:flex;"><span>    user.say_hi();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="option枚举">Option枚举</h3>
+<ol>
+<li>内置于标准库</li>
+<li>rust中没有空值，但是可以通过Option枚举来实现</li>
+<li>假如我们使用了None而不是Some变体来进行赋值，那么我们需要明确地告知Rust这个Option<T>的具体类型。这是因为单独的None变体值与持有数据的Some变体不一样，编译器无法根据这些信息来正确推导出值的完整类型</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007f7f">// 内置库中的样子
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">enum</span> <span style="color:#fff;font-weight:bold">Option</span>&lt;T&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">Some</span>(T),
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">None</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> one = <span style="color:#fff;font-weight:bold">Some</span>(<span style="color:#ff0;font-weight:bold">1</span>); <span style="color:#007f7f">// 内置Option，不用引用库，也不用这样Option::Some(1)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> a = <span style="color:#fff;font-weight:bold">Some</span>(<span style="color:#0ff;font-weight:bold">b&#39;a&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> none: <span style="color:#fff;font-weight:bold">Option</span>&lt;<span style="color:#fff;font-weight:bold">i32</span>&gt; = <span style="color:#fff;font-weight:bold">None</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="流程控制">流程控制</h2>
+<h3 id="if-else">if-else</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> a == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;0&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> <span style="color:#fff;font-weight:bold">if</span> a == <span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;2&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>if是一个表达式，所以我们可以在let语句的右侧使用它来生成一个值.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> b = <span style="color:#fff;font-weight:bold">if</span> a == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> <span style="color:#fff;font-weight:bold">if</span> a == <span style="color:#ff0;font-weight:bold">1</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff0;font-weight:bold">11</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff0;font-weight:bold">12</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, b);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="loop">loop</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> n = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">loop</span> {
+</span></span><span style="display:flex;"><span>        n += <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> n == <span style="color:#ff0;font-weight:bold">10</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, n)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>loop同样是表达式，因此可以使用loop来生成一个值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> n = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> n2 = <span style="color:#fff;font-weight:bold">loop</span> {
+</span></span><span style="display:flex;"><span>        n += <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> n == <span style="color:#ff0;font-weight:bold">10</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">break</span> n*<span style="color:#ff0;font-weight:bold">2</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}&#34;</span>, n, n2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="while">while</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>fn main() {
+</span></span><span style="display:flex;"><span>    let mut n = 10;
+</span></span><span style="display:flex;"><span>    while n != 3 {
+</span></span><span style="display:flex;"><span>        println!(&#34;{}&#34;, n);
+</span></span><span style="display:flex;"><span>        n -= 1;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    println!(&#34;end&#34;);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="for">for</h3>
+<p>相比while，for提供了更便利、安全的迭代器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> arr = [<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">5</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> n <span style="color:#fff;font-weight:bold">in</span> arr.iter() {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, n)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>将数组转为元组进行遍历。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> arr = [<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>,<span style="color:#ff0;font-weight:bold">5</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> (n, &amp;item) <span style="color:#fff;font-weight:bold">in</span> arr.iter().enumerate() {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}&#34;</span>, n, &amp;item)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>翻转遍历：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> n <span style="color:#fff;font-weight:bold">in</span> (<span style="color:#ff0;font-weight:bold">1</span>..<span style="color:#ff0;font-weight:bold">6</span>).rev() {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, n)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="match">match</h3>
+<ol>
+<li>必须穷举所有可能</li>
+<li>可以使用通配符_来过滤未穷举的可能</li>
+<li>if let提供了对单个条件筛选的能力</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">enum</span> Grade {
+</span></span><span style="display:flex;"><span>    ZERO,
+</span></span><span style="display:flex;"><span>    DISAPPOINT,
+</span></span><span style="display:flex;"><span>    ORDINARY,
+</span></span><span style="display:flex;"><span>    EXCELLENT,
+</span></span><span style="display:flex;"><span>    PERFECT,
+</span></span><span style="display:flex;"><span>    NOT_POSSIBLE,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> msg = grade_msg(Grade::ZERO);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> zero = <span style="color:#fff;font-weight:bold">Some</span>(<span style="color:#ff0;font-weight:bold">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">Some</span>(<span style="color:#ff0;font-weight:bold">100</span>) = zero {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;oh my god!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;you are kidding&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> grade_msg(grade: Grade) -&gt; <span style="color:#fff;font-weight:bold">String</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">match</span> grade {
+</span></span><span style="display:flex;"><span>        Grade::PERFECT =&gt; <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;perfect!&#34;</span>),
+</span></span><span style="display:flex;"><span>        Grade::EXCELLENT =&gt; <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;good!&#34;</span>),
+</span></span><span style="display:flex;"><span>        Grade::ORDINARY =&gt; <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;common on!&#34;</span>),
+</span></span><span style="display:flex;"><span>        Grade::DISAPPOINT =&gt; <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;fighting!&#34;</span>),
+</span></span><span style="display:flex;"><span>        Grade::ZERO =&gt; {
+</span></span><span style="display:flex;"><span>            println!(<span style="color:#0ff;font-weight:bold">&#34;what fuck!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;what&#39;s wrong with you!&#34;</span>)
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        _ =&gt; <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;impossible&#34;</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="动态数组">动态数组</h2>
+<ol>
+<li>数组中只能存储同一类型的元素</li>
+<li>当需要存储不同类型的元素时，可以将其定义为同一种枚举类型</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> arr1: <span style="color:#fff;font-weight:bold">Vec</span>&lt;<span style="color:#fff;font-weight:bold">i32</span>&gt; = <span style="color:#fff;font-weight:bold">Vec</span>::new(); <span style="color:#007f7f">// []
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> arr2 = vec![<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>]; <span style="color:#007f7f">// [1, 2, 3]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> arr3 = vec!([<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>]); <span style="color:#007f7f">// [[1, 2, 3]]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}, {:?}, {:?}&#34;</span>, arr1, arr2, arr3);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 添加
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    arr2.push(<span style="color:#ff0;font-weight:bold">4</span>); <span style="color:#007f7f">// [1, 2, 3, 4]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, arr2);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 两种读取
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> two: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">i32</span> = &amp;arr2[<span style="color:#ff0;font-weight:bold">1</span>]; <span style="color:#007f7f">// 2，数组越界会panic
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, two);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">match</span> arr2.get(<span style="color:#ff0;font-weight:bold">1</span>) { <span style="color:#007f7f">// get方法返回Option&lt;&amp;T&gt;类型，数组越界会返回None
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">Some</span>(two) =&gt; println!(<span style="color:#0ff;font-weight:bold">&#34;second elem is {}&#34;</span>, two),
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">None</span> =&gt; println!(<span style="color:#0ff;font-weight:bold">&#34;not found&#34;</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 遍历
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">for</span> i <span style="color:#fff;font-weight:bold">in</span> &amp;<span style="color:#fff;font-weight:bold">mut</span> arr2 {
+</span></span><span style="display:flex;"><span>        *i *= <span style="color:#ff0;font-weight:bold">2</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, arr2); <span style="color:#007f7f">// [2, 4, 6, 8]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>} <span style="color:#007f7f">// 离开作用域，销毁
+</span></span></span></code></pre></div><h2 id="字符串-1">字符串</h2>
+<ol>
+<li>Rust中的字符串使用了UTF-8编码</li>
+<li>编译器可以自动将&amp;String类型的参数强制转换为&amp;str类型</li>
+<li>Rust不允许我们通过索引来获得String中的字符</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 三种创建方式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> s1 = <span style="color:#fff;font-weight:bold">String</span>::new();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s3 = <span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>.to_string();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}, {}&#34;</span>, s1, s2, s3);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 更新: push_str() push() + fromat!
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> h = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    h.push_str(<span style="color:#0ff;font-weight:bold">&#34; world&#34;</span>); <span style="color:#007f7f">// push 字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, h);  <span style="color:#007f7f">// hello world
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    h.push(<span style="color:#0ff;font-weight:bold">&#39;!&#39;</span>); <span style="color:#007f7f">// push 字符
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, h);<span style="color:#007f7f">// hello world!
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a1 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a2 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a3 = a1 + &amp;a2; <span style="color:#007f7f">// a1失效，a2仍有效
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, a3);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a1 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a2 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> a3 = format!(<span style="color:#0ff;font-weight:bold">&#34;{} {}&#34;</span>, a1, a2); <span style="color:#007f7f">// a1 a2仍有效
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, a3);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 索引获取,要注意正确的字节计算
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> c1 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;你好！&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// let c2 = &amp;c1[0..4]; // panicked at &#39;byte index 4 is not a char boundary; it is inside &#39;好&#39; (bytes 3..6) of `你好！`&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> c2 = &amp;c1[<span style="color:#ff0;font-weight:bold">0</span>..<span style="color:#ff0;font-weight:bold">3</span>]; <span style="color:#007f7f">// 你
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, c2);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 遍历
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">for</span> c <span style="color:#fff;font-weight:bold">in</span> c1.chars() { <span style="color:#007f7f">// 能正常遍历 你好！
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, c);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> c <span style="color:#fff;font-weight:bold">in</span> c1.bytes() { <span style="color:#007f7f">// 按照字节遍历，每个汉字三个字节
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, c);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="哈希表">哈希表</h2>
+<ol>
+<li>所有的键必须拥有相同的类型，所有的值也必须拥有相同的类型。</li>
+<li>对于具有控制权的file_name和field_value，在调用insert方法后，field_name和field_value变量被移动到哈希映射中，我们再也没有办法使用这两个变量了.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::collections::HashMap;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 初始化空哈希表——insert
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> scores = HashMap::new() ;
+</span></span><span style="display:flex;"><span>    scores.insert(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;Blue&#34;</span>), <span style="color:#ff0;font-weight:bold">10</span>);
+</span></span><span style="display:flex;"><span>    scores.insert(<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;Yellow&#34;</span>), <span style="color:#ff0;font-weight:bold">50</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, scores);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 通过zip来构建元组的数组，通过collect来将数组转为哈希
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> team = vec![<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>), <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;yellow&#34;</span>)];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> init_score = vec![<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">5</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> score: HashMap&lt;_,_&gt; = team.iter().zip(init_score.iter()).collect();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, score);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 读取
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> blue = score.get(&amp;<span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>)); <span style="color:#007f7f">// 返回值为Option类型 ： Some(1)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, blue);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 遍历
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">for</span> (k, v) <span style="color:#fff;font-weight:bold">in</span> &amp;score {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{}, {}&#34;</span>, k, v);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 不存在时再插入
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> k_b = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;blue&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> k_r = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;red&#34;</span>);
+</span></span><span style="display:flex;"><span>    score.entry(&amp;k_b).or_insert(&amp;<span style="color:#ff0;font-weight:bold">2</span>);
+</span></span><span style="display:flex;"><span>    score.entry(&amp;k_r).or_insert(&amp;<span style="color:#ff0;font-weight:bold">3</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, score);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 基于旧值更新
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">let</span> words = <span style="color:#0ff;font-weight:bold">&#34;h e l l o&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> word_map = HashMap::new();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> word <span style="color:#fff;font-weight:bold">in</span> words.split_whitespace() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">let</span> count = word_map.entry(word).or_insert(<span style="color:#ff0;font-weight:bold">0</span>);
+</span></span><span style="display:flex;"><span>        *count+=<span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, word_map);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="泛型">泛型</h2>
+<ol>
+<li>Rust实现泛型的方式决定了使用泛型的代码与使用具体类型的代码相比不会有任何速度上的差异。
+为了实现这一点，Rust会在编译时执行泛型代码的<strong>单态化</strong>（monomorphization）。单态化
+是一个在编译期将泛型代码转换为特定代码的过程，它会将所有使用过的具体类型填入泛型参数从而得到有具体类型的代码。
+在这个过程中，编译器所做的工作建泛型函数时相反：它会寻找所有泛型代码被调用过的地方，并基于该泛型代码所使用的具体类型生成代码。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Point&lt;T, U&gt; {
+</span></span><span style="display:flex;"><span>    x: T,
+</span></span><span style="display:flex;"><span>    y: U,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span>&lt;T,U&gt; Point&lt;T, U&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> mix_up&lt;V, W&gt;(self, other: Point&lt;V, W&gt;) -&gt; Point&lt;T, W&gt; {
+</span></span><span style="display:flex;"><span>        Point{
+</span></span><span style="display:flex;"><span>            x: self.x,
+</span></span><span style="display:flex;"><span>            y: other.y,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p1 = Point{
+</span></span><span style="display:flex;"><span>        x: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>        y: <span style="color:#ff0;font-weight:bold">2.0</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p2 = Point{
+</span></span><span style="display:flex;"><span>        x: <span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>,
+</span></span><span style="display:flex;"><span>        y: <span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> p3 = p1.mix_up(p2); <span style="color:#007f7f">// Point { x: 1, y: &#34;world&#34; }
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, p3);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="trait">trait</h2>
+<p>trait（特征）被用来向Rust编译器描述某些特定类型拥有的且能够被其他类型共享的功能，它使我们可以以一种抽象的方式来定义共享行为。我们还可以使用trait约束来将泛型参数指定为实现了某些特定行为的类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fmt::Debug;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 定义trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">trait</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> ID(self) -&gt; <span style="color:#fff;font-weight:bold">String</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 实现User
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">struct</span> Emp {
+</span></span><span style="display:flex;"><span>    id: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User <span style="color:#fff;font-weight:bold">for</span> Emp {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> ID(self) -&gt; <span style="color:#fff;font-weight:bold">String</span> {
+</span></span><span style="display:flex;"><span>        self.id
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// trait作为参数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_user(user: impl User) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user.ID());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 等价于
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_user2&lt;T: User&gt;(user: T) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user.ID());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 通过+来指定多个trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">trait</span> Teacher{
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> Grade(self) -&gt; <span style="color:#fff;font-weight:bold">i32</span>;    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> print_teacher(teacher: impl User+Teacher+ Debug) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 使用where语句优化trait约束
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_teacher2&lt;T:User+Debug, U: User+Teacher+ Debug&gt;(teacher: T , user: U) {
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 优化后：
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> print_teacher3&lt;T, U&gt;(teacher:T, user:U)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">where</span> T: User+Debug,
+</span></span><span style="display:flex;"><span>          U: User+Teacher+ Debug
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, teacher);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, user);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 返回值中使用trait
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> return_user() -&gt; impl User {
+</span></span><span style="display:flex;"><span>    Emp{
+</span></span><span style="display:flex;"><span>        id: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;default_user&#34;</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> bob = Emp{
+</span></span><span style="display:flex;"><span>        id: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;bob&#34;</span>),
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    print_user(bob);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="引用中的生命周期">引用中的生命周期</h2>
+<p>当引用的生命周期可能以不同的方式相互关联时，我们就必须手动标注生命周期。Rust需要我们注明泛型生命周期参数之间的关系，来确保运行时实际使用的引用一定是有效的。</p>
+<p>生命周期的标注使用了一种明显不同的语法：它们的参数名称必须以撇号（&rsquo;）开头，且通常使用全小写字符。与泛型一样，它们的名称通常也会非常简短。&lsquo;a被大部分开发者选择作为默认使用的名称。我们会将生命周期参数的标注填写在&amp;引用运算符之后，并通过一个空格符来将标注与引用类型区分开来。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s = longest(<span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> longest&lt;&#39;<span style="color:#007f7f">a</span>&gt; (x: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>, y: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span> { <span style="color:#007f7f">// 泛型生命周期&#39;a会被具体化为x与y两者中生命周期较短的那一个
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">if</span> x.len() &gt; y.len() {
+</span></span><span style="display:flex;"><span>        x
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        y
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>当我们在函数签名中指定生命周期参数时，我们并没有改变任何传入值或返回值的生命周期。我们只是向借用检查器指出了一些可以用于检查非法调用的约束。</p>
+</blockquote>
+<h3 id="计算生命周期的三个原则">计算生命周期的三个原则</h3>
+<blockquote>
+<p>函数参数或方法参数中的生命周期被称为输入生命周期（input lifetime），而返回值的生命周期则被称为输出生命周期（output lifetime）。</p>
+</blockquote>
+<p>在没有显式标注的情况下，编译器目前使用了3种规则来计算引用的生命周期:</p>
+<ol>
+<li>每一个引用参数都会拥有自己的生命周期参数。换句话说，单参数函数拥有一个生命周期参数：fn foo&lt;&lsquo;a&gt;(x: &amp;&lsquo;a i32)；双参数函数拥有两个不同的生命周期参数：fn foo&lt;&lsquo;a, &lsquo;b&gt;(x: &amp;&lsquo;a i32, y: &amp;&lsquo;b i32)；以此类推。</li>
+<li>当只存在一个输入生命周期参数时，这个生命周期会被赋予给所有输出生命周期参数，例如fn foo&lt;&lsquo;a&gt;(x: &amp;&lsquo;a i32) -&gt; &amp;&lsquo;a i32。</li>
+<li>当拥有多个输入生命周期参数，而其中一个是&amp;self或&amp;mut self时，self的生命周期会被赋予给所有的输出生命周期参数。这条规则使方法更加易于阅读和编写，因为它省略了一些不必要的符号。</li>
+</ol>
+<p>当不满足以上三个原则时，编译器无法确认生命周期，于是会报错。</p>
+<h3 id="静态生命周期">静态生命周期</h3>
+<p>Rust中还存在一种特殊的生命周期&rsquo;static，它表示整个程序的执行期。所有的字符串字面量都拥有&rsquo;static生命周期。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> s: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">str</span> = <span style="color:#0ff;font-weight:bold">&#34;I have a static lifetime.&#34;</span>;
+</span></span></code></pre></div><h2 id="迭代器">迭代器</h2>
+<ol>
+<li>
+<p>所有的迭代器都实现了定义于标准库中的Iterator trait</p>
+</li>
+<li>
+<p>Iterator trait只要求实现者手动定义一个方法：next方法，它会在每次被调用时返回一个包裹在Some中的迭代器元素，并在迭代结束时返回None。</p>
+</li>
+<li>
+<p>iter方法生成的是一个不可变引用的迭代器，我们通过next取得的值实际上是指向动态数组中各个元素的不可变引用。如果你需要创建一个取得v1所有权并返回元素本身的迭代器，那么你可以使用into_iter方法。类似地，如果你需要可变引用的迭代器，那么你可以使用iter_mut方法。</p>
+</li>
+<li>
+<p>尽管迭代器是一种高层次的抽象，但它在编译后生成了与手写底层代码几乎一样的产物。迭代器是Rust语言中的一种零开销抽象（zero-cost abstraction），这个词意味着我们在使用这些抽象时不会引入额外的运行时开销</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v1 = vec![<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> v1_iter = v1.iter();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> n1 = v1_iter.next();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, n1);
+</span></span><span style="display:flex;"><span>} 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//Some(
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//    1,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//)
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v1: <span style="color:#fff;font-weight:bold">Vec</span>&lt;<span style="color:#fff;font-weight:bold">i32</span>&gt; = vec![<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> v2: <span style="color:#fff;font-weight:bold">Vec</span>&lt;_&gt; = v1.iter().map(|x| x+<span style="color:#ff0;font-weight:bold">1</span>).collect();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, v2);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> shoes: <span style="color:#fff;font-weight:bold">Vec</span>&lt;_&gt; = shoes_in_my_size(vec![Shoe{size: <span style="color:#ff0;font-weight:bold">10</span>},Shoe{size: <span style="color:#ff0;font-weight:bold">30</span>}], <span style="color:#ff0;font-weight:bold">10</span>);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{:#?}&#34;</span>, shoes);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive (PartialEq, Debug) ]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Shoe {
+</span></span><span style="display:flex;"><span>    size: <span style="color:#fff;font-weight:bold">u32</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> shoes_in_my_size (shoes: <span style="color:#fff;font-weight:bold">Vec</span>&lt;Shoe&gt;, shoe_size: <span style="color:#fff;font-weight:bold">u32</span>) -&gt;<span style="color:#fff;font-weight:bold">Vec</span>&lt;Shoe&gt; {
+</span></span><span style="display:flex;"><span>    shoes.into_iter().filter(|s| s.size==shoe_size).collect ()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// [
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     2,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     3,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     4,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// ]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// [
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     Shoe {
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//         size: 10,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//     },
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// ]
+</span></span></span></code></pre></div><h2 id="错误处理">错误处理</h2>
+<ol>
+<li>
+<p>失败时触发panic的快捷方式：</p>
+<ol>
+<li>unwrap：<code>let f = File::open(&quot;a.txt&quot;).unwrap();</code>，当open()出错时，直接panic，当没有错误时，将open()返回的Result&lt;T,E&gt;中的正常返回值解析出来赋值给f。</li>
+<li>expect：区别于unwrap，expect能够指定报错信息。<code>let f = File::open(&quot;a.txt&quot;).expect(&quot;open Failed&quot;);</code></li>
+</ol>
+</li>
+<li>
+<p>错误传播：使用<code>?</code>运算符来将错误返回给调用者(<code>?</code>运算符只能被用于返回Result的函数)</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> read_username_from_file() -&gt; <span style="color:#fff;font-weight:bold">Result</span>&lt;<span style="color:#fff;font-weight:bold">String</span>, io::Error&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> f = File::open(<span style="color:#0ff;font-weight:bold">&#34;hello. txt&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> f = <span style="color:#fff;font-weight:bold">match</span> f {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">Ok</span>(file) =&gt; file,
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">Err</span>(e) =&gt; <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">Err</span>(e),
+</span></span><span style="display:flex;"><span>    }; 
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> s = <span style="color:#fff;font-weight:bold">String</span>::new(); 
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">match</span> f.read_to_string(&amp;<span style="color:#fff;font-weight:bold">mut</span> s) {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">Ok</span>(_) =&gt; <span style="color:#fff;font-weight:bold">Ok</span>(s),
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">Err</span>(e) =&gt; <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">Err</span>(e),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用<code>?</code>运算符。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> read_username_from_file() -&gt; <span style="color:#fff;font-weight:bold">Result</span>&lt;<span style="color:#fff;font-weight:bold">String</span>, io::Error&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> f = File::open(<span style="color:#0ff;font-weight:bold">&#34;hello. txt&#34;</span>)?; 
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> s = <span style="color:#fff;font-weight:bold">String</span>::new(); 
+</span></span><span style="display:flex;"><span>    f.read_to_string(&amp;<span style="color:#fff;font-weight:bold">mut</span> s)?;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">Ok</span> (s)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用<strong>链式调用</strong>进一步优化</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::io::Read;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fs::File;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> read_username_from_file() -&gt; <span style="color:#fff;font-weight:bold">Result</span>&lt;<span style="color:#fff;font-weight:bold">String</span>, io::Error&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> s = <span style="color:#fff;font-weight:bold">String</span>::new(); 
+</span></span><span style="display:flex;"><span>    File::open(<span style="color:#0ff;font-weight:bold">&#34;hello. txt&#34;</span>)?.read_to_string(&amp;<span style="color:#fff;font-weight:bold">mut</span> s)?;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">Ok</span>(s) <span style="color:#007f7f">// 此处不能加;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="版本控制">版本控制</h2>
+<p>当你第一次构建项目时，Cargo会依次遍历我们声明的依赖及其对应的语义化版本，找到符合要求的具体版本号，并将它们写入Cargo.lock文件中。随后再次构建项目时，Cargo就会优先检索Cargo.lock
+，假如文件中存在已经指明具体版本的依赖库，那么它就会跳过计算版本号的过程，并直接使用文件中指明的版本。这使得我们拥有了一个自动化的、可重现的构建系统。</p>
+<p>当你确实想要升级某个依赖包时，Cargo提供了一个专用命令：update，它会强制Cargo忽略Cargo.lock
+文件，并重新计算出所有依赖包中符合Cargo.toml声明的最新版本。假如命令运行成功，Cargo就会将更新后的版本号写入Cargo.lock文件，并覆盖之前的内容。</p>
+<h2 id="其他">其他</h2>
+<h3 id="doc">doc</h3>
+<p>你当然无法在使用第三方包时凭空知晓自己究竟需要使用什么样的trait或什么样的函数，而是需要在各类包的文档中找到相关的使用说明。值得一提的是，Cargo提供了一个特别有用的命令：cargo doc &ndash;open，它可以为你在本地构建一份有关所有依赖的文档，并自动地在浏览器中将文档打开来供你查阅</p>
+<h2 id="资料">资料</h2>
+<ul>
+<li><a href="https://play.rust-lang.org">rust在线编辑器</a></li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

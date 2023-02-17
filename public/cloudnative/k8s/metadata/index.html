@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
+downward API能够解决这个问题。
+downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
+pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
+通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&#34;sleep&#34;, &#34;9999999&#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s-metadata"/>
+<meta name="twitter:description" content="Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
+downward API能够解决这个问题。
+downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
+pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
+通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&#34;sleep&#34;, &#34;9999999&#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status."/>
+
+    <meta property="og:title" content="k8s-metadata" />
+<meta property="og:description" content="Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
+downward API能够解决这个问题。
+downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
+pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
+通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&#34;sleep&#34;, &#34;9999999&#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/metadata/" /><meta property="article:section" content="cloudnative" />
+<meta property="article:published_time" content="2022-10-06T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-06T21:19:00+08:00" />
+
+
+
+    <title>
+  k8s-metadata · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/metadata/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#downward-api">Downward API</a>
+      <ul>
+        <li><a href="#通过环境变量注入">通过环境变量注入</a></li>
+        <li><a href="#通过挂载卷注入">通过挂载卷注入</a></li>
+      </ul>
+    </li>
+    <li><a href="#访问api-server">访问API Server</a>
+      <ul>
+        <li><a href="#本地通过kubectl-proxy访问">本地通过kubectl proxy访问</a></li>
+        <li><a href="#pod内通过ambassador容器访问">pod内通过ambassador容器访问</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>k8s-metadata</h1>
+    </header>
+
+    <h2 id="downward-api">Downward API</h2>
+<p>我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。</p>
+<p>downward API能够解决这个问题。</p>
+<p>downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：</p>
+<ul>
+<li>pod名称</li>
+<li>pod ip</li>
+<li>pod所属namespace</li>
+<li>pod所在的节点名称</li>
+<li>pod所属的Service account</li>
+<li>每个容器的CPU和内 请求数量</li>
+<li>每个容器的CPU和内存限制数量</li>
+<li>pod的标签</li>
+<li>pod的注释</li>
+</ul>
+<p>大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。</p>
+<h3 id="通过环境变量注入">通过环境变量注入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: downward
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">image</span>: busybox 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">command</span>: [<span style="color:#0ff;font-weight:bold">&#34;sleep&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;9999999&#34;</span>]
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">resources</span>:
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">requests</span>: 
+</span></span><span style="display:flex;"><span>  			<span style="font-weight:bold">cpu</span>: 15m 
+</span></span><span style="display:flex;"><span>  			<span style="font-weight:bold">memory</span>: 100Ki
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">limits</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">cpu</span>: 100m 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">memory</span>: 4Mi
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">env</span>:
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: POD_NAME
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">fieldPath</span>: metadata.name
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: POD_NAMESPACE
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">fieldPath</span>: metadata.namespace
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: POD_IP
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">fieldPath</span>: status.podIP
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: NODE_NAME
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">fieldPath</span>: spec.nodeName
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: SERVICE_ACCOUNT
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">fieldPath</span>: spec.serviceAccountName
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: CONTAINER_CPU_REQUEST_MILLICORES
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">resourceFieldRef</span>: <span style="color:#007f7f"># request和limit只能通过resourceFieldRef来引用</span>
+</span></span><span style="display:flex;"><span>       	  <span style="font-weight:bold">resource</span>: requests.cpu
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">divisor</span>: 1m <span style="color:#007f7f"># 指定单位</span>
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: CONTAINER_MEMORY_LIMIT_KIBIBYTES
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">valueFrom</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">resourceFieldRef</span>: 
+</span></span><span style="display:flex;"><span>    			<span style="font-weight:bold">resource</span>: limits.memory
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">divisor</span>: 1Ki
+</span></span></code></pre></div><h3 id="通过挂载卷注入">通过挂载卷注入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: downward 
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">labels</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">foo</span>: bar
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">annotations</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">keyl</span>: valuel
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">key2</span>: |<span style="color:#0ff;font-weight:bold">
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">  	multi 
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">  	line
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold">    value</span>  
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">image</span>: busybox
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">command</span>: [<span style="color:#0ff;font-weight:bold">&#34;sleep&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;9999999&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">resources</span>: 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">requests</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">cpu</span>: 15m 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">memory</span>: 100Ki 
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">limits</span>: 
+</span></span><span style="display:flex;"><span>    		<span style="font-weight:bold">cpu</span>: 100m
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">memory</span>: 4Mi 
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumeMounts</span>: 
+</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: downward
+</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">mountPath</span>: /etc/downward
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">volumes</span>: 
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: downward 
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">downwardAPI</span>: 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">items</span>:
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;podName&#34;</span>
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>      		<span style="font-weight:bold">fieldPath</span>: metadata.name
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;podNamespace&#34;</span> 
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>      		<span style="font-weight:bold">fieldPath</span>: metadata.namespace
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;labels&#34;</span>
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">fieldRef</span>:
+</span></span><span style="display:flex;"><span>        	<span style="font-weight:bold">fieldPath</span>: metadata.labels
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;annotations&#34;</span>
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">fieldRef</span>: 
+</span></span><span style="display:flex;"><span>      		<span style="font-weight:bold">fieldPath</span>: metadata.annotations
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;containerCpuRequestMilliCores&#34;</span>
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">resourceFieldRef</span>:
+</span></span><span style="display:flex;"><span>        	<span style="font-weight:bold">containerName</span>: main
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">resource</span>: requests.cpu
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">divisor</span>: 1m
+</span></span><span style="display:flex;"><span>      - <span style="font-weight:bold">path</span>: <span style="color:#0ff;font-weight:bold">&#34;containerMemoryLimitBytes&#34;</span>
+</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">resourceFieldRef</span>:
+</span></span><span style="display:flex;"><span>        	<span style="font-weight:bold">containerName</span>: main
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">resource</span>: limits.memory
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">divisor</span>: <span style="color:#ff0;font-weight:bold">1</span>
+</span></span></code></pre></div><p>上述配置将元数据挂载到了<code>/etc/downward</code>下，其中配置中的每个item下的path，就是<code>/etc/downward</code>下的一个个文件，文件内容就是其对应的元数据，如<code>/etc/downward/annotations</code>中的内容为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>keyl=&#34;valuel&#34; 
+</span></span><span style="display:flex;"><span>key2=&#34;multi\nline\nvalue\n&#34;
+</span></span><span style="display:flex;"><span>kubernetes.io/config.seen-&#34;2016-11-28T14:27:45.664924282z&#34;
+</span></span><span style="display:flex;"><span>kubernetes.io/config. source-&#34;api&#34;
+</span></span></code></pre></div><h4 id="注意">注意</h4>
+<ol>
+<li>标签和注释支持热更新，即修改pod的标签和注释，k8s会自动将容器下对应的downward文件更新，这可能也是标签和注释不支持环境变量注入的原因。</li>
+<li>当注入容器水平的元数据时，需要指定容器的名称。比如上述配置中的containerCpuRequestMilliCores</li>
+</ol>
+<h2 id="访问api-server">访问API Server</h2>
+<p>当容器中的程序需要访问其他资源的信息或者获取最新的数据，这时就需要通过访问API Server来获取。</p>
+<h3 id="本地通过kubectl-proxy访问">本地通过kubectl proxy访问</h3>
+<p>通过curl访问API Server需要提前获取API Server的地址、本地证书等信息，<code>kubectl proxy</code>提供了代理服务使得用户免于获取这些信息。</p>
+<ol>
+<li>
+<p>查看代理地址:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl proxy 
+</span></span><span style="display:flex;"><span>Starting to serve on 127.0.0.1:80012. 访问
+</span></span></code></pre></div></li>
+<li>
+<p>访问代理：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ curl localhost:8001
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;paths&#34;</span>: [
+</span></span><span style="display:flex;"><span>  	<span style="color:#0ff;font-weight:bold">&#34;/api&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;/api/v1&#34;</span>,
+</span></span><span style="display:flex;"><span>    ...
+</span></span></code></pre></div><p>该接口会访问分组和版本信息</p>
+</li>
+<li>
+<p>访问指定分组，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ curl http://localhost:8001/apis/batch
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;kind&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;APIGroup&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;apiVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;v1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;name&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;batch&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;versions&#34;</span>: [
+</span></span><span style="display:flex;"><span>  	{ 
+</span></span><span style="display:flex;"><span>  		<span style="color:#0ff;font-weight:bold">&#34;groupVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;batch/v1&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;version&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;v1&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>    	<span style="color:#0ff;font-weight:bold">&#34;groupVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;batch/v2alphal&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;version&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;v2alphal&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;preferredVersion&#34;</span>: {
+</span></span><span style="display:flex;"><span>		 <span style="color:#0ff;font-weight:bold">&#34;groupVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;batch/v1&#34;</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#0ff;font-weight:bold">&#34;version&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;v1&#34;</span>
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   <span style="color:#0ff;font-weight:bold">&#34;serverAddressByClientCIDRs&#34;</span>: null
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>访问指定版本，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ curl http://localhost:8001/apis/batch/vl
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;kind&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;APIResourceList&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;apiVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;v1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;groupVersion&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;batch/vl&#34;</span>, 
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;resources&#34;</span>: [
+</span></span><span style="display:flex;"><span>  	{
+</span></span><span style="display:flex;"><span>  		<span style="color:#0ff;font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;jobs&#34;</span>,
+</span></span><span style="display:flex;"><span>    	<span style="color:#0ff;font-weight:bold">&#34;namespaced&#34;</span>: true,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;kind&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Job&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;verbs&#34;</span>: [
+</span></span><span style="display:flex;"><span>      	<span style="color:#0ff;font-weight:bold">&#34;create&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;delete&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;deletecollection&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;get&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;list&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;patch&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;update&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;watch&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>    	<span style="color:#0ff;font-weight:bold">&#34;name&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;jobs/status&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;namespaced&#34;</span>: true,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;kind&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;Job&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#0ff;font-weight:bold">&#34;verbs&#34;</span>: [
+</span></span><span style="display:flex;"><span>      	<span style="color:#0ff;font-weight:bold">&#34;get&#34;</span>,
+</span></span><span style="display:flex;"><span>      	<span style="color:#0ff;font-weight:bold">&#34;patch&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#0ff;font-weight:bold">&#34;update&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>访问具体的资源列表，如:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>$ curl http://localhost:8001/apis/batch/vl/jobs
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;kind&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;JobList&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;apiVersion&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;batch/v1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;metadata&#34;: </span>{
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">&#34;selfLink&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;/apis/batch/v1/jobs&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;resourceVersion&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;225162&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;items&#34;: </span>[
+</span></span><span style="display:flex;"><span>  	{
+</span></span><span style="display:flex;"><span>  		<span style="color:#0ff;font-weight:bold">&#34;metadata&#34;</span>:
+</span></span><span style="display:flex;"><span>      	{
+</span></span><span style="display:flex;"><span>      		<span style="color:#0ff;font-weight:bold">&#34;name&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;my-job&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#0ff;font-weight:bold">&#34;namespace&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;default&#34;</span>,
+</span></span><span style="display:flex;"><span>          ...
+</span></span></code></pre></div></li>
+<li>
+<p>访问具体的资源，如</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>$ curl http://localhost:8001/apis/batch/vl/namespaces/default/jobs/my-job
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;kind&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;Job&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;apiVersion&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;batch/vl&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;metadata&#34;</span>:
+</span></span><span style="display:flex;"><span>  	{ 
+</span></span><span style="display:flex;"><span>  		<span style="font-weight:bold">&#34;name&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;my-job&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;namespace&#34;: </span><span style="color:#0ff;font-weight:bold">&#34;default&#34;</span>,
+</span></span><span style="display:flex;"><span>      ...
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="pod内通过ambassador容器访问">pod内通过ambassador容器访问</h3>
+<p>同上述过程，访问API Server需要获取其地址、权限信息，这些信息可以通过ambassador容器进行代理。</p>
+<ol>
+<li>定义pod</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: curl-with-ambassador
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>:
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: main
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">image</span>: tutum/curl
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">command</span>: [<span style="color:#0ff;font-weight:bold">&#34;sleep&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;9999999&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: ambassador
+</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">image</span>: luksa/kubectl-proxy:1.6.2
+</span></span></code></pre></div><ol start="2">
+<li>
+<p>通过ambassdor进行访问</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@curl-with-ambassador:/# curl localhost:8001 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#0ff;font-weight:bold">&#34;paths&#34;</span>:
+</span></span><span style="display:flex;"><span>  	[
+</span></span><span style="display:flex;"><span>  		<span style="color:#0ff;font-weight:bold">&#34;/api&#34;</span>,
+</span></span><span style="display:flex;"><span>  		...
+</span></span></code></pre></div></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210071604508.png" alt=""></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

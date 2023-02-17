@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes on 北人</title>
+    <link>https://stong1994.github.io/note/</link>
+    <description>Recent content in Notes on 北人</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 04 Jun 2022 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/note/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>rust基础笔记</title>
+      <link>https://stong1994.github.io/note/rust/base/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/base/</guid>
+      <description>数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同</description>
+    </item>
+    
+  </channel>
+</rss>

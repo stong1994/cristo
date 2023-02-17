@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果">
+    <meta name="keywords" content="ddd,domain drive design">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DDD进阶-笔记篇"/>
+<meta name="twitter:description" content="领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果"/>
+
+    <meta property="og:title" content="DDD进阶-笔记篇" />
+<meta property="og:description" content="领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/ddd/advance/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2021-01-29T23:31:51+08:00" />
+<meta property="article:modified_time" content="2021-01-30T00:20:51+08:00" />
+
+
+
+    <title>
+  DDD进阶-笔记篇 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/ddd/advance/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#领域事件">领域事件</a>
+      <ul>
+        <li></li>
+        <li><a href="#1-微服务内的领域事件">1. 微服务内的领域事件</a></li>
+        <li><a href="#2-微服务之间的领域事件">2. 微服务之间的领域事件</a></li>
+        <li><a href="#领域事件总体架构">领域事件总体架构</a></li>
+        <li><a href="#领域事件运行机制相关案例">领域事件运行机制相关案例</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+        <li><a href="#ddd-分层架构最重要的原则">DDD 分层架构最重要的原则</a></li>
+        <li><a href="#ddd-分层架构如何推动架构演进">DDD 分层架构如何推动架构演进</a></li>
+        <li><a href="#传统的三层架构升级为ddd四层架构">传统的三层架构升级为DDD四层架构</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#整洁架构">整洁架构</a></li>
+    <li><a href="#六边形架构">六边形架构</a></li>
+    <li><a href="#三种微服务架构模型的对比和分析">三种微服务架构模型的对比和分析</a></li>
+    <li><a href="#从三种架构模型看中台和微服务设计">从三种架构模型看中台和微服务设计</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#ddd与中台的关联">DDD与中台的关联</a></li>
+        <li><a href="#以保险领域为例">以保险领域为例</a></li>
+      </ul>
+    </li>
+    <li><a href="#中台建模">中台建模</a></li>
+    <li><a href="#微服务的演进策略">微服务的演进策略</a>
+      <ul>
+        <li><a href="#绞杀者策略">绞杀者策略</a></li>
+        <li><a href="#修缮者策略">修缮者策略</a></li>
+        <li><a href="#另起炉灶策略">另起炉灶策略</a></li>
+      </ul>
+    </li>
+    <li><a href="#不同场景下的领域建模策略">不同场景下的领域建模策略</a>
+      <ul>
+        <li><a href="#1-新建系统">1. 新建系统</a></li>
+        <li><a href="#2-单体遗留系统">2. 单体遗留系统</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#声明">声明</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>DDD进阶-笔记篇</h1>
+    </header>
+
+    <h2 id="领域事件">领域事件</h2>
+<h4 id="如何识别领域事件">如何识别领域事件</h4>
+<p>很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果发生……，则……”“当做完……的时候，请通知……”“发生……时，则……”等。在这些场景中，如果发生某种事件后，会触发进一步的操作，那么这个事件很可能就是领域事件。</p>
+<p>领域事件驱动设计可以切断领域模型之间的强依赖关系，事件发布完成后，发布方不必关心后续订阅方事件处理是否成功，这样可以实现领域模型的解耦，维护领域模型的独立性和数据的一致性。在领域模型映射到微服务系统架构时，领域事件可以解耦微服务，微服务之间的数据不必要求强一致性，而是基于事件的最终一致性。</p>
+<h3 id="1-微服务内的领域事件">1. 微服务内的领域事件</h3>
+<p>当领域事件发生在微服务内的聚合之间，领域事件发生后完成事件实体构建和事件数据持久化，<strong>发布方聚合将事件发布到事件总线</strong>，<strong>订阅方接收事件数据完成后续业务操作</strong>。</p>
+<p>微服务内大部分事件的集成，都发生在同一个进程内，进程自身可以很好地控制事务，因此不一定需要引入消息中间件。但<strong>一个事件如果同时更新多个聚合</strong>，按照 DDD“一次事务只更新一个聚合”的原则，你就要考虑是否引入<strong>事件总线</strong>。但微服务内的事件总线，可能会增加开发的复杂度，因此你需要结合应用复杂度和收益进行综合考虑。</p>
+<p><strong>微服务内应用服务</strong>，可以通过<strong>跨聚合的服务编排和组合</strong>，以<strong>服务调用</strong>的方式完成<strong>跨聚合的访问</strong>，这种方式通常应用于实时性和数据一致性要求高的场景。这个过程会用到<strong>分布式事务</strong>，以保证发布方和订阅方的数据同时更新成功。</p>
+<h3 id="2-微服务之间的领域事件">2. 微服务之间的领域事件</h3>
+<p>跨微服务的领域事件会在不同的限界上下文或领域模型之间实现业务协作，其主要目的是<strong>实现微服务解耦</strong>，<strong>减轻微服务之间实时服务访问的压力</strong>。</p>
+<p>领域事件发生在微服务之间的场景比较多，事件处理的机制也更加复杂。跨微服务的事件可以推动业务流程或者数据在不同的子域或微服务间直接流转。<strong>跨微服务的事件机制</strong>要总体考虑<strong>事件构建</strong>、<strong>发布和订阅</strong>、<strong>事件数据持久化</strong>、<strong>消息中间件</strong>，甚至事件数据持久化时还可能需要考虑引入<strong>分布式事务</strong>机制等。</p>
+<p>微服务之间的访问也可以采用应用服务直接调用的方式，实现数据和服务的实时访问，弊端就是跨微服务的数据同时变更需要引入分布式事务，以确保数据的一致性。分布式事务机制会影响系统性能，增加微服务之间的耦合，所以我们还是要尽量避免使用分布式事务。</p>
+<h3 id="领域事件总体架构">领域事件总体架构</h3>
+<p><img src="https://static001.geekbang.org/resource/image/b2/8f/b221ed4011c23720ebe9f48ba8eee38f.jpg" alt=""></p>
+<h4 id="1-事件构建和发布">1. 事件构建和发布</h4>
+<p><strong>事件基本属性</strong>至少包括：<strong>事件唯一标识</strong>、<strong>发生时间</strong>、<strong>事件类型</strong>和<strong>事件源</strong>，其中事件唯一标识应该是全局唯一的，以便事件能够无歧义地在多个限界上下文中传递。事件基本属性主要记录事件自身以及事件发生背景的数据。</p>
+<p>另外事件中还有一项更重要，那就是<strong>业务属性</strong>，用于记录事件发生那一刻的业务数据，这些数据会随事件传输到订阅方，以开展下一步的业务操作。</p>
+<p><strong>事件基本属性和业务属性一起构成事件实体</strong>，事件实体依赖聚合根。领域事件发生后，事件中的业务数据不再修改，因此业务数据可以以序列化值对象的形式保存，这种存储格式在消息中间件中也比较容易解析和获取。</p>
+<p>为了保证事件结构的统一，我们还会创建事件基类 DomainEvent（参考下图），子类可以扩充属性和方法。由于事件没有太多的业务行为，实现方法一般比较简单。</p>
+<p><img src="https://static001.geekbang.org/resource/image/33/ec/3331c2d87d4dc0e68ec99fc9e02b44ec.jpg" alt=""></p>
+<p><strong>事件发布之前</strong>需要<strong>先构建事件实体并持久化</strong>。事件发布的方式有很多种，你可以<strong>通过应用服务或者领域服务发布到事件总线或者消息中间件</strong>，也可以从<strong>事件表</strong>中利用定时程序或数据库日志捕获技术获取增量事件数据，<strong>发布到消息中间件</strong>。</p>
+<h4 id="2-事件数据持久化">2. 事件数据持久化</h4>
+<p>事件数据持久化可用于系统之间的数据对账，或者实现发布方和订阅方事件数据的审计。当遇到消息中间件、订阅方系统宕机或者网络中断，在问题解决后仍可继续后续业务流转，<strong>保证数据的一致性</strong>。</p>
+<p>事件数据持久化有两种方案，在实施过程中你可以根据自己的业务场景进行选择。</p>
+<ul>
+<li>持久化到<strong>本地业务数据库的事件表</strong>中，<strong>利用本地事务保证业务和事件数据的一致性</strong>。</li>
+<li>持久化到<strong>共享的事件数据库</strong>中。这里需要注意的是：<strong>业务数据库和事件数据库不在一个数据库中</strong>，它们的数据持久化操作会跨数据库，因此需要<strong>分布式事务机制</strong>来保证<strong>业务和事件数据的强一致性</strong>，结果就是会对系统性能造成一定的影响。</li>
+</ul>
+<h4 id="3-事件总线-eventbus">3. 事件总线 (EventBus)</h4>
+<p><strong>事件总线是实现微服务内聚合之间领域事件的重要组件</strong>，它提供<strong>事件分发</strong>和<strong>接收</strong>等服务。事件总线是<strong>进程内</strong>模型，它会在<strong>微服务内聚合之间遍历订阅者列表</strong>，采取同步或异步的模式传递数据。事件分发流程大致如下：</p>
+<ul>
+<li>如果是<strong>微服务内的订阅者</strong>（其它聚合），则直接分发到指定订阅者；</li>
+<li>如果是<strong>微服务外的订阅者</strong>，将事件数据<strong>保存</strong>到<strong>事件库</strong>（表）并<strong>异步发送到消息中间件</strong>；</li>
+<li>如果同<strong>时存在微服务内和外订阅者</strong>，则<strong>先分发到内部订阅者</strong>，将事件消息<strong>保存到事件库</strong>（表），再<strong>异步发送到消息中间件</strong>。</li>
+</ul>
+<h4 id="4-消息中间件">4. 消息中间件</h4>
+<p>跨微服务的领域事件大多会用到消息中间件，实现跨微服务的事件发布和订阅。消息中间件的产品非常成熟，市场上可选的技术也非常多，比如 Kafka，RabbitMQ 等。</p>
+<h4 id="5-事件接收和处理">5. 事件接收和处理</h4>
+<p>微服务订阅方在应用层采用监听机制，接收消息队列中的事件数据，完成事件数据的持久化后，就可以开始进一步的业务处理。领域事件处理可在领域服务中实现。</p>
+<h3 id="领域事件运行机制相关案例">领域事件运行机制相关案例</h3>
+<p><img src="https://static001.geekbang.org/resource/image/89/11/89321072afd996c6a90fa9774f769e11.jpg" alt=""></p>
+<h1 id="ddd分层架构">DDD分层架构</h1>
+<p>DDD 的分层架构在不断发展。最早是传统的四层架构；后来四层架构有了进一步的优化，实现了各层对基础层的解耦；再后来领域层和应用层之间增加了上下文环境（Context）层，五层架构（DCI）就此形成了。</p>
+<p>在最早的<strong>传统四层架构</strong>中，<strong>基础层是被其它层依赖</strong>的，它位于最核心的位置，那<strong>按照分层架构的思想，它应该就是核心</strong>，但实际上<strong>领域层才是软件的核心</strong>，所以这种依赖是有问题的。后来我们采用了<strong>依赖倒置</strong>（Dependency inversion principle,DIP）的设计，优化了传统的四层架构，实现了各层对基础层的解耦。</p>
+<img src="https://static001.geekbang.org/resource/image/d6/e1/d6abc3e4f5837cd51b689d01433cace1.jpg" style="zoom:50%;" />
+<img src="https://static001.geekbang.org/resource/image/d0/9d/d02e92626dd8d6b077002ab6b977159d.png" style="zoom:67%;" />
+<h4 id="1用户接口层">1.用户接口层</h4>
+<p>用户接口层负责<strong>向用户显示信息</strong>和<strong>解释用户指令</strong>。这里的用户可能是：用户、程序、自动化测试和批处理脚本等等。</p>
+<h4 id="2应用层">2.应用层</h4>
+<p>应用层是<strong>很薄的一层</strong>，理论上<strong>不应该有业务规则或逻辑</strong>，主要<strong>面向用例</strong>和<strong>流程</strong>相关的操作。</p>
+<p>应用层又位于领域层之上，因为领域层包含多个聚合，所以它可以协调多个聚合的服务和领域对象完成服务编排和组合，协作完成业务操作。</p>
+<p>应用层也是<strong>微服务之间交互的通道</strong>，它可以调用其它微服务的应用服务，完成微服务之间的服务组合和编排。</p>
+<p>在设计和开发时，不要将本该放在领域层的业务逻辑放到应用层中实现。因为<strong>庞大的应用层会使领域模型失焦</strong>，时间一长你的微服务就会演化为传统的三层架构，业务逻辑会变得混乱。</p>
+<p>另外，<strong>应用服务是在应用层的，它负责服务的组合、编排和转发</strong>，<strong>负责处理业务用例的执行顺序以及结果的拼装，以粗粒度的服务通过 API 网关向前端发布</strong>。还有，应用服务还可以进行<strong>安全认证、权限校验、事务控制、发送或订阅领域事件等</strong>。</p>
+<h4 id="3领域层">3.领域层</h4>
+<p>领域层的作用是<strong>实现企业核心业务逻辑</strong>，通过各种校验手段保证业务的正确性。<strong>领域层主要体现领域模型的业务能力，它用来表达业务概念、业务状态和业务规则。</strong></p>
+<p>领域层包含聚合根、实体、值对象、领域服务等领域模型中的领域对象。</p>
+<p>领域模型的<code>业务逻辑</code>主要是由<code>实体</code>和<code>领域服务</code>来实现的，其中实体会采用<code>充血模型</code>来实现所有与之相关的业务功能。其次，你要知道，实体和领域服务在实现业务逻辑上不是同级的，当领域中的某些功能，单一实体（或者值对象）不能实现时，领域服务就会出马，它可以组合聚合内的多个实体（或者值对象），实现复杂的业务逻辑。</p>
+<h4 id="4基础层">4.基础层</h4>
+<p><strong>基础层是贯穿所有层</strong>的，它的作用就是<strong>为其它各层提供通用的技术和基础服务</strong>，包括第三方工具、驱动、消息中间件、网关、文件、缓存以及数据库等。比较常见的功能还是提供数据库持久化。</p>
+<p>基础层包含基础服务，它采用<strong>依赖倒置</strong>设计，<strong>封装基础资源服务</strong>，<strong>实现应用层、领域层与基础层的解耦，降低外部资源变化对应用的影响。</strong></p>
+<h3 id="ddd-分层架构最重要的原则">DDD 分层架构最重要的原则</h3>
+<p>每层<strong>只能与位于其直接下方的层发生耦合</strong>。</p>
+<h3 id="ddd-分层架构如何推动架构演进">DDD 分层架构如何推动架构演进</h3>
+<h4 id="1微服务架构的演进">1.微服务架构的演进</h4>
+<img src="https://static001.geekbang.org/resource/image/7f/7c/7f1e3891c9c11abce96020e0bf20d67c.jpg" style="zoom:80%;" />
+<h4 id="2微服务内服务的演进">2.微服务内服务的演进</h4>
+<p><img src="https://static001.geekbang.org/resource/image/9a/76/9a602b741c222b19c7cc4780da79cf76.jpg" alt=""></p>
+<p>有一天你会发现领域服务 b 和 c 同时多次被多个应用服务调用了，执行顺序也基本一致。这时你可以考虑将 b 和 c 合并，再将应用服务中 b、c 的功能下沉到领域层，演进为新的领域服务（b+c）。这样既减少了服务的数量，也减轻了上层服务组合和编排的复杂度。最后你会发现你的领域模型会越来越精炼，越来越能适应需求的快速变化。</p>
+<h3 id="传统的三层架构升级为ddd四层架构">传统的三层架构升级为DDD四层架构</h3>
+<p><img src="https://static001.geekbang.org/resource/image/16/a1/1680723ca91aa57d719d5cdbc1d910a1.jpg" alt=""></p>
+<p>DDD 分层架构在用户接口层引入了 DTO，给前端提供了更多的可使用数据和更高的展示灵活性。</p>
+<p>三层架构数据访问采用 DAO 方式；DDD 分层架构的数据库等基础资源访问，采用了<code>仓储</code>（Repository）设计模式，通过依赖倒置实现各层对基础资源的解耦。</p>
+<p><strong>仓储</strong>又分为两部分：<strong>仓储接口</strong>和仓储实现。<strong>仓储接口放在领域层</strong>中，<strong>仓储实现放在基础层</strong>。原来三层架构通用的<strong>第三方工具包、驱动、Common、Utility、Config 等通用的公共的资源类统一放到了基础层</strong>。</p>
+<h1 id="微服务架构模型">微服务架构模型</h1>
+<h2 id="整洁架构">整洁架构</h2>
+<p>又称：洋葱架构</p>
+<p><img src="https://static001.geekbang.org/resource/image/fc/42/fc8208d9f4cfadb7949d6e98a8c18442.png" alt=""></p>
+<p>整洁架构最主要的原则是<code>依赖原则</code>，它定义了各层的依赖关系，越往里依赖越低，代码级别越高，越是核心能力。外圆代码依赖只能指向内圆，内圆不需要知道外圆的任何情况。</p>
+<h2 id="六边形架构">六边形架构</h2>
+<p>又名<code>端口适配器架构</code></p>
+<p>核心理念是：应用是通过端口与外部进行交互的.</p>
+<p><img src="https://static001.geekbang.org/resource/image/85/6c/85fb9fb2782b343d45b4ca18c8f21e6c.png" alt=""></p>
+<p>红圈内的核心业务逻辑（应用程序和领域模型）与外部资源（包括 APP、Web 应用以及数据库资源等）完全隔离，仅通过适配器进行交互。它解决了业务逻辑与用户界面的代码交错问题，很好地实现了前后端分离。六边形架构各层的依赖关系与整洁架构一样，都是由外向内依赖。</p>
+<h2 id="三种微服务架构模型的对比和分析">三种微服务架构模型的对比和分析</h2>
+<p><img src="https://static001.geekbang.org/resource/image/b2/71/b2e4dad1040857b5aedf0b1675ae4171.png" alt=""></p>
+<p>红色框内部主要实现核心业务逻辑，但核心业务逻辑也是有差异的，有的业务逻辑属于领域模型的能力，有的则属于面向用户的用例和流程编排能力。按照这种功能的差异，我们在这三种架构中划分了应用层和领域层，来承担不同的业务逻辑。</p>
+<p><strong>领域层实现面向领域模型</strong>，<strong>实现</strong>领域模型的<strong>核心业务逻辑</strong>，属于<strong>原子模型</strong>，它需要<strong>保持领域模型和业务逻辑的稳定，对外提供稳定的细粒度的领域服务</strong>，所以它处于<strong>架构的核心位置</strong>。</p>
+<p><strong>设计优势</strong>：可以<strong>保证领域层的核心业务逻辑不会因为外部需求和流程的变动而调整</strong>，对于建立前台灵活、中台稳固的架构很有帮助</p>
+<h2 id="从三种架构模型看中台和微服务设计">从三种架构模型看中台和微服务设计</h2>
+<p><strong>中台本质上是领域的子域</strong>，它<strong>可能是核心域，也可能是通用域或支撑域</strong>。通常大家认为阿里的中台对应 DDD 的通用域，将通用的公共能力沉淀为中台，对外提供通用共享服务。</p>
+<p>中台作为子域还可以继续分解为子子域，在子域分解到合适大小，通过事件风暴划分限界上下文以后，就可以定义微服务了，微服务用来实现中台的能力。</p>
+<h4 id="1-中台建设要聚焦领域模型">1. 中台建设要聚焦领域模型</h4>
+<p>中台需要站在全企业的高度考虑能力的共享和复用。</p>
+<p>中台设计时，我们需要建立中台内所有限界上下文的领域模型，DDD 建模过程中会考虑架构演进和功能的重新组合。领域模型建立的过程会对业务和应用进行清晰的逻辑和物理边界（微服务）划分。领域模型的结果会影响到后续的系统模型、架构模型和代码模型，最终影响到微服务的拆分和项目落地。</p>
+<p>因此，<strong>在中台设计中我们首先要聚焦领域模型，将它放在核心位置。</strong></p>
+<h4 id="2-微服务要有合理的架构分层">2. 微服务要有合理的架构分层</h4>
+<p><strong>不要把与领域无关的逻辑放在领域层实现，保证领域层的纯洁和领域逻辑的稳定，避免污染领域模型</strong>。也<strong>不要把领域模型的业务逻辑放在应用层</strong>，这样会导致应用层过于庞大，最终领域模型会失焦。如果实在<strong>无法避免</strong>，我们可以<strong>引入防腐层</strong>，进行<strong>新老系统的适配和转换</strong>，过渡期<strong>完成后</strong>，可以直接<strong>将防腐层代码抛弃</strong>。</p>
+<h4 id="3-应用和资源的解耦与适配">3. 应用和资源的解耦与适配</h4>
+<p>在微服务架构中，<strong>应用层、领域层和基础层解耦</strong>是通过<strong>仓储模式</strong>，采用<strong>依赖倒置</strong>的设计方法来实现的。在应用设计中，我们会同步考虑<strong>和基础资源的代码适配</strong>，那么一旦基础设施资源出现变更（比如换数据库），就可以屏蔽资源变更对业务代码的影响，切断业务逻辑对基础资源的依赖，最终降低资源变更对应用的影响。</p>
+<h1 id="中台">中台</h1>
+<p>中台的<strong>本质</strong>其实就是<strong>提炼各个业务板块的共同需求</strong>，进行<strong>业务和系统抽象</strong>，形成<strong>通用的可复用的业务模型</strong>，打造成<strong>组件化产品</strong>，供前台部门使用。前台要做什么业务，需要什么资源，可以直接找中台，不需要每次都去改动自己的底层。</p>
+<p><strong>中台首先体现的是一种企业级的能力，它提供的是一套企业级的整体解决方案，解决小到企业、集团，大到生态圈的能力共享、联通和融合问题，支持业务和商业模式创新。通过平台联通和数据融合为用户提供一致的体验，更敏捷地支撑前台一线业务。</strong></p>
+<p>中台来源于平台，但中台和平台相比，它更多体现的是一种理念的转变，它主要体现在这三个关键能力上：对前台业务的快速响应能力；企业级复用能力；从前台、中台到后台的设计、研发、页面操作、流程服务和数据的无缝联通、融合能力。</p>
+<p>关键字：<strong>共享</strong>、<strong>联通</strong>、<strong>融合</strong>和<strong>创新</strong>：联通是前台以及中台之间的联通，融合是前台流程和数据的融合，并以共享的方式支持前端一线业务的发展和创新。</p>
+<p><img src="https://static001.geekbang.org/resource/image/09/45/09d70aae8b66092bc692ac30510f9145.jpg" alt=""></p>
+<ul>
+<li><strong>业务中台</strong>：解决<strong>核心业务链路的联通和不同渠道服务共享</strong>的问题
+<ul>
+<li><strong>通用能力平台</strong>：实现<strong>通用能力的沉淀、共享和复用</strong>，这里的通用能力对应 DDD 的<strong>通用域</strong>或<strong>支撑域</strong></li>
+<li><strong>核心能力中台</strong>：<strong>核心业务能力共享和复用</strong>，对应 DDD 的<strong>核心域</strong>。</li>
+</ul>
+</li>
+<li><strong>数据中台</strong>：<strong>解决系统微服务拆分后的数据孤岛、数据融合和业务创新</strong>等问题</li>
+<li><strong>后台</strong>：主要<strong>面向后台管理人员</strong>，实现流程审核、内部管理以及后勤支撑，比如采购、人力、财务和 OA 等系统。</li>
+</ul>
+<p>如果把业务中台比作陆军、火箭军和空军等专业军种的话，它主要发挥战术专业能力。前台就是作战部队，它需要根据前线的战场需求，对业务中台的能力进行调度，实现能力融合和效率最大化。而数据中台就是信息情报中心和联合作战总指挥部，它能够汇集各种数据、完成分析，制定战略和战术计划。后台就是后勤部队，提供技术支持</p>
+<h4 id="数据中台">数据中台</h4>
+<p>数据中台的主要目标是打通数据孤岛，实现业务融合和创新，包括<strong>三大主要职能</strong>：</p>
+<ul>
+<li>一是<strong>完成企业全域数据的采集与存储</strong>，实现各<strong>不同业务类别中台数据的汇总和集中管理</strong>。</li>
+<li>二是按照标准的数据规范或数据模型，将数据<strong>按照不同主题域或场景进行加工和处理</strong>，形成面向不同主题和场景的数据应用，比如客户视图、代理人视图、渠道视图、机构视图等不同数据体系。</li>
+<li>三是<strong>建立业务需求驱动的数据体系</strong>，基于各个维度的数据，深度萃取数据价值，支持业务和商业模式的创新。</li>
+</ul>
+<p>相应的，<strong>数据中台的建设</strong>就可分为三步走：</p>
+<ul>
+<li>第一步<strong>实现各中台业务数据的汇集</strong>，<strong>解决数据孤岛和初级数据共享问题</strong>。</li>
+<li>第二步<strong>实现企业级实时或非实时全维度数据的深度融合、加工和共享</strong>。</li>
+<li>第三步<strong>萃取数据价值，支持业务创新，加速从数据转换为业务价值的过程</strong>。</li>
+</ul>
+<h1 id="ddd中台和微服务">DDD、中台和微服务</h1>
+<p><strong>DDD 可以指导中台和微服务建设。</strong></p>
+<p>DDD 的两把利器：战略设计和战术设计方法。</p>
+<p>中台在企业架构上更多偏向业务模型，<strong>形成中台的过程</strong>实际上也是<strong>业务领域不断细分的过程</strong>。在这个过程中我们会<strong>将同类通用的业务能力进行聚合和业务重构</strong>，再<strong>根据限界上下文和业务内聚的原则建立领域模型</strong>。而 DDD 的战略设计最擅长的就是领域建模。</p>
+<p>那在中台完成领域建模后，我们就需要通过微服务来完成系统建设。此时，<strong>DDD 的战术设计又恰好可以与微服务的设计完美结合</strong>。可以说，中台和微服务正是 DDD 实战的最佳场景。</p>
+<h3 id="ddd与中台的关联">DDD与中台的关联</h3>
+<p><img src="https://static001.geekbang.org/resource/image/c6/df/c647561ff910f97b8500b75de70281df.png" alt=""></p>
+<h3 id="以保险领域为例">以保险领域为例</h3>
+<p>保险的战略设计</p>
+<p><img src="https://static001.geekbang.org/resource/image/99/29/991b8a5b685d8b0b3e172f38c0460a29.png" alt=""></p>
+<p>保险域的业务中台分为两类：</p>
+<p>第一类是提供保险核心业务能力的核心中台（比如营销、承保和理赔等业务）；</p>
+<p>第二类是支撑核心业务流程完成保险全流程的通用中台（比如订单、支付、客户和用户等）</p>
+<h2 id="中台建模">中台建模</h2>
+<p><strong>中台业务抽象的过程</strong>就是<strong>业务建模的过程</strong>，对应 <strong>DDD 的战略设计</strong>。<strong>系统抽象的过程</strong>就是<strong>微服务的建设过程</strong>，对应 <strong>DDD 的战术设计</strong>。</p>
+<p><strong>第一步</strong>：按照业务流程（通常适用于核心域）或者功能属性、集合（通常适用于通用域或支撑域），将<strong>业务域细分为多个中台</strong>，再<strong>根据功能属性或重要性归类到核心中台或通用中台</strong>。核心中台设计时要考虑核心竞争力，通用中台要站在企业高度考虑共享和复用能力。</p>
+<p><strong>第二步</strong>：<strong>选取中台</strong>，根据用例、业务场景或用户旅程完成<strong>事件风暴</strong>，找出实体、聚合和限界上下文。依次进行领域分解，建立领域模型。</p>
+<p><strong>第三步</strong>：<strong>以主领域模型为基础，扫描其它中台领域模型</strong>，检查并确定<strong>是否存在重复</strong>或者<strong>需要重组</strong>的<strong>领域对象</strong>、功能，<strong>提炼并重构主领域模型</strong>，完成最终的领域模型设计。</p>
+<p><strong>第四步</strong>：<strong>选择其它主领域模型重复第三步</strong>，直到<strong>所有主领域模型完成比对和重构</strong>。</p>
+<p><strong>第五步</strong>：基于领域模型完成<strong>微服务设计</strong>，完成<strong>系统落地</strong>。</p>
+<p><img src="https://static001.geekbang.org/resource/image/3c/47/3caae85ef680eb7cbc2ffb5c6a603f47.png" alt=""></p>
+<p>以保险为例</p>
+<p><img src="https://static001.geekbang.org/resource/image/45/71/45de1af6a4b5dd6cf54921ff9f422571.png" alt=""></p>
+<h2 id="微服务的演进策略">微服务的演进策略</h2>
+<p>在从单体向微服务演进时，演进策略大体分为两种：绞杀者策略和修缮者策略。</p>
+<h3 id="绞杀者策略">绞杀者策略</h3>
+<p>绞杀者策略是一种逐步剥离业务能力，用微服务逐步替代原有单体系统的策略。它对单体系统进行领域建模，根据领域边界，在单体系统之外，将新功能和部分业务能力独立出来，建设独立的微服务。新微服务与单体系统保持松耦合关系。随着时间的推移，大部分单体系统的功能将被独立为微服务，这样就慢慢绞杀掉了原来的单体系统。<strong>绞杀者策略类似建筑拆迁，完成部分新建筑物后，然后拆除部分旧建筑物。</strong></p>
+<h3 id="修缮者策略">修缮者策略</h3>
+<p>修缮者策略是一种维持原有系统整体能力不变，逐步优化系统整体能力的策略。它是在现有系统的基础上，剥离影响整体业务的部分功能，独立为微服务，比如高性能要求的功能，代码质量不高或者版本发布频率不一致的功能等。</p>
+<p>通过这些功能的剥离，我们就可以兼顾整体和局部，解决系统整体不协调的问题。<strong>修缮者策略类似古建筑修复，将存在问题的部分功能重建或者修复后，重新加入到原有的建筑中，保持建筑原貌和功能不变。一般人从外表感觉不到这个变化，但是建筑物质量却得到了很大的提升。</strong></p>
+<h3 id="另起炉灶策略">另起炉灶策略</h3>
+<p><strong>将原有的系统推倒重做</strong>。建设期间，原有单体系统照常运行，一般会停止开发新需求。而新系统则会组织新的项目团队，按照原有系统的功能域，重新做领域建模，开发新的微服务。在完成数据迁移后，进行新旧系统切换。</p>
+<h2 id="不同场景下的领域建模策略">不同场景下的领域建模策略</h2>
+<h3 id="1-新建系统">1. 新建系统</h3>
+<h4 id="简单领域建模">简单领域建模</h4>
+<p>简单的业务领域，一个领域就是一个小的子域。在这个小的问题域内，领域建模过程相对简单，直接采用事件风暴的方法构建领域模型就可以了。</p>
+<h4 id="复杂领域建模">复杂领域建模</h4>
+<p>对于复杂的业务领域，领域可能需要多级拆分后才能开始领域建模。领域拆分为子域，甚至子域还需要进一步拆分。比如：保险它需要拆分为承保、理赔、收付费和再保等子域，承保子域再拆分为投保、保单管理等子子域。复杂领域如果不做进一步细分，由于问题域太大，领域建模的工程量会非常浩大。你不太容易通过事件风暴，完成一个很大的领域建模，即使勉强完成，效果也不一定好。</p>
+<p><strong>分三步来完成领域建模和微服务设计。</strong></p>
+<p><strong>第一步，拆分子域建立领域模型</strong></p>
+<p>根据业务领域的特点，参考流程节点边界或功能聚合模块等边界因素。结合领域专家和项目团队的讨论，将领域逐级分解为大小合适的子域，针对子域采用事件风暴，划分聚合和限界上下文，初步确定子域内的领域模型。</p>
+<p><strong>第二步，领域模型微调</strong></p>
+<p>梳理领域内所有子域的领域模型，对各子域领域模型进行微调。微调的过程重点考虑不同领域模型中聚合的重组。同步考虑领域模型和聚合的边界，服务以及事件之间的依赖关系，确定最终的领域模型。</p>
+<p><strong>第三步，微服务的设计和拆分</strong></p>
+<p>根据领域模型和微服务拆分原则，完成微服务的拆分和设计。</p>
+<h3 id="2-单体遗留系统">2. 单体遗留系统</h3>
+<p>如果我们面对的是一个单体遗留系统，只需要将部分功能独立为微服务，而其余仍为单体，整体保持不变，比如将面临性能瓶颈的模块拆分为微服务。我们只需要将这一特定功能，理解为一个简单子领域，参考简单领域建模的方式就可以了。在微服务设计中，我们还要考虑新老系统之间服务和业务的兼容，必要时可引入防腐层。</p>
+<h1 id="微服务设计原则">微服务设计原则</h1>
+<p><strong>第一条：要领域驱动设计，而不是数据驱动设计，也不是界面驱动设计。</strong></p>
+<p>微服务设计首先应建立领域模型，确定逻辑和物理边界以及领域对象后，然后才开始微服务的拆分和设计。而不是先定义数据模型和库表结构，也不是前端界面需要什么，就去调整核心领域逻辑代码。在设计时应该将外部需求从外到内逐级消化，尽量降低对核心领域层逻辑的影响。</p>
+<p><strong>第二条：要边界清晰的微服务，而不是泥球小单体。</strong></p>
+<p>微服务上线后其功能和代码也不是一成不变的。随着需求或设计变化，领域模型会迭代，微服务的代码也会分分合合。边界清晰的微服务，可快速实现微服务代码的重组。微服务内聚合之间的领域服务和数据库实体原则上应杜绝相互依赖。你可通过应用服务编排或者事件驱动，实现聚合之间的解耦，以便微服务的架构演进。</p>
+<p><strong>第三条：要职能清晰的分层，而不是什么都放的大箩筐。</strong></p>
+<p>分层架构中各层职能定位清晰，且都只能与其下方的层发生依赖，也就是说只能从外层调用内层服务，内层通过封装、组合或编排对外逐层暴露，服务粒度也由细到粗。应用层负责服务的组合和编排，不应有太多的核心业务逻辑，领域层负责核心领域业务逻辑的实现。各层应各司其职，职责边界不要混乱。在服务演进时，应尽量将可复用的能力向下层沉淀。</p>
+<p><strong>第四条：要做自己能 hold 住的微服务，而不是过度拆分的微服务。</strong></p>
+<p>微服务过度拆分必然会带来软件维护成本的上升，比如：集成成本、运维成本、监控和定位问题的成本。企业在微服务转型过程中还需要有云计算、DevOps、自动化监控等能力，而一般企业很难在短时间内提升这些能力，如果项目团队没有这些能力，将很难 hold 住这些微服务。</p>
+<h1 id="微服务拆分需要考虑哪些因素">微服务拆分需要考虑哪些因素？</h1>
+<ol>
+<li>
+<p><strong>基于领域模型</strong></p>
+<p>基于领域模型进行拆分，围绕业务领域按职责单一性、功能完整性拆分。</p>
+</li>
+<li>
+<p><strong>基于业务需求变化频率</strong></p>
+<p>识别领域模型中的业务需求变动频繁的功能，考虑业务变更频率与相关度，将业务需求变动较高和功能相对稳定的业务进行分离。这是因为需求的经常性变动必然会导致代码的频繁修改和版本发布，这种分离可以有效降低频繁变动的敏态业务对稳态业务的影响。</p>
+</li>
+<li>
+<p><strong>基于应用性能</strong></p>
+<p>识别领域模型中性能压力较大的功能。因为性能要求高的功能可能会拖累其它功能，在资源要求上也会有区别，为了避免对整体性能和资源的影响，我们可以把在性能方面有较高要求的功能拆分出去。</p>
+</li>
+<li>
+<p><strong>基于组织架构和团队规模</strong></p>
+<p>除非有意识地优化组织架构，否则微服务的拆分应尽量避免带来团队和组织架构的调整，避免由于功能的重新划分，而增加大量且不必要的团队之间的沟通成本。拆分后的微服务项目团队规模保持在 10～12 人左右为宜。</p>
+</li>
+<li>
+<p><strong>基于安全边界</strong></p>
+<p>有特殊安全要求的功能，应从领域模型中拆分独立，避免相互影响</p>
+</li>
+<li>
+<p><strong>基于技术异构等因素</strong></p>
+<p>领域模型中有些功能虽然在同一个业务域内，但在技术实现时可能会存在较大的差异，也就是说领域模型内部不同的功能存在技术异构的问题。由于业务场景或者技术条件的限制，有的可能用.NET，有的则是 Java，有的甚至大数据架构。对于这些存在技术异构的功能，可以考虑按照技术边界进行拆分。</p>
+</li>
+</ol>
+<h2 id="声明">声明</h2>
+<p>该文章为整理的笔记，内容来自【欧创新】在极客时间开设的专栏【DDD实战课】。有兴趣的读者可以扫描下方二维码前去学习。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/8e05d23297752527a14993890421a7d.jpg" alt=""></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="解析文件example grammar calc; MUL: &#39;*&#39;; DIV: &#39;/&#39;; ADD: &#39;&#43;&#39;; SUB: &#39;-&#39;; NUMBER: [0-9]&#43;; WHITESPACE: [ \r\n\t]&#43; -&gt; skip; start : expression EOF; expression : expression op=(&#39;*&#39;|&#39;/&#39;) expression # MulDiv | expression op=(&#39;&#43;&#39;|&#39;-&#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
+重复的元素可用圆括号包裹。
+*: 表示没有或者多个 &#43;: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
+field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
+词法符号依赖模式 一个词法符号依赖多个词法符号，如
+expr: &#39;(&#39; field &#39;)&#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="antlr4-理论基础"/>
+<meta name="twitter:description" content="解析文件example grammar calc; MUL: &#39;*&#39;; DIV: &#39;/&#39;; ADD: &#39;&#43;&#39;; SUB: &#39;-&#39;; NUMBER: [0-9]&#43;; WHITESPACE: [ \r\n\t]&#43; -&gt; skip; start : expression EOF; expression : expression op=(&#39;*&#39;|&#39;/&#39;) expression # MulDiv | expression op=(&#39;&#43;&#39;|&#39;-&#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
+重复的元素可用圆括号包裹。
+*: 表示没有或者多个 &#43;: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
+field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
+词法符号依赖模式 一个词法符号依赖多个词法符号，如
+expr: &#39;(&#39; field &#39;)&#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x."/>
+
+    <meta property="og:title" content="antlr4-理论基础" />
+<meta property="og:description" content="解析文件example grammar calc; MUL: &#39;*&#39;; DIV: &#39;/&#39;; ADD: &#39;&#43;&#39;; SUB: &#39;-&#39;; NUMBER: [0-9]&#43;; WHITESPACE: [ \r\n\t]&#43; -&gt; skip; start : expression EOF; expression : expression op=(&#39;*&#39;|&#39;/&#39;) expression # MulDiv | expression op=(&#39;&#43;&#39;|&#39;-&#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
+重复的元素可用圆括号包裹。
+*: 表示没有或者多个 &#43;: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
+field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
+词法符号依赖模式 一个词法符号依赖多个词法符号，如
+expr: &#39;(&#39; field &#39;)&#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/tool/antlr4-theory/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-10-28T20:43:00+08:00" />
+<meta property="article:modified_time" content="2022-10-28T20:43:00+08:00" />
+
+
+
+    <title>
+  antlr4-理论基础 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/tool/antlr4-theory/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#解析文件example">解析文件example</a></li>
+    <li><a href="#语法模式">语法模式</a>
+      <ul>
+        <li><a href="#序列模式">序列模式</a></li>
+        <li><a href="#选择模式">选择模式</a></li>
+        <li><a href="#词法符号依赖模式">词法符号依赖模式</a></li>
+        <li><a href="#antlr核心标记">ANTLR核心标记</a></li>
+      </ul>
+    </li>
+    <li><a href="#入门专用词法规则">入门专用词法规则</a>
+      <ul>
+        <li><a href="#匹配标识符">匹配标识符</a></li>
+        <li><a href="#匹配数字">匹配数字</a></li>
+        <li><a href="#匹配字符串常量">匹配字符串常量</a></li>
+        <li><a href="#匹配注释和空白字符">匹配注释和空白字符</a></li>
+        <li><a href="#通用经验">通用经验</a></li>
+      </ul>
+    </li>
+    <li><a href="#语法规则">语法规则</a>
+      <ul>
+        <li><a href="#右递归">右递归</a></li>
+      </ul>
+    </li>
+    <li><a href="#词法和语法优先级机制">词法和语法优先级机制</a></li>
+    <li><a href="#访问语法树">访问语法树</a>
+      <ul>
+        <li><a href="#三种在事件方法间共享数据的方案">三种在事件方法间共享数据的方案</a></li>
+      </ul>
+    </li>
+    <li><a href="#错误自动恢复">错误自动恢复</a>
+      <ul>
+        <li><a href="#通过扫描后续词法符号来恢复">通过扫描后续词法符号来恢复</a></li>
+        <li><a href="#从不匹配的词法符号中恢复">从不匹配的词法符号中恢复</a></li>
+        <li><a href="#从子规则的错误中恢复">从子规则的错误中恢复</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>antlr4-理论基础</h1>
+    </header>
+
+    <h2 id="解析文件example">解析文件example</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grammar calc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MUL: <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>;
+</span></span><span style="display:flex;"><span>DIV: <span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>;
+</span></span><span style="display:flex;"><span>ADD: <span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>;
+</span></span><span style="display:flex;"><span>SUB: <span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>;
+</span></span><span style="display:flex;"><span>NUMBER: [0-9]+;
+</span></span><span style="display:flex;"><span>WHITESPACE: [ <span style="color:#0ff;font-weight:bold">\r\n\t</span>]+ -&gt; skip;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>start : expression EOF;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>expression
+</span></span><span style="display:flex;"><span>   : expression op=(<span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;/&#39;</span>) expression <span style="color:#007f7f"># MulDiv</span>
+</span></span><span style="display:flex;"><span>   | expression op=(<span style="color:#0ff;font-weight:bold">&#39;+&#39;</span>|<span style="color:#0ff;font-weight:bold">&#39;-&#39;</span>) expression <span style="color:#007f7f"># AddSub</span>
+</span></span><span style="display:flex;"><span>   | NUMBER                             <span style="color:#007f7f"># Number</span>
+</span></span><span style="display:flex;"><span>   ;
+</span></span></code></pre></div><ol>
+<li>语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。</li>
+<li>语法规则必须以小写字母开头。</li>
+<li>词法规则必须以大写字母开头。</li>
+<li>使用|来分割一个规则的若干备用分支。</li>
+<li>用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。</li>
+<li>可以接收子规则（例子中的op）。</li>
+<li>标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。</li>
+</ol>
+<h2 id="语法模式">语法模式</h2>
+<h3 id="序列模式">序列模式</h3>
+<p>序列即一列元素，如表示一列数字<code>1,2,3,4,5</code>则可以表示为<code>num : INT(,INT)*;</code></p>
+<p>重复的元素可用圆括号包裹。</p>
+<ul>
+<li><code>*</code>: 表示没有或者多个</li>
+<li><code>+</code>: 表示1个或多个</li>
+<li><code>?</code>: 表示没有或1个</li>
+</ul>
+<h3 id="选择模式">选择模式</h3>
+<p>即备选分支，用|来分割多个备选分支，如</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>field : INT | STRING;
+</span></span></code></pre></div><p>如果有多个备选分支同时符合，则选择最前边的备选分支。</p>
+<h3 id="词法符号依赖模式">词法符号依赖模式</h3>
+<p>一个词法符号依赖多个词法符号，如</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>expr: &#39;(&#39; field &#39;)&#39;
+</span></span></code></pre></div><h3 id="antlr核心标记">ANTLR核心标记</h3>
+<table>
+<thead>
+<tr>
+<th>用法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>匹配词法符号、规则或者子规则x</td>
+</tr>
+<tr>
+<td>x..y</td>
+<td>匹配一列规则元素</td>
+</tr>
+<tr>
+<td>(&hellip;|&hellip;|&hellip;)</td>
+<td>具有备选分支的子规则</td>
+</tr>
+<tr>
+<td>x?</td>
+<td>匹配x或者忽略它</td>
+</tr>
+<tr>
+<td>x*</td>
+<td>匹配x 0次或多次</td>
+</tr>
+<tr>
+<td>x+</td>
+<td>匹配x 1次或多次</td>
+</tr>
+<tr>
+<td>r: &hellip;;</td>
+<td>定义规则r</td>
+</tr>
+<tr>
+<td>r: &hellip; | &hellip; |&hellip;;</td>
+<td>具有备选分支的规则</td>
+</tr>
+</tbody>
+</table>
+<h2 id="入门专用词法规则">入门专用词法规则</h2>
+<h3 id="匹配标识符">匹配标识符</h3>
+<p>ANTLR支持正则表达式中用于表 示字符集的缩写：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>ID: [a-zA-Z]+; <span style="color:#007f7f">// 匹配一个或多个大小写字符
+</span></span></span></code></pre></div><p>使用序列模式+选择模式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>ID: (<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>..<span style="color:#0ff;font-weight:bold">&#39;z&#39;</span> | <span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>..<span style="color:#0ff;font-weight:bold">&#39;Z&#39;</span>)+; <span style="color:#007f7f">// 匹配一个或多个大小写字符
+</span></span></span></code></pre></div><h3 id="匹配数字">匹配数字</h3>
+<p>整数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>INT: <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span>..<span style="color:#0ff;font-weight:bold">&#39;9&#39;</span>+; <span style="color:#007f7f">// 匹配1个或多个数字
+</span></span></span></code></pre></div><p>或者：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>INT: [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>]+; <span style="color:#007f7f">// 匹配1个或多个数字
+</span></span></span></code></pre></div><p>浮点数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>FLOAT: DIGIT+ <span style="color:#0ff;font-weight:bold">&#39;.&#39;</span> DIGIT* <span style="color:#007f7f">// 匹配 1. 39. 3.14159等
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	| <span style="color:#0ff;font-weight:bold">&#39;.&#39;</span> DIGIT+ <span style="color:#007f7f">// 匹配 .14159
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>fragment 
+</span></span><span style="display:flex;"><span>DIGIT : [<span style="color:#ff0;font-weight:bold">0</span>-<span style="color:#ff0;font-weight:bold">9</span>] <span style="color:#007f7f">// 匹配单个数字
+</span></span></span></code></pre></div><p>将一条规则声明为<strong>fragment</strong>可以告诉ANTLR，该规则本身不是一个词法符号，它只会被其他 的词法规则使用。这意味着我们不能在语法规则中引用DIGIT。</p>
+<h3 id="匹配字符串常量">匹配字符串常量</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>STRING: <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span> .*? <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>;
+</span></span></code></pre></div><p>字符串是用双引号包裹的任意字符序列。</p>
+<p>其中<code>.*</code>表示任意字符，<code>?</code>表示<strong>非贪婪匹配</strong>——若是贪婪匹配，则该表达式能够匹配任意内容。</p>
+<p>上述规则不能匹配包含双引号的字符串，需要用转义字符<code>\</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>STRING: <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span> (ESC|.)*? <span style="color:#0ff;font-weight:bold">&#39;&#34;&#39;</span>;
+</span></span><span style="display:flex;"><span>fragment
+</span></span><span style="display:flex;"><span>ESC: <span style="color:#0ff;font-weight:bold">&#39;\\&#34;&#39;</span> | <span style="color:#0ff;font-weight:bold">&#39;\\\\&#39;</span> <span style="color:#007f7f">// 双字符序列\&#34; 和\\
+</span></span></span></code></pre></div><p>ANTLR语法本身需要对转义字符<code>\</code>进行转义，因此我们需要<code>\\</code>来表示单个反斜 杠字符。</p>
+<p><code>(ESC|.)*? </code>循环在看到后续子规则含有一个未转义的双引号时终止。</p>
+<h3 id="匹配注释和空白字符">匹配注释和空白字符</h3>
+<p>当词法分析器匹配到注释和空白字符的时候，我们通常希望将 它们丢弃。这样，语法分析器就不必处理注释和空白字符了。</p>
+<p>使用<code>skip</code>指令通知词法分析器将它们丢弃.</p>
+<p><strong>丢弃注释：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>LINE_COMMENT: <span style="color:#0ff;font-weight:bold">&#39;//&#39;</span> .*? <span style="color:#0ff;font-weight:bold">&#39;\n&#39;</span> -&gt; skip ; <span style="color:#007f7f">// 匹配: &#39;//&#39; 任意字符序列 &#39;\n&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>COMMENT: <span style="color:#0ff;font-weight:bold">&#39;/*&#39;</span> .*? <span style="color:#0ff;font-weight:bold">&#39;*/&#39;</span> -&gt; skip ; <span style="color:#007f7f">// 匹配: &#39;/*&#39; 任意字符序列 &#39;*/&#39;
+</span></span></span></code></pre></div><p><strong>丢弃空白字符：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>WS: ( <span style="color:#0ff;font-weight:bold">&#39; &#39;</span> | <span style="color:#0ff;font-weight:bold">&#39;\t&#39;</span> | <span style="color:#0ff;font-weight:bold">&#39;\r&#39;</span> | <span style="color:#0ff;font-weight:bold">&#39;\n&#39;</span> )+ -&gt; skip ; 
+</span></span></code></pre></div><p>或者：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>WS: [ \t\r\n]+ -&gt; skip;
+</span></span></code></pre></div><h3 id="通用经验">通用经验</h3>
+<ol>
+<li>在词法分析器中匹配并丢弃任何语法分析器无须知晓的东西。</li>
+<li>由词法分析器来匹配类似标识符、关键字、字符串和数字的常见词法符号。</li>
+<li>将语法分析器无须区分的词法结构归为同一个词法符号类型。例如，如果我们的程序对待整数和浮点数的方式是一致的，那就把它们都归为NUMBER类型的词法符号。 没必要传给语法分析器不同的类型。</li>
+<li>将任何语法分析器可以以相同方式处理的实体归为一类。例如，如果语法分析器不 关心XML标签的内容，词法分析器就可以将尖括号中的所有内容归为一个名为TAG的 词法符号类型。</li>
+<li>如果语法分析器需要把一种类型的文本拆开处理，那么词法分析器就应 该将它的各组成部分作为独立的词法符号输送给语法分析器。</li>
+</ol>
+<h2 id="语法规则">语法规则</h2>
+<h3 id="右递归">右递归</h3>
+<p>如<code>2^2^2</code>表示<code>2^4</code>而非<code>4^2</code>，即 需要先计算右边后计算左边。</p>
+<p>这时需要指定后缀<code>&lt;assoc=right&gt;</code>，即：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>&lt;assoc=right&gt; expr <span style="color:#0ff;font-weight:bold">&#39;^&#39;</span> expr
+</span></span></code></pre></div><h2 id="词法和语法优先级机制">词法和语法优先级机制</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>grammar test;
+</span></span><span style="display:flex;"><span>enumDef : <span style="color:#0ff;font-weight:bold">&#39;enum&#39;</span> <span style="color:#0ff;font-weight:bold">&#39;{&#39;</span>...<span style="color:#0ff;font-weight:bold">&#39;}&#39;</span>;
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>FOR : <span style="color:#0ff;font-weight:bold">&#39;for&#39;</span>;
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>ID : [a-zA-Z]+; <span style="color:#007f7f">//不会匹配enum和for
+</span></span></span></code></pre></div><ol>
+<li>ANTLR从文法规则中筛选出所有的字符串常量， 并将它们和词法规则放在一起。&rsquo;enum&rsquo;这样的字符串常量被隐式定义为词法规则， 然后放置在文法规则之后、显式定义的词法规则之前.</li>
+<li>ANTLR词法分析器解决歧义问题的方法是<strong>优先使用位置靠前的词法规则</strong>。这意味着，ID规则必须定义在所有的关键字规则之后，在上面的例子中，它在FOR规则之后。ANTLR将为字符串常量隐式生 成的词法规则放在显式定义的词法规则之前，所以它们总是拥有最高的优先级。因此，在本例中，&rsquo;enum&rsquo;被自动赋予了比ID更高的优先级.</li>
+</ol>
+<h2 id="访问语法树">访问语法树</h2>
+<p>解析语法和业务逻辑之间应该是解耦的。antlr提供了两种模式来访问语法树：访问器和监听器。</p>
+<p>访问器机制和监听器机制的最大的区别在于，<strong>监听器</strong>的方法会被ANTLR提供的遍历器对象<strong>自动调用</strong>，而在<strong>访问器</strong>的方法中，<strong>必须显式调用visit方法来访问子节点</strong>。忘记调用visit()的后果就是对应的子树将不会被访问。</p>
+<p><strong>监听器能够对特定规则的进入和退出事件(即识别到某些词组的事件)作出响应</strong>，这些事件分别由语法分析树遍历器在开始和完成对节点的访问时触发。</p>
+<p>这种基于监听器的方法十分巧妙，因为所有的遍历过程和方法触发都是自动进行 的。有些时候，自动进行的遍历反而成为一个缺陷，因为我们无法控制遍历的过 程。例如，我们可能希望遍历一个C语言程序的语法分析树，跳过对代表函数体的子树的访问，从而达到忽略函数内容的目的。此外，监听器的事件方法也无法利用方法的返回值来传递数据。当需要控制遍历过程，或者希望事件方法返回值时，我们可以使用访问者模式。</p>
+<h3 id="三种在事件方法间共享数据的方案">三种在事件方法间共享数据的方案</h3>
+<ol>
+<li>原生语言的调用栈:访问器返回一个用户指定类型的值。不过，如果访问器需要传递参数，那就必须使用下面两种方案。</li>
+<li>基于栈的:在上下文类中维护一个栈字段，模拟参数和返回值的入栈和出栈。</li>
+<li>标注:在上下文类中维护一个Map字段，用对应的值来标注节点。</li>
+</ol>
+<h2 id="错误自动恢复">错误自动恢复</h2>
+<h3 id="通过扫描后续词法符号来恢复">通过扫描后续词法符号来恢复</h3>
+<p>语法分析器知道自己无法使用当前规 则匹配当前输入，它会持续丢弃后续词法符号，直至发现一个可以匹配本规则中断 位置之后的某条子规则的词法符号。</p>
+<h3 id="从不匹配的词法符号中恢复">从不匹配的词法符号中恢复</h3>
+<p>在语法分析过程中，如果词法符号不符合预期，就会通知错误监听器并重新同步。为了完成同步，分析器可以在三种策略中选择一个执行：</p>
+<ul>
+<li>移除一个词法符号</li>
+<li>添加一个词法符号</li>
+<li>抛出异常，跳过，继续解析</li>
+</ul>
+<h3 id="从子规则的错误中恢复">从子规则的错误中恢复</h3>
+<p>如果子规则是一个循环结构，即<code>(...)*</code>或<code>(...) +</code>，在遇到错误时，语法分析器会尝试进行积极的恢复，使得自己留在循环内部。在 成功地匹配到循环的某个备选分支之后，语法分析器会持续消费词法符号，直到发现满足下列条件之一的词法符号为止:</p>
+<ol>
+<li>循环的另一次迭代</li>
+<li>紧跟在循环之后的内容</li>
+<li>当前规则的重新同步集合中的元素</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

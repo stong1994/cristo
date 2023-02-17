@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
+观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
+观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
+Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
+package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
+如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
+Topic和观察者耦合在了一起。
+How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
+package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式之观察者模式"/>
+<meta name="twitter:description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
+观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
+观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
+Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
+package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
+如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
+Topic和观察者耦合在了一起。
+How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
+package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t."/>
+
+    <meta property="og:title" content="设计模式之观察者模式" />
+<meta property="og:description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
+观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
+观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
+Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
+package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
+如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
+Topic和观察者耦合在了一起。
+How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
+package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/observer/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-11-11T19:45:00+08:00" />
+<meta property="article:modified_time" content="2022-11-11T19:45:00+08:00" />
+
+
+
+    <title>
+  设计模式之观察者模式 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/observer/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what">What</a></li>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#how">How</a></li>
+    <li><a href="#example">Example</a>
+      <ul>
+        <li><a href="#antlr中的错误监听">antlr中的错误监听</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>设计模式之观察者模式</h1>
+    </header>
+
+    <h2 id="what">What</h2>
+<p>观察者模式是一种设计模式，通常用于<strong>解耦</strong>观察者与被观察者。</p>
+<p>观察者模式中，被观察者称为<strong>主题</strong>。主题与观察者通常是1对多的关系。</p>
+<p>观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。</p>
+<h2 id="why">Why</h2>
+<p>在未考虑设计模式/原则的代码中，实现上述功能可以简述为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer1 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer1) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer2 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer2) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer3 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer3) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Topic <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Topic) Notify() {
+</span></span><span style="display:flex;"><span>	Observer1{}.Update(t.msg)
+</span></span><span style="display:flex;"><span>	Observer2{}.Update(t.msg)
+</span></span><span style="display:flex;"><span>	Observer3{}.Update(t.msg)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。</p>
+<p>如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。</p>
+<p><strong>Topic和观察者耦合在了一起。</strong></p>
+<h2 id="how">How</h2>
+<p>通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	Update(msg <span style="color:#fff;font-weight:bold">string</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer1 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer1) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer2 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer2) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer3 <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer3) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Topic <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>	observers []Observer
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Topic) Notify() {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, observer := <span style="color:#fff;font-weight:bold">range</span> t.observers {
+</span></span><span style="display:flex;"><span>		observer.Update(t.msg)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到，Topic中的Notify方法没有再实例化观察者，而是遍历当前已注册的观察者。</p>
+<p>当我们需要新增观察者的时候，通过Topic的注册接口添加到observers即可。注销同理。</p>
+<h2 id="example">Example</h2>
+<p>理论总是很简单，实践往往复杂很多。</p>
+<h3 id="antlr中的错误监听">antlr中的错误监听</h3>
+<p>antlr是一个开源的语法解析工具。在语法解析过程中，有可能解析失败，这时候需要处理错误。</p>
+<p>antlr作为一个开源工具，不可能为用户提供各种错误处理方式，而通过观察者模式，antlr将错误处理的能力移交给了使用者。</p>
+<h4 id="定义观察者行为">定义观察者行为</h4>
+<p>antlr中定义了观察者的行为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ErrorListener <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException)
+</span></span><span style="display:flex;"><span>	ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet)
+</span></span><span style="display:flex;"><span>	ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet)
+</span></span><span style="display:flex;"><span>	ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>并且实现了两个观察者：</p>
+<ul>
+<li>默认的观察者（不处理错误的观察者）。</li>
+<li>将语法错误输出到终端的观察者。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> DefaultErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewDefaultErrorListener() *DefaultErrorListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(DefaultErrorListener)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ConsoleErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*DefaultErrorListener
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewConsoleErrorListener() *ConsoleErrorListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(ConsoleErrorListener)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *ConsoleErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
+</span></span><span style="display:flex;"><span>	fmt.Fprintln(os.Stderr, <span style="color:#0ff;font-weight:bold">&#34;line &#34;</span>+strconv.Itoa(line)+<span style="color:#0ff;font-weight:bold">&#34;:&#34;</span>+strconv.Itoa(column)+<span style="color:#0ff;font-weight:bold">&#34; &#34;</span>+msg)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="自定义观察者">自定义观察者</h4>
+<p>作为antlr的用户，我需要自己捕获语法错误，因此，我实现了自己的错误监听器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ErrListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	antlr.DefaultErrorListener
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	errList []<span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (el *ErrListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>,
+</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>, e antlr.RecognitionException) {
+</span></span><span style="display:flex;"><span>	el.errList = <span style="color:#fff;font-weight:bold">append</span>(el.errList, fmt.Sprintf(<span style="color:#0ff;font-weight:bold">&#34;pos: %d:%d, msg: %s&#34;</span>, line, column, msg))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>antlr的语法解析器提供了注册错误监听器的方法，所以在初始化解析器的时候将ErrListener注册进去即可:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// parser中有一个观察者数组：listeners []ErrorListener
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>parser := NewParser()
+</span></span><span style="display:flex;"><span>parser.AddErrorListener(&amp;ErrListener{})
+</span></span></code></pre></div><p>在实际解析到错误时，antlr会创建一个<strong>代理</strong>来将错误信息分发给观察者。实现如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *BaseParser) NotifyErrorListeners(msg <span style="color:#fff;font-weight:bold">string</span>, offendingToken Token, err RecognitionException) {
+</span></span><span style="display:flex;"><span>	p._SyntaxErrors++
+</span></span><span style="display:flex;"><span>	line := offendingToken.GetLine()
+</span></span><span style="display:flex;"><span>	column := offendingToken.GetColumn()
+</span></span><span style="display:flex;"><span>	listener := p.GetErrorListenerDispatch()
+</span></span><span style="display:flex;"><span>	listener.SyntaxError(p, offendingToken, line, column, msg, err)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BaseRecognizer) GetErrorListenerDispatch() ErrorListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> NewProxyErrorListener(b.listeners)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ProxyErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	*DefaultErrorListener
+</span></span><span style="display:flex;"><span>	delegates []ErrorListener
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewProxyErrorListener(delegates []ErrorListener) *ProxyErrorListener {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> delegates == <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;delegates is not provided&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	l := <span style="color:#fff;font-weight:bold">new</span>(ProxyErrorListener)
+</span></span><span style="display:flex;"><span>	l.delegates = delegates
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> l
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
+</span></span><span style="display:flex;"><span>		d.SyntaxError(recognizer, offendingSymbol, line, column, msg, e)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
+</span></span><span style="display:flex;"><span>		d.ReportAmbiguity(recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
+</span></span><span style="display:flex;"><span>		d.ReportAttemptingFullContext(recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
+</span></span><span style="display:flex;"><span>		d.ReportContextSensitivity(recognizer, dfa, startIndex, stopIndex, prediction, configs)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="小结">小结</h4>
+<p>从antlr处理错误的代码中，我们可以学到：</p>
+<ol>
+<li>观察者模式提供了一种能力，让用户参与到行为（主题）的捕获与处理。</li>
+<li>通过工厂的方式来创建了一个代理来向观察者发送数据，进一步解耦了实体（解析器）与观察者。</li>
+<li>可以通过定义一个无作为的观察者（DefaultErrorListener），方便用户实现观察者。</li>
+</ol>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

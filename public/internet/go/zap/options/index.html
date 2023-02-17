@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前瞻 代码中有些对象具有多种行为，而展示哪种行为方式则需要根据配置来抉择。
+根据配置来实例化对象，最简单的方式是提供一个New函数来实例化对象，将配置参数作为函数入参，如：
+// name和age是必传的参数，而isAdmin是可选的配置——如果是管理员，则具有更多的行为。 func NewUser(name string, age int, isAdmin bool) *User {...} 在这个例子中，User只有一个可选参数(isAdmin)，在产品迭代过程中（甚至在开发过程中），会存在越来越多的功能，也会需要越来越多的可选参数，这个时候就需要去修改这个函数签名以加入更多的参数:
+func NewUser(name string, age int, isAdmin bool, isTeacher bool, isStudent bool, location string) *User {...} 但是直接修改函数签名会带来一些负面效果：
+函数签名越来越长，调用的时候需要设置很多不需要的参数 函数体越来越复杂，看起来很乱 需要修改调用方 。。。 所以我们一般不在New方法中存入可选参数。
+我们可以借鉴下zap。
+zap zap是uber开源的一款基础golang的日志库，以性能卓越著称。
+Option接口 Option是一个接口，每个可选参数都实例化为一个函数，函数的返回值都实现了这个接口。
+// An Option configures a Logger. type Option interface { apply(*Logger) } // optionFunc wraps a func so it satisfies the Option interface. type optionFunc func(*Logger) func (f optionFunc) apply(log *Logger) { f(log) } Option定义了apply方法，用于将配置应用于日志对象上。">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="zap-优雅的可选配置"/>
+<meta name="twitter:description" content="前瞻 代码中有些对象具有多种行为，而展示哪种行为方式则需要根据配置来抉择。
+根据配置来实例化对象，最简单的方式是提供一个New函数来实例化对象，将配置参数作为函数入参，如：
+// name和age是必传的参数，而isAdmin是可选的配置——如果是管理员，则具有更多的行为。 func NewUser(name string, age int, isAdmin bool) *User {...} 在这个例子中，User只有一个可选参数(isAdmin)，在产品迭代过程中（甚至在开发过程中），会存在越来越多的功能，也会需要越来越多的可选参数，这个时候就需要去修改这个函数签名以加入更多的参数:
+func NewUser(name string, age int, isAdmin bool, isTeacher bool, isStudent bool, location string) *User {...} 但是直接修改函数签名会带来一些负面效果：
+函数签名越来越长，调用的时候需要设置很多不需要的参数 函数体越来越复杂，看起来很乱 需要修改调用方 。。。 所以我们一般不在New方法中存入可选参数。
+我们可以借鉴下zap。
+zap zap是uber开源的一款基础golang的日志库，以性能卓越著称。
+Option接口 Option是一个接口，每个可选参数都实例化为一个函数，函数的返回值都实现了这个接口。
+// An Option configures a Logger. type Option interface { apply(*Logger) } // optionFunc wraps a func so it satisfies the Option interface. type optionFunc func(*Logger) func (f optionFunc) apply(log *Logger) { f(log) } Option定义了apply方法，用于将配置应用于日志对象上。"/>
+
+    <meta property="og:title" content="zap-优雅的可选配置" />
+<meta property="og:description" content="前瞻 代码中有些对象具有多种行为，而展示哪种行为方式则需要根据配置来抉择。
+根据配置来实例化对象，最简单的方式是提供一个New函数来实例化对象，将配置参数作为函数入参，如：
+// name和age是必传的参数，而isAdmin是可选的配置——如果是管理员，则具有更多的行为。 func NewUser(name string, age int, isAdmin bool) *User {...} 在这个例子中，User只有一个可选参数(isAdmin)，在产品迭代过程中（甚至在开发过程中），会存在越来越多的功能，也会需要越来越多的可选参数，这个时候就需要去修改这个函数签名以加入更多的参数:
+func NewUser(name string, age int, isAdmin bool, isTeacher bool, isStudent bool, location string) *User {...} 但是直接修改函数签名会带来一些负面效果：
+函数签名越来越长，调用的时候需要设置很多不需要的参数 函数体越来越复杂，看起来很乱 需要修改调用方 。。。 所以我们一般不在New方法中存入可选参数。
+我们可以借鉴下zap。
+zap zap是uber开源的一款基础golang的日志库，以性能卓越著称。
+Option接口 Option是一个接口，每个可选参数都实例化为一个函数，函数的返回值都实现了这个接口。
+// An Option configures a Logger. type Option interface { apply(*Logger) } // optionFunc wraps a func so it satisfies the Option interface. type optionFunc func(*Logger) func (f optionFunc) apply(log *Logger) { f(log) } Option定义了apply方法，用于将配置应用于日志对象上。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/zap/options/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-11-02T17:23:00+08:00" />
+<meta property="article:modified_time" content="2022-11-02T17:23:00+08:00" />
+
+
+
+    <title>
+  zap-优雅的可选配置 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/zap/options/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前瞻">前瞻</a></li>
+    <li><a href="#zap">zap</a>
+      <ul>
+        <li><a href="#option接口">Option接口</a></li>
+        <li><a href="#可选参数封装为函数实例">可选参数封装为函数实例：</a></li>
+        <li><a href="#应用option">应用Option</a></li>
+        <li><a href="#example">example</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>zap-优雅的可选配置</h1>
+    </header>
+
+    <h2 id="前瞻">前瞻</h2>
+<p>代码中有些对象具有多种行为，而展示哪种行为方式则需要根据配置来抉择。</p>
+<p>根据配置来实例化对象，最简单的方式是提供一个New函数来实例化对象，将配置参数作为函数入参，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// name和age是必传的参数，而isAdmin是可选的配置——如果是管理员，则具有更多的行为。
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> NewUser(name <span style="color:#fff;font-weight:bold">string</span>, age <span style="color:#fff;font-weight:bold">int</span>, isAdmin <span style="color:#fff;font-weight:bold">bool</span>) *User {...}
+</span></span></code></pre></div><p>在这个例子中，User只有一个可选参数(isAdmin)，在产品迭代过程中（甚至在开发过程中），会存在越来越多的功能，也会需要越来越多的可选参数，这个时候就需要去修改这个函数签名以加入更多的参数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewUser(name <span style="color:#fff;font-weight:bold">string</span>, age <span style="color:#fff;font-weight:bold">int</span>, isAdmin <span style="color:#fff;font-weight:bold">bool</span>, isTeacher <span style="color:#fff;font-weight:bold">bool</span>, isStudent <span style="color:#fff;font-weight:bold">bool</span>, location <span style="color:#fff;font-weight:bold">string</span>) *User {...}
+</span></span></code></pre></div><p>但是直接修改函数签名会带来一些负面效果：</p>
+<ul>
+<li>函数签名越来越长，调用的时候需要设置很多不需要的参数</li>
+<li>函数体越来越复杂，看起来很乱</li>
+<li>需要修改调用方</li>
+<li>。。。</li>
+</ul>
+<p>所以我们一般不在New方法中存入可选参数。</p>
+<p>我们可以借鉴下zap。</p>
+<h2 id="zap">zap</h2>
+<p><a href="https://github.com/uber-go/zap">zap</a>是uber开源的一款基础golang的日志库，以性能卓越著称。</p>
+<h3 id="option接口">Option接口</h3>
+<p><strong>Option是一个接口，每个可选参数都实例化为一个函数，函数的返回值都实现了这个接口</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// An Option configures a Logger.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> Option <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	apply(*Logger)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// optionFunc wraps a func so it satisfies the Option interface.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> optionFunc <span style="color:#fff;font-weight:bold">func</span>(*Logger)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (f optionFunc) apply(log *Logger) {
+</span></span><span style="display:flex;"><span>	f(log)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Option定义了apply方法，用于将配置应用于日志对象上。</p>
+<p>optionFunc是zap中实现了Option的结构，zap中内置的可选参数所实例化的函数的返回值都是optionFunc类型。</p>
+<h3 id="可选参数封装为函数实例">可选参数封装为函数实例：</h3>
+<p>这些例子有：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// Development puts the logger in development mode, which makes DPanic-level
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// logs panic instead of simply logging an error.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> Development() Option {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> optionFunc(<span style="color:#fff;font-weight:bold">func</span>(log *Logger) {
+</span></span><span style="display:flex;"><span>		log.development = <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// AddCaller configures the Logger to annotate each message with the filename
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// and line number of zap&#39;s caller.  See also WithCaller.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> AddCaller() Option {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> WithCaller(<span style="color:#fff;font-weight:bold">true</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// WithCaller configures the Logger to annotate each message with the filename
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// and line number of zap&#39;s caller, or not, depending on the value of enabled.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// This is a generalized form of AddCaller.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> WithCaller(enabled <span style="color:#fff;font-weight:bold">bool</span>) Option {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> optionFunc(<span style="color:#fff;font-weight:bold">func</span>(log *Logger) {
+</span></span><span style="display:flex;"><span>		log.addCaller = enabled
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// AddCallerSkip increases the number of callers skipped by caller annotation
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// (as enabled by the AddCaller option). When building wrappers around the
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// Logger and SugaredLogger, supplying this Option prevents zap from always
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// reporting the wrapper code as the caller.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> AddCallerSkip(skip <span style="color:#fff;font-weight:bold">int</span>) Option {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> optionFunc(<span style="color:#fff;font-weight:bold">func</span>(log *Logger) {
+</span></span><span style="display:flex;"><span>		log.callerSkip += skip
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// AddStacktrace configures the Logger to record a stack trace for all messages at
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// or above a given level.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> AddStacktrace(lvl zapcore.LevelEnabler) Option {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> optionFunc(<span style="color:#fff;font-weight:bold">func</span>(log *Logger) {
+</span></span><span style="display:flex;"><span>		log.addStack = lvl
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这些函数的返回值都是optionFunc，即都实现了Option。</p>
+<h3 id="应用option">应用Option</h3>
+<p>zap中通过WithOptions方法来应用可选配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// WithOptions clones the current Logger, applies the supplied Options, and
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// returns the resulting Logger. It&#39;s safe to use concurrently.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> (log *Logger) WithOptions(opts ...Option) *Logger {
+</span></span><span style="display:flex;"><span>	c := log.clone()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, opt := <span style="color:#fff;font-weight:bold">range</span> opts {
+</span></span><span style="display:flex;"><span>		opt.apply(c)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> c
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="example">example</h3>
+<p><strong>设置CallerSkip：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// NewStdLog returns a *log.Logger which writes to the supplied zap Logger at
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// InfoLevel. To redirect the standard library&#39;s package-global logging
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// functions, use RedirectStdLog instead.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">func</span> NewStdLog(l *Logger) *log.Logger {
+</span></span><span style="display:flex;"><span>	logger := l.WithOptions(AddCallerSkip(_stdLogDefaultDepth + _loggerWriterDepth))
+</span></span><span style="display:flex;"><span>	f := logger.Info
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> log.New(&amp;loggerWriter{f}, <span style="color:#0ff;font-weight:bold">&#34;&#34;</span> <span style="color:#007f7f">/* prefix */</span>, <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f">/* flags */</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>替换日志核心：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> ExampleWrapCore_replace() {
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// Replacing a Logger&#39;s core can alter fundamental behaviors.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// For example, it can convert a Logger to a no-op.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	nop := zap.WrapCore(<span style="color:#fff;font-weight:bold">func</span>(zapcore.Core) zapcore.Core {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> zapcore.NewNopCore()
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	logger := zap.NewExample()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">defer</span> logger.Sync()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	logger.Info(<span style="color:#0ff;font-weight:bold">&#34;working&#34;</span>)
+</span></span><span style="display:flex;"><span>	logger.WithOptions(nop).Info(<span style="color:#0ff;font-weight:bold">&#34;no-op&#34;</span>)
+</span></span><span style="display:flex;"><span>	logger.Info(<span style="color:#0ff;font-weight:bold">&#34;original logger still works&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// Output:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// {&#34;level&#34;:&#34;info&#34;,&#34;msg&#34;:&#34;working&#34;}
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#007f7f">// {&#34;level&#34;:&#34;info&#34;,&#34;msg&#34;:&#34;original logger still works&#34;}
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p><strong>设置为开发模式：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>L().With(Int(<span style="color:#0ff;font-weight:bold">&#34;foo&#34;</span>, <span style="color:#ff0;font-weight:bold">42</span>)).Named(<span style="color:#0ff;font-weight:bold">&#34;main&#34;</span>).WithOptions(Development()).Info(<span style="color:#0ff;font-weight:bold">&#34;&#34;</span>)
+</span></span></code></pre></div><p><strong>设置日志级别：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>logger.WithOptions(IncreaseLevel(ErrorLevel))
+</span></span></code></pre></div><h2 id="总结">总结</h2>
+<p>zap通过Option的设计，<strong>将可选配置与日志初始化实现了“实例化的解耦”</strong>，使用者可以根据其需求而使用不同的可选项，而不同的使用者之间不会互相影响。</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
