@@ -6,7 +6,16 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 16 Feb 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Feb 2023 10:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1&#43;1=?</title>
+      <link>https://stong1994.github.io/book/philosophy/1_plus_1/</link>
+      <pubDate>Sun, 19 Feb 2023 10:00:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/book/philosophy/1_plus_1/</guid>
+      <description>前言 上学的时候总是会想：1+1为什么等于2？最终也没想明白，总不能因为别人是这样定义的，它就是这样吧。 最近读了《哥德尔、艾舍尔、巴赫：集异璧</description>
+    </item>
+    
     <item>
       <title>ChatGPT 龟兔赛跑 无穷递归</title>
       <link>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</link>
@@ -1056,6 +1065,27 @@ AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，
 “同步到磁盘”有三种方式：
 将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
 一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
+    </item>
+    
+    <item>
+      <title>ChatGPT教我写代码——best todo</title>
+      <link>https://stong1994.github.io/internet/go/chatgpt_best-todo/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/chatgpt_best-todo/</guid>
+      <description>前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
+但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
+ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
+客户端开发选用的是flutter，主要是因为：
+支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
+学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
+可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
+接下里我让它增加了任务的编辑功能。
+增加了背景颜色：
+然后是增加任务弹窗、页面优化等一系列优化:
+ChatGPT先是给了我弹窗的实现：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &amp;#39;Add a task&amp;#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &amp;#39;Add a task&amp;#39;, contentPadding: EdgeInsets.</description>
     </item>
     
     <item>

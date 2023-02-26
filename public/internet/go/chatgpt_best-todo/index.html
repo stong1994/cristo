@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
+但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
+ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
+客户端开发选用的是flutter，主要是因为：
+支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
+学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
+可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
+接下里我让它增加了任务的编辑功能。
+增加了背景颜色：
+然后是增加任务弹窗、页面优化等一系列优化:
+ChatGPT先是给了我弹窗的实现：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &#39;Add a task&#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &#39;Add a task&#39;, contentPadding: EdgeInsets.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ChatGPT教我写代码——best todo"/>
+<meta name="twitter:description" content="前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
+但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
+ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
+客户端开发选用的是flutter，主要是因为：
+支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
+学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
+可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
+接下里我让它增加了任务的编辑功能。
+增加了背景颜色：
+然后是增加任务弹窗、页面优化等一系列优化:
+ChatGPT先是给了我弹窗的实现：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &#39;Add a task&#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &#39;Add a task&#39;, contentPadding: EdgeInsets."/>
+
+    <meta property="og:title" content="ChatGPT教我写代码——best todo" />
+<meta property="og:description" content="前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
+但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
+ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
+客户端开发选用的是flutter，主要是因为：
+支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
+学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
+可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
+接下里我让它增加了任务的编辑功能。
+增加了背景颜色：
+然后是增加任务弹窗、页面优化等一系列优化:
+ChatGPT先是给了我弹窗的实现：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &#39;Add a task&#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &#39;Add a task&#39;, contentPadding: EdgeInsets." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/go/chatgpt_best-todo/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-03-10T14:43:00+08:00" />
+<meta property="article:modified_time" content="2022-03-10T14:43:00+08:00" />
+
+
+
+    <title>
+  ChatGPT教我写代码——best todo · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/go/chatgpt_best-todo/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#chatgpt与技术选型">ChatGPT与技术选型</a></li>
+    <li><a href="#过程简述">过程简述</a>
+      <ul>
+        <li><a href="#聪明的chatgpt">聪明的ChatGPT</a></li>
+        <li><a href="#不太聪明的chatgpt">不太聪明的ChatGPT</a></li>
+        <li><a href="#学习的好帮手">学习的好帮手</a></li>
+        <li><a href="#体验小结">体验小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#chatgpt的使用总结">ChatGPT的使用总结</a></li>
+    <li><a href="#相关资料">相关资料</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>ChatGPT教我写代码——best todo</h1>
+    </header>
+
+    <h2 id="前言">前言</h2>
+<p>之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302191327575.png" alt=""></p>
+<p>但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。</p>
+<h2 id="chatgpt与技术选型">ChatGPT与技术选型</h2>
+<p>对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。</p>
+<p>客户端开发选用的是flutter，主要是因为：</p>
+<ol>
+<li>支持跨平台，这样一次开发就能够在手机、电脑上使用。</li>
+<li>之前看过flutter的书籍，所以有一些基础。</li>
+<li>最近比较火。</li>
+</ol>
+<p>由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:</p>
+<ol>
+<li>学习rust，以前只看过书，需要实战来练手。</li>
+</ol>
+<h2 id="过程简述">过程简述</h2>
+<h3 id="聪明的chatgpt">聪明的ChatGPT</h3>
+<p>对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302191331046.png" alt=""></p>
+<p>可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。</p>
+<p>接下里我让它增加了任务的编辑功能。</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302191358754.png" alt=""></p>
+<p>增加了背景颜色：</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302261021330.png" alt=""></p>
+<p>然后是增加任务弹窗、页面优化等一系列优化:</p>
+<p>ChatGPT先是给了我弹窗的实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Widget _buildTaskField() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> TextFormField(
+</span></span><span style="display:flex;"><span>          controller: _textEditingController,
+</span></span><span style="display:flex;"><span>          autofocus: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>          decoration: InputDecoration(
+</span></span><span style="display:flex;"><span>            hintText: <span style="color:#0ff;font-weight:bold">&#39;Add a task&#39;</span>,
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>          onFieldSubmitted: (value) {
+</span></span><span style="display:flex;"><span>            _updateTask(value);
+</span></span><span style="display:flex;"><span>          },
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>  } 
+</span></span></code></pre></div><p>但是不是很好看，于是我让它进行优化，下面是优化后的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Widget _buildTaskField() {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> TextFormField(
+</span></span><span style="display:flex;"><span>    controller: _textEditingController,
+</span></span><span style="display:flex;"><span>    autofocus: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    style: TextStyle(fontSize: <span style="color:#ff0;font-weight:bold">18.0</span>, color: Colors.black87),
+</span></span><span style="display:flex;"><span>    decoration: InputDecoration(
+</span></span><span style="display:flex;"><span>      filled: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>      fillColor: Colors.white,
+</span></span><span style="display:flex;"><span>      hintText: <span style="color:#0ff;font-weight:bold">&#39;Add a task&#39;</span>,
+</span></span><span style="display:flex;"><span>      contentPadding: EdgeInsets.symmetric(vertical: <span style="color:#ff0;font-weight:bold">15.0</span>, horizontal: <span style="color:#ff0;font-weight:bold">15.0</span>),
+</span></span><span style="display:flex;"><span>      border: OutlineInputBorder(
+</span></span><span style="display:flex;"><span>        borderRadius: BorderRadius.circular(<span style="color:#ff0;font-weight:bold">15.0</span>),
+</span></span><span style="display:flex;"><span>        borderSide: BorderSide(
+</span></span><span style="display:flex;"><span>          width: <span style="color:#ff0;font-weight:bold">0.8</span>,
+</span></span><span style="display:flex;"><span>          color: Colors.grey.shade400,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      enabledBorder: OutlineInputBorder(
+</span></span><span style="display:flex;"><span>        borderRadius: BorderRadius.circular(<span style="color:#ff0;font-weight:bold">15.0</span>),
+</span></span><span style="display:flex;"><span>        borderSide: BorderSide(
+</span></span><span style="display:flex;"><span>          width: <span style="color:#ff0;font-weight:bold">0.8</span>,
+</span></span><span style="display:flex;"><span>          color: Colors.grey.shade400,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    onFieldSubmitted: (value) {
+</span></span><span style="display:flex;"><span>      _updateTask(value);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到，组件中确实填充了更多的内容。</p>
+<p>经过一系列的优化调整，最终的效果是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302261026212.png" alt=""></p>
+<p>增加任务：</p>
+<p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202302261027842.png" alt=""></p>
+<p>这一系列的优化可以通过<a href="https://github.com/stong1994/best_todo">git的commit记录</a>来查看。</p>
+<h3 id="不太聪明的chatgpt">不太聪明的ChatGPT</h3>
+<ol>
+<li>
+<p>开发过程中，我想要在添加任务的弹窗中自动显示光标，ChatGPT提示我要用nodeFocus，但是这个解决不了，实际上，我只需要将TextField中的autofocus设置为true即可。但是由于过度信赖ChatGPT，导致花费了大量时间仍没有解决问题。</p>
+</li>
+<li>
+<p>过程中，当我点击了多个任务时，多个任务都会进入编辑状态，这是一个不好的体验。我让ChatGPT去解决这个问题，ChatGPT一直让我使用nodeFocus（是的，ChatGPT似乎对它情有独钟），仍旧是花费了大量时间，最终在我想起来flutter中是有事件通知(event_bus)的，并通过Google了解用法得以解决（当一个任务被编辑时通过事件告知其他处于编辑状态的任务恢复正常）。</p>
+</li>
+</ol>
+<h3 id="学习的好帮手">学习的好帮手</h3>
+<p>在开发的过程中，我发现很多地方使用了createState，于是问它其作用，下面是ChatGPT的作用：</p>
+<blockquote>
+<p>在 Flutter 中，一个 Widget 通常由三个类构成：Widget、State 和 Element，其中 Widget 用来描述组件的渲染，State 存储组件的状态和处理交互事件，而 Element 是组件的一个实例。当一个 Widget 被创建时，Flutter 会同时创建一个 State 对象和一个 Element 对象，它们三者之间是一一对应关系。</p>
+<p>在 Stateful Widget 中，createState() 方法就是用来创建 State 对象的。当一个 Stateful Widget 被插入到 Widget 树中时，Flutter 会调用它的 createState() 方法来创建一个对应的 State 对象，并把 Widget 的配置信息传给它。这个 State 对象会被用来管理 Widget 的状态，同时它也会关联一个 Element 对象，Element 对象会被用来实现 Widget 的布局和渲染。</p>
+</blockquote>
+<p>在 ChatGPT提供的代码中，使用了大量的Expanded，于是我问它Expanded组件的好处：</p>
+<blockquote>
+<p><code>Expanded</code> widget可以将子组件在容器中进行平均分配。它会根据容器可用的空间来计算每个子组件的大小，并将它们平均分配在可用空间中。这个过程可以让布局变得更加灵活和动态。同时，如果需要调整子组件的大小比例，可以调整<code>Expanded</code>组件的<code>flex</code>属性，以控制它在可用空间中所占的比例。</p>
+</blockquote>
+<h3 id="体验小结">体验小结</h3>
+<ol>
+<li>ChatGPT提供的代码中，变量名可能会变，比如任务中的是否完成，它一会用isDone，一会用isComplete。这个可以通过告知它我们用哪个来解决。</li>
+<li>ChatGPT提供的代码很可能是有问题的，因此需要不断告知它报错信息，然后进一步改正。</li>
+<li>ChatGPT对flutter的提示要优于rust，可能是因为rust的语法更复杂？</li>
+</ol>
+<h2 id="chatgpt的使用总结">ChatGPT的使用总结</h2>
+<ol>
+<li>可以把ChatGPT视为一位全能的老师，说它是上知天文下知地理一点也不过分。</li>
+<li>不能依赖ChatGPT，有时候Google会更好用，要灵活取用。</li>
+<li>ChatGPT大大降低了学习新东西的成本，就像是有师傅带和没师傅带的区别。</li>
+</ol>
+<h2 id="相关资料">相关资料</h2>
+<ul>
+<li><a href="https://github.com/stong1994/best_todo">客户端代码</a></li>
+<li><a href="https://github.com/stong1994/best_todo_backend">后端代码</a></li>
+<li><a href="https://dev.to/hackmamba/build-a-rest-api-with-rust-and-mongodb-rocket-version-ah5">Build a REST API with Rust and MongoDB - Rocket Version</a></li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
