@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://stong1994.github.io/internet/</loc>
+    <lastmod>2023-02-26T11:30:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://stong1994.github.io/internet/go/chatgpt_best-todo/</loc>
+    <lastmod>2023-02-26T11:30:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/</loc>
+    <lastmod>2023-02-26T11:30:00+08:00</lastmod>
+  </url><url>
     <loc>https://stong1994.github.io/other/</loc>
     <lastmod>2023-02-19T10:00:00+08:00</lastmod>
     <priority>0</priority>
@@ -15,15 +25,8 @@
     <loc>https://stong1994.github.io/authors/stong/</loc>
     <lastmod>2023-02-19T10:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</loc>
     <lastmod>2023-02-16T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2023-02-11T12:00:00+08:00</lastmod>
-    <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/internet/go/takcenter_review/</loc>
     <lastmod>2023-02-11T12:00:00+08:00</lastmod>

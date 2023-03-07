@@ -6,7 +6,28 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 11 Feb 2023 12:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 26 Feb 2023 11:30:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ChatGPT教我写代码——best todo</title>
+      <link>https://stong1994.github.io/internet/go/chatgpt_best-todo/</link>
+      <pubDate>Sun, 26 Feb 2023 11:30:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/go/chatgpt_best-todo/</guid>
+      <description>前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
+但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
+ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
+客户端开发选用的是flutter，主要是因为：
+支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
+学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
+可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
+接下里我让它增加了任务的编辑功能。
+增加了背景颜色：
+然后是增加任务弹窗、页面优化等一系列优化:
+ChatGPT先是给了我弹窗的实现：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &amp;#39;Add a task&amp;#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
+Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &amp;#39;Add a task&amp;#39;, contentPadding: EdgeInsets.</description>
+    </item>
+    
     <item>
       <title>对于任务中心系统设计上的反思</title>
       <link>https://stong1994.github.io/internet/go/takcenter_review/</link>
