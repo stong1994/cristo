@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="什么是setState 在Flutter中，Widget的状态是不可变的，因此，当您需要更新Widget的状态时，您需要调用setState方法来通知Flutter框架重新构建Widget。
+当调用 setState 方法时，Flutter 框架会重新调用当前组件的 build 方法，生成新的 Widget 树，并将其与之前的 Widget 树进行比较，然后更新有差异的部分。
+一个最简单的例子：计算器 class _MyHomePageState extends State&lt;MyHomePage&gt; { int _counter = 0; void _incrementCounter() { setState(() { _counter&#43;&#43;; }); } @override Widget build(BuildContext context) { return Scaffold( appBar: AppBar( title: Text(widget.title), ), body: Center( child: Column( mainAxisAlignment: MainAxisAlignment.center, children: &lt;Widget&gt;[ const Text( &#39;You have pushed the button this many times:&#39;, ), Text( &#39;$_counter&#39;, style: Theme.of(context).textTheme.headlineMedium, ), ], ), ), floatingActionButton: FloatingActionButton( onPressed: _incrementCounter, tooltip: &#39;Increment&#39;, child: const Icon(Icons.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="详解flutter中的setState"/>
+<meta name="twitter:description" content="什么是setState 在Flutter中，Widget的状态是不可变的，因此，当您需要更新Widget的状态时，您需要调用setState方法来通知Flutter框架重新构建Widget。
+当调用 setState 方法时，Flutter 框架会重新调用当前组件的 build 方法，生成新的 Widget 树，并将其与之前的 Widget 树进行比较，然后更新有差异的部分。
+一个最简单的例子：计算器 class _MyHomePageState extends State&lt;MyHomePage&gt; { int _counter = 0; void _incrementCounter() { setState(() { _counter&#43;&#43;; }); } @override Widget build(BuildContext context) { return Scaffold( appBar: AppBar( title: Text(widget.title), ), body: Center( child: Column( mainAxisAlignment: MainAxisAlignment.center, children: &lt;Widget&gt;[ const Text( &#39;You have pushed the button this many times:&#39;, ), Text( &#39;$_counter&#39;, style: Theme.of(context).textTheme.headlineMedium, ), ], ), ), floatingActionButton: FloatingActionButton( onPressed: _incrementCounter, tooltip: &#39;Increment&#39;, child: const Icon(Icons."/>
+
+    <meta property="og:title" content="详解flutter中的setState" />
+<meta property="og:description" content="什么是setState 在Flutter中，Widget的状态是不可变的，因此，当您需要更新Widget的状态时，您需要调用setState方法来通知Flutter框架重新构建Widget。
+当调用 setState 方法时，Flutter 框架会重新调用当前组件的 build 方法，生成新的 Widget 树，并将其与之前的 Widget 树进行比较，然后更新有差异的部分。
+一个最简单的例子：计算器 class _MyHomePageState extends State&lt;MyHomePage&gt; { int _counter = 0; void _incrementCounter() { setState(() { _counter&#43;&#43;; }); } @override Widget build(BuildContext context) { return Scaffold( appBar: AppBar( title: Text(widget.title), ), body: Center( child: Column( mainAxisAlignment: MainAxisAlignment.center, children: &lt;Widget&gt;[ const Text( &#39;You have pushed the button this many times:&#39;, ), Text( &#39;$_counter&#39;, style: Theme.of(context).textTheme.headlineMedium, ), ], ), ), floatingActionButton: FloatingActionButton( onPressed: _incrementCounter, tooltip: &#39;Increment&#39;, child: const Icon(Icons." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/flutter/setstate/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-03-07T20:00:00+08:00" />
+<meta property="article:modified_time" content="2023-03-07T20:00:00+08:00" />
+
+
+
+    <title>
+  详解flutter中的setState · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/flutter/setstate/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是setstate">什么是setState</a></li>
+    <li><a href="#一个最简单的例子计算器">一个最简单的例子：计算器</a></li>
+    <li><a href="#思考1-_counter在setstate外会如何">思考1: _counter++在setState外会如何？</a></li>
+    <li><a href="#思考2如果数据来源不在内存中而是api接口呢">思考2：如果数据来源不在内存中，而是api接口呢？</a></li>
+    <li><a href="#思考3如果数据没变化会重新构建ui吗">思考3：如果数据没变化，会重新构建UI吗？</a></li>
+    <li><a href="#setstate重新构建ui的条件">setState重新构建UI的条件</a></li>
+    <li><a href="#重构ui时的复用逻辑">重构UI时的复用逻辑</a></li>
+    <li><a href="#示例代码">示例代码</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>详解flutter中的setState</h1>
+    </header>
+
+    <h2 id="什么是setstate">什么是setState</h2>
+<p>在Flutter中，Widget的状态是不可变的，因此，当您需要更新Widget的状态时，您需要调用setState方法来通知Flutter框架重新构建Widget。</p>
+<p>当调用 <code>setState</code> 方法时，Flutter 框架会重新调用当前组件的 <code>build</code> 方法，生成新的 <code>Widget</code> 树，并将其与之前的 <code>Widget</code> 树进行比较，然后更新有差异的部分。</p>
+<h2 id="一个最简单的例子计算器">一个最简单的例子：计算器</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _MyHomePageState <span style="color:#fff;font-weight:bold">extends</span> State&lt;MyHomePage&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">int</span> _counter = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _counter++;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        title: Text(widget.title),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: Center(
+</span></span><span style="display:flex;"><span>        child: Column(
+</span></span><span style="display:flex;"><span>          mainAxisAlignment: MainAxisAlignment.center,
+</span></span><span style="display:flex;"><span>          children: &lt;Widget&gt;[
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">const</span> Text(
+</span></span><span style="display:flex;"><span>              <span style="color:#0ff;font-weight:bold">&#39;You have pushed the button this many times:&#39;</span>,
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>            Text(
+</span></span><span style="display:flex;"><span>              <span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">$</span>_counter<span style="color:#0ff;font-weight:bold">&#39;</span>,
+</span></span><span style="display:flex;"><span>              style: Theme.of(context).textTheme.headlineMedium,
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      floatingActionButton: FloatingActionButton(
+</span></span><span style="display:flex;"><span>        onPressed: _incrementCounter,
+</span></span><span style="display:flex;"><span>        tooltip: <span style="color:#0ff;font-weight:bold">&#39;Increment&#39;</span>,
+</span></span><span style="display:flex;"><span>        child: <span style="color:#fff;font-weight:bold">const</span> Icon(Icons.add),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里每点击一次按钮，就会在setState中增加一次counter，然后setState就会重新构建UI，所以我们就会看到计数器实时更新。</p>
+<h2 id="思考1-_counter在setstate外会如何">思考1: _counter++在setState外会如何？</h2>
+<p>将代码改为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>  _counter++;
+</span></span><span style="display:flex;"><span>  setState(() {
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>效果依旧。</p>
+<p>因为组件中的元素改变了。<strong>setState的作用只是通知作用——通知框架重新构建Widget树。</strong></p>
+<h2 id="思考2如果数据来源不在内存中而是api接口呢">思考2：如果数据来源不在内存中，而是api接口呢？</h2>
+<p>模拟api调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>int count = 0;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>class api {
+</span></span><span style="display:flex;"><span>  static Future&lt;int&gt; getCounter() async {
+</span></span><span style="display:flex;"><span>    await Future.delayed(Duration(seconds: 1));
+</span></span><span style="display:flex;"><span>    return count;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  static incre() async {
+</span></span><span style="display:flex;"><span>    await Future.delayed(Duration(seconds: 1));
+</span></span><span style="display:flex;"><span>    count += 1;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>修改代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _MyHomePageState <span style="color:#fff;font-weight:bold">extends</span> State&lt;MyHomePage&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      api.incre(); <span style="color:#007f7f">// 这里修改
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        title: Text(widget.title),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: FutureBuilder&lt;<span style="color:#fff;font-weight:bold">int</span>&gt;( <span style="color:#007f7f">// 这里修改
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          future: api.getCounter(),
+</span></span><span style="display:flex;"><span>          builder: (context, snapshot) {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> (snapshot.connectionState != ConnectionState.done) {
+</span></span><span style="display:flex;"><span>              <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">const</span> Center(
+</span></span><span style="display:flex;"><span>                child: CircularProgressIndicator(),
+</span></span><span style="display:flex;"><span>              );
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> (snapshot.hasError) {
+</span></span><span style="display:flex;"><span>              <span style="color:#fff;font-weight:bold">return</span> Center(
+</span></span><span style="display:flex;"><span>                child: Text(<span style="color:#0ff;font-weight:bold">&#34;Error: </span><span style="color:#0ff;font-weight:bold">${</span>snapshot.error<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">}&#34;</span>),
+</span></span><span style="display:flex;"><span>              );
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">int</span>? ct = snapshot.data;
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> Center(
+</span></span><span style="display:flex;"><span>              child: Column(
+</span></span><span style="display:flex;"><span>                mainAxisAlignment: MainAxisAlignment.center,
+</span></span><span style="display:flex;"><span>                children: &lt;Widget&gt;[
+</span></span><span style="display:flex;"><span>                  <span style="color:#fff;font-weight:bold">const</span> Text(
+</span></span><span style="display:flex;"><span>                    <span style="color:#0ff;font-weight:bold">&#39;You have pushed the button this many times:&#39;</span>,
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                  Text(
+</span></span><span style="display:flex;"><span>                    <span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">$</span>ct<span style="color:#0ff;font-weight:bold">&#39;</span>, <span style="color:#007f7f">// 这里修改
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                    style: Theme.of(context).textTheme.headlineMedium,
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                ],
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            );
+</span></span><span style="display:flex;"><span>          }),
+</span></span><span style="display:flex;"><span>      floatingActionButton: FloatingActionButton(
+</span></span><span style="display:flex;"><span>        onPressed: _incrementCounter,
+</span></span><span style="display:flex;"><span>        tooltip: <span style="color:#0ff;font-weight:bold">&#39;Increment&#39;</span>,
+</span></span><span style="display:flex;"><span>        child: <span style="color:#fff;font-weight:bold">const</span> Icon(Icons.add),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到效果正常。</p>
+<p><strong>这是因为在使用动态生成的组件（例子中的FutureBuilder）时，即使组件的状态没有发生改变，flutter框架仍会根据最新的State对象重建Widget树，并使用最新的数据更新动态生成的组件。</strong></p>
+<p>这段代码有个问题，那就是incre方法是异步的，setState可不会等到incre执行完才结束。</p>
+<p>修改等待时间：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">int</span> count = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> api {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">static</span> Future&lt;<span style="color:#fff;font-weight:bold">int</span>&gt; getCounter() <span style="color:#fff;font-weight:bold">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">await</span> Future.delayed(Duration(milliseconds: <span style="color:#ff0;font-weight:bold">200</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> count;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">static</span> incre() <span style="color:#fff;font-weight:bold">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">await</span> Future.delayed(Duration(seconds: <span style="color:#ff0;font-weight:bold">1</span>));
+</span></span><span style="display:flex;"><span>    count += <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>再次构建就会发现，点击按钮不一定会生效。这是因为得到setState的通知后，在数据更新之前UI已经重新构建完毕。所以正确的写法是使用<code>then()</code>方法来触发：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>  api.incre().then((_) {
+</span></span><span style="display:flex;"><span>  	setState(() {});
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>构建后可以看到，点击按钮之后1秒才开始重新构建UI，这是因为incre休眠了1秒。</p>
+<h2 id="思考3如果数据没变化会重新构建ui吗">思考3：如果数据没变化，会重新构建UI吗？</h2>
+<p>验证方法：重新构建时，会调用build方法，因此在build时打印日志即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    print(<span style="color:#0ff;font-weight:bold">&#39;building...&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      <span style="color:#f00">。。。</span>
+</span></span></code></pre></div><p>然后将更新数据的代码注释：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// _counter++;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>再试构建，点击按钮，发现即使数据没有变化，依然进行了构建。</p>
+<p><strong>setState方法会将该Widget标记为&quot;dirty&quot;，Flutter框架在下一帧的UI构建周期中会检测到该Widget的dirty标记，并在进行UI绘制时重新构建该Widget</strong>。</p>
+<p>在这个例子中，尽管_counter值没有更新，但在调用setState之后，Flutter框架仍会将MyHomePage Widget标记为dirty，以便在下一帧UI构建周期中重新绘制。</p>
+<h2 id="setstate重新构建ui的条件">setState重新构建UI的条件</h2>
+<p>当你调用 <code>setState()</code> 方法时，Flutter 框架会将当前组件的状态标记为“脏状态”，这表示组件的状态已经发生了变化，并需要在下一帧（frame）中进行更新。Flutter 框架将在下一帧中执行以下操作：</p>
+<ol>
+<li>重建当前组件及其子组件的 Widget 树，以反映最新的状态。</li>
+<li>生成新的 RenderObject 树，并将其与 Widget 树进行匹配，以生成新的 RenderTree。</li>
+<li>使用新的 RenderTree 来更新屏幕上的实际像素。</li>
+</ol>
+<p>因此，当你调用 <code>setState()</code> 方法时，会触发 Widget 树的重建，并根据最新的 State 对象更新组件的状态和视图。以下是 <code>setState()</code> 方法触发 Widget 树重建的条件：</p>
+<ol>
+<li>当前组件的状态已经发生了变化，并且你想将最新的状态反映到视图中。</li>
+<li>当前组件的子组件的状态已经发生了变化，并且你想更新子组件的状态和视图。</li>
+<li>当前组件的父组件的状态已经发生了变化，并且你想更新当前组件及其子组件的状态和视图。</li>
+<li>当前组件的父组件的父组件的状态已经发生了变化，并且你想更新当前组件及其祖先组件的状态和视图。</li>
+</ol>
+<p>需要注意的是，虽然调用 <code>setState()</code> 方法会触发 Widget 树的重建，但并不意味着所有的子组件都会被重建。Flutter 框架会尽可能地复用已经存在的 Widget 和 RenderObject，以最大限度地提高性能。因此，在实际开发中，你需要注意哪些组件会被重建，以及如何优化组件的重建，以提高应用程序的性能。</p>
+<h2 id="重构ui时的复用逻辑">重构UI时的复用逻辑</h2>
+<p>在 Flutter 中，当一个组件的状态发生变化，需要重新构建该组件及其子组件时，Flutter 框架会尝试复用已经存在的 Widget 和 RenderObject。具体的逻辑如下：</p>
+<ol>
+<li>如果新旧状态对象相同，则认为组件的状态没有发生变化，不需要重新构建该组件及其子组件。</li>
+<li>如果新旧状态对象不同，则判断组件的类型是否相同。
+<ul>
+<li>如果组件类型不同，则无法复用现有的 Widget 和 RenderObject，需要销毁现有的 Widget 和 RenderObject，并重新创建新的 Widget 和 RenderObject。</li>
+<li>如果组件类型相同，则尝试复用现有的 Widget 和 RenderObject。</li>
+</ul>
+</li>
+<li>首先，Flutter 框架会比较新旧 Element 的类型和 key 是否相同，如果不同，则认为无法复用现有的 Element，需要销毁现有的 Widget 和 RenderObject，并重新创建新的 Widget 和 RenderObject。</li>
+<li>如果新旧 Element 的类型和 key 相同，则尝试复用现有的 Element。</li>
+<li>首先，Flutter 框架会将新旧 Element 的 Widget 树进行比较，找到不同的节点，并将它们从 RenderObject 树中删除。</li>
+<li>然后，Flutter 框架会将新旧 Element 的 Widget 树进行比较，找到不同的节点，并将它们添加到 RenderObject 树中。</li>
+<li>最后，Flutter 框架会将新的 Widget 树和 RenderObject 树与旧的 Widget 树和 RenderObject 树进行比较，找到相同的节点，并将新的 Widget 和 RenderObject 对应到旧的 Widget 和 RenderObject 上，从而完成复用。</li>
+</ol>
+<p>需要注意的是，在复用现有的 Widget 和 RenderObject 时，Flutter 框架会尽可能地复用现有的对象，以减少不必要的资源开销。但是，如果现有的 Widget 和 RenderObject 无法满足新的需求，则需要销毁现有的对象，并重新创建新的对象。因此，在实际开发中，你需要注意如何优化组件的复用，以提高应用程序的性能。</p>
+<h2 id="示例代码">示例代码</h2>
+<p><a href="https://github.com/stong1994/flutter_practise/tree/master/set_state">https://github.com/stong1994/flutter_practise/tree/master/set_state</a></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

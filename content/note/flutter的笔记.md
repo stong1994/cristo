@@ -194,3 +194,53 @@ dart中的const与static
 在比较过程中，组件使用的资源是需要被关注的，因为资源的不合理使用可能会导致一些问题，比如内存泄漏等。在比较过程中，Flutter框架会比较组件树上的每一个节点，如果一个节点没有变化，那么它的子树也会被认为没有变化，从而避免了对子树进行不必要的重建。
 
 对于`TextEditingController`等资源，通常应该在`dispose`方法中进行释放，以避免内存泄漏。因此，在比较过程中，如果一个组件在上一次构建时使用了一个资源，但在当前构建中没有使用该资源，那么就需要在`dispose`方法中进行资源的释放。否则，这个资源就会被保留下来，并可能导致内存泄漏问题。
+
+
+
+## Null与null的区别
+
+在Dart和Flutter中，`Null`和`null`是不同的概念。
+
+`Null`是一个预定义的Dart类，表示一个空对象。它有一个唯一的实例，即`null`。
+
+`null`是一个特殊的Dart对象，用于表示空值或缺少值。它是一个对象引用，可以分配给任何变量，即使变量的类型不是`Null`。
+
+需要注意的是，`Null`和`null`在使用时的语法也略有不同。`Null`是一个类型名，用于声明变量的类型。例如：
+
+```
+dartCopy code
+Null a; // 正确：声明变量a的类型为Null
+```
+
+而`null`则是一个字面量，用于表示空值。例如：
+
+```
+dartCopy code
+String? str = null; // 声明一个可空的字符串变量，并将其赋值为null
+```
+
+总的来说，`Null`是一个类，用于表示空对象的类型，而`null`是一个对象引用，用于表示空值或缺少值。
+
+## flutter中表示空的Widget
+
+在Flutter中，可以使用`SizedBox.shrink()` 或 `Container()`来表示空的Widget。
+
+1. 使用`SizedBox.shrink()`:
+
+```
+dartCopy code
+SizedBox.shrink()
+```
+
+`SizedBox.shrink()`是一个零尺寸的小部件，它可以在布局中占用空间，但不会渲染任何内容。
+
+1. 使用`Container()`:
+
+```
+dartCopy code
+Container()
+```
+
+`Container()`是一个具有默认尺寸和没有子节点的小部件。它在布局中占用空间，但不会渲染任何内容。
+
+这两种方法都可以用来表示空Widget，具体取决于上下文和使用情况。
