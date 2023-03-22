@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释">
+    <meta name="keywords" content="rust">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="rust中引入所有权所带来的麻烦"/>
+<meta name="twitter:description" content="编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释"/>
+
+    <meta property="og:title" content="rust中引入所有权所带来的麻烦" />
+<meta property="og:description" content="编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/note/rust/defect_by_ownership/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-03-16T14:35:00+08:00" />
+<meta property="article:modified_time" content="2023-03-16T14:35:00+08:00" />
+
+
+
+    <title>
+  rust中引入所有权所带来的麻烦 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/note/rust/defect_by_ownership/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#时刻戒备所有权">时刻戒备所有权</a></li>
+    <li><a href="#严格的引用与借用">严格的引用与借用</a></li>
+    <li><a href="#引入clone-trait">引入Clone trait</a></li>
+    <li><a href="#引入copy-trait">引入Copy trait</a></li>
+    <li><a href="#手动标注生命周期">手动标注生命周期</a></li>
+    <li><a href="#闭包中引入move">闭包中引入move</a></li>
+    <li><a href="#最后">最后</a></li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>rust中引入所有权所带来的麻烦</h1>
+    </header>
+
+    <p>编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释放——也就是rust中的所有权系统。</p>
+<p>这种方式兼具手动回收和后台系统自动回收的优点：</p>
+<ol>
+<li>确保内存能够及时释放（手动回收的优点）</li>
+<li>无需开发者手动管理，降低心智负担（自动回收的优点）</li>
+</ol>
+<p>但事物总是具有两面性的，所有权系统也为rust带了了一些缺点。</p>
+<h2 id="时刻戒备所有权">时刻戒备所有权</h2>
+<blockquote>
+<p>一个数据在同一时间只能被一个变量拥有所有权。</p>
+</blockquote>
+<p>开发者在使用一个变量的时候需要戒备这个变量是否还拥有数据的所有权.</p>
+<ul>
+<li>数据类型是否实现了Copy trait或者Clone trait?</li>
+<li>这个语句是否会转移所有权？</li>
+<li>数据被借用了吗，会被修改吗？</li>
+</ul>
+<h2 id="严格的引用与借用">严格的引用与借用</h2>
+<p>由于所有权的限制会导致变量在函数间的传递非常麻烦——变量进入函数后会导致函数外的变量失去所有权，因此如果函数外仍要使用这个变量，只能通过接收返回值的方式来实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> name = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;stong&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> new_name = handle_name(name);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// println!(&#34;{}&#34;, name); // 所有权已被转移，因此无法使用
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, new_name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> handle_name(name: <span style="color:#fff;font-weight:bold">String</span>) -&gt; <span style="color:#fff;font-weight:bold">String</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 业务逻辑代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    name
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>为了解决这个问题，rust引入了<strong>引用和借用</strong></p>
+<p>于是现在我们就不用这么麻烦的返回数据了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> name = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;stong&#34;</span>);
+</span></span><span style="display:flex;"><span>    handle_name(&amp;name);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, name); 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> handle_name(name: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">String</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 业务逻辑代码
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><p>在这个例子中，我们使用的是<strong>不可变引用</strong>，也就是说不能再handle_name中对name进行修改，如果要修改的话，则需要使用<strong>可变引用</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> name = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;stong&#34;</span>);
+</span></span><span style="display:flex;"><span>    handle_name(&amp;<span style="color:#fff;font-weight:bold">mut</span> name);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, name);  <span style="color:#007f7f">// stong are you ok?
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> handle_name(name: <span style="color:#fff;font-weight:bold">&amp;</span>mut <span style="color:#fff;font-weight:bold">String</span>) {
+</span></span><span style="display:flex;"><span>    name.push_str(<span style="color:#0ff;font-weight:bold">&#34; are you ok?&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在这段代码中，我需要</p>
+<ol>
+<li>先声明name是可变的:<code>let mut name</code></li>
+<li>声明函数handle_name需要的是可变引用: <code>(name: &amp;mut String)</code></li>
+<li>将name的可变引用传入函数中: <code>handle_name(&amp;mut name);</code></li>
+</ol>
+<p>所有mut在变量声明、函数声明、传参这三个过程中都要参与！</p>
+<h2 id="引入clone-trait">引入Clone trait</h2>
+<p>如果要复制一个独立（拥有数据所有权）的结构体，需要怎样呢？由于所有权的限制，我们需要单独复制每个字段：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Person {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person1 = Person {
+</span></span><span style="display:flex;"><span>        name: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;Alice&#34;</span>),
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person2 = Person{
+</span></span><span style="display:flex;"><span>        name: person1.name.clone(), <span style="color:#007f7f">// String类型没有实现Copy trait，但实现了Clone trait, 所以使用clone方法进行复制
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        age: person1.age,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;person1: {:?}, person2: {:?}&#34;</span>, person1, person2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这太麻烦了，为了方便复制结构体，rust提供了Clone trait：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Clone, Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Person {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person1 = Person {
+</span></span><span style="display:flex;"><span>        name: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;Alice&#34;</span>),
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person2 = person1.clone();
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;person1: {:?}, person2: {:?}&#34;</span>, person1, person2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="引入copy-trait">引入Copy trait</h2>
+<p>Clone trait需要显式调用clone方法，还是比较麻烦，rust又提供了Copy trait来直接进行复制。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#[derive(Copy, Clone, Debug)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Person {
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person1 = Person {
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> person2 = person1;
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;person1: {:?}, person2: {:?}&#34;</span>, person1, person2);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>仔细看上边代码，可以看到我去掉了name字段，因为Copy 结构体时要求所有的字段都已实现了Copy trait，而String没有实现Copy trait，因此我将其移除了。</p>
+<h2 id="手动标注生命周期">手动标注生命周期</h2>
+<p>所有权系统规定了变量在离开作用域的时候会进行释放，但有时候编译器没办法确定一个变量的作用域，因此需要手动标注生命周期。 看下边这个例子中中存在哪些问题？</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> longest(x: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">str</span>, y: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">str</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> x.len() &gt; y.len() {
+</span></span><span style="display:flex;"><span>        x
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        y
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s1 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = <span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> result = longest(s1.as_str(), s2);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;The longest string is {}&#34;</span>, result);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>编译器会告诉我们：longest函数缺少生命周期标注，因为返回值是引用类型，但是不能确定是引用的x还是y。</p>
+<p>rust要保证引用一定是有效的，那么引用的生命周期一定不能长于被引用的数据，因此编译器需要知道返回值引用的究竟是谁，更具体的说法是编译器需要知道返回值的生命周期是与x保持一致，还是与y保持一致。</p>
+<p>在这个例子中，我们会告诉编译器x和y的生命周期是一样的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> longest&lt;&#39;<span style="color:#007f7f">a</span>&gt;(x: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>, y: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> x.len() &gt; y.len() {
+</span></span><span style="display:flex;"><span>        x
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        y
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s1 = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> s2 = <span style="color:#0ff;font-weight:bold">&#34;world&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> result = longest(s1.as_str(), s2);
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;The longest string is {}&#34;</span>, result);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>对生命周期的标注会让程序员痛不欲生——可以看到这么简单的一个函数签名中竟然需要多写4个<code>'a</code>！于是rust团队有规定了在一些情况下无需标注，编辑器可自行推断。</p>
+<p><strong>计算生命周期的三个原则</strong></p>
+<blockquote>
+<p>函数参数或方法参数中的生命周期被称为输入生命周期（input lifetime），而返回值的生命周期则被称为输出生命周期（output lifetime）。</p>
+</blockquote>
+<p>在没有显式标注的情况下，编译器目前使用了3种规则来计算引用的生命周期:</p>
+<ol>
+<li>每一个引用参数都会拥有自己的生命周期参数。换句话说，单参数函数拥有一个生命周期参数：<code>fn foo&lt;'a&gt;(x: &amp;'a i32)；</code>，双参数函数拥有两个不同的生命周期参数：<code>fn foo&lt;'a, 'b&gt;(x: &amp;'a i32, y: &amp;'b i32)；</code>以此类推。</li>
+<li>当只存在一个输入生命周期参数时，这个生命周期会被赋予给所有输出生命周期参数，例如<code>fn foo&lt;'a&gt;(x: &amp;'a i32) -&gt; &amp;'a i32</code>。</li>
+<li>当拥有多个输入生命周期参数，而其中一个是<code>&amp;self</code>或<code>&amp;mut self</code>时，self的生命周期会被赋予给所有的输出生命周期参数。这条规则使方法更加易于阅读和编写，因为它省略了一些不必要的符号。</li>
+</ol>
+<h2 id="闭包中引入move">闭包中引入move</h2>
+<p>闭包需要变量所有权是因为它们可能在定义时捕获了变量，并在任意时间执行。因此，如果不将变量所有权转移到闭包内部，那么这些变量可能在后面的代码中被修改或删除，从而导致闭包中的代码无法正常运行。</p>
+<p>例如，假设我们有一个线程池，该线程池使用闭包来执行一些任务。这些闭包可能需要访问线程池中的数据，例如计数器或其他状态变量。如果这些变量的所有权不被转移到闭包内部，那么在执行闭包时，这些变量可能已经被其他线程修改或删除，从而导致问题。</p>
+<p>为了解决这个问题，Rust 引入了闭包变量所有权的概念，使得闭包可以在定义时捕获变量，并将它们的所有权转移到闭包内部。这样做的好处是，一旦变量的所有权移动到闭包内部，程序就可以保证这些变量在闭包执行期间是有效的，并且不会受到任何其他线程或代码的影响。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> x = vec![<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">2</span>, <span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> closure = <span style="color:#fff;font-weight:bold">move</span> || {
+</span></span><span style="display:flex;"><span>        x.push(<span style="color:#ff0;font-weight:bold">4</span>);
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;{:?}&#34;</span>, x);
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    closure();
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 这里再次调用 closure 会出现编译错误，因为 x 的所有权已经被转移到闭包内部
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">//closure();
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></div><h2 id="最后">最后</h2>
+<p>上面的例子只是简单的介绍了一些由使用所有权系统所带来的复杂性，实际使用中，这些“规则”会不断地重复、叠加，因此对新手来说，确实需要一些时间去适应这些规则。而正是由于存在这种陡峭的学习曲线，我们才更应该知道为什么会有这些规则，这也是我写这篇文章的目的！</p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

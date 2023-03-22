@@ -6,7 +6,25 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 07 Mar 2023 20:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Mar 2023 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>相较于go, rust好在哪</title>
+      <link>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</link>
+      <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</guid>
+      <description>前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌</description>
+    </item>
+    
+    <item>
+      <title>rust中引入所有权所带来的麻烦</title>
+      <link>https://stong1994.github.io/note/rust/defect_by_ownership/</link>
+      <pubDate>Thu, 16 Mar 2023 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/defect_by_ownership/</guid>
+      <description>编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释</description>
+    </item>
+    
     <item>
       <title>详解flutter中的setState</title>
       <link>https://stong1994.github.io/internet/flutter/setstate/</link>
@@ -430,6 +448,15 @@ pip pip是通用的python包管理工具，提供了基本的包管理手段：�
 Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。
 常用命令 安装：pip3 install virtualenv 搭建虚拟环境：virtualenv venv，可指定python解释器：virtualenv -p /usr/bin/python3.6 venv。 激活虚拟环境：source env/bin/activate 停用虚拟环境：deactivate 缺点 每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。 功能简单，只是建立虚拟环境。 从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。 Virtualenvwrapper virtualenvwrapper被用来管理virtualenv。
 安装 pip install virtualenvwrapper</description>
+    </item>
+    
+    <item>
+      <title>rust基础笔记</title>
+      <link>https://stong1994.github.io/note/rust/base/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/base/</guid>
+      <description>数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同</description>
     </item>
     
     <item>

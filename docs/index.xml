@@ -6,7 +6,25 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 07 Mar 2023 20:00:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Mar 2023 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>相较于go, rust好在哪</title>
+      <link>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</link>
+      <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</guid>
+      <description>前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌</description>
+    </item>
+    
+    <item>
+      <title>rust中引入所有权所带来的麻烦</title>
+      <link>https://stong1994.github.io/note/rust/defect_by_ownership/</link>
+      <pubDate>Thu, 16 Mar 2023 14:35:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/note/rust/defect_by_ownership/</guid>
+      <description>编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释</description>
+    </item>
+    
     <item>
       <title>详解flutter中的setState</title>
       <link>https://stong1994.github.io/internet/flutter/setstate/</link>

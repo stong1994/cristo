@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌">
+    <meta name="keywords" content="rust">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="相较于go, rust好在哪"/>
+<meta name="twitter:description" content="前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌"/>
+
+    <meta property="og:title" content="相较于go, rust好在哪" />
+<meta property="og:description" content="前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/note/rust/the_content_rust_better_than_go/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-03-18T14:35:00+08:00" />
+<meta property="article:modified_time" content="2023-03-18T14:35:00+08:00" />
+
+
+
+    <title>
+  相较于go, rust好在哪 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/note/rust/the_content_rust_better_than_go/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#rust中好的地方">rust中好的地方</a>
+      <ul>
+        <li><a href="#表达式作为返回值">表达式作为返回值</a></li>
+        <li><a href="#复用变量名">复用变量名</a></li>
+        <li><a href="#三元表达式">三元表达式</a></li>
+        <li><a href="#结构体字段初始化简写">结构体：字段初始化简写</a></li>
+        <li><a href="#结构体更新部分字段">结构体：更新部分字段</a></li>
+        <li><a href="#元组结构体">元组结构体：</a></li>
+        <li><a href="#关联函数">关联函数</a></li>
+        <li><a href="#枚举">枚举</a></li>
+        <li><a href="#没有空值">没有空值</a></li>
+        <li><a href="#对字符串切片按索引获取">对字符串切片按索引获取</a></li>
+      </ul>
+    </li>
+    <li><a href="#go中好的地方">go中好的地方</a></li>
+    <li><a href="#trait-vs-接口">Trait vs 接口</a>
+      <ul>
+        <li><a href="#异同">异同</a></li>
+        <li><a href="#使用差异">使用差异</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>相较于go, rust好在哪</h1>
+    </header>
+
+    <h2 id="前言">前言</h2>
+<p>作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。</p>
+<p>这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌握知识的原因。</p>
+<p>作为一名资深gopher，学习一门语言自然是优先与go进行类比。</p>
+<h2 id="rust中好的地方">rust中好的地方</h2>
+<h3 id="表达式作为返回值">表达式作为返回值</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007f7f">// rust
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">fn</span> add(<span style="color:#fff;font-weight:bold">i32</span>: a, <span style="color:#fff;font-weight:bold">i32</span>: b) -&gt; <span style="color:#fff;font-weight:bold">i32</span> {
+</span></span><span style="display:flex;"><span>	a+b
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// go
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>func add(a, b int) int {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> a+b;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个能够让我们少些一个return，还是不错的！</p>
+<h3 id="复用变量名">复用变量名</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> id: <span style="color:#fff;font-weight:bold">i32</span> = <span style="color:#ff0;font-weight:bold">10</span>;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> id = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;10&#34;</span>);
+</span></span></code></pre></div><p>go没有办法对不同类型的变量复用变量名:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>id := <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>idStr := strconv.Itoa(id)
+</span></span></code></pre></div><p>所以rust这里确实好些~</p>
+<h3 id="三元表达式">三元表达式</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> number = <span style="color:#fff;font-weight:bold">if</span> condition { 
+</span></span><span style="display:flex;"><span>  <span style="color:#ff0;font-weight:bold">5</span> 
+</span></span><span style="display:flex;"><span>} <span style="color:#fff;font-weight:bold">else</span> { 
+</span></span><span style="display:flex;"><span>  <span style="color:#ff0;font-weight:bold">6</span> 
+</span></span><span style="display:flex;"><span>}; 
+</span></span></code></pre></div><p>虽然rust中也不支持那种极简的三元表达式<code>let number = if conditon ? 5 : 6;</code>，不过最起码还是有的。如果是go的话，只能：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> number <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> condition {
+</span></span><span style="display:flex;"><span>  number = <span style="color:#ff0;font-weight:bold">5</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>  number = <span style="color:#ff0;font-weight:bold">6</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="结构体字段初始化简写">结构体：字段初始化简写</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> User {
+</span></span><span style="display:flex;"><span>    username: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    email: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>    sign_in_count: <span style="color:#fff;font-weight:bold">u64</span>,
+</span></span><span style="display:flex;"><span>    active: <span style="color:#fff;font-weight:bold">bool</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> build_user(email: <span style="color:#fff;font-weight:bold">String</span>, username: <span style="color:#fff;font-weight:bold">String</span>) -&gt; User {
+</span></span><span style="display:flex;"><span>    User {
+</span></span><span style="display:flex;"><span>        email,
+</span></span><span style="display:flex;"><span>        username,
+</span></span><span style="display:flex;"><span>        active: true,
+</span></span><span style="display:flex;"><span>        sign_in_count: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>go里边不能简写:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span>  User  <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    username <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>    email <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>    sign_in_count <span style="color:#fff;font-weight:bold">uint64</span>
+</span></span><span style="display:flex;"><span>    active <span style="color:#fff;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> build_user(email <span style="color:#fff;font-weight:bold">string</span>, username <span style="color:#fff;font-weight:bold">string</span>) User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> User {
+</span></span><span style="display:flex;"><span>        email:email,
+</span></span><span style="display:flex;"><span>        username: username,
+</span></span><span style="display:flex;"><span>        active: <span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>        sign_in_count: <span style="color:#ff0;font-weight:bold">1</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="结构体更新部分字段">结构体：更新部分字段</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> user2 = User {
+</span></span><span style="display:flex;"><span>    email: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;another@example.com&#34;</span>),
+</span></span><span style="display:flex;"><span>    username: <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;anotherusername567&#34;</span>),
+</span></span><span style="display:flex;"><span>    ..user1
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>go里边虽然不支持<code>..user1</code>这种语法，但是可以直接复制一个user，然后只更新这两个字段。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>user2 := user1
+</span></span><span style="display:flex;"><span>user2.email = <span style="color:#0ff;font-weight:bold">&#34;another@example.com&#34;</span>
+</span></span><span style="display:flex;"><span>user1.username = <span style="color:#0ff;font-weight:bold">&#34;anotherusername567&#34;</span>
+</span></span></code></pre></div><h3 id="元组结构体">元组结构体：</h3>
+<p>元组和结构体的结合——拥有表明自身含义的名称&amp;无需为每个字段命名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Color(<span style="color:#fff;font-weight:bold">i32</span>, <span style="color:#fff;font-weight:bold">i32</span>, <span style="color:#fff;font-weight:bold">i32</span>);
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Point(<span style="color:#fff;font-weight:bold">i32</span>, <span style="color:#fff;font-weight:bold">i32</span>, <span style="color:#fff;font-weight:bold">i32</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> black = Color(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>);
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> origin = Point(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#ff0;font-weight:bold">0</span>);<span style="color:#f00">”</span>
+</span></span></code></pre></div><p>这种无需为每个字段命名的场景确实存在，所以这方面确实比go做得好。</p>
+<h3 id="关联函数">关联函数</h3>
+<p>我们常常为结构体初始化写一个函数，比如NewXxxx，在rust中，可以将这个函数放到impl中成为一个关联函数，比如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> User {
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">u8</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> new(age: <span style="color:#fff;font-weight:bold">u8</span>) -&gt; User {
+</span></span><span style="display:flex;"><span>        User { age }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在go中，只能靠程序员自觉将New函数与结构体放在一起：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> User <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    age <span style="color:#fff;font-weight:bold">uint8</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewUser(age <span style="color:#fff;font-weight:bold">uint8</span>) User {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> User {
+</span></span><span style="display:flex;"><span>        age: age,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="枚举">枚举</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">enum</span> IpAddr {
+</span></span><span style="display:flex;"><span>    V4(<span style="color:#fff;font-weight:bold">u8</span>, <span style="color:#fff;font-weight:bold">u8</span>, <span style="color:#fff;font-weight:bold">u8</span>, <span style="color:#fff;font-weight:bold">u8</span>),
+</span></span><span style="display:flex;"><span>    V6(<span style="color:#fff;font-weight:bold">String</span>),
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>rust中的枚举要比go更丰富一些，可以携带不能类型的值，go中只能用iota做一些简单的枚举：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Color int
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>    Red Color = iota
+</span></span><span style="display:flex;"><span>    Green
+</span></span><span style="display:flex;"><span>    Blue
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h3 id="没有空值">没有空值</h3>
+<p>空值的存在会导致很多问题，比如说空指针，或者频繁的非空判断。</p>
+<p>在rust中表示不存在，要使用一个名为Null的Option。在标准库中是这样定义的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">enum</span> <span style="color:#fff;font-weight:bold">Option</span>&lt;T&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">Some</span>(T),
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">None</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>这意味着一个有数据的变量和一个不存在的变量的类型是不一样的</strong>，一个是T,一个是<code>Option&lt;T&gt;</code>，这能够避免<strong>假设某个值存在，实际却为空</strong>的问题。</p>
+<h3 id="对字符串切片按索引获取">对字符串切片按索引获取</h3>
+<p>在rust中，不能对一个不完整的字符进行切片，否则会直接panic：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> s = <span style="color:#fff;font-weight:bold">String</span>::from(<span style="color:#0ff;font-weight:bold">&#34;我是谁&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> s2 = &amp;s[<span style="color:#ff0;font-weight:bold">0</span>..<span style="color:#ff0;font-weight:bold">3</span>];
+</span></span><span style="display:flex;"><span>println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s2); <span style="color:#007f7f">// 我
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">let</span> s3 = &amp;s[<span style="color:#ff0;font-weight:bold">0</span>..<span style="color:#ff0;font-weight:bold">2</span>];
+</span></span><span style="display:flex;"><span>println!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, s3); <span style="color:#007f7f">// panic
+</span></span></span></code></pre></div><p>在go中是可以的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>s := <span style="color:#0ff;font-weight:bold">&#34;我是谁&#34;</span>
+</span></span><span style="display:flex;"><span>println(s[<span style="color:#ff0;font-weight:bold">0</span>:<span style="color:#ff0;font-weight:bold">2</span>]) <span style="color:#007f7f">// �
+</span></span></span></code></pre></div><p>我个人比较喜欢rust这种处理方式，能够减少很多生产上的问题。</p>
+<h2 id="go中好的地方">go中好的地方</h2>
+<p><strong>大道至简！</strong></p>
+<p>go最好的地方不在于其channel、goroutine的设计，而在于其简单性，这种简单性是说go的设计很简单，不需要那么复杂的语法，看go代码很轻松，不需要很大的心智负担。</p>
+<p>比如下面这段不是很复杂的rust代码（同时使用了泛型、生命周期、trait约束）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">use</span> std::fmt::Display;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> longest_with_an_announcement&lt;&#39;<span style="color:#007f7f">a</span>, T&gt;(x: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>, y: <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>, ann: T) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span>&#39;<span style="color:#007f7f">a</span> <span style="color:#fff;font-weight:bold">str</span>
+</span></span><span style="display:flex;"><span>    where T: Display
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    println!(<span style="color:#0ff;font-weight:bold">&#34;Announcement! {}&#34;</span>, ann);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> x.len() &gt; y.len() {
+</span></span><span style="display:flex;"><span>        x
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        y
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这可能会导致一名rust新手的cpu飙升！</p>
+<p>而如果你让我去写一段go中最复杂的代码，我只能说做不到！</p>
+<p>当然，go中确实有好的设计，比如goroutine、channel，这些就不展开说了。</p>
+<h2 id="trait-vs-接口">Trait vs 接口</h2>
+<p>了解一个语言的使用方式，可以看其对象之间的组合方式，比如java中的继承，go中的组合。<strong>开发代码的设计应该遵循语言的设计</strong>。</p>
+<p>对于rust而言，我们可以通过和go的接口对比，来看下其trait的使用。</p>
+<h3 id="异同">异同</h3>
+<ol>
+<li>
+<p>Rust 中的 trait 和 Go 中的 接口 都是通过方法签名来描述一个类型或对象需要实现的行为规范。但是，Rust 的 trait 可以添加默<strong>认实现</strong>，而 Go 中的接口 禁止添加默认实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007f7f">// rust
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">trait</span> MyTrait {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> say_hello(&amp;self) {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#0ff;font-weight:bold">&#34;Hello, world!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// go
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> MyTrait interface {
+</span></span><span style="display:flex;"><span>  say_hello()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>由于没有默认实现，在 Go 中，如果一个类型要实现接口，则要定义接口中的的所有方法。</p>
+</li>
+<li>
+<p>GO中的接口是鸭子类型，不用显式声明一个结构体实现了哪些接口。</p>
+</li>
+<li>
+<p>Rust 的 trait 可以包含<strong>关联常量</strong>，而 Go 中的接口不支持。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">trait</span> MyTrait {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">const</span> PI: <span style="color:#fff;font-weight:bold">f64</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> calc_area(&amp;self) -&gt; <span style="color:#fff;font-weight:bold">f64</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">struct</span> Circle {
+</span></span><span style="display:flex;"><span>    radius: <span style="color:#fff;font-weight:bold">f64</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> MyTrait <span style="color:#fff;font-weight:bold">for</span> Circle {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">const</span> PI: <span style="color:#fff;font-weight:bold">f64</span> = <span style="color:#ff0;font-weight:bold">3.1415926535</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">fn</span> calc_area(&amp;self) -&gt; <span style="color:#fff;font-weight:bold">f64</span> {
+</span></span><span style="display:flex;"><span>        Self::PI * self.radius * self.radius
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>在 Rust 中，一个类型可以实现多个 trait ，在 Go 中，一个类型也能实现多个接口，只不过前者需要显式声明，或者则不需要。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> some_function&lt;T: Display + <span style="color:#fff;font-weight:bold">Clone</span>, U: <span style="color:#fff;font-weight:bold">Clone</span> + Debug&gt;(t: T, u: U) -&gt; <span style="color:#fff;font-weight:bold">i32</span>
+</span></span></code></pre></div><p>在这段代码中，由于参数实现的接口较多，因此可以使用where语法优化：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> some_function&lt;T, U&gt;(t: T, u: U) -&gt; <span style="color:#fff;font-weight:bold">i32</span>
+</span></span><span style="display:flex;"><span>    where T: Display + <span style="color:#fff;font-weight:bold">Clone</span>,
+</span></span><span style="display:flex;"><span>          U: <span style="color:#fff;font-weight:bold">Clone</span> + Debug
+</span></span><span style="display:flex;"><span>{}
+</span></span></code></pre></div><p>但给开发者的体验仍然较差！</p>
+<h3 id="使用差异">使用差异</h3>
+<p>我们可以通过其使用方式来探究一些差异：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007f7f">// rust
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">impl</span> MyTrait <span style="color:#fff;font-weight:bold">for</span> Cirle {}
+</span></span></code></pre></div><p>这是一段rust代码，可以看到语义为为Cirle实现MyTrait，主体是Cirle而非MyTrait。</p>
+<p>而在go中，接口往往用于适配，比如:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> User <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	ID() <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Emp <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (Emp) ID() <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Admin <span style="color:#fff;font-weight:bold">struct</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (Admin) ID() <span style="color:#fff;font-weight:bold">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>主体是接口User，Emp和Admin只是做的适配！</p>
+<p>我们可以看到，<strong>rust中的trait是结构体的组件或者约束，因此一个结构体可以有多个trait来做组件或者约束。而go中的结构体只是用来做接口的适配！</strong></p>
+<p>因此，<strong>在使用方式上，Rust 的 trait 更适合描述一个类型的一组行为，而 Go 的接口更适合描述具有一组行为的一个类型！</strong></p>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

@@ -3,11 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2023-03-07T20:00:00+08:00</lastmod>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
+    <loc>https://stong1994.github.io/authors/</loc>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/authors/stong/</loc>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
+  </url><url>
     <loc>https://stong1994.github.io/</loc>
-    <lastmod>2023-03-07T20:00:00+08:00</lastmod>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</loc>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://stong1994.github.io/note/rust/defect_by_ownership/</loc>
+    <lastmod>2023-03-16T14:35:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/internet/flutter/setstate/</loc>
     <lastmod>2023-03-07T20:00:00+08:00</lastmod>
@@ -20,12 +32,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://stong1994.github.io/book/philosophy/1_plus_1/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/stong/</loc>
     <lastmod>2023-02-19T10:00:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</loc>
@@ -193,9 +199,6 @@
     <lastmod>2022-06-10T19:37:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/web3/makerdao_base_info/</loc>
-    <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/note/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
   </url><url>
     <loc>https://stong1994.github.io/note/rust/base/</loc>
