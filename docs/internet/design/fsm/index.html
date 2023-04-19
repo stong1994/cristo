@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh">
+    
+
+    
+    <meta name="description" content="前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。
+这个坑就是有限状态机。
+《Rust权威指南》中的example fn main() { let mut post = Post::new(); post.add_text(&#34;hello&#34;); let mut post = post.request_review(); let mut post = post.approve(); print!(&#34;{}&#34;, post.content()); } pub struct DraftPost { content: String, } impl DraftPost { pub fn add_text(&amp;mut self, text: &amp;str) { self.content.push_str(text); } pub fn request_review(self) -&gt; PendingReviewPost { PendingReviewPost { content: self.content, } } } pub struct PendingReviewPost { content: String, } impl PendingReviewPost { pub fn approve(self) -&gt; Post { Post { content: self.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="有限状态机小结"/>
+<meta name="twitter:description" content="前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。
+这个坑就是有限状态机。
+《Rust权威指南》中的example fn main() { let mut post = Post::new(); post.add_text(&#34;hello&#34;); let mut post = post.request_review(); let mut post = post.approve(); print!(&#34;{}&#34;, post.content()); } pub struct DraftPost { content: String, } impl DraftPost { pub fn add_text(&amp;mut self, text: &amp;str) { self.content.push_str(text); } pub fn request_review(self) -&gt; PendingReviewPost { PendingReviewPost { content: self.content, } } } pub struct PendingReviewPost { content: String, } impl PendingReviewPost { pub fn approve(self) -&gt; Post { Post { content: self."/>
+
+    <meta property="og:title" content="有限状态机小结" />
+<meta property="og:description" content="前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。
+这个坑就是有限状态机。
+《Rust权威指南》中的example fn main() { let mut post = Post::new(); post.add_text(&#34;hello&#34;); let mut post = post.request_review(); let mut post = post.approve(); print!(&#34;{}&#34;, post.content()); } pub struct DraftPost { content: String, } impl DraftPost { pub fn add_text(&amp;mut self, text: &amp;str) { self.content.push_str(text); } pub fn request_review(self) -&gt; PendingReviewPost { PendingReviewPost { content: self.content, } } } pub struct PendingReviewPost { content: String, } impl PendingReviewPost { pub fn approve(self) -&gt; Post { Post { content: self." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stong1994.github.io/internet/design/fsm/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-03-22T14:43:00+08:00" />
+<meta property="article:modified_time" content="2023-03-22T14:43:00+08:00" />
+
+
+
+    <title>
+  有限状态机小结 · 北人
+</title>
+
+    
+      <link rel="canonical" href="https://stong1994.github.io/internet/design/fsm/">
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
+        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
+    
+
+    <meta name="generator" content="Hugo 0.101.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="colorscheme-auto"
+        onload=" twemoji.parse(document.body); "
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      北人
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/other/">杂谈</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/about/">关于</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <div id="toc" class="well col-md-4 col-sm-6">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#rust权威指南中的example">《Rust权威指南》中的example</a></li>
+    <li><a href="#游戏编程模式里的example">《游戏编程模式》里的example</a></li>
+    <li><a href="#实现正则匹配">实现正则匹配</a></li>
+    <li><a href="#小结">小结</a>
+      <ul>
+        <li><a href="#构成">构成</a></li>
+        <li><a href="#优点">优点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  <section class="container page">
+  <article>
+    <header>
+      <h1>有限状态机小结</h1>
+    </header>
+
+    <p>前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。</p>
+<p>这个坑就是有限状态机。</p>
+<h2 id="rust权威指南中的example">《Rust权威指南》中的example</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">fn</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> post = Post::new();
+</span></span><span style="display:flex;"><span>    post.add_text(<span style="color:#0ff;font-weight:bold">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> post = post.request_review();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> <span style="color:#fff;font-weight:bold">mut</span> post = post.approve();
+</span></span><span style="display:flex;"><span>    print!(<span style="color:#0ff;font-weight:bold">&#34;{}&#34;</span>, post.content());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">struct</span> DraftPost {
+</span></span><span style="display:flex;"><span>    content: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> DraftPost {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">fn</span> add_text(&amp;<span style="color:#fff;font-weight:bold">mut</span> self, text: <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">str</span>) {
+</span></span><span style="display:flex;"><span>        self.content.push_str(text);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">fn</span> request_review(self) -&gt; PendingReviewPost {
+</span></span><span style="display:flex;"><span>        PendingReviewPost {
+</span></span><span style="display:flex;"><span>            content: self.content,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">struct</span> PendingReviewPost {
+</span></span><span style="display:flex;"><span>    content: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> PendingReviewPost {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">fn</span> approve(self) -&gt; Post {
+</span></span><span style="display:flex;"><span>        Post {
+</span></span><span style="display:flex;"><span>            content: self.content,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">struct</span> Post {
+</span></span><span style="display:flex;"><span>    content: <span style="color:#fff;font-weight:bold">String</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">impl</span> Post {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">fn</span> new() -&gt; DraftPost {
+</span></span><span style="display:flex;"><span>        DraftPost {
+</span></span><span style="display:flex;"><span>            content: <span style="color:#fff;font-weight:bold">String</span>::new(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">pub</span> <span style="color:#fff;font-weight:bold">fn</span> content(&amp;self) -&gt; <span style="color:#fff;font-weight:bold">&amp;</span><span style="color:#fff;font-weight:bold">str</span> {
+</span></span><span style="display:flex;"><span>        &amp;self.content
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这是关于发布文章的流程描述。流程为：</p>
+<ol>
+<li>编写草稿</li>
+<li>发起审批</li>
+<li>审批通过</li>
+</ol>
+<p>作者将流程抽象为三个状态：</p>
+<ol>
+<li>草稿状态</li>
+<li>发起审批后的审批状态</li>
+<li>审批通过后的已发布状态</li>
+</ol>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202303191650647.png" style="zoom:50%;" />
+<p>我们说<strong>使用有限状态机能够使代码更整洁，其本质原因是因为我们将代码的复杂度拆分到了各个状态，这使得开发者在阅读或者开发时，只需要关心当前状态的逻辑</strong>。</p>
+<p><strong>复杂度并没有减少，只是转移了！</strong></p>
+<h2 id="游戏编程模式里的example">《游戏编程模式》里的example</h2>
+<p>先看下作者在第七章给出的状态机：</p>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202303191707000.png" style="zoom:50%;" />
+<p>如果不用状态机的话代码会很麻烦，需要通过大量的if/else来限制、判断动作：比如跳的时候不能再跳也不能蹲下，蹲下的时候只能站立不能进行其他动作等待。</p>
+<p>这个状态机翻译为go语言为(只实现了下蹲状态和站立状态)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 状态接口
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> HeroineState <span style="color:#fff;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	enter(heroine *Heroine) <span style="color:#007f7f">// 进入状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	update(heroine *Heroine) <span style="color:#007f7f">// 每秒更新一帧
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	handleInput(heroine *Heroine, input <span style="color:#fff;font-weight:bold">string</span>) HeroineState <span style="color:#007f7f">// 处理输入，更新状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Heroine <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	graphics <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>	state    HeroineState
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (h *Heroine) setGraphics(graphics <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	h.graphics = graphics
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (*Heroine) superBomb() {
+</span></span><span style="display:flex;"><span>	fmt.Println(<span style="color:#0ff;font-weight:bold">&#34;super bomb!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (h *Heroine) handleInput(input <span style="color:#fff;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	newState := h.state.handleInput(h, input)
+</span></span><span style="display:flex;"><span>	h.state = newState
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (h *Heroine) update() {
+</span></span><span style="display:flex;"><span>	h.state.update(h)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 蹲状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> DuckingState <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	chargeTime <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ds *DuckingState) enter(heroine *Heroine) {
+</span></span><span style="display:flex;"><span>	heroine.setGraphics(<span style="color:#0ff;font-weight:bold">&#34;image of ducking&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ds *DuckingState) handleInput(heroine *Heroine, input <span style="color:#fff;font-weight:bold">string</span>) HeroineState {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> input == <span style="color:#0ff;font-weight:bold">&#34;down&#34;</span> { <span style="color:#007f7f">// 蹲状态再次按“蹲”，则进入站立
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(StandState)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> ds
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ds *DuckingState) update(heroine *Heroine) {
+</span></span><span style="display:flex;"><span>	ds.chargeTime++
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> ds.chargeTime &gt; <span style="color:#ff0;font-weight:bold">10</span> { <span style="color:#007f7f">// 蓄力攻击
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		heroine.superBomb()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 站立状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> StandState <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ss *StandState) enter(heroine *Heroine) {
+</span></span><span style="display:flex;"><span>	heroine.setGraphics(<span style="color:#0ff;font-weight:bold">&#34;image of stand&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ss *StandState) handleInput(heroine *Heroine, input <span style="color:#fff;font-weight:bold">string</span>) HeroineState {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> input == <span style="color:#0ff;font-weight:bold">&#34;down&#34;</span> { <span style="color:#007f7f">// 蹲状态再次按“蹲”，则进入站立
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(DuckingState)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> input == <span style="color:#0ff;font-weight:bold">&#34;jump&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(JumpState)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> ss
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (ds *StandState) update(heroine *Heroine) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 跳跃状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">type</span> JumpState <span style="color:#fff;font-weight:bold">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (js *JumpState) enter(heroine *Heroine) {
+</span></span><span style="display:flex;"><span>	heroine.setGraphics(<span style="color:#0ff;font-weight:bold">&#34;image of jump&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (js *JumpState) handleInput(heroine *Heroine, input <span style="color:#fff;font-weight:bold">string</span>) HeroineState {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;todo&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (js *JumpState) update(heroine *Heroine) {}
+</span></span></code></pre></div><p>通过<strong>将每个状态相关的所有的数据和行为封装到相关类里面降低了整体代码的复杂度</strong></p>
+<p><em>《游戏编程模式》中还介绍了“并发状态机”，“层次状态机”和“下推状态机”，有兴趣的可以去看下</em></p>
+<h2 id="实现正则匹配">实现正则匹配</h2>
+<blockquote>
+<p>给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 &lsquo;.&rsquo; 和 &lsquo;*&rsquo; 的正则表达式匹配。</p>
+<p>&lsquo;.&rsquo; 匹配任意单个字符
+&lsquo;*&rsquo; 匹配零个或多个前面的那一个元素
+所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串</p>
+<p>来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/regular-expression-matching</p>
+</blockquote>
+<p>以模式串<code>a.b*c</code>举例，其状态机是这样的:</p>
+<img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202303222250805.png" style="zoom:50%;" />
+<ul>
+<li>状态流转是根据字符进行的。</li>
+<li>状态为匹配字符前后的索引，比如匹配第一个字符a前的状态就是0，匹配a后的状态就是1。</li>
+<li>对于<code>b*</code>来说，匹配前状态为2，可以通过b来达到状态3，也可以通过不匹配（规定为None）来达到3。</li>
+<li>同样用<code>b*</code>举例，达到状态3之后，再次匹配b仍会达到状态3。</li>
+</ul>
+<p>python实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> Solution:
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self.transfer = {} <span style="color:#007f7f"># 定义状态转移字典</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> isMatch(self, s: <span style="color:#fff;font-weight:bold">str</span>, p: <span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">bool</span>:
+</span></span><span style="display:flex;"><span>        state = <span style="color:#ff0;font-weight:bold">0</span> <span style="color:#007f7f"># 起始状态为0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, char in <span style="color:#fff;font-weight:bold">enumerate</span>(p):
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> char == <span style="color:#0ff;font-weight:bold">&#39;*&#39;</span>: 
+</span></span><span style="display:flex;"><span>                self.append_state((state, p[i-<span style="color:#ff0;font-weight:bold">1</span>]), state) <span style="color:#007f7f"># 为*时，(当前状态+上个字符)还是当前状态</span>
+</span></span><span style="display:flex;"><span>                self.append_state((state-<span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#fff;font-weight:bold">None</span>), state) <span style="color:#007f7f"># 为*时，(上个状态+None)转移到下个状态</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">else</span>:
+</span></span><span style="display:flex;"><span>                self.append_state((state, char), state+<span style="color:#ff0;font-weight:bold">1</span>) <span style="color:#007f7f"># 普通字符直接转移到下个状态</span>
+</span></span><span style="display:flex;"><span>                state += <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        accept = state <span style="color:#007f7f"># accept：最终状态</span>
+</span></span><span style="display:flex;"><span>        states = {<span style="color:#ff0;font-weight:bold">0</span>} <span style="color:#007f7f"># 当前状态的集合，最一开始只有0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, char in <span style="color:#fff;font-weight:bold">enumerate</span>(s): 
+</span></span><span style="display:flex;"><span>            <span style="color:#007f7f"># 处理每个状态，并根据当前char来获取下一个有效的状态的集合</span>
+</span></span><span style="display:flex;"><span>            new_state = <span style="color:#fff;font-weight:bold">set</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">for</span> state in states:
+</span></span><span style="display:flex;"><span>                new_state |=self.process_state(state, char) 
+</span></span><span style="display:flex;"><span>            states = new_state
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f"># 对最终的状态，还要处理可能由None得到的状态</span>
+</span></span><span style="display:flex;"><span>        states = self.process_final_nones(states)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> accept in states <span style="color:#007f7f"># 所需状态是否存在于最终的状态集中</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> append_state(self, item, state):
+</span></span><span style="display:flex;"><span>        states = self.transfer.get(item, <span style="color:#fff;font-weight:bold">set</span>())
+</span></span><span style="display:flex;"><span>        states.add(state)
+</span></span><span style="display:flex;"><span>        self.transfer[item] = states
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> process_state(self, state: <span style="color:#fff;font-weight:bold">int</span>, char: <span style="color:#fff;font-weight:bold">str</span>) -&gt; <span style="color:#fff;font-weight:bold">set</span>:
+</span></span><span style="display:flex;"><span>        new_states = <span style="color:#fff;font-weight:bold">set</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> symbol in [char, <span style="color:#0ff;font-weight:bold">&#39;.&#39;</span>]:
+</span></span><span style="display:flex;"><span>            new_states |= self.transfer.get((state, symbol), <span style="color:#fff;font-weight:bold">set</span>())
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> next_state in self.transfer.get((state, <span style="color:#fff;font-weight:bold">None</span>), <span style="color:#fff;font-weight:bold">set</span>()):
+</span></span><span style="display:flex;"><span>            new_states |= self.process_state(next_state, char)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> new_states
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> process_final_nones(self, states: <span style="color:#fff;font-weight:bold">set</span>) -&gt; <span style="color:#fff;font-weight:bold">set</span>:
+</span></span><span style="display:flex;"><span>        rst = <span style="color:#fff;font-weight:bold">set</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> state in states:
+</span></span><span style="display:flex;"><span>            rst |= self.process_final_none(state)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> rst | states
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">def</span> process_final_none(self, state: <span style="color:#fff;font-weight:bold">int</span>) -&gt; <span style="color:#fff;font-weight:bold">set</span>:
+</span></span><span style="display:flex;"><span>        states = <span style="color:#fff;font-weight:bold">set</span>()
+</span></span><span style="display:flex;"><span>        none_states = self.transfer.get((state, <span style="color:#fff;font-weight:bold">None</span>), <span style="color:#fff;font-weight:bold">set</span>())
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> state in none_states:
+</span></span><span style="display:flex;"><span>            states |= self.process_final_none(state)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> states | none_states
+</span></span></code></pre></div><h2 id="小结">小结</h2>
+<h3 id="构成">构成</h3>
+<p>状态机大概由以下几个元素组成：</p>
+<ul>
+<li>输入：如游戏中用户输入的指令、正则中要匹配的字符串、发表博客过程中的行为</li>
+<li>输出：对输入所做的反应，如游戏中的人物状态改变、正则匹配结果、博客状态的变化</li>
+<li>状态：抽象出来的事件或者属性，如游戏中的站立、下蹲，正则中的模式串的“匹配进度”，博客中的类型</li>
+<li>状态转移：状态之间的转换逻辑</li>
+</ul>
+<h3 id="优点">优点</h3>
+<ul>
+<li>
+<p><strong>简单清晰</strong>：<strong>有限状态机能够将问题抽象为状态和转移，从而简化了问题的表达和理解</strong>。状态机的每个状态都对应了系统的某种状态，而转移规则则描述了系统在不同状态下的行为。这种简单直观的表达方式，可以帮助我们更好地理解和设计系统。</p>
+</li>
+<li>
+<p><strong>易于扩展：通过添加新的状态和转移规则，我们可以轻松地扩展和修改有限状态机</strong>。这让我们可以逐步完善和优化系统功能，而不必重新设计整个系统。</p>
+</li>
+<li>
+<p>**易于维护：通过将系统分解为多个状态和转移规则，我们可以更好地组织和管理系统代码。**状态机的每个状态都是独立的、易于测试的模块，这让我们可以更快地定位和修复错误。</p>
+</li>
+</ul>
+
+  </article>
+</section>
+
+  
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>夭寿不贰，修身以俟</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2023
+        
+      
+      
+         · 
+         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+        
+        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
+      
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

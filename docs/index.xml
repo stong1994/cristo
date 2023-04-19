@@ -6,7 +6,18 @@
     <description>Recent content on 北人</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 18 Mar 2023 14:35:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 22 Mar 2023 14:43:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>有限状态机小结</title>
+      <link>https://stong1994.github.io/internet/design/fsm/</link>
+      <pubDate>Wed, 22 Mar 2023 14:43:00 +0800</pubDate>
+      
+      <guid>https://stong1994.github.io/internet/design/fsm/</guid>
+      <description>前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。
+这个坑就是有限状态机。
+《Rust权威指南》中的example fn main() { let mut post = Post::new(); post.add_text(&amp;#34;hello&amp;#34;); let mut post = post.request_review(); let mut post = post.approve(); print!(&amp;#34;{}&amp;#34;, post.content()); } pub struct DraftPost { content: String, } impl DraftPost { pub fn add_text(&amp;amp;mut self, text: &amp;amp;str) { self.content.push_str(text); } pub fn request_review(self) -&amp;gt; PendingReviewPost { PendingReviewPost { content: self.content, } } } pub struct PendingReviewPost { content: String, } impl PendingReviewPost { pub fn approve(self) -&amp;gt; Post { Post { content: self.</description>
+    </item>
+    
     <item>
       <title>相较于go, rust好在哪</title>
       <link>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</link>
