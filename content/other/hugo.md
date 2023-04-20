@@ -210,13 +210,21 @@ series = []
 
 构建静态页面并将其放到`docs`目录下，如果不加`-d docs`，则默认目录为`public`
 
+### hugo mod
+
+类似于go mod用于管理go模块，hugo mod用于管理hugo的模块。
+
+- `hugo mod get -u github.com/jpanther/congo/v2` 用于下载congo主题。
+
+  
+
 ## 禁止发布某些博客的方法
 
-Hugo allows you to set `draft`, `publishdate`, and even `expirydate` in your content’s [front matter](https://gohugo.io/content-management/front-matter/). By default, Hugo will not publish:
+1. `publishdate` 的值是一个未来时间
+2.  `draft: true` 
+3.  `expirydate` 的值是一个过去时间
 
-1. Content with a future `publishdate` value
-2. Content with `draft: true` status
-3. Content with a past `expirydate` value
+
 
 
 
