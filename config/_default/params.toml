@@ -33,7 +33,7 @@ avatarURL = "images/mine.jpg"
 [article]
   showDate = true
   showDateUpdated = true
-  showAuthor = false
+  showAuthor = true
   showBreadcrumbs = true
   showDraftLabel = true
   showEdit = true

@@ -16,7 +16,7 @@ dateFormat = "2 January 2006"
 
 [author]
   name = "stong"
-  image = "images/mine.jpg"
+  image = "imgs/mine.jpg"
   # headline = "I'm only human"
   bio = "进击的程序员"
   links = [
