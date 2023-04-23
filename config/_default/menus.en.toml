@@ -25,10 +25,10 @@ name = "区块链&web3"
 weight = 3
 pageRef = "web3"
 
-#[[main]]
-#name = "读书"
-#weight = 4
-#url = "book/"
+[[main]]
+name = "读书笔记"
+weight = 4
+pageRef = "book"
 
 [[main]]
 name = "杂谈"
