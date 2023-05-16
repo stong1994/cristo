@@ -1,1828 +1,991 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>北人</title>
-    <link>https://stong1994.github.io/</link>
-    <description>Recent content on 北人</description>
+    <title>记录个人的成长记录 on 主页</title>
+    <link>/</link>
+    <description>Recent content in 记录个人的成长记录 on 主页</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Wed, 19 Apr 2023 15:12:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Fri, 28 Apr 2023 16:32:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>自下而上的红黑树</title>
+      <link>/internet/algorithm/read_black_tree/</link>
+      <pubDate>Fri, 28 Apr 2023 16:32:00 +0800</pubDate>
+      
+      <guid>/internet/algorithm/read_black_tree/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>12球问题</title>
+      <link>/internet/algorithm/12boll/</link>
+      <pubDate>Fri, 21 Apr 2023 10:00:00 +0800</pubDate>
+      
+      <guid>/internet/algorithm/12boll/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>通讯录同步服务的演进</title>
-      <link>https://stong1994.github.io/internet/design/employee_adapter/</link>
+      <link>/internet/design/employee_adapter/</link>
       <pubDate>Wed, 19 Apr 2023 15:12:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/employee_adapter/</guid>
-      <description>背景 一家企业往往会使用钉钉或者企业微信或者飞书进行日常的沟通交流，同时HR也要使用其他平台处理工作，比如招聘、考勤、审批等等，这时候将不同平台的通讯录进行同步就成为了一种“刚需”。
-前言 在这篇博客里，我会专注于记录通讯录同步服务的技术架构上的演进，因此不会展示业务上的细节。
-同步流程 同步逻辑大概是这样：
-对需要新增或者更新的部门进行新增或更新。 对需要新增或者更新的员工进行新增或更新。 对需要删除的员工进行删除。 同步部门leader。 对需要删除的部门进行删除。 这个流程的其他部分的顺序是不能变的，这是因为：
-新增或者更新员工时，需要修改员工身上的部门信息，因此新增/更新部门要在新增/更新员工之前。 删除部门时要保证部门下的员工已删除，因此删除部门要在删除员工之后。 部门需要同步负责人信息，因此需要在同步完员工之后才能同步部门leader。 标识 第一次同步时只能通过名称或手机号进行关联，同步完后需要记录ID标识的映射关系，那么下次同步就可以直接使用ID进行同步。
-对于部门来说，第一次同步会根据部门名称进行关联，以后再次同步就可以使用ID作为关联。
-对于员工来说，第一次同步会使用员工手机号进行关联，以后再次同步就可以使用ID作为关联。
-简称 在这篇博客中，我会使用以下简称来描述某种信息：
-源数据：被同步的平台的通讯录数据。 目的数据：需要同步到的平台的通讯录数据。 了解完以上信息之后我们就可以开始查看技术架构的演进了。
-第一版：平平无奇的CRUD 在第一版，我们主要需要做这些：
-对接两个平台的通讯录组件。 支持手动同步、定时同步和事件同步。 因为只需要对接两个平台，因此就没有考虑通用性——避免过早优化，因为业务规则是需要逐步完善的，过早的考虑整体很容易造成过度设计，以至于浪费大量的精力。
-全量同步 手动同步和定时同步的逻辑是一样的，只是触发条件不同。基本流程是这样：
-准备数据，包括用户的配置数据、两个平台的部门和员工数据以及关联的ID。 对需要新增或者更新的部门进行新增或更新 按层级遍历源数据的部门树（bfs），令当前遍历的部门为A。 判断A部门是否已存在映射关系 若存在，令目的部门为a, 判断目的数据是否存在a 若存在，判断是否需要更新，若需要，则进行更新 若不存在，则需要新建部门，并更新ID映射 若不存在，则获取对应服务门下的部门列表，查看是否有相同名称的部门 若存在，则判断是否需要更新，若需要，则进行更新，最后新建ID映射 若不存在，则需要新建部门，并新建ID映射 对需要新增或者更新的员工进行新增或更新。 遍历源数据的员工列表，令当前遍历的员工为E 判断员工E是否已存在映射关系 若存在，令目的员工为e，判断目的数据是否存在e 若存在，判断是否需要更新，若需要，则进行更新 若不存在，则需要新建员工，并更新ID映射 若不存在，则根据手机号判断目的数据中是否存在该员工 若存在，则判断是否需要更新，若需要，则进行更新，最后新建ID映射 若不存在，则需要新建员工，并新建ID映射 对需要删除的员工进行删除：在上述步骤中，我们已经得知同步了哪些员工，将这些员工构成一个哈希表m，那么在目的数据中，不在哈希表m中的员工就是我们需要删除的员工。 同步部门leader：我们已经有了部门和员工的映射关系，因此直接同步部门leader即可。 对需要删除的部门进行删除：在上述步骤中，我们已经得知同步了哪些部门，讲这些部门构成一个哈希表m2，那么在目的数据中，不在哈希表m2中的部门就是我们需要删除的部门。 增量同步 通过回调事件进行同步的方式可以理解为增量同步。
-增量同步和全量同步的区别在于：前者是同步一个员工或者部门，后者是同步全量的员工和部门。
-部门的增量同步的基本流程 准备数据：获取回调事件对应的源数据的部门信息A 判断映射关系汇中是否存在A的映射关系，令目的数据中的对应部门为a 若已存在并且目的数据中是否仍存在a，则判断父部门以及部门的基础信息是否相同，如果父部门不匹配，则先同步父部门（进入步骤1），然后再同步a 若不存在映射关系或者目的数据中已不存在a，则先同步父部门（进入步骤1），再根据部门名称匹配父部门下的子部门，若存在匹配的部门，则更新，否则创建。 需要特别说明同步部门负责人，因为存在循环创建问题：假设员工e存在于部门a，并且e是部门a的负责人，那么在创建部门a时需要先创建员工e，而创建员工e时因为需要同步员工的部门信息，因此又需要先创建部门a，所以进入了一个死循环。这个问题可以通过先创建部门，再同步部门负责人来解决。
-员工的增量同步的基本流程 准备数据：获取回调事件对应的源数据的员工信息E 判断映射关系汇中是否存在E的映射关系，令目的数据中的对应员工为e 先同步员工的部门（流程见“部门的增量同步的基本流程”） 若存在员工的映射关系并且目的数据中仍存在e，则判断员工e的信息是否需要更新，需要则更新 若不存在员工的映射关系或者目的数据中已不存在e，则根据手机号来匹配，若能够匹配，则进行更新（进入步骤2），否则进行创建 问题 在增量同步员工和部门时，同步员工和部门的逻辑彼此嵌套，因此对员工和部门的同步逻辑进行了封装，实现了代码的解耦和复用。但是全量同步由于在一开始就获取了全量数据，不需要像增量同步那样一个数据一个数据的获取，因此全量同步没有复用增量同步的代码。</description>
+      <guid>/internet/design/employee_adapter/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>有限状态机小结</title>
-      <link>https://stong1994.github.io/internet/design/fsm/</link>
+      <link>/internet/design/fsm/</link>
       <pubDate>Wed, 22 Mar 2023 14:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/fsm/</guid>
-      <description>前一阵子自己留了个坑，时间长就忘了。最近看《Rust权威指南》这本书，正好碰巧又遇到了这个坑，所以今天来填下。
-这个坑就是有限状态机。
-《Rust权威指南》中的example fn main() { let mut post = Post::new(); post.add_text(&amp;#34;hello&amp;#34;); let mut post = post.request_review(); let mut post = post.approve(); print!(&amp;#34;{}&amp;#34;, post.content()); } pub struct DraftPost { content: String, } impl DraftPost { pub fn add_text(&amp;amp;mut self, text: &amp;amp;str) { self.content.push_str(text); } pub fn request_review(self) -&amp;gt; PendingReviewPost { PendingReviewPost { content: self.content, } } } pub struct PendingReviewPost { content: String, } impl PendingReviewPost { pub fn approve(self) -&amp;gt; Post { Post { content: self.</description>
+      <guid>/internet/design/fsm/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>相较于go, rust好在哪</title>
-      <link>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</link>
+      <link>/note/rust/the_content_rust_better_than_go/</link>
       <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/note/rust/the_content_rust_better_than_go/</guid>
-      <description>前言 作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。 这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌</description>
+      <guid>/note/rust/the_content_rust_better_than_go/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>rust中引入所有权所带来的麻烦</title>
-      <link>https://stong1994.github.io/note/rust/defect_by_ownership/</link>
+      <link>/note/rust/defect_by_ownership/</link>
       <pubDate>Thu, 16 Mar 2023 14:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/note/rust/defect_by_ownership/</guid>
-      <description>编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释</description>
+      <guid>/note/rust/defect_by_ownership/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>详解flutter中的setState</title>
-      <link>https://stong1994.github.io/internet/flutter/setstate/</link>
+      <link>/internet/flutter/setstate/</link>
       <pubDate>Tue, 07 Mar 2023 20:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/flutter/setstate/</guid>
-      <description>什么是setState 在Flutter中，Widget的状态是不可变的，因此，当您需要更新Widget的状态时，您需要调用setState方法来通知Flutter框架重新构建Widget。
-当调用 setState 方法时，Flutter 框架会重新调用当前组件的 build 方法，生成新的 Widget 树，并将其与之前的 Widget 树进行比较，然后更新有差异的部分。
-一个最简单的例子：计算器 class _MyHomePageState extends State&amp;lt;MyHomePage&amp;gt; { int _counter = 0; void _incrementCounter() { setState(() { _counter++; }); } @override Widget build(BuildContext context) { return Scaffold( appBar: AppBar( title: Text(widget.title), ), body: Center( child: Column( mainAxisAlignment: MainAxisAlignment.center, children: &amp;lt;Widget&amp;gt;[ const Text( &amp;#39;You have pushed the button this many times:&amp;#39;, ), Text( &amp;#39;$_counter&amp;#39;, style: Theme.of(context).textTheme.headlineMedium, ), ], ), ), floatingActionButton: FloatingActionButton( onPressed: _incrementCounter, tooltip: &amp;#39;Increment&amp;#39;, child: const Icon(Icons.</description>
+      <guid>/internet/flutter/setstate/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>ChatGPT教我写代码——best todo</title>
-      <link>https://stong1994.github.io/internet/go/chatgpt_best-todo/</link>
+      <link>/internet/go/chatgpt_best-todo/</link>
       <pubDate>Sun, 26 Feb 2023 11:30:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/chatgpt_best-todo/</guid>
-      <description>前言 之前想开发一款任务管理软件，特点是将任务从紧急程度和重要程度两个角度来划分。后来发现市面上已经有了这种软件，比如forcus matrix。
-但是这些软件总会有些地方不太好用。所以我最终决定还是开发一个属于自己的软件。
-ChatGPT与技术选型 对一个后端boy来说，往年的开发经验很难迁移到客户端开发中，但是ChatGPT可以作为一个很耐心的老师来辅助我开发。
-客户端开发选用的是flutter，主要是因为：
-支持跨平台，这样一次开发就能够在手机、电脑上使用。 之前看过flutter的书籍，所以有一些基础。 最近比较火。 由于开发过程比较顺利，所以把后端代码一起写了，语言选择的是rust，这是因为:
-学习rust，以前只看过书，需要实战来练手。 过程简述 聪明的ChatGPT 对于ChatGPT自然是不需要什么客套的，所以我直接问它要了一套focus matrix 的flutter实现。令我惊讶的是代码是可以直接编译运行，没有报错。下面是客户端的截图：
-可以看到整体的功能还是很简陋的，但是大体框架已经有了。所以我需要增加一些功能，而这些功能我会让ChatGPT来完成。
-接下里我让它增加了任务的编辑功能。
-增加了背景颜色：
-然后是增加任务弹窗、页面优化等一系列优化:
-ChatGPT先是给了我弹窗的实现：
-Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, decoration: InputDecoration( hintText: &amp;#39;Add a task&amp;#39;, ), onFieldSubmitted: (value) { _updateTask(value); }, ); } 但是不是很好看，于是我让它进行优化，下面是优化后的代码：
-Widget _buildTaskField() { return TextFormField( controller: _textEditingController, autofocus: true, style: TextStyle(fontSize: 18.0, color: Colors.black87), decoration: InputDecoration( filled: true, fillColor: Colors.white, hintText: &amp;#39;Add a task&amp;#39;, contentPadding: EdgeInsets.</description>
+      <guid>/internet/go/chatgpt_best-todo/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>1&#43;1=?</title>
-      <link>https://stong1994.github.io/book/philosophy/1_plus_1/</link>
+      <link>/book/philosophy/1_plus_1/</link>
       <pubDate>Sun, 19 Feb 2023 10:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/1_plus_1/</guid>
-      <description>前言 上学的时候总是会想：1+1为什么等于2？最终也没想明白，总不能因为别人是这样定义的，它就是这样吧。 最近读了《哥德尔、艾舍尔、巴赫：集异璧</description>
+      <guid>/book/philosophy/1_plus_1/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>ChatGPT 龟兔赛跑 无穷递归</title>
-      <link>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</link>
+      <link>/book/philosophy/chatgpt_race_recursion/</link>
       <pubDate>Thu, 16 Feb 2023 10:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</guid>
-      <description>永远也追不上乌龟的兔子 龟兔赛跑有很多版本，其中一个的结局是乌龟赢了。故事是这样的： 兔子骄傲自大，让乌龟先跑。 乌龟跑到了A点，兔子开始跑。 兔子</description>
+      <guid>/book/philosophy/chatgpt_race_recursion/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>对于任务中心系统设计上的反思</title>
-      <link>https://stong1994.github.io/internet/go/takcenter_review/</link>
+      <link>/internet/go/takcenter_review/</link>
       <pubDate>Sat, 11 Feb 2023 12:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/takcenter_review/</guid>
-      <description>前言 任务中心是一个通用层的系统，用于统一管理任务进度，对接前端的进度条组件。
-主要流程为：
-用户触发一个任务 业务子系统对接任务中心：添加任务、更新进度和任务状态 任务中心通过WebSocket向用户推送任务状态、进度。 任务中心系统分为三层：
-支撑层：统一管理任务状态、进度 中台层：管理任务和用户的关系 前台层：管理权限、与前端交互 业务子系统对接任务中心的流程为：
-在支撑层获取任务id 在支撑层添加任务信息 在中台层关联任务和用户 在支撑层获取场景中未被消费的任务 执行任务并在支撑层更新任务进度和状态 解释一下为什么在第2步添加了任务后还要在第4步获取呢？这是因为在设计上假设业务子系统分为了生产者和消费者，也就是消费任务的是一个独立的worker，因此需要再次获取任务。
-系统内的问题 问题1. 服务划分 任务中心将对任务的管理和对用户与任务的关联进行了拆分，使得两者解耦，任务管理完全不用考虑用户，这是一个好的设计。但问题是它把这种拆分具象到了服务层。
-这意味着如果业务子系统对接任务中心，需要调两个服务的API，这造成了客户的困惑（如果把任务中心看做一个产品，业务子系统就是客户）：我只是对接任务中心组件，为什么需要对接两个服务？
-所以，对任务的管理和对用户与任务的关联应该是一个服务内部的划分，这应该是对客户不可见的。
-问题2. 干涉了使用方的设计 在任务中心的设计中，假设了业务子系统会分为任务task1的生产者和消费者——就像对接MQ那样。这种设计是假定任务task1的消费一定是异步的。
-但问题在于业务子系统实际上有自己的任务task2调度系统，它只用任务中心来更新用户的进度条。
-因此，对于业务子系统来说，它从自己的任务调度系统中获取一个任务task2，然后对接任务中心，在这个task2的消费中，包含了对于task1的生产和消费。
-于是，虽然task2的消费是异步的，但是task1的生产和消费却是同步的。
-这对业务子系统造成了很大困扰：
-如果再把task1的生产和消费分开，无疑会增大开发工作量，也增加了维护工作量 如果不把task1的生产和消费分开，只能在生产了任务task1后，马上开启for循环来尝试消费它。这无疑会让代码变得丑陋且难以接受。 问题3. 定位不明确 问题2的根本原因是任务中心对于自己的定位并不明确。它想把自己包装成一个任务调度系统，但是实际上是一个任务进度管理系统。
-这一点也能从它的名字——任务中心——看出来。
-也就是说，当前的任务中心的需要开发一套通用的任务调度系统，然后将其和任务进度管理模块进行组合、打包给业务子系统。
-综上，任务中心需要包含三个模块：
-任务调度模块 任务进度管理模块 任务与用户的关联模块 问题4. 对接繁琐 对外提供的对接可以进一步简化，比如1.生成任务id 2.添加任务 3.绑定任务和用户 可以简化为一个接口。对于目前的现状，这个接口还可以包括 4. 获取可执行的任务
-系统外的问题 服务这个词很有意思，任务中心系统由几个服务组成，又服务于整个产品系统。
-那么既然使用者感到不好用，为什么不提出来呢？这说明其他部门内的人对于任务中心系统的定位也不明确。对于这种不好用的东西，他们往往是自己做兼容或者自己实现一套，这显然是不合理的。任务中心系统服务于整个产品系统，这是需要加强的概念。</description>
+      <guid>/internet/go/takcenter_review/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>快慢双指针中的相对速度</title>
-      <link>https://stong1994.github.io/internet/algorithm/towpointer/</link>
+      <link>/internet/algorithm/towpointer/</link>
       <pubDate>Sat, 11 Feb 2023 10:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/algorithm/towpointer/</guid>
-      <description>前言 在算法中，快慢双指针是一种解决问题的技巧。常用于链表相关的问题中。
-设置两个指针：快指针和慢指针。快指针每次走两步，慢指针每次走一步。
-相对速度 相对速度是理解快慢双指针技巧的关键点。快指针每次走两步，慢指针每次走一步，那么两者的相对速度就是一步。因此：
-能够检测是否有环：当慢指针走到环内时，快指针相对慢指针每次只移动一步，因此一定会相遇而不会错过。 能够获得环的长度：环的长度就是两次相遇之间移动的次数。 能够获得有环链表的节点个数：将慢指针走过的节点存入哈希表中，遇到重复的节点时移动的次数就是节点的个数。 这解决了我们的一部分疑惑：
-为什么快指针每次走两步而不是走三步、四步：因为相对速度变为了两步、三步，不能检测环且有些节点会被漏掉。 相关问题 检测是否有环 获得环的入口 </description>
+      <guid>/internet/algorithm/towpointer/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>为什么要读书</title>
-      <link>https://stong1994.github.io/book/philosophy/why_read_book/</link>
+      <link>/book/philosophy/why_read_book/</link>
       <pubDate>Sat, 07 Jan 2023 10:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/why_read_book/</guid>
-      <description>前言 为什么要读书？这是一个问题，又不仅仅只是一个问题，因为在不同的范畴中提问者要问的问题是不同的。比如说他可能在问： 读书有什么好处？ 为什么要</description>
+      <guid>/book/philosophy/why_read_book/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go中append的坑</title>
-      <link>https://stong1994.github.io/internet/go/append_trap/</link>
+      <link>/internet/go/append_trap/</link>
       <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/append_trap/</guid>
-      <description>问题复现 func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:]...) fmt.Println(a) fmt.Println(b) } append(slice[:i], slice[i+1:]...)是很常见的用于去除切片slice中第i个元素的操作。打印b会得到[3,5,8].
-但是打印a会显示什么呢？
-理想情况是a没有任何变化，但实际情况是：
-[3 5 8 8] a被修改了！
-猜想 依稀记得append操作会判断当前切片的容量，如何切片的容量足够容纳添加进来的值，就会复用这个切片。
-因此，在操作append(a[:1], a[2:]...)时，程序发现a的容量足够，不需要扩容，因此会复用a，因此将5, 8 (即a[2]...)添加到了3 (即a[:1])后边，于是就有了3,5,8, 同时，a[3]没有被修改，因此仍是8，所以b的结果就是3, 5, 8, 8
-证实 可以通过阅读append函数的实现代码来证实，但是append是一个内置函数，看不到底层实现。但是我们可以在官方的博客中看到其实现逻辑：
-func Append(slice []int, elements ...int) []int { n := len(slice) total := len(slice) + len(elements) if total &amp;gt; cap(slice) { // Reallocate. Grow to 1.5 times the new size, so we can still grow.</description>
+      <guid>/internet/go/append_trap/</guid>
+      <description>问题复现 # func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
     </item>
     
     <item>
       <title>MongoDB索引</title>
-      <link>https://stong1994.github.io/internet/depth/mongo_index/</link>
+      <link>/internet/depth/mongo_index/</link>
       <pubDate>Thu, 22 Dec 2022 16:05:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/depth/mongo_index/</guid>
-      <description>基本操作 创建普通索引 db.users.createIndex({&amp;#34;username&amp;#34; : 1, &amp;#34;age&amp;#34;: -1}) 1代表升序，-1代表逆序。
-创建唯一索引 db.users.createIndex({&amp;#34;username&amp;#34; : 1}, {&amp;#34;unique&amp;#34;: true}) 创建稀疏索引 在上边的唯一索引，如果字段为null，那么null值也会被写入唯一索引中。当再次插入该字段为null的数据时会报错。这时可以使用稀疏索引。
-db.users.createIndex({&amp;#34;username&amp;#34; : 1}, {&amp;#34;unique&amp;#34;: true, &amp;#34;sparse&amp;#34;: true}) 创建部分索引 有时候需要对一部分数据建立索引，这时可以使用部分索引。如需要对非null部分创建索引：
-&amp;gt; db.users.createIndex({&amp;#34;username&amp;#34; : 1}, {&amp;#34;unique&amp;#34;: true, &amp;#34;partialFilterExpression&amp;#34;:{&amp;#34;firstname&amp;#34;: {$exists: true } } }) 后台创建索引 db.users.createIndex({&amp;#34;username&amp;#34; : 1}, {&amp;#34;background&amp;#34;: true}) 查看索引 db.users.getIndexes() 删除索引 db.users.dropIndexe(&amp;#34;username_1&amp;#34;) 理论知识 如何选择索引 假如在一个查询有3个索引被标识为该查询的候选索引，那么MongoDB会创建3个查询计划，并在3个并行线程中分别运行这3个计划。最快返回结果的计划会赢得这次”竞赛“。
-MongoDB会将”竞赛“结果缓存在服务端，对于有相同特征的查询，会直接拿到缓存的结果。
-复合索引创建顺序 等值过滤的键应该在最前面； 用于排序的键应该在多值字段之前； 多值过滤的键应该在最后面。 B-树 MongoDB中的索引采用的数据结构为B-树。
-WiredTiger存储引擎 WiredTiger 存储引擎是 MongoDB 的默认存储引擎。
-当服务器启动时，它会打开数据文件并开始检查点和日志记录过程。
-默认情况下对集合和索引会启用压缩。默认的压缩算法是谷歌的 snappy。
-WiredTiger 使用多版本并发控制（MVCC）来隔离读写操作，以确保客户端可以看到操作开始时数据的一致性视图。
-检查点机制可以为数据创建一致的时间点快照，每 60 秒发生一次。这包括将快照中的所有数据写入磁盘并更新相关的元数据。</description>
+      <guid>/internet/depth/mongo_index/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Marshal具有相同json tag的结构体</title>
-      <link>https://stong1994.github.io/internet/go/marshal_same_tag/</link>
+      <link>/internet/go/marshal_same_tag/</link>
       <pubDate>Tue, 20 Dec 2022 14:50:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/marshal_same_tag/</guid>
-      <description>如果结构体中有两个具有相同json tag的字段，那么对其使用json库的Marshal函数后，两个”冲突“的字段会如何显示呢？
-比如下方这段代码：
-package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; ) type User struct { Name string `json:&amp;#34;name&amp;#34;` Age int `json:&amp;#34;age&amp;#34;` Name2 string `json:&amp;#34;name&amp;#34;` } func main() { a := User{ Name: &amp;#34;John&amp;#34;, Age: 20, Name2: &amp;#34;Doe&amp;#34;, } bytes, err := json.Marshal(&amp;amp;a) if err != nil { panic(err) } fmt.Println(string(bytes)) } 输出什么？
-A: {&amp;quot;age&amp;quot;:20, &amp;quot;name&amp;quot;: &amp;quot;John&amp;quot;}
-B: {&amp;quot;age&amp;quot;:20, &amp;quot;name&amp;quot;: &amp;quot;Doe&amp;quot;}
-C: {&amp;quot;age&amp;quot;:20}
-答案是C。
-在src/encoding/json/encode.go中的typeFields函数中中有这样一段代码：
-out := fields[:0] for advance, i := 0, 0; i &amp;lt; len(fields); i += advance { fi := fields[i] name := fi.</description>
+      <guid>/internet/go/marshal_same_tag/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go设计之json</title>
-      <link>https://stong1994.github.io/internet/go/json/</link>
+      <link>/internet/go/json/</link>
       <pubDate>Thu, 15 Dec 2022 14:50:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/json/</guid>
-      <description>json是目前最常用的数据序列化格式，go中内置的json库的实现使用了状态机。
-状态机 scanner type scanner struct { // 读取下一个字节，并返回状态 step func(*scanner, byte) int // 是否已扫描完顶层对象，如对象{}或者数组[1,2,3] endTop bool // 扫描一个具有多层嵌套结构(对象、数组)的状态栈 parseState []int err error // 消费的总的字节数量 bytes int64 } scanner就是json在反序列化时使用的状态机。
-可以看到，状态机只包含状态和处理状态的函数，并不包含真实的json数据。
-状态 在scanner中使用的状态有：
-const ( scanContinue = iota // uninteresting byte scanBeginLiteral // end implied by next result != scanContinue scanBeginObject // begin object scanObjectKey // just finished object key (string) scanObjectValue // just finished non-last object value scanEndObject // end object (implies scanObjectValue if possible) scanBeginArray // begin array scanArrayValue // just finished array value scanEndArray // end array (implies scanArrayValue if possible) scanSkipSpace // space byte; can skip; known to be last &amp;#34;continue&amp;#34; result // Stop.</description>
+      <guid>/internet/go/json/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go中unmarshal的坑</title>
-      <link>https://stong1994.github.io/internet/go/unmarshal_trap/</link>
+      <link>/internet/go/unmarshal_trap/</link>
       <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/unmarshal_trap/</guid>
-      <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。
-问题复现 type User struct { Name string `json:&amp;#34;name&amp;#34;` Hobbies []string `json:&amp;#34;hobbies&amp;#34;` } func main() { var u User alice := `{&amp;#34;name&amp;#34;: &amp;#34;alice&amp;#34;, &amp;#34;hobbies&amp;#34;: [&amp;#34;readBook&amp;#34;, &amp;#34;watchTV&amp;#34;]}` bob := `{&amp;#34;name&amp;#34;: &amp;#34;bob&amp;#34;}` err := json.Unmarshal([]byte(alice), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) err = json.Unmarshal([]byte(bob), &amp;amp;u) if err != nil { panic(err) } fmt.Printf(&amp;#34;%+v\n&amp;#34;, u) } 我们有两个user：alice和bob。alice有readBook和watchTV两个Hobbies，而bob没有任何Hobbies。
-我们用同一个变量u分别对alice和bob进行反序列化，终端会输出什么呢？
-理想情况是：
-{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[]} 但实际情况是：
-{Name:alice Hobbies:[readBook watchTV]} {Name:bob Hobbies:[readBook watchTV]} bob“继承”了alice的Hobbies，这显然是错误的结果！</description>
+      <guid>/internet/go/unmarshal_trap/</guid>
+      <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。</description>
     </item>
     
     <item>
       <title>如何获得更多的摸鱼时间</title>
-      <link>https://stong1994.github.io/internet/get_more_free_work_time/</link>
+      <link>/internet/get_more_free_work_time/</link>
       <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/get_more_free_work_time/</guid>
-      <description>互联网这个行业最大的好处就是可以不断学习，当然，对于某些人来说，就可能是一个缺点。
-作为一名有追求的程序员，他的TODO List一定排满了要学习的内容，为了尽快“解决”这些TODO，我们需要获得尽可能多的摸鱼时间。
-那么如何做呢？俗话说吃一堑长一智，只有不断总结、优化自己的工作流程，才能不辜负过往的辛酸泪。
-获得更多的摸鱼时间清单 1. 确认产品功能 首先要对产品功能有十分详尽的了解，不能在还有一些模糊想法的时候就去写代码！
-很多时候程序员和产品经理理解的功能并不一致，尤其是在产品经理提供的需求很模糊的时候，所以一定要再三确认产品功能，否则很容易花更多时间去修改代码！
-2. 协助产品经理完善功能 大部分产品经理缺少开发经验，因此设计出来的需求难以完成，这时开发者一定要和产品经理沟通需求、完善功能。
-对于产品设计能力差的产品经理，更是如此！
-开发者按照产品经理提供的需求完成了开发，然后找leader进行产品评审，leader说这个功能有问题，需要重新设计，开发者的代码自然是白写了。
-想要获得更多的摸鱼时间，就要尽可能“只做一遍”，所以协助产品经理完善功能是非常有必要的。
-3. 少写bug 这个在另一篇如何写没有bug的代码中已经进行了详尽的阐述。
-4. 保持积极的情绪 情绪对代码的影响非常大，当开发者情绪差时，开发者所写代码的质量会很差，同时项目成员之间的沟通也会变差，这无疑会加大开发者在项目开发的时间投入。
-5. 维护好项目TODO清单 写代码的过程中往往会产生很多想法：
-这个函数需要优化 另一个功能是不是也有这个问题？ 好像还有一个功能没有实现 上线时这个需要进行配置 此外，其他成员也会不时的提一些问题或者需求。
-开发者需要维护好自己的项目TODO清单，毕竟没有解决这些问题，其他人还是会来“烦”你，这会增加沟通时间以及更多的“想法的上下文切换时间”。</description>
+      <guid>/internet/get_more_free_work_time/</guid>
+      <description>互联网这个行业最大的好处就是可以不断学习，当然，对于某些人来说，就可能是一个缺点。</description>
     </item>
     
     <item>
       <title>程序员思维VS工程师思维</title>
-      <link>https://stong1994.github.io/life/coder_vs_engineer/</link>
+      <link>/life/coder_vs_engineer/</link>
       <pubDate>Sun, 20 Nov 2022 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/coder_vs_engineer/</guid>
-      <description>引子 宋丹丹有个小品，说要把一头大象放到冰箱里需要几步？ 答：三步。第一步：打开冰箱门；第二步：把大象放进去；第三步：把冰箱门关上。 樊登在《可复</description>
+      <guid>/life/coder_vs_engineer/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>设计模式之适配器、装饰器、外观</title>
-      <link>https://stong1994.github.io/internet/design/adaptor/</link>
+      <link>/internet/design/adaptor/</link>
       <pubDate>Tue, 15 Nov 2022 11:17:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/adaptor/</guid>
-      <description>适配器模式 适配器，顾名思义，是用来做适配的。比如手机的的电源适配器就是将输入电源的电压适配为手机需要的电压。
-适配器模式也分为”主动适配“和”被动适配“。
-主动适配 仓库模式（Repository Pattery）是适配器模式的一种应用。在我们的代码中，业务逻辑与规则是最复杂和最重要的地方，因此减轻逻辑层/领域层的复杂性至关重要。通过仓库模式，逻辑层/领域层无需关心底层存储的具体实现，由存储层来组装数据达到适配逻辑层/领域层的目的。
-主动适配通过接口来定义行为，使用依赖导致来避免下层逻辑污染上层逻辑。
-被动适配 在开发过程中，我们往往需要被动的去做一些适配，比如：
-老的接口并不是很符合我们的需求，因此需要适配老的接口 我们需要重构代码，有些数据结构变了，但是对外的接口不能变，这时候需要适配对外的接口 被动的适配属于是无奈之举，但也是开发中必须的过程。整个团队应该关注这些需要被动适配的地方，然后通过不断重构、迭代消灭它们。
-防腐层是这类模式的一种体现。
-装饰器模式 与适配器的场景不同，装饰器模式是用来扩展功能的。
-比如说我们有个功能是同步通讯录 这个功能可以简化为同步部门和同步员工两个方法：
-type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 } func (s Sync) SyncEmp() { // 同步员工代码 } 在使用过程中，用户反馈感知不到同步进度，因此需要增加进度条展示功能。于是我们的代码变成了：
-type Sync struct {} func (s Sync) SyncDept() { // 同步部门代码 uploadProgress() // 上传进度 } func (s Sync) SyncEmp() { // 同步员工代码 uploadProgress() // 上传进度 } 虽然功能实现了，但是：
-它违反了开闭原则：同步逻辑并不需要修改但是修改了同步逻辑所在的代码 代码更复杂，加重了开发人员的认知负担。 我们先将旧版本的同步抽象为接口：
-type SyncContact interface{ SyncDept() SyncEmp() } 然后装饰进度条功能:</description>
+      <guid>/internet/design/adaptor/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>设计模式之单例模式</title>
-      <link>https://stong1994.github.io/internet/design/singleton/</link>
+      <link>/internet/design/singleton/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/singleton/</guid>
-      <description>单例模式是确保对象只初始化一次的编码模式，常用于全局资源的创建。
-实现单例模式 在其他语言（如java）中，可能需要双重锁检查的方式来实现单例模式，但是在go中直接使用sync.Once即可：
-package singleton import &amp;#34;sync&amp;#34; var ( once sync.Once globalResource *resource ) type resource struct {} func GetResource() *resource { once.Do(func() { globalResource = new(resource) }) return globalResource } 避免使用单例模式 单例模式最需要人们关心的其实并不是如何实现，而是如何避免使用。
-在《游戏编程模式》中总结了如下理由：
-**单例模式所创建的对象可以看做是全局变量，而全局变量增加了代码的复杂度。**假如我们在查bug，我们理应只需关注这个方法内的逻辑，而不应把精力花费在全局变量上。 **全局变量造成了耦合。**由于任何地方都能进行引用，那么开发者就会在一切地方引用。所以这块代码将难以维护——因为没人能修改全局的代码并且确保它不会出错。 **对并发不友好。**这显而易见。 </description>
-    </item>
-    
-    <item>
-      <title>设计模式之迭代器、组合</title>
-      <link>https://stong1994.github.io/internet/design/iterator/</link>
-      <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/design/iterator/</guid>
-      <description>迭代器模式 迭代器模式用于封装遍历过程以达到隐藏内部实现细节的目的。
-迭代器模式分为内部迭代器和外部迭代器两种。
-内部迭代器 内部迭代器由迭代器本身来控制遍历。
-type Student struct{} type Students []Student func (s Students) Iterator(fnc func(student Student)) { for _, student := range s { fnc(student) } } 我们新定义了一个Students类型用来封装Student列表，并且提供了Iterator方法来实现遍历。
-内部迭代器的有点就是实现简单、使用简单，缺点则是使用方不能控制遍历逻辑。
-假设说我们新的处理Student的方法需要一个error返回值，这时候Iterator已经不能满足需求，需要新定义一个方法：
-func (s Students) Iterator2(fnc func(student Student) error) error { for _, student := range s { if err := fnc(student); err != nil { return err } } return nil } 也就是说，内部迭代器的扩展性不够好，且使用不够灵活。假如遍历过程中，fnc找到所需的student就不应该继续遍历其他student，那么我们又需要再写一个新的方法。
-外部迭代器 外部迭代器将迭代的控制权提供给使用方，实现如下：
-type Student struct{} type Students struct{ offset int data []Student } func (s *Students) HasNext() bool { return s.</description>
+      <guid>/internet/design/singleton/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>设计模式之模版方法模式</title>
-      <link>https://stong1994.github.io/internet/design/template/</link>
+      <link>/internet/design/template/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/template/</guid>
-      <description>介绍 模版方法模式在基础对象中提供通用的方法，而模版的使用者只需关心非通用的方法。
-举个例子，假设数据同步的过程可分为以下几步：
-准备数据 处理新增的数据 处理更新的数据 处理删除的数据 对于不同的场景，数据同步的更新逻辑可能都不同，而其他三个步骤（1、2、4）则不会改变。因此，我们可以制作一个通用的模版，这样，使用方在使用时只需处理更新逻辑即可。
-type Sync interface{ Update() } func SyncData(sync Sync) { prepare() add() sync.Update() delete() } type Syncer struct{} func (s syncer) Update() {} func sync() { SyncData(new(Syncer)) } 官方库中的实例 go中的排序方法就应用了这一模式。
-在src/sort/sort.go中，定义了用户自定义行为的接口：
-type Interface interface { Len() int Less(i, j int) bool Swap(i, j int) } 并且提供了模版方法：
-func Sort(data Interface) { n := data.Len() if n &amp;lt;= 1 { return } limit := bits.Len(uint(n)) pdqsort(data, 0, n, limit) } Interface中的三个方法会在pdqsort中使用，具体算法代码较复杂，可自行阅读源码。</description>
+      <guid>/internet/design/template/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>设计模式之迭代器、组合</title>
+      <link>/internet/design/iterator/</link>
+      <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
+      
+      <guid>/internet/design/iterator/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>设计模式之工厂模式</title>
-      <link>https://stong1994.github.io/internet/design/factory/</link>
+      <link>/internet/design/factory/</link>
       <pubDate>Sun, 13 Nov 2022 19:45:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/factory/</guid>
-      <description>工厂模式，顾名思义，是一种用来生产实例的模式。
-工厂模式有三种类别：简单工厂模式、工厂方法模式和抽象工厂模式。
-《HeadFirst设计模式》中的披萨场景能够帮助我们循序渐进的了解这三种模式。
-再现场景——披萨 假设披萨店里有三种披萨：奶酪披萨、希腊披萨和意大利披萨，这些披萨都具有相同的行为——准备原理、烘焙、裁剪、装盒，因此我们抽象出了一个披萨接口：
-type Pizza interface { Prepare() Bake() Cut() Box() } 并且三种披萨都实现了这个披萨接口：
-// 具体实现方法略 type CheesePizza struct { } type GreekPizza struct { } type PepperoniPizza struct { } 那么这时一个用户下单一个披萨的方法就可以是：
-type PizzaStore struct {} func (p PizzaStore) OrderPizza(typ string) Pizza { var pizza Pizza switch typ { case &amp;#34;cheese&amp;#34;: pizza = new(CheesePizza) case &amp;#34;greek&amp;#34;: pizza = new(GreekPizza) case &amp;#34;pepperoni&amp;#34;: pizza = new(PepperoniPizza) } pizza.Prepare() pizza.Bake() pizza.Cut() pizza.Box() return pizza } 用户选择了披萨类型，然后OrderPizza就能够返回给用户该类型的披萨。</description>
+      <guid>/internet/design/factory/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>设计模式之观察者模式</title>
-      <link>https://stong1994.github.io/internet/design/observer/</link>
+      <link>/internet/design/observer/</link>
       <pubDate>Fri, 11 Nov 2022 19:45:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/observer/</guid>
-      <description>What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
-观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
-观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
-Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
-package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
-如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
-Topic和观察者耦合在了一起。
-How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
-package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t.</description>
+      <guid>/internet/design/observer/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>用景观思维解决复杂问题</title>
-      <link>https://stong1994.github.io/other/landscape_thinking/</link>
+      <link>/other/landscape_thinking/</link>
       <pubDate>Mon, 07 Nov 2022 18:30:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/other/landscape_thinking/</guid>
-      <description>安德烈亚斯·瓦格纳在**《如何解决复杂问题》中介绍了一种用于解决高复杂度问题的思维方式，这种思维方式就是景观思维**。 景观思维的灵感来源于生</description>
+      <guid>/other/landscape_thinking/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>SOLID原则</title>
-      <link>https://stong1994.github.io/internet/design/solid/</link>
+      <link>/internet/design/solid/</link>
       <pubDate>Fri, 04 Nov 2022 17:23:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/solid/</guid>
-      <description>对于一个刚入行的程序员来说，写好的代码是很难的。这并不是说他们（或者说那时的我们）不了解编程语言的写法，也不是说他们不了解设计模式，而是说他们缺少编程思想，这种思想是需要通过经验总结出来的，也需要经验才能体会的到。SOLID原则就是面向对象编程中的一种思想的体现。
-S-单一职责 全称：Single-responsiblity Principle
-A class should have one and only one reason to change, meaning that a class should have only one job.
-单一职责并不是说一个对象只能有一个功能，而是说一个对象应该对其使用方负责，当一方更改它时，不应该需要考虑其他使用方是否会被影响，也就是说，一个对象只能对一个使用方负责。
-换句话说，一个对象不能够混合关注点。
-比如说我们有一个Employee，Employee需要：
-上报工作时间（ReportHours） 计薪（CalcPay） 写入到数据库（WriteEmployee）。 如果我们使用Employee实现了这三个功能，那么Employee就同时对工时汇总人员、计薪人员、员工三方负责。当我们修改计薪人员提出的bug或者功能时，就需要考虑会不会对工时汇总人员和员工产生影响。
-此时，Employee违反了单一职责原则。
-O-开闭原则 全称：Open-closed Principle
-Objects or entities should be open for extension but closed for modification.
-当产品经理提出新的需求时，应该将新业务扩展为新的对象，而不是在原有对象上修改。
-比如说我们有一个Employee，它有一个计薪（CalcPay）的功能。
-func (e Employee) CalcPay() float64{ return 1000 } 现在，我们需要对管理员（Admin）额外提供200块钱的补助。
-func (e Employee) CalcPay() float64{ salary := float64(1000) if e.isAdmin() { salary += 200 } return salary } 这段代码有什么缺点呢？它将普通员工和负责人耦合在了一起！</description>
+      <guid>/internet/design/solid/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>zap-优雅的可选配置</title>
-      <link>https://stong1994.github.io/internet/go/zap/options/</link>
+      <link>/internet/go/zap/options/</link>
       <pubDate>Wed, 02 Nov 2022 17:23:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/zap/options/</guid>
-      <description>前瞻 代码中有些对象具有多种行为，而展示哪种行为方式则需要根据配置来抉择。
-根据配置来实例化对象，最简单的方式是提供一个New函数来实例化对象，将配置参数作为函数入参，如：
-// name和age是必传的参数，而isAdmin是可选的配置——如果是管理员，则具有更多的行为。 func NewUser(name string, age int, isAdmin bool) *User {...} 在这个例子中，User只有一个可选参数(isAdmin)，在产品迭代过程中（甚至在开发过程中），会存在越来越多的功能，也会需要越来越多的可选参数，这个时候就需要去修改这个函数签名以加入更多的参数:
-func NewUser(name string, age int, isAdmin bool, isTeacher bool, isStudent bool, location string) *User {...} 但是直接修改函数签名会带来一些负面效果：
-函数签名越来越长，调用的时候需要设置很多不需要的参数 函数体越来越复杂，看起来很乱 需要修改调用方 。。。 所以我们一般不在New方法中存入可选参数。
-我们可以借鉴下zap。
-zap zap是uber开源的一款基础golang的日志库，以性能卓越著称。
-Option接口 Option是一个接口，每个可选参数都实例化为一个函数，函数的返回值都实现了这个接口。
-// An Option configures a Logger. type Option interface { apply(*Logger) } // optionFunc wraps a func so it satisfies the Option interface. type optionFunc func(*Logger) func (f optionFunc) apply(log *Logger) { f(log) } Option定义了apply方法，用于将配置应用于日志对象上。</description>
+      <guid>/internet/go/zap/options/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go设计之sync.Map</title>
-      <link>https://stong1994.github.io/internet/go/syncmap/</link>
+      <link>/internet/go/syncmap/</link>
       <pubDate>Mon, 31 Oct 2022 11:00:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/syncmap/</guid>
-      <description>前瞻 go语言中内置的map类型不允许并发读写，否则会直接退出程序（不是panic）。于是，当我们有并发读写的需求时，往往通过加锁（map+sync.Mutex/sync.RWMutex）的方式来实现，而锁的使用会降低并发性能，因此go中内置了sync.Map实现了无锁的读写操作（部分场景下）。
-然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
-源码 源码位于src/sync/map.go.
-基础结构Map type Map struct { mu Mutex // read contains the portion of the map&amp;#39;s contents that are safe for // concurrent access (with or without mu held). // // The read field itself is always safe to load, but must only be stored with // mu held. // // Entries stored in read may be updated concurrently without mu, but updating // a previously-expunged entry requires that the entry be copied to the dirty // map and unexpunged with mu held.</description>
+      <guid>/internet/go/syncmap/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go设计之errgroup</title>
-      <link>https://stong1994.github.io/internet/go/errgroup/</link>
+      <link>/internet/go/errgroup/</link>
       <pubDate>Mon, 31 Oct 2022 00:01:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/errgroup/</guid>
-      <description>前瞻 在工作中，如果遇到需要并发访问，并且接受返回值的功能，一般都是使用sync.WaitGroup+channel来实现。
-但go社区中已经提供了这个功能的封装——errgroup.
-虽然errgroup这个轮子和我们自己造的轮子差不多，但是既然别人已经造好了，我们就没必要再重复造轮子了。
-源码 源码非常简洁，算上注释也才100来行。源码位置：golang.org/x/sync/errgroup
-Group // A Group is a collection of goroutines working on subtasks that are part of // the same overall task. // // A zero Group is valid, has no limit on the number of active goroutines, // and does not cancel on error. type Group struct { cancel func() wg sync.WaitGroup sem chan token errOnce sync.Once err error } Group结构非常简单：
-cancel：取消函数，并发请求一般都会使用带cancel的context，能非常方便的控制并发中的请求生命周期。 wg: 并发中最常用的组件，用于等待异步任务完成。 sem：一个用于控制并发数量的channel，token的数据类型是一个空结构体（空结构体的好处是不占内存）。 errOnce: 一个只执行一次的并发控制器，由命名可以推断出并发中的错误只会捕获一次。 err: 存储error sem sem是一个非常巧妙的设计，一般控制并发数量，可以使用一个原子值来记录当前的并发数，使用锁来控制请求。errgroup中使用了channel来实现了这个功能。我们看下他的用法。</description>
+      <guid>/internet/go/errgroup/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>antlr4-减号和负号</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</link>
+      <link>/internet/tool/antlr4-negative-and-minus/</link>
       <pubDate>Sun, 30 Oct 2022 20:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</guid>
-      <description>一切正常的正整数运算 grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : [0-9]+ ; WS : [ \t\r\n]+ -&amp;gt; skip ; 此时，正整数的加减乘除能够正常计算。然而如果计算负数，则不能正常计算。这是因为我们没有处理负号。
-支持负数运算 负号和减号冲突 支持使用负号，则需要修改INT规则，修改为INT : &#39;-&#39;? [0-9]+ ;即可。
-grammar calculator; stat : expr; expr : expr op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expr # MulDiv | expr op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expr # AddSub | &amp;#39;(&amp;#39; expr &amp;#39;)&amp;#39; # parens | INT # num ; MUL : &amp;#39;*&amp;#39; ; DIV : &amp;#39;/&amp;#39; ; ADD : &amp;#39;+&amp;#39; ; SUB : &amp;#39;-&amp;#39; ; INT : &amp;#39;-&amp;#39;?</description>
+      <guid>/internet/tool/antlr4-negative-and-minus/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>antlr4实战</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-with-go/</link>
+      <link>/internet/tool/antlr4-with-go/</link>
       <pubDate>Sat, 29 Oct 2022 20:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/antlr4-with-go/</guid>
-      <description>官方例子-hello 创建文件hello.g4，写入内容：
-// Define a grammar called Hello grammar hello; r : &amp;#39;hello&amp;#39; ID ; // match keyword hello followed by an identifier ID : [a-z]+ ; // match lower-case identifiers WS : [ \t\r\n]+ -&amp;gt; skip ; // skip spaces, tabs, newlines 解析为java文件并编译
-antlr4 hello.g4 javac hello*.java 解析语法中的r规则
-输入hello world后需要按Ctrl+D来结束输入。
-以LISP格式打印法分析树。
-$ grun hello r -tree hello world (r hello world) 打印出词法符号流。
-$ grun hello r -tokens hello world [@0,0:4=&amp;#39;hello&amp;#39;,&amp;lt;&amp;#39;hello&amp;#39;&amp;gt;,1:0] [@1,6:10=&amp;#39;world&amp;#39;,&amp;lt;ID&amp;gt;,1:6] [@2,12:11=&amp;#39;&amp;lt;EOF&amp;gt;&amp;#39;,&amp;lt;EOF&amp;gt;,2:0] 以[@1,6:10=&#39;world&#39;,&amp;lt;ID&amp;gt;,1:6]为例，表示第1个（从0开始）词法符号，由第6-10个字符组成，包含的文本是world，匹配到的类型是ID，位于输入文本的第1行（从1开始）第6个字符。</description>
+      <guid>/internet/tool/antlr4-with-go/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>antlr4-理论基础</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-theory/</link>
+      <link>/internet/tool/antlr4-theory/</link>
       <pubDate>Fri, 28 Oct 2022 20:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/antlr4-theory/</guid>
-      <description>解析文件example grammar calc; MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 语法文件通常以grammar开头，并且文件名与定义的grammar相同（该例中文件名必须为calc.g4）。 语法规则必须以小写字母开头。 词法规则必须以大写字母开头。 使用|来分割一个规则的若干备用分支。 用#来为备选分支设置标签，只有被设置了标签的分支才会生成”事件方法“。 可以接收子规则（例子中的op）。 标签用来区分备选子规则。expression只会生成“进入”和“退出”的事件，因此对备选分支需要进一步细化。 语法模式 序列模式 序列即一列元素，如表示一列数字1,2,3,4,5则可以表示为num : INT(,INT)*;
-重复的元素可用圆括号包裹。
-*: 表示没有或者多个 +: 表示1个或多个 ?: 表示没有或1个 选择模式 即备选分支，用|来分割多个备选分支，如
-field : INT | STRING; 如果有多个备选分支同时符合，则选择最前边的备选分支。
-词法符号依赖模式 一个词法符号依赖多个词法符号，如
-expr: &amp;#39;(&amp;#39; field &amp;#39;)&amp;#39; ANTLR核心标记 用法 描述 x 匹配词法符号、规则或者子规则x x.</description>
+      <guid>/internet/tool/antlr4-theory/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>antlr4-安装</title>
-      <link>https://stong1994.github.io/internet/tool/antlr4-install/</link>
+      <link>/internet/tool/antlr4-install/</link>
       <pubDate>Thu, 27 Oct 2022 20:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/antlr4-install/</guid>
-      <description>安装 1. 安装antlr4 直接按照 官网步骤安装即可。
-2. 运行example 创建calc.g4并填入以下内容（文件名称和grammar要相同，否则报错）：
-grammar calc; // Tokens MUL: &amp;#39;*&amp;#39;; DIV: &amp;#39;/&amp;#39;; ADD: &amp;#39;+&amp;#39;; SUB: &amp;#39;-&amp;#39;; NUMBER: [0-9]+; WHITESPACE: [ \r\n\t]+ -&amp;gt; skip; // Rules start : expression EOF; expression : expression op=(&amp;#39;*&amp;#39;|&amp;#39;/&amp;#39;) expression # MulDiv | expression op=(&amp;#39;+&amp;#39;|&amp;#39;-&amp;#39;) expression # AddSub | NUMBER # Number ; 生成go解析文件：
-antlr -Dlanguage=Go -o parser calc.g4 执行完命令后会生成go文件：
-➜ antlr4-go-example tree . ├── calc.g4 └── parser ├── CalcLexer.interp ├── CalcLexer.tokens ├── calc.</description>
+      <guid>/internet/tool/antlr4-install/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>docker基础理论</title>
-      <link>https://stong1994.github.io/cloudnative/docker/base/</link>
+      <link>/cloudnative/docker/base/</link>
       <pubDate>Sat, 22 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/docker/base/</guid>
-      <description>背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
-Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
-核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
-这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
-Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
-以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
-查看容器中的PID：
-$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
-$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S+ 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0.</description>
+      <guid>/cloudnative/docker/base/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-ServiceAccount&amp;RBAC</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</link>
+      <link>/cloudnative/k8s/serviceAccount_rbac/</link>
       <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</guid>
-      <description>ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
-分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
-内置的分组：
-system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&amp;lt;namespace&amp;gt;: 包含指定命名空间的所有ServiceAccount example：
-apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
-RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
-RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
-RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
-Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
-动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
-HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac.</description>
+      <guid>/cloudnative/k8s/serviceAccount_rbac/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-可计算资源管理</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
+      <link>/cloudnative/k8s/computational_resource/</link>
       <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
-      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
-example：
-apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
+      <guid>/cloudnative/k8s/computational_resource/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-调度器</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/scheduler/</link>
+      <link>/cloudnative/k8s/scheduler/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/scheduler/</guid>
-      <description>taint &amp;amp; toleration taint和toleration用来限制pod部署到特定的node。taint是node的属性，toleration是pod的属性。一个pod只会被调度到能够容忍（toleration）它的污点（taint）的节点上。
-taints的格式为&amp;lt;key&amp;gt;=&amp;lt;value&amp;gt;:&amp;lt;effect&amp;gt;，其中effect可以为：
-NoSchedule：如果pod不容忍节点的污点，则不会被调度到该节点。 PreferNoSchedule：一个软NoSchedule，pod尽量不被调度到这些有不能容忍的污点的节点上，但是如果没有其他可用的节点，那么仍会部署到这些节点上。 NoExecute：前两者只会影响待调度的pod，而NoExecute则也会影响已经运行的pod，如果向节点添加一个NoExecute污点，那么节点上的pod会被驱逐。 查看k8s的主节点：kubectl describe node master.k8s
-Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/os=linux kubernetes.io/hostname=master.k8s node-role.kubernetes.io/master= Annotations: node.alpha.kubernetes.io/ttl=0 volumes.kubernetes.io/controller-managed-attach-detach=true Taints: node-role.kubernetes.io/master:NoSchedule affinity affinity是pod的属性，每个pod都可以定义其亲和性（affinity）规则，这意味着k8s会更青睐于将其调度到对应的节点上。</description>
+      <guid>/cloudnative/k8s/scheduler/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-自动伸缩</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
+      <link>/cloudnative/k8s/autoscaling/</link>
       <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
-      <description>Pod水平伸缩-HorizontalPodAutoscaler 自动伸缩过程 获取所有被伸缩资源对象管理的所有pod的指标。 计算使指标达到（或接近）指定目的值所需的pod数量。 更新伸缩对象的replicas字段。 三种指标类型 Resource：如cpu、内存 Pods：关联到Pod上的任意指标，如QPS Object：适用于不直接关联到pod上的指标，如其他对象的指标是否达到目的值 Pod垂直伸缩 相对于水平伸缩的调整pod的数量，垂直伸缩是调整pod的cpu、内存请求/限制数量。
-Node水平伸缩 当请求数量猛增时，需要增加pod的数量来应对。k8s会匹配到合适的node，但是如果node资源紧缺，则无法找到合适的node，这时就需要node的自动伸缩。
-node的自动伸缩需要云服务商提供支持。
-自动扩容过程 自动伸缩器发现pod不能被调度到存在的节点上。 自动伸缩器找到能够适用于该pod的节点类型。 自动伸缩器进行node扩容。 自动缩容 为了减少云服务器的开销，当一个节点上所有的pod的cpu和内存的请求都低于50%，则可以认为该节点是多余的。当然还需要考虑其他情况，如是否是系统pod。
-当一个节点被关闭时，该节点会先被标记为不可调度，然后再驱逐节点上的pod。
-PodDisruptionBudget 一些服务需要保证最少数量的pod能够运行，这时可使用PodDisruptionBudget资源来避免自动缩容。
-apiVersion: policy/v1beta1 kind: PodDisruptionBudget metadata: name: kubia-pdb spec: minAvailable: 3 # 最少3个pod可用 selector: matchLabels: app: kubia ... </description>
+      <guid>/cloudnative/k8s/autoscaling/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s架构设计</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
+      <link>/cloudnative/k8s/architecture/</link>
       <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/architecture/</guid>
-      <description>组件 k8s可分为三大块：控制平面、节点和其他。
-控制平面包括：
-API Server Scheduler Controller Manager etcd 节点包括：
-kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
-DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
-通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
-API server 鉴权&amp;amp;准入 一个对API server的请求需要经过多个插件。
-鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
-鉴权插件again
-再次遍历鉴权插件，判断用户是否有权限执行这个请求。
-准入插件
-如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
-异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
-这些控制器有：
-Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例：</description>
+      <guid>/cloudnative/k8s/architecture/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-volume</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/volume/</link>
+      <link>/cloudnative/k8s/volume/</link>
       <pubDate>Wed, 12 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/volume/</guid>
-      <description>容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
-volume正是为了解决这一问题而产生的。
-emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
-emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
-apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
-由于使用的是节点的文件系统，因此hostPath是持久性的volume。
-docker的日志文件存储在宿主机就是最经典的一个例子。
-Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp;amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。</description>
+      <guid>/cloudnative/k8s/volume/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-service</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/service/</link>
+      <link>/cloudnative/k8s/service/</link>
       <pubDate>Tue, 11 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/service/</guid>
-      <description>在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
-在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
-于是k8s增加了service用于提供稳定的对外访问的服务（ip+port）。
-创建Service 通过命令创建 kubectl expose
-通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
-对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
-如果Service的名称具有中划线，则转为环境变量时会转为下划线。
-通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
-FQDN EXAMPLE: kubia.default.svc.cluster.local
-kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
-Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
-Endpoint是一个地址（ip+端口）列表，
-如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
-可以通过配置文件来创建一个Endpoint：
-apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11.</description>
+      <guid>/cloudnative/k8s/service/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Athens安装及使用</title>
-      <link>https://stong1994.github.io/internet/tool/athens/</link>
+      <link>/internet/tool/athens/</link>
       <pubDate>Tue, 11 Oct 2022 14:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/athens/</guid>
-      <description>Athens 官方网站
-Athens是一个go packages服务器，也就是go module的代理。
-优势 能够存储使用过的依赖库，防止维护人员对依赖库进行删除、代码变更等导致项目构建失败。 作为代理访问速度要比go get快，go get是采用git clone的方式下载，而设置了GOPROXY的go get直接下载zip文件。 能够代理私有模块 安装 有多种安装方式：下载源码、docker、k8s等。这里只介绍源码安装。
-下载源码 git clone https://github.com/gomods/athens 修改配置文件
-cd athens mv config.dev.toml	athens.toml # 代码中默认启动的配置文件为athens.toml，之后运行代码就不用指定文件 需要修改的配置
-key value Port 根据需要，默认3000 NETRCPath .netrc的地址，.netrc可以用来存储私有仓库的账号和密码 NoSumPatterns 私有仓库不能进行checksum验证，所以要在这里过滤掉私有仓库，比如我的测试仓库[&amp;ldquo;gitlabxxx/xxx/*&amp;rdquo;] GoBinaryEnvVars 设置GO代理相关的环境变量，因为有墙，所以需要使用其他代理，如https://goproxy.io、https://goproxy.cn等，推荐https://goproxy.cn,验证源GOSUMDB也需要使用支持国内的，这里可以设置为[&amp;ldquo;GOPROXY=https://goproxy.cn,direct&amp;rdquo;, &amp;ldquo;GOSUMDB=sum.golang.google.cn&amp;rdquo;] 设置私有仓库的访问权限
-使用NETRAPath配置
-创建.netrc文件
-# 我测试用的gitlab machine https://gitlabxxx/xxx # 项目匹配路径 login xx # 账号 password xxx # 密码 在上边的athens.toml配置文件中配置NETRAPath，值为.netrc地址。我的.netrc就在项目根路径，则直接设置为./.netrc
-使用ssh替换http
-生成rsa密钥ssh-keygen，设置私钥为id_rsa_athens，公钥存入gitlab服务
-在.ssh目录下创建config文件
-Host gitlabxxx.com HostName gitlabxxx.com Port {gitlab服务ssh端口} StrictHostKeyChecking no IdentityFile {密钥目录}/id_rsa_athens 在gitlab上找到user settings =&amp;gt; Access Tokens 权限设置仓库只读，生成token</description>
+      <guid>/internet/tool/athens/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-pod</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <link>/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 08 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
-      <description>什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
-Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
-我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
-通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
-是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；</description>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-volume</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/configration/</link>
+      <link>/cloudnative/k8s/configration/</link>
       <pubDate>Fri, 07 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/configration/</guid>
-      <description>配置程序通常有三种方式：
-命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
-ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&amp;quot;node&amp;quot;, &amp;quot;app.js&amp;quot;] 两种格式的不同之处在于是否会调用shell。
-以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
-以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
-因此我们应该使用EXEC格式。
-k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
-example:
-kind: Pod spec: containers: - image: some/image command: [&amp;#34;/bin/command&amp;#34;] args: [&amp;#34;arg1&amp;#34;, &amp;#34;arg2&amp;#34;, &amp;#34;arg3&amp;#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &amp;#34;30&amp;#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &amp;#34;foo&amp;#34; - name: SECOND VAR value: &amp;#34;$(FIRST_VAR)bar&amp;#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。</description>
+      <guid>/cloudnative/k8s/configration/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-metadata</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/metadata/</link>
+      <link>/cloudnative/k8s/metadata/</link>
       <pubDate>Thu, 06 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/metadata/</guid>
-      <description>Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
-downward API能够解决这个问题。
-downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
-pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
-通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status.</description>
+      <guid>/cloudnative/k8s/metadata/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-对象</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <link>/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 01 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
-      <description>对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
-可以通过label来筛选对象。
-annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
-namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
-通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
-命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
-通过kubectl explain pod.spec可获取pod下的spec的使用说明。
-其他对象同理。
-对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
-其他对象同理。
-根据yaml文件创建资源 kubectl create -f xxx.yaml
-指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&amp;rsquo; {&amp;ldquo;spec&amp;rdquo; : {&amp;ldquo;template&amp;rdquo;: {&amp;ldquo;spec&amp;rdquo;: {&amp;ldquo;containers&amp;rdquo;: [{&amp;ldquo;name&amp;rdquo;: &amp;ldquo;nodejs&amp;rdquo;, &amp;ldquo;image&amp;rdquo; : &amp;ldquo;luksa/kubia:v2&amp;rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2.</description>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio可观测性</title>
-      <link>https://stong1994.github.io/cloudnative/istio/observe/</link>
+      <link>/cloudnative/istio/observe/</link>
       <pubDate>Wed, 17 Aug 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/observe/</guid>
-      <description>Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。
-可观测性可分为三大块：监控、日志和链路追踪。
-监控 Prometheus Prometheus是当下最流行的监控工具，其主要组件包括：
-Prometheus server：核心组件，拉取数据并存入时序数据库 Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。 Service discovery：服务发现组件基本上已经成为微服务时代的标配。 Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。 Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。 Grafana Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。
-Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。
-Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。
-另外，Grafana还有一系列的”周边“开源项目，如：
-Grafana Loki：提供了更丰富的日志堆栈。 Grafana Tempo: 提供了更强大的分布式追踪能力。 Grafana Mimir: 为Prometheus提供了可扩展的长期存储服务。 Kiali Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
-可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。 健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。 更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等 监控Istio基础设施的状态。 Istio配置工具：提供了web页面来配置Istio，并提供校验能力。 日志 日志采集 日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。
-单独的日志采集Pod 基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。
-日志采集Sidecar Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
-ELK Stack ELK是三种工具的简称：
-Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。 Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。 Kibana：具有日志分析、查询、汇总等功能的web管理端。 EFK 区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash+Filebeat。
-不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。
-链路追踪 链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。
-OpenTracing &amp;amp; Jaeger OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：
-Trace：一个请求从开始到结束的整个过程。 Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。 Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。 Jaeger已经成为了OpenTracing首选的实现组件，OpenTracing官网使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。
-架构 Jaeger的整体架构由以下部分组成：
-jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。 jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。 jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库 DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。 UI：主要的用户交互页面，用于查询、展示数据。 </description>
+      <guid>/cloudnative/istio/observe/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio流量治理</title>
-      <link>https://stong1994.github.io/cloudnative/istio/traffic/</link>
+      <link>/cloudnative/istio/traffic/</link>
       <pubDate>Thu, 11 Aug 2022 13:16:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/traffic/</guid>
-      <description>流量治理是Istio的核心功能，也是其“立身之本”。
-在上一篇《Istio总览》中，我们可以看到，Istio分为控制平面和数据平面，流量控制属于数据平面。
-流量控制CRD Istio的流量控制是通过一系列的CRD（Kubernetes的自定义资源）实现的，包括VirtualService、DestinationRule、ServiceEntry、Gateway和Sidecar五个资源。
-VirtualService VirtualService 用于控制流量转发规则及API 粒度治理功能，包括错误注入、域控制等。
-VirtualService中定义了一组路由规则，当流量进入时，逐个规则进行匹配，直到匹配成功后将流量转发给指定的路由地址。
-DestinationRule DestinationRule 用于抽象路由转发的上游目标服务及其相关配置项，如负载均衡配置、目标服务连接池配置、熔断配置、健康检查配置等。用户DestinationRule 可以将目标服务根据特定标签匹配划分为多个子集。
-DestinationRule在VirtualService的路由规则之后起作用。
-ServiceEntry ServiceEntry可以将网格外的服务注册到Istio的注册表中，这样就可以把外部服务当作和网格内部的服务一样进行管理和操作，包括服务发现、路由控制等。
-Gateway Gateway 一般用于 Ingress 和Egress，定义了服务网格的出入口及相关治理规则。通俗来说，Gateway 会控制一些特定的工作负载打开一个公开的监听端口，供服务网格内外部业务直接访问。再配合 VirtualService 和 DestinationRule 等CRD，可以对到达该端口的流量做一系列的管理和观察。
-Gateway配置应用于网格边缘的独立的Envoy代理上，而不是服务负载的Envoy代理上。
-Sidecar Sidecar用于声明服务网格中服务间的依赖关系。一般来说，网格数据平面为了代理网格流量，只需要了解其所依赖的少量服务的状态、治理配置、目标地址等信息即可。但是，因为服务网格不了解服务间依赖关系，所以默认服务网格会将所有配置都推送给网格数据平面，从而带来内存开销膨胀的问题。而 Sidecar 则可以显式指定服务间的依赖关系，改善内存开销问题。
-灰度发布 灰度发布是指将流量按比例分配到不同的服务，常用的场景有：AB测试、金丝雀发布、
-实现灰度发布仅需在ServiceEntry中对不同的Destination配置对应的比重即可，但是通常来说，需要配合DestinationRule为目标服务根据标签来划分为多个子集。
-流量镜像 流量镜像（Mirroring /Traffic Shadow），也被称为影子流量，可以通过一定的配置将线上的真实流量复制一份到镜像服务中，并通过流量镜像转发，从而达到在不影响线上服务的情况下对流量或请求内容做具体分析的目的。它的设计思想是只做转发而不接收响应。
-传统的测试手段无法满足复杂的现实场景，因此在项目上线前使用真实的流量进行服务检测，能够最大化的找到潜在的未知问题。
-当遇到复杂的问题难以排查时，往往需要进行代码调试，而线上环境往往是不可调试的，因此，可以通过流量镜像将流量达到临时的环境中进行调试。
-流量镜像并不是备份流量，只是将流量复制到一个新的服务。
-超时控制 服务之前的请求需要设置超时时间，这样可以避免级联现象导致的“雪崩”。一般情况下我们都会在服务实例的层面上控制请求的超时时间，这样可以做到针对不同的请求设置不同的超时时间，但是这样做存在弊端：
-繁琐：为每个服务请求都设置一个超时时间，这是一个繁琐且枯燥的的工作，可以通过封装通用的工具来解决这个问题。 容易遗漏：在服务数量巨大、开发人员质量参差不齐的情况下，很容易造成一些调用漏掉了超时时间，这就为未来发生的故障埋下了种子。 通过在网格数据平面拦截流量来统一实现超时控制，这能够大大降低开发人员的心智负担。但是新的问题也随之而来——有些请求本身就很慢怎么办？
-这是一个很复杂的问题，不同的场景有不同的解决方案，如增加缓存、在数据平面增加重试、在业务上改造等等。
-重试机制 重试机制的意义在于避免了某种偶发情况（如网络波动）导致的服务故障，其目的在于提升用户体验。
-重试机制带来的问题是对服务层面的幂等性要求，当然，这不是数据平面带来的问题，普通的服务间访问也会有重试机制，但是开发人员需要明确自己的服务会不会受重试机制的影响。
-熔断机制 熔断是系统的自我保护机制，就像家里的电器一样，当“断路器”发现整体电压过大（服务故障频发），就会进行“断路”操作，避免引发更大的灾难。
-在微服务中，系统中的某些模块发生故障后，可以通过降级等方式来提升整体系统的可用性。
-故障注入 系统的健壮性不是建立在完善的测试用例上，而在于处理各种意外情况的能力。因此，在对系统整体测试时，需要模拟各种情况下的服务故障。传统的方式（如手动停服务、改代码）的成本很高，操作也很复杂，Istio中提供了一种无侵入的注入故障的能力。
-这些能力包括：模拟上游服务的处理时长、服务异常状态、自定义响应状态码等故障信息，暂不支持对服务主机内存、CPU等信息故障的模拟。实现方式则是通过配置上游主机的VirtualService实现的。</description>
+      <guid>/cloudnative/istio/traffic/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio总览</title>
-      <link>https://stong1994.github.io/cloudnative/istio/overview/</link>
+      <link>/cloudnative/istio/overview/</link>
       <pubDate>Sun, 07 Aug 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/overview/</guid>
-      <description>什么是Istio Istio是一个服务网格形态的平台，用于治理云原生中的服务。
-治理什么 微服务带来了更高的可用性、可维护性等一系列好处，同时也带来了更复杂的服务调用，复杂的服务调用导致了流量控制非常繁琐，而Istio的使命就是让流量控制更简单。
-如何治理 治理手段应尽量避免对服务代码的侵入，否则维护成本会非常高。Istio是一个服务网格形态的平台，通过边车代理的方式实现了对服务实例的流量的管控。
-Istio平台整体上可分为两部分：
-控制平面：Istio平台的中央控制器，负责维护配置信息、响应管理员并控制整个网络。 数据平面：拦截服务实例的流量，并根据控制平面下发的配置来管控流量。 控制平面 控制平面的职责是管理数据平面中的边车代理，完成服务发现、配置分发、授权鉴权等功能。
-Pilot Pilot是控制控制平面的中枢系统，用于管理和配置部署在Istio数据平面的边车代理。
-抽象模型：为了实现对不同服务注册中心（Kubernetes、Consul等）的支持，Pilot需要对不同来源的输入数据进行统一格式的存储，即抽象模型。 平台适配器： Pilot的实现是基于平台适配器的，借助平台适配器Pilot可以实现服务注册中心数据和抽象模型数据之间的转换。 xDS API：Pilot使用了一套源于Envoy项目的标准数据平面API，将服务信息和流量规则下发到数据平面的Sidecar中。这套标准数据平面API，也被称为 xDS。 LDS，Listener发现服务：Listener控制Sidecar启动端口监听（目前支持的协议只有TCP），并配置L3/L4层过滤器，当网络连接完成时，配置好的网络过滤器堆栈开始处理后续事件。 RDS，Router发现服务：用于HTTP连接管理过滤器动态获取路由配置，路由配置包含HTTP 头部修改（增加、删除HTTP 头部键值）、Virtual Hosts（虚拟主机），以及Virtual Hosts定义的各个路由条目。 CDS，Cluster发现服务：用于动态获取Cluster信息。 EDS，Endpoint发现服务：用于动态维护端点信息，端点信息中还包括负载均衡权重、金丝雀状态等。基于这些信息，Sidecar可以做出智能的负载均衡决策。 Citadel Citadel是Istio中负责身份认证和证书管理的核心安全组件，主要包括CA服务器、SDS服务器、证书密钥控制器和证书轮换等模块。
-CA服务器 Citadel中的CA 签发机构是一个gRPC服务器，启动时会注册两个gRPC服务：一个是CA服务，用来处理CSR请求（Certificate Signing Request）；另一个是证书服务，用来签发证书。CA 首先通过HandleCSR接口处理来自客户端的CSR请求，然后对客户端进行身份认证（包括TLS认证和JWT认证），认证成功后会调用CreateCertificate进行证书签发。
-安全发现服务器（SDS） SDS是一种在运行时动态获取证书私钥的API，Istio中的SDS服务器负责证书管理，并实现了安全配置的自动化。
-证书密钥控制器 证书密钥控制器可以监听istio.io/key-and-cert类型的Secret资源，还会周期性地检查证书是否过期，并更新证书。
-证书轮换 Istio通过一个轮换器（Rotator）自动检查自签名的根证书，并在证书即将过期时进行更新。它本质上是一个协程（Goroutine），在后台轮询中实现。
-秘钥和证书的轮换过程 Envoy通过SDS API发送证书和密钥请求。 istio-agent作为Envoy的代理，创建一个私钥和证书签名请求（CSR），并发送给istiod。 证书签发机构验证收到CSR并生成证书。 istio-agent将私钥和从istiod中收到的证书通过SDS API发送给Envoy。 Galley Galley是整个控制平面的配置管理中心，负责配置校验、管理和分发。Galley可以使用网格配置协议（Mesh Configuration Protocol）和其他组件进行配置的交互。Galley解决了各个组件“各自为政”导致的可复用度低、缺乏统一管理、配置隔离、ACL管理等方面的问题。
-MCP协议 MCP提供了一套用于配置订阅和分发的API，这些API在MCP中可以被抽象为以下模型。
-source：“配置”的提供端，在Istio中，Galley即source。 sink：“配置”的消费端，在Istio中，典型的sink包括Pilot和Mixer组件。 resource：source和sink关注的资源体，就是Istio中的“配置”。 数据平面 Istio数据平面核心是以Sidecar模式运行的智能代理。Sidecar模式将数据平面核心组件部署到单独的流程或容器中，以提供隔离和封装。
-数据平面的Sidecar代理可以调节和控制微服务之间所有的网络通信，每个服务Pod在启动时会伴随启动istio-init和Proxy容器。其中，istio-init容器的主要功能是初始化Pod 网络和对Pod设置iptable规则，在设置完成后自动结束。
-数据平面的功能 服务发现：探测所有可用的上游或后端服务实例。 健康检测：探测上游或后端服务实例是否健康，是否准备好接收网络流量。 流量路由：将网络请求路由到正确的上游或后端服务。 负载均衡：在对上游或后端服务进行请求时，选择合适的服务实例接收请求，同时负责处理超时、断路、重试等情况。 身份认证和授权：在istio-agent与istiod的配合下，对网络请求进行身份认证、权限认证，以决定是否响应及如何响应，还可以使用mTLS或其他机制对链路进行加密等。 链路追踪：对每个请求生成详细的统计信息、日志记录和分布式追踪数据，以便操作人员能够明确调用路径并在出现问题时进行调试。 数据平面实现 Envoy：Istio默认使用的数据平面实现方案，使用C++开发，性能较高。 MOSN：由阿里巴巴公司开源，设计类似 Envoy，使用Go 语言开发，优化了过多协议支持的问题。 Linkerd：一个提供弹性云原生应用服务网格的开源项目，也是面向微服务的开源RPC代理，使用Scala开发。它的核心是一个透明代理，因此也可作为典型的数据平面实现方案。 Any Question？ 边车模式使得网络请求在每次服务访问中都增加了两跳（进入服务前被拦截&amp;amp;从服务出来后又被拦截），这会不会对整体的系统性能造成影响？</description>
+      <guid>/cloudnative/istio/overview/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>python之包管理工具</title>
-      <link>https://stong1994.github.io/internet/python/package_manager/</link>
+      <link>/internet/python/package_manager/</link>
       <pubDate>Sun, 31 Jul 2022 16:14:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/python/package_manager/</guid>
-      <description>背景 学习一门语言，首先要了解的就是其包管理工具（想一想，当你打开pycharm并创建第一个python项目时，是不是要选择包管理工具🤔），而Python并不是只有一个包管理工具，因此，如何选择就成了新手们的第一个问题。
-pip pip是通用的python包管理工具，提供了基本的包管理手段：查找、下载、卸载、更新等。
-常用命令 更新pip源：国内访问国外的网站不稳定，因此最好使用国内的源。 永久使用：pip config set global.index-url {源地址} 临时使用：pip install -i {源地址} {package name} 源地址： 阿里云：https://mirrors.aliyun.com/pypi/simple/ 清华：https://pypi.tuna.tsinghua.edu.cn/simple 一键导出所使用的pip包：pip freeze &amp;gt; requirement.txt 一键安装所有的pip包：pip install -r requirement.txt 查看pip安装的模块名和版本：pip list 查看pip版本：pip -v	安装模块: pip install 模块名 安装指定版本: pip install 模块名==版本号 卸载模块: pip uninstall 模块名 缺点 pip的缺点就是对每个包一个系统只能安装一个版本，而实际项目中往往需要使用不同的版本。由此诞生了每个项目对“虚拟环境”的需求。
-Virtualenv 为每个项目分配一个独立的虚拟环境能够解决【一个系统只能安装一个版本的包】。
-常用命令 安装：pip3 install virtualenv 搭建虚拟环境：virtualenv venv，可指定python解释器：virtualenv -p /usr/bin/python3.6 venv。 激活虚拟环境：source env/bin/activate 停用虚拟环境：deactivate 缺点 每个项目使用不同的虚拟环境，每个项目也都有自己的venv文件用于存储包，如果项目多的话，包会占用相当多的磁盘空间。 功能简单，只是建立虚拟环境。 从操作系统的角度来看，管理virtualenv不方便，需要在各个项目下去查看（于是产生了virtualenvwrapper）。 Virtualenvwrapper virtualenvwrapper被用来管理virtualenv。
-安装 pip install virtualenvwrapper</description>
+      <guid>/internet/python/package_manager/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>老板和员工之间的无效沟通</title>
-      <link>https://stong1994.github.io/life/boss_emp_invalid_communicate/</link>
+      <link>/life/boss_emp_invalid_communicate/</link>
       <pubDate>Tue, 05 Jul 2022 15:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/boss_emp_invalid_communicate/</guid>
-      <description>工作中，老板或者管理者经常需要发表一些言论，或者用于提高员工的积极性，或者用于解决当前公司/团队存在的问题。 但老板或者管理者最终会发现，他们</description>
+      <guid>/life/boss_emp_invalid_communicate/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>WHY-IS-HOW</title>
-      <link>https://stong1994.github.io/life/why_is_how/</link>
+      <link>/life/why_is_how/</link>
       <pubDate>Wed, 22 Jun 2022 10:23:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/why_is_how/</guid>
-      <description>不断优化how 我们每天都有不同的任务需要去完成，把任务分解成更小的模块就能发现：绝大部分模块是重复性的，很少一部分模块是未遇到过的。 对于重复</description>
+      <guid>/life/why_is_how/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>演绎法与归纳法</title>
-      <link>https://stong1994.github.io/life/deduction_conclude/</link>
+      <link>/life/deduction_conclude/</link>
       <pubDate>Sat, 18 Jun 2022 23:48:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/deduction_conclude/</guid>
-      <description>基本概念 在逻辑学中，演绎法和归纳法是我们认知世界的两种方式。 演绎法：根据基本条件推导出结果 归纳法：根据现象推导出结果 举个例子：5+5=? 归纳</description>
+      <guid>/life/deduction_conclude/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>第一性原理</title>
-      <link>https://stong1994.github.io/book/philosophy/first_principle/</link>
+      <link>/book/philosophy/first_principle/</link>
       <pubDate>Mon, 13 Jun 2022 16:50:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/first_principle/</guid>
-      <description>最近经常能看到各种公众号、博客在科普第一性原理，但是看来看去还是没看懂。并不是看不懂这些公众号、博客的内容，而是没能理解第一性原理如此“重要</description>
+      <guid>/book/philosophy/first_principle/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《千面英雄》</title>
-      <link>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</link>
+      <link>/book/philosophy/hero_with_a_thousand_faces/</link>
       <pubDate>Sun, 12 Jun 2022 16:41:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</guid>
-      <description>“英雄”是一个广泛的概念，它可以表示传说中的神话英雄、历史中真实存在的民族英雄、电影和小说中构造的虚拟英雄等等。在《千面英雄》中具体讲述的是</description>
+      <guid>/book/philosophy/hero_with_a_thousand_faces/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Solidity笔记</title>
-      <link>https://stong1994.github.io/web3/solidity_note/</link>
+      <link>/web3/solidity_note/</link>
       <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/web3/solidity_note/</guid>
-      <description>基础知识 数据类型 mapping 键值对存储/哈希表。 没有内置的查询长度的方法。 mapping (string =&amp;gt; address) public keyValueMap 函数和构造函数 func getPrice(address user) public view returns(int price, int status){} getPrice: 函数名称 (address user) ：实参列表，用逗号</description>
+      <guid>/web3/solidity_note/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>MakerDAO简介</title>
-      <link>https://stong1994.github.io/web3/makerdao_base_info/</link>
+      <link>/web3/makerdao_base_info/</link>
       <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/web3/makerdao_base_info/</guid>
-      <description>什么是MakerDAO MakerDAO是一个自动化抵押贷款平台，可以将物品（主要是电子货币）进行抵押以换取稳定币Dai。早期只支持一种抵押物</description>
+      <guid>/web3/makerdao_base_info/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>rust基础笔记</title>
-      <link>https://stong1994.github.io/note/rust/base/</link>
+      <link>/note/rust/base/</link>
       <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/note/rust/base/</guid>
-      <description>数据类型 标量类型（scalar） 整数类型 除了Byte，其余所有的字面量都可以使用类型后缀，比如57u8，代表一个使用了u8类型的整数57。同</description>
+      <guid>/note/rust/base/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>记录一次保持业务规则一致性的小优化</title>
-      <link>https://stong1994.github.io/internet/go/channel/</link>
+      <link>/internet/go/channel/</link>
       <pubDate>Wed, 11 May 2022 15:39:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/channel/</guid>
-      <description>前提 有些服务的逻辑非常复杂，这导致了其逻辑层中的代码非常混乱。
-为了让逻辑层中的代码更加清晰，我们抽象出了一个规则层来存放领域规则的代码。
-场景 举一个场景：同步企业微信和飞书的组织部门和人员。
-规则层的责任 规则层中抽离了逻辑层中底层的领域规则，如：
-同步企微员工到飞书的规则 同步企微部门到飞书的规则 遇到的问题 同步的方式有两种：
-全量同步：获取两个数据源全量数据，进行比对、映射，然后在目的数据源进行部门、员工的新增、删除、更新等操作 事件同步：监听来源数据源的变更事件，然后在目的数据源进行对应的操作（如部门或者员工的新增、删除、更新） 尽管有不同的同步方式，但是我们的领域规则应该只有一份。这导致了一些问题，以同步一个员工举例。
-同步一个员工大致需要三步：
-获取员工信息（从来源数据源获取信息） 同步员工所在部门（部门在目的数据源可能不存在，因此需要先同步部门） 创建/更新员工（同步到目的数据源） 同步员工需要获取员工和部门信息，在两种同步方式中获取数据的方式不同：
-在全量同步中，已经拉取了双方的信息，这时候获取员工和部门信息就是从内存中获取 在事件同步中，需要通过接口调用来获取员工和部门的信息 由于数据来源不同，所以在旧版本中，同步员工的业务规则有两套代码，那么我们在做功能变更的时候，就要同时修改这两套代码。
-解决问题 一个领域规则应该只有一套代码，如何解决这个问题呢？
-引入一个中间件，我把它命名为DataPool，本质上就是一个使用内存作存储的缓存池.
-DataPool的使用方式是这样的：
-在一次同步中，所有获取到的员工和部门数据都放到数据池。 业务规则代码在获取数据时，统一从DataPool中获取，如果DataPool中存在数据则直接返回，否则调用对应的接口来获取数据，并存储在DataPool中。 通过调用DataPool，解决了由于数据源不一致导致的需要两套代码这个问题！
-总结 DataPool的设计是非常简单的，但是却让代码更加立体，业务领域的规则更加聚合。
-以前我的代码就是根据业务逻辑平铺出来，分不出主次。现在通过端口-适配器模式实现逻辑层与第三方服务的依赖倒置，通过抽象出规则层来聚合领域规则，使得项目代码的质量得到了明显的提升。</description>
+      <guid>/internet/go/channel/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>为什么我没有做出这道算法题</title>
-      <link>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</link>
+      <link>/internet/why_not_solve_arithmetic_problem/</link>
       <pubDate>Wed, 11 May 2022 10:30:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</guid>
-      <description>题目描述 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。 计算并返回可以凑成总金额的 组合数量 。 每种硬币的数量是无限的。 心路</description>
+      <guid>/internet/why_not_solve_arithmetic_problem/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>每个人都应该做《减法》</title>
-      <link>https://stong1994.github.io/book/improve/subtract/</link>
+      <link>/book/improve/subtract/</link>
       <pubDate>Mon, 09 May 2022 21:30:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/subtract/</guid>
-      <description>近况 前几天搬家房东还没退我押金，她是不想退了吗，等过几天再问下。 最近的一个项目里想出了一个好的idea，这个要记得写篇博客，先把项目完成吧。</description>
+      <guid>/book/improve/subtract/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>跳槽是涨薪的最快方式?</title>
-      <link>https://stong1994.github.io/life/not_to_change_job_for_more_money/</link>
+      <link>/life/not_to_change_job_for_more_money/</link>
       <pubDate>Thu, 28 Apr 2022 13:24:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/not_to_change_job_for_more_money/</guid>
-      <description>跳槽不会是未来最快的涨薪方式。价值才是。 过去 &amp;ldquo;跳槽是最快的涨薪方式&amp;quot;这一观点基本能够被互联网行业从业者普遍认可。 打开“</description>
+      <guid>/life/not_to_change_job_for_more_money/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>面试小结2022-04</title>
-      <link>https://stong1994.github.io/life/interview_2022_04/</link>
+      <link>/life/interview_2022_04/</link>
       <pubDate>Wed, 27 Apr 2022 19:45:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/interview_2022_04/</guid>
-      <description>最近花了两周时间去“实地考察了下市场”，记录下经历。 考察内容 作为后端开发，面试内容主要包括：项目经历、算法、Go语言、MySQL、Redis</description>
+      <guid>/life/interview_2022_04/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>理解TCP协议的可靠性</title>
-      <link>https://stong1994.github.io/internet/network/tcp/reliability/</link>
+      <link>/internet/network/tcp/reliability/</link>
       <pubDate>Mon, 28 Mar 2022 17:20:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/network/tcp/reliability/</guid>
-      <description>TCP协议最重要的特性之一就是其可靠性。 在TCP/IP协议栈中，TCP协议依赖的IP协议只是“尽最大努力来保证交付”，而数据传输的可靠性由T</description>
+      <guid>/internet/network/tcp/reliability/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>理解TCP握手和挥手</title>
-      <link>https://stong1994.github.io/internet/network/tcp_connection/</link>
+      <link>/internet/network/tcp_connection/</link>
       <pubDate>Sun, 27 Mar 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/network/tcp_connection/</guid>
-      <description>TCP三次握手和四次挥手是面试的经典问题，网上这方面的资料繁多但往往局限在表面，只有全面了解TCP协议才能做到知其然且知其所以然。
-TCP协议位于传输层，介于应用层和网络层中间，负责提供可靠的全双工的连接服务。
-TCP协议的可靠性体现在多个方面，如ACK机制、强制维持校验和、重传机制等等。今天我们从可靠性的角度来看握手和挥手的过程。
-ACK机制 ACK机制往往用来确保数据被正常读取或者消费，比如说Kafka、Rabbitmq提供了ACK机制确保数据被正常消费。
-在TCP协议中也是用ACK机制来确保数据被正常接收，也就是当接收数据的一方获得数据后，会向发送方发送一条ACK消息表示自己接收到了这条消息。于是我们需要一个消息标识，并且需要这个消息标识在整个通信过程中是唯一的。
-唯一标识 在存储服务中使用的唯一标识主要有两类：自增整数、随机字符串。TCP协议使用一个自增整数来作为消息的唯一标识，这样有以下几个优点：
-自增整数要比随机字符串更节省空间。 能够进行批量ACK，即对一段连续的消息回复最大的自增值即可表示这批消息都被正常接收。 能够检查是否有数据包遗漏。 自增规则 自增值并不是从0开始，而是在开始连接时初始化的一个随机值，这是因为如果将自增值初始化为一个固定值，那么通信过程容易被预测并攻击。
-自增值也不是每条新消息都会加1，而是加上消息体（排除掉TCP头部的数据）的字节大小，这样做是因为每条消息可能很大，也可能很小，使用消息体的字节大小能够更好的表示当前通信的累计大小，也能更好的控制发送频率。
-对于通信中的双方，发送方需要提供当前发送消息的序列号（这个序列号就是自增值），接收方需要将这个序列号加上消息体的字节数作为ACK号（也是发送方下一个消息使用的序列号）返回给发送方表示自己已经收到了这么多的数据。
-ACK消息的可靠性 TCP协议通过ACK机制实现了通信确认的可靠性，但是ACK消息本身没有确认机制——发送消息的一方在接收到ACK消息后不会再次发送ACK消息来告知接收方自己收到了这条ACK消息，否则就会导致死循环。
-但是我们也不需要保证ACK消息能被正常接收，因为ACK消息存在的意义就是保证用户的消息能够被接收方接收，因此如果发送方没有收到这条消息的ACK，那么就重新发送就好了。这就涉及到了TCP协议中的超时重传机制。
-全双工 TCP协议是全双工的，即能够进行两个方向的数据发送，并且两个方向的数据发送是彼此独立的。
-握手 作用 握手是通信前的一个准备过程，主要有以下几方面的作用：
-在双发通信前需要确认双方能够正常通信。 传递通信所需的初始化信息，如序列号、窗口大小、MSS等 三次握手 第一次握手，客户端需要向服务端发起连接，主要用来告知对方以下消息：
-客户端想要连接的端口号，即服务端的端口号 客户端监听的端口号：如果服务端要联系客户端就要指定为这个端口 客户端初始化的序列号、窗口大小等 在这个TCP消息中，需要在头部标记SYN标识表示这条消息为第一次握手。
-第二次握手，出于ACK机制的考虑，服务端需要回复客户端，但是既然服务端也要发送自己的初始化信息，那么在ACK消息中也会携带这些信息。
-在ACK机制中规定了ACK消息需要返回ACK号，而ACK号的值是序列号加上消息体的字节数的结果，但是此时消息中消息体的字节数为0，但是在第二次握手时，ACK号的值为序列号加1的结果（思考为什么一定要加1？序列号加1表示这是一个需要“可靠”传输的报文段，不加1的ACK报文则不需要“可靠”传输；同时，在握手时将序列号加1，那么在往后的存在用户数据的报文段中，假设ack号为N，表示接收方已经接受了前N个（不包含N）字节的数据，并且期待接收序列号为N的报文段）。
-在这个TCP消息中，需要在头部标记SYN和ACK标识。
-第三次握手，处于ACK机制的考虑，客户端需要回复服务端，这就是所谓的第三次握手。
-由此可见，考虑到TCP协议全双工的特性和ACK机制，双方本来需要四次握手——两次发送初始化信息+两次ACK。但是TCP进行了优化，将中间的两次握手合并，最终形成了三次握手。
-四次握手？ 既然三次握手是四次握手优化后的结果，那么有没有可能出现四次握手呢？
-在极端情况下是可以出现的：通信双方同时发起SYN消息，这样就就没办法将一方的SYN消息和ACK消息合并，因此就会出现四次握手的情况。但是一方面很少有双方主动连接对方的场景，另一方面，这需要双方同时发起SYN消息，所以出现这种情况还是很难的。
-挥手 作为可靠的传输协议，使用TCP协议连接的双方不能简单粗暴的直接关闭连接（当然有这种场景，等下再吐槽），否则可能会导致数据丢失。
-四次挥手 假设是客户端发起的断开连接请求
-第一次挥手，客户端要告知服务端自己需要关闭连接了。此时在TCP头部标记为FIN（实际为FIN&amp;amp;ACK，因为除了第一次握手外，其他时候的通信都要有ACK标记）。
-第二次挥手，即服务端对客户端单纯的ACK回复。
-第三次挥手，服务端等待对客户端的数据发送完后发起关闭请求，内容同“第一次挥手”。
-第四次挥手，客户端对服务端单纯的ACK回复。
-由此可见，四次挥手就是处于全双工特性加上ACK机制的两次关闭请求+两次ACK。
-既然中间的两次挥手都是服务端向客户端发送消息，那能不能合二为一？
-三次挥手？ 中间的两次挥手都是服务端向客户端发送消息，并且是有可能合并为一个消息的。如果服务端本来就要发送FIN包，这时候收到了客户端发来的FIN包，那么就可能会将FIN包和ACK包合并在一起。
-经典问题 客户端在最后一次挥手后，为什么要等待2MSL 正常情况下，客户端在最后一次挥手后是不会再接收到服务端的消息的，因此也就不能确定服务端是否正常接收了最后一个ACK消息。
-假设客户端在最后一次挥手后没有等待2MSL，并且服务端没有接收到最后一个ACK消息:
-第一种情况：客户端使用这个端口重新向这个服务端发起了连接请求，此时对于服务端来说仍处于LAST_ACK状态（第三次挥手后），因此会对新的客户端发送RST包中断连接。
-第二种情况：客户端复用这个端口向其他服务端建立了连接， 由于超时重试机制，服务端就会再次向客户端发送FIN包（第三次挥手），那么新的客户端接收到这个FIN包后，就可能会造成数据冲突。
-因此客户端需要等待服务端超时重试的包送达的最大时间后才能关闭连接，这个时间就是2MSL。
-如果在2MSL期间端口不可用，那么如果是服务端主动关闭连接（比如重启），为什么就可以重用端口 服务端在启动时，往往会激活SO_REUSEADDR，即允许端口重用。
-握手次数能不能减少到两次 三次握手前两次肯定要存在，那么就考虑能不能省略第三次握手。
-第三次握手本质上就是由于ACK机制引起的消息确认，从这个角度思考，问题就变成了能不能去掉ACK机制，那么答案也就很明了了：不能，因为ACK机制是TCP协议可靠性的重要保障。
-ACK机制的作用是为了确保接收端收到了发送端发送的消息，如果没有第三次握手，就没有办法保证被动连接方能够正常发送消息到主动连接方。
-backlog 如果有大量连接同时发起，应用层不能及时处理或者操作系统正在处理其他进程，那么这些连接如何处理？
-TCP会将已完成握手的连接放入一个FIFO队列（全连接队列）中，应用层会从这个队列中获取已完成的连接进行处理。
-同样，未完成的连接也有一个FIFO队列（半连接队列）。
-两个队列的大小是固定值，如果应用层不能及时消费全连接队列导致队列已满，那么完成握手的新连接服务进入全连接队列，最终导致半连接队列被填满。半连接队列已满后将不再理会SYN报文，表现为客户端的连接状态一直为TCP_SENT，服务端的连接状态为TCP_RECV，最终客户端的连接将超时.</description>
+      <guid>/internet/network/tcp_connection/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>在浏览器访问一个网址都经历了哪些</title>
-      <link>https://stong1994.github.io/internet/internet/browser_visit/</link>
+      <link>/internet/internet/browser_visit/</link>
       <pubDate>Fri, 25 Mar 2022 15:58:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/internet/browser_visit/</guid>
-      <description>浏览器访问网址的过程就是客户端（浏览器）和服务端进行数据交换的过程。这个过程大概是：
-浏览器将域名转换为IP 浏览器将请求信息打包通过TCP协议进行传输 网络层、数据链路层、物理层之间的数据交换 代理服务器接收请求并转发到后端服务器 后端服务器进行逻辑与数据处理，向代理服务器发送响应数据 代理服务器向客户端发送数据 浏览器收到数据后进行渲染 根据域名查找IP（DNS） 为了方便人们记忆，网站往往都会申请一个域名，而网络层使用IP地址作为目的地标识，因为需要将域名转化为IP。查询流程如下：
-先查找浏览器的程序内存，如果未找到，执行下一步 查找操作系统缓存，如果未找到，执行下一步 查找本地的host文件，如果未找到，执行下一步 通过域名系统查找，如果未找到，执行下一步 浏览器停止请求并返回错误信息（默认会重试4次） 域名系统是一个层级的分布式系统，最顶层为根域名，每台计算机上都会记录根域名地址。
-当计算机在本地找不到域名对应的IP后，会向本地域名服务器发起请求。如果本地域名服务器也不知道，就会将请求转发到根域名服务器。请求会从根域名服务器开始一层一层向下转发，直到找到目标域名。找到目标域名后，请求途径的各个服务器都会将其数据放入本地的缓存中，以便下次使用。
-打包数据（HTTP） 浏览器会将请求所需的数据打包，然后提供给操作系统的TCP协议栈。
-需要打包的数据往往包括：
-请求地址 请求方法 请求体 请求头，请求头内是协议定义的控制信息，如：User-Agent、Host、Accept、Accept-Encoding等 这些数据会按照应用层协议（HTTP）进行组装、编码，然后将数据包提供给操作系统的TCP协议栈，由TCP协议栈进一步处理，并由其负责数据传输。
-建立套接字（socket） 套接字是连接应用程序与网络协议栈的接口，服务端与客户端通过两端的套接字形成了一条连接，两端的数据通过这条连接进行传输。
-客户端在发起请求时建立套接字，但服务端必须在客户端发起请求前建立好套接字。
-套接字是一块存放控制信息的内存空间，这些控制信息包括：IP地址、端口号、状态等。
-服务端在创建后，就会创建套接字来监听、等待客户端的连接请求。客户端在发起请求时也会先创建套接字，然后通过套接字发起请求。
-TCP协议栈 TCP协议栈在收到发送数据请求后，会根据套接字的状态信息判断当前连接的状态。
-如果当前未建立连接，则会先进行“三次握手”。
-如果已建立连接，则会将应用层的数据放到“发送缓冲区”，TCP协议栈会根据当前的网络状态（拥塞控制）、服务端的通告窗口（滑动窗口）、数据包的大小（是否超过MSS）、系统设置（是否开启Nagle算法）等来判断在何时发送。
-数据链路层与网络层 适配器（网卡） 适配器是计算机中负责与局域网通信的接口。
-当适配器收到有差错的帧时，就把这个帧直接丢弃而不必通知计算机。当适配器收到正确的帧时，它就使用中断来通知该计算机，并交付协议栈中的网络层。
-当计算机要发送IP数据报时，就由协议栈把IP数据报向下交给适配器，组装成帧后发送到局域网。
-路由器 路由器的作用是找到目的主机。路由器内部会维持一张路由表，通过这张路由表可以找到下一跳要访问的路由器。
-访问步骤如下：
-从数据报的首部提取目的主机的IP地址，从而获得网络地址 如果网络地址就是此路由器直接相连的某个网络地址，则将数据报直接交付给目的主机；否则执行下一步 如果路由表中有到达目的主机的IP地址的特定路由，则将数据报传送给路由表中指定的特定路由；否则执行下一步 若果路由表中有到达目的主机的网络地址的路由，则将数据包传送给路由表中对应的下一跳路由器；否则执行下一步 如果路由表中有一个默认路由，则把数据报传送给默认路由器；否则报告转发分组出错。 由此可见，数据报需要在路由器中一次次转发，直到目的路由器。目的路由器会将数据报发给目的主机。
-当路由器收到一个待转发的数据报后，会从路由表中找到下一条路由器的IP地址，然后通过ARP协议（会先查找本地ARP缓存）找到其对应的MAC地址，并将MAC地址放到链路层MAC帧的首部，然后根据这个硬件地址找到下一个路由器。
-企业内为了方便管理网络，往往会划分子网，此时路由器的转发规则为：
-从数据报的首部提取目的主机的IP地址，从而获得网络地址 判断是否为直接交付：对路由器直接相连的网络逐个进行检查，用各网络的子网掩码和目的主机的网络地址逐位相与，如果相应的网络地址和结果匹配，那么就直接进行交付；否则执行下一步 如果路由表中有到达目的主机的IP地址的特定路由，则将数据报传送给路由表中指定的特定路由；否则执行下一步 对路由器中的每一行（目的网络地址、子网掩码、下一跳地址），用其中的子网掩码和目的主机的网络地址逐位相与，如果结果和该行的目的网络地址匹配，则把数据报传送给路由表中对应的下一跳路由器；否则执行下一步 如果路由表中有一个默认路由，则把数据报传送给默认路由器；否则报告转发分组出错。 交换机 通过路由器找到了目的主机的MAC地址，还需要通过交换机使用MAC地址找到目的主机。
-交换机在内部维持了一张MAC地址表，通过这张表来将数据包传送到目的端口。
-服务端 代理服务器 后端服务器的流量往往由代理服务器（如NGINX）进行代理，其优点是能够高效、稳定的处理并发请求。
-代理服务器负责将流量分发到后端节点，在并发量特别大的情况下，还会在代理服务器之前通过负载均衡器进一步分发流量。
-后端服务 后端服务接收到请求后，解析出请求信息，并进行对应的处理。
-在HTTP协议中，通过请求方法和路径来标识一种请求（通过trie树来快速匹配路径）。
-后端服务对请求进行逻辑和数据处理中，往往会使用大量的中间件（Mysql、Redis、Kafka等）。
-处理完后，按照“约定”组装数据，并通过反向代理服务器返回结果。</description>
-    </item>
-    
-    <item>
-      <title>Redis缓存设计中的问题</title>
-      <link>https://stong1994.github.io/internet/design/redis_cache_design/</link>
-      <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/design/redis_cache_design/</guid>
-      <description>Redis最常用的场景就是作为缓存。
-缓存带来的收益就是加速读写，降低下游存储的压力。
-但引入缓存的同时也增加了一些成本与潜在问题。
-缓存穿透 当客户端访问一个即不存在于缓存层，又不存在于存储层的数据时，为了保持“数据一致性”，服务端会直接将空结果返回。但是缓存这样就失去了保护存储层负载的意义——如果有大量这样的恶意攻击，存储层会由于请求太多导致响应慢，牵一发而动全身，整体系统都会受影响甚至崩溃。
-缓存穿透有两种解决办法：缓存空对象和使用布隆过滤器。
-缓存空对象 通过在缓存层保存一个NULL值就能保护存储层免于袭击。
-但这同样有缺点：
-缓存中可能存在大量的NULL数据，会占用大量宝贵的内存。 缓存层和存储层数据不一致：存储层可能会写入在缓存中为NULL的数据。 可通过对NULL数据设置较短的缓存时间、使用合理的缓存清理方案来缓解上面两个问题。
-使用布隆过滤器拦截 可以使用布隆过滤器来拦截掉不存在的数据请求。这种方案的缺点就是代码复杂度会更高。
-缓存击穿 “击穿”和“穿透”两个词的相似性太高，往往使人迷惑。所以我们往往使用热点key问题来描述。
-一个热点数据往往有着大量的并发请求，我们要小心处理这些热点数据，否则一旦缓存失效，巨量请求会直接使存储层响应变慢甚至崩溃。
-缓存击穿的场景往往是缓存失效导致的，解决方案有：通过加锁限制存储层的访问数量、设置“随机”的过期时间避免大量数据一起失效、设置缓存永不过期等
-通过加锁限制存储层的访问数量 当缓存失效后，使用全局锁来实现只允许一个线程请求存储层，其他线程等待这个请求的结果。
-这种方案的缺点是代码实现更复杂，并且如果获取到锁的线程访问有异常，会导致大量的请求超时。此外，还会有死锁这种潜在问题。
-设置“随机”的过期时间 设置“随机”的过期时间是为了避免大量数据一起失效，这样能够分批请求存储层，减少存储层压力。
-但是如果有一个超热数据，仍会对存储层造成压力。
-设置缓存永不过期 设置缓存永不过期能够避免缓存失效问题。但是需要在代码上增加复杂度——判断何时对缓存进行更新、删除。
-缓存雪崩 缓存雪崩是指缓存服务器异常，缓存全部失效，导致存储层压力骤增。
-这种时候可以先提高缓存层的可用性，如使用哨兵模式或者集群模式。然后再进行其他优化，如：限制请求频率。
-除了对缓存层进行优化外，还要从整体角度来考虑，比如增加降级机制来避免整体系统崩溃。
-无底洞问题 无底洞问题是指在一个分布式缓存集群中，添加节点并没有加快请求，反而使请求更慢。这一问题往往是发生在批量获取数据时产生的。
-由于数据分布在多个节点中，因此一个批量操作会涉及到多次网络操作，另外，网络连接数变多也会影响服务器性能。
-我们假设需要执行mget命令批量读取多个数据，有以下几种方案：
-串行命令 最简单的方式就是有几个key就进行多个次get请求，但是这种方式无疑也是性能最差的。
-客户端聚合key 客户端能够提前在本地缓存key-&amp;gt;槽-&amp;gt;节点的映射关系，因此可以先遍历key，将在同一节点的key执行批量操作，这样能够减少网络请求。
-并行IO 在上一步的基础上，通过异步请求将串行IO变为多线程，能够进一步加速请求。
-hash tag Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。</description>
+      <guid>/internet/internet/browser_visit/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Redis事务</title>
-      <link>https://stong1994.github.io/internet/design/redis_transaction/</link>
+      <link>/internet/design/redis_transaction/</link>
       <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/redis_transaction/</guid>
-      <description>作为存储服务，业内往往用事务来检验其可靠性和安全性。在Redis中，事务表现为隔离性、持久性、弱原子性，最终的效果就是弱一致性（区别于BASE中的最终一致性，Redis的弱一致性就是表示一致性很弱）。
-事务相关的命令有：MULTI、EXEC、WATCH、DISCARD、UNWATCH
-弱原子性 服务端会将客户端提供的事务内的命令放入事务队列中，从这个队列中执行命令时会一直阻塞其他连接的命令，直到队列中的命令执行完。
-对Redis来说，事务不能回滚。理由是如果要实现回滚，需要更复杂的技术实现，违反了Redis简单高效的原则。
-如果仿照MySQL来实现Redis的回滚，那么每个事务在执行时都要保存一份回滚日志，每次执行事务中的写命令时都需要写对应的回滚日志，事务执行结束后清除回滚日志（因为是单线程执行命令，回滚要比MySQL简单很多）。
-事务中的命令在执行前，会先检查语法（入队时检查），如果语法错误，那么所有的命令都不会执行。如果语法没问题，但是执行时出现错误，那么事务仍会执行接下来的命令。
-隔离性 Redis使用单线程来处理命令，并且保证执行事务队列时不会中断去执行其他连接的命令，因此具有隔离性。
-持久性 Redis有两种持久化机制: RDB和AOF。RDB机制缺乏实时存储，但是AOF机制能够保证命令执行后同步到硬盘（appendsync选项设置为always时）。
-此外，在执行EXEC命令前执行SAVE命令能够保证事务的持久性，但是效率很低。
-Pipeline与事务的区别 参考资料
-执行事务时会阻塞其他命令执行，而pipeline不会 pipeline会将命令一次性打包发送到服务单，而事务会一条一条发送 pipeline是客户端的行为，是将多条命令打包到一起发送给服务端。服务端解析这些命令然后执行，并不清楚是否是pipeline。如果这些命令数据较少，能够一次性的写入服务端的输入缓冲区，那么这些命令的执行就不会被打断，但是如果这些命令数据较大，那么这些命令就可能会被分成多次发送给服务端，命令的执行就可能会被打断 </description>
+      <guid>/internet/design/redis_transaction/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Redis缓存设计中的问题</title>
+      <link>/internet/design/redis_cache_design/</link>
+      <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
+      
+      <guid>/internet/design/redis_cache_design/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Redis复制、哨兵、集群</title>
-      <link>https://stong1994.github.io/internet/design/redis_multi_server/</link>
+      <link>/internet/design/redis_multi_server/</link>
       <pubDate>Thu, 24 Mar 2022 11:33:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/redis_multi_server/</guid>
-      <description>随着访问量增多，我们常常对存储服务进行读写分离来降低主服务器的压力，读写分离最常用的方式就是增加从服务器。从服务器复制主服务器的数据，并提供给外部处理读请求。
-主从复制 同步 当客户端向从服务器发送SLAVEOF命令，要求从服务器复制主服务器时，从服务器会先执行同步操作。
-从服务器向主服务器发送SYNC命令。 收到SYNC命令的主服务器执行BGSAVE命令，在后台生成一个RDB文件，并将新产生的命令放入到一个缓冲区中 BGSAVE命令执行完后，主服务器将生成的RDB文件发往从服务器，从服务器载入RDB文件。 从服务器载入RDB文件完毕后，主服务器将缓冲区中的写命令发送给从服务器。 同步完成后，如果主服务器再次接收到新的写命令，那么主服务器会将命令发送给从服务器，来保持数据一致。
-复制积压缓冲区 主服务器在执行完命令后将该命令传播到从服务器，如果这时从服务器发出故障或者网络波动导致命令未在从服务器执行，那么主从之间的数据就会不一致。
-为了判断主从之间的数据是否一致需要引入复制偏移量。每当主服务器发送N个字节或者从服务器接收N个字节的数据时，就将复制偏移量加上N。
-如果主从之间的复制偏移量不同，那么就需要进行同步。如果只丢失了一小部分数据，那么没必要进行完整的数据同步，所以需要一个结构来存储最近的命令，这个结构就是复制积压缓冲区。
-复制积压缓冲区是一个FIFO队列，当主服务器执行完命令后，就会将该命令写入到复制积压缓冲区，然后再将该命令传播到从服务器。
-当发现主从服务器之间的复制偏移量不同时（通过ping或者从服务器重启），主服务器会判断从服务器的复制偏移量后的数据是否还在复制积压缓冲区内，如果在，就直接将复制偏移量后的数据发送给从服务器，否则，进行完整的数据同步。
-哨兵模式 在主从复制的模式，一旦主服务器发生故障，从服务器并不会主动选举出新的master，需要运维手动设置master，这势必会造成一段时间内的服务不可用。为了提高可用性，Redis提供了哨兵来监控服务器。
-服务发现 哨兵会定期发送INFO命令到其监控的服务器中，主服务器会将其角色和从服务器地址返回给哨兵，因此哨兵只要监控主服务器就能获得从服务器的地址。
-哨兵会监听同一个频道信息，也会向这个频道报告自己的信息，因此哨兵之间都能够发现彼此。
-选举领头哨兵 当主服务器发生故障后，需要领头哨兵进行故障转移，Redis通过raft算法实现了选举功能。
-发起选举后，每个哨兵在每个配置纪元里都能够设置自己认可的leader，一旦确认，在这个配置纪元里就不能再修改 每次选举，配置纪元都会自增 “认可”leader的规则依据先来先得，即先接收到的认可请求会被接受，后接受的会被拒绝 选举规则采用多数服从少数，一个哨兵只要被半数以上的哨兵认可就会被选举为leader 如果在给定期限内没有选举出leader，那么会再次进行选举 主服务器故障确认 哨兵会定期向其监控的服务器发送PING命令，如果主服务器在一段时间内没有回复，那么哨兵就会认为主服务器故障。
-但是每个哨兵配置的超时时间可以是不同的，因此这个哨兵会向其他哨兵确认主服务器是否故障，当超过quorum数量的哨兵认为主服务器已发生故障，那么就可以认为主服务器发生了故障，需要进行转移。需要注意每个哨兵的quorum可以是不同的。
-故障转移 故障转移需要先在从服务器中选举出主服务器。
-排除掉已经下线的从服务器 排除掉与哨兵存在通信故障的从服务器 选择出数据最新的从服务器（根据与旧的主服务器断开时长来判断） 在剩余的从服务器中选择优先级比较高的从服务器 在剩余的从服务器中选择复制偏移量最大的从服务器 在剩余的从服务器中选择id排序最小的从服务器 选出主服务器后，哨兵会向候选服务器发送slaveof no one明确将其“提升”为主服务器。然后向其他从服务器发送命令修改复制目标为新主服务器。
-如果旧的主服务器上线，上线后会成为从服务器。
-集群 随着数据量不断膨胀，分布式存储变得日趋重要。Redis集群中舍弃了“哨兵”这类管理者，使用分片进行主节点之间的数据切分，使用Gossip协议实现了各个主节点之间的信息共享。
-分片 Redis集群通过分片实现了主节点之间的数据分配。整个集群就是一个数据库，数据库被分为了16384个槽，需要手动分配这些槽到指定节点上。
-每个节点都通过长度为16384的二进制数组来标记该节点负责哪些槽，同时又通过另外一个长度为16384的槽来记录每个槽对应的节点信息。
-分片规则是通过对键进行CRC16，并对16384取余（实际是&amp;amp;16383），结果即为目标槽，通过上边提到的数组就能获取到目标节点。
-当客户端访问一个节点时，如果所需的数据不在当前节点，则当前节点会返回一个MOVE错误，同时返回数据所在的节点地址。客户端收到MOVE错误后，会重新向目标节点请求数据。如果数据所在的节点正在进行重新分片，并且目标数据已被迁移至分片后的节点，那么当前节点会返回一个ASK错误，同时返回数据所在的节点地址，客户端收到ASK错误后，会重新访问分片后的节点请求数据。
-更智能的客户端 客户端可以自己维护键-&amp;gt;槽-&amp;gt;节点的映射关系，这样就不需要每次都“猜”目标节点是哪个。
-节点信息共享：Gossip 两个节点之间通过“三次握手”进行连接，连接之后，将彼此的信息通过Gossip协议扩散到其他节点，这些信息包括：
-节点自身数据，包括分片后的槽的分配信息 整个集群1/10的节点的状态数据 集群的节点间会定期发送PING消息来检测对方是否在线，如果每个节点都向所有节点发送消息那么会凭空增大服务器压力，因此对于每个节点，先随机从节点列表中选出5个节点，然后从这5个节点中获取最长时间没有发送PING消息的节点发送PING消息。此外，每100毫秒节点都会遍历自己的节点列表，找到超过某段时间内没有通信的节点，然后将其加入到发送名单中。
-故障转移 集群中的每个节点都会定期向其他节点发送PING消息来检测对方是否在线，如果对方没有及时回复则会被视为疑似下线，节点之间会分享彼此的信息，当集群中半数以上的主节点都认为该节点已下线时，那么这个节点会被标记为已下线，将该节点标记为已下线的主节点会在集群中广播一条FAIL消息，收到FAIL消息的主节点会立即将该节点标记为已下线。
-选举主节点 集群会从已下线的主节点的所有从节点中选举出新的主节点：
-对从节点进行资格筛选：如果从节点与下线的主节点的最后通信的时间间隔超过一个阈值，那么这个从节点就失去了选举资格（如果所有的从节点都失去了资格，就需要手动进行强制转移） 设置选举优先级：通过对比从节点的复制偏移量来获得其优先级，复制偏移量越大的从节点的优先级越高，对这些从节点进行优先级排序，优先级低的节点的选举发起时间会比前一个优先级更高的节点的选举发起时间晚1秒。 广播选举消息：每个有资格发起选举的从节点根据自己的选举发起时间进行消息广播。 每个有投票权的主节点（有负责的槽）在每个配置纪元里都有一次投票的机会，选举采用先到先得的方式，会投票给第一个收到请求的来源从节点。 当一个从节点获得了半数以上的选票时，会被“升级”为主节点。落选的从节点修改复制目标为新的主节点，当旧的主节点上线时也会自动成为新的主节点的从节点。 如果在一个配置纪元中没有从节点能够获得半数以上的选票，则再次进行选举。 加快故障转移时间 节点间通过Gossip协议来交流彼此的信息，包括节点的状态。但如果只通过Gossip来传播，那么下线故障节点会很慢。
-为了解决故障节点的转播效率问题：首先，在分享节点信息时，节点会优先将故障节点的信息放入消息体内。其次，节点会对超过某段时间内未通信的节点直接发起ping消息。通过这样来保证在比较短的时间内收集到半数以上主节点的疑似下线报告。</description>
+      <guid>/internet/design/redis_multi_server/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Redis持久化机制实现</title>
-      <link>https://stong1994.github.io/internet/depth/redis_durability/</link>
+      <link>/internet/depth/redis_durability/</link>
       <pubDate>Mon, 21 Mar 2022 11:08:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/depth/redis_durability/</guid>
-      <description>Redis使用内存进行数据的读写，如果服务永不崩溃、服务器不会宕机——Redis服务永远正常运行，那么数据就不需要落盘。但目前的技术水平还不能达到这一水准，因此我们还是需要将数据存储到磁盘上，当服务重启时就可以加载这些数据。
-RDB 我们可以将内存中的数据直接copy到磁盘中，这种持久化方式就是RDB。
-为了防止已经copy到磁盘中的数据被用户修改，在copy过程中，Redis服务需要拒绝写操作，比如将用户请求先放入队列中，一旦copy结束再从队列中获取请求进行执行。但是这样需要考虑很多场景、条件，Redis本着简单、高效的准则，采用了最简单粗暴的方式——拒绝外部请求。
-但是拒绝外部请求会导致服务不可用，这是我们不能接受的，因此在copy时Redis服务会fork出一个子进程，fork完之后，父进程就可以继续工作，由子进程来进行copy。（copy on write。。。）
-AOF（Append Only File） RDB持久化最明显的缺点就是缺乏实时性，为了弥补这一点，Redis仿照文件追加的方式设计了AOF持久化——每执行一条写命令，就将该命令写到磁盘中。为了减少磁盘IO（毕竟太慢了），Redis需要先将命令写入到缓冲队列（aof_buf）中，然后再同步到磁盘中。（事件循环？）
-“同步到磁盘”有三种方式：
-将缓冲队列中的数据直接写入并同步（fsync）到文件中。 将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。 将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。 AOF重写 随着命令的增多，AOF文件越来越大，为了解决AOF文件膨胀问题，Redis提供了文件重写功能。
-一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，AOF重写的过程就是将内存中的数据copy到AOF文件的过程。在copy过程中，为了Redis对外提供服务，因此fork出子进程来实现AOF重写，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</description>
+      <guid>/internet/depth/redis_durability/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>go设计之channel</title>
-      <link>https://stong1994.github.io/internet/go/channel/</link>
+      <link>/internet/go/channel/</link>
       <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/go/channel/</guid>
-      <description>channel是go中非常具有特色的设计，并且也是新手最难掌握的数据类型。
-channel的设计体现出了作者“不要用共享内存来交流，用交流来共享内存（Do not communicate by sharing memory; instead, share memory by communicating）”的观点。
-channel的作用 使用channel时需要配合协程，一些协程负责写数据，另外一些协程负责读数据，channel的作用就是将这两部分协程连接起来，可理解为channel是这些协程和数据的管理者。
-channel的核心逻辑 读和写 作为数据的管理者，channel内部使用环形队列来存储数据，关键的数据结构为：队列、读索引、写索引：
-每写/读入一个数据，写/读索引就往右移动一位，如果索引已经是最后一位，那就移到第一位。 如果写入时队列已满，那么写数据的协程就进入等待队列，等到队列存在空位置时，再唤醒这个协程，写入数据。 如果读取时队列为空，那么读数据的协程就进入等待队列，等到队列中存在数据时，再唤醒这个协程，读取数据。 此时可以看到channel中作为协程的管理者，需要两个等待队列（读和写）来存储这些“需要等待”的协程。
-关闭channel 日常工作中经常能够用到关闭操作，了解其内部逻辑能够帮助我们更好的使用它。
-源码（runtime/closechan）逻辑大致如下：
-加锁 标识channel已关闭 释放所有正在等待读取的协程（channel已关闭，不再有新数据） 释放所有正在等待写入的协程（这些协程会panic） 释放锁 需要再补充一些逻辑：
-读取数据时，如果channel已标识关闭，并且队列为空，那么会标识未接收到数据 读取数据时，即使channel已标识关闭，但如果队列不为空，那么仍会进行读取 写入数据时，如果channel已标识关闭，则会panic 综上可知，关闭channel后：
-队列中的数据还是会被消费完 如果再写入数据，会panic 如果再读取数据，会得到零值，第二个返回值为false 实际工程中经常利用第三点，将关闭channel用于通知其他协程。
-源码中的优化 源码在实现时，对“核心逻辑”进行了一些优化，如：
-写入数据时先判断是否存在正在等待读的协程，如果存在，直接将数据交给等待读取的协程，而不是先写入队列。因为存在正在等待读的协程，说明队列此时是空的，因此直接将数据交给这个等待读的协程不会影响数据的消费顺序，还能减少一次队列写入和一次队列读取。 思考：两个等待队列是否能同时存在 即：一个channel中是否能够同时存在正在等待读的协程和正在等待写的协程？
-在上面“源码中的优化”中，我们已知：如果存在正在等待读的协程，那么写入时，会直接将数据交给这个等待读的协程，这样这个写入的协程就不会被放到等待队列中，因此结论是两个等待队列不能同时存在。
-相关文章 Share Memory By Communicating 一文带你解密 Go 语言之通道 channel </description>
+      <guid>/internet/go/channel/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>plantuml安装</title>
-      <link>https://stong1994.github.io/internet/tool/plantuml/</link>
+      <link>/internet/tool/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/tool/plantuml/</guid>
-      <description>1. 预安装软件 Java Graphviz Graphviz在安装过程中需要下载大量依赖包，有些会下载失败，报错如下：
-==&amp;gt; Installing dependencies for graphviz: gts, gdk-pixbuf and librsvg ==&amp;gt; Installing graphviz dependency: gts ==&amp;gt; Pouring gts-0.7.6_2.arm64_monterey.bottle.tar.gz 🍺 /opt/homebrew/Cellar/gts/0.7.6_2: 26 files, 1.6MB ==&amp;gt; Installing graphviz dependency: gdk-pixbuf ==&amp;gt; Pouring gdk-pixbuf-2.42.8_1.arm64_monterey.bottle.tar.gz Error: No such file or directory @ rb_sysopen - /Users/stong/Library/Caches/Homebrew/downloads/e02b07db95c1fcc05fd80893fef0e3ae95358e4b73d64bcf7048b53af47a53d9--gdk-pixbuf-2.42.8_1.arm64_monterey.bottle.tar.gz 这时可手动使用brew install xx进行下载。
-依赖包比较多，因此可以使用脚本批量安装。
-#!/bin/bash array=(gts gdk-pixbuf librsvg) for i in &amp;#34;${array[@]}&amp;#34; do brew install $i done 2. 下载plantuml 直接在官网下载pantuml的jar包即可。
-3. 测试 编写plantuml文件
-创建out.txt文件，并写入
-@startuml Alice -&amp;gt; Bob: 你好 @enduml 执行命令</description>
+      <guid>/internet/tool/plantuml/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>论领导者在团队扩张后的心态变化</title>
-      <link>https://stong1994.github.io/life/leader_mentality_change/</link>
+      <link>/life/leader_mentality_change/</link>
       <pubDate>Fri, 04 Mar 2022 11:03:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/leader_mentality_change/</guid>
-      <description>在我已有的经验中，规模小的创业公司要比规模大一些的公司更关注员工的个人成长（样本较少，容易过拟合，但是可以尝试去解释）。 这种差异的原因可能有</description>
+      <guid>/life/leader_mentality_change/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>跨越时空的对话——袁了凡与阿德勒</title>
-      <link>https://stong1994.github.io/life/dialog/liaofanyuan_adler/</link>
+      <link>/life/dialog/liaofanyuan_adler/</link>
       <pubDate>Sat, 26 Feb 2022 13:03:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/dialog/liaofanyuan_adler/</guid>
-      <description>话题——关于命运 中国的大部分人应该都是“信命”的。 现在与长辈聊天时，仍旧会不时听到“这就是命啊”这样的言论。 以前我也同样认可“我们的现在是由</description>
+      <guid>/life/dialog/liaofanyuan_adler/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Manacher算法</title>
-      <link>https://stong1994.github.io/internet/algorithm/manacher/</link>
+      <link>/internet/algorithm/manacher/</link>
       <pubDate>Sat, 12 Feb 2022 16:32:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/algorithm/manacher/</guid>
-      <description>Manacher算法是什么 Manacher算法俗称马拉车算法，用于解决在一个字符串中找到最长的回文子串问题。
-回文串”是一个正读和反读都一样的字符串，如level，noon等都是回文串。
-基础思路-中心扩展 为了找到最长的回文串，需要先找到回文串的中心，然后从中心向外扩展。
-// 例如我们找到中心处的索引为mid,那么找到以mid为中心的回文串的逻辑代码为： func findPalindrome(s string, mid int) string{ l,r := mid-1, mid+1 for ; l &amp;gt;= 0 &amp;amp;&amp;amp; r &amp;lt; len(s); l,r = l-1, r+1 { if s[l] != s[r] { break } } return s[l+1: r] } 需要注意中心处可能是一个元素（如aba），也可能是两个元素（如abba）。所以上述函数要优化为
-func findPalindrome(s string, l, r int) string { for ; l &amp;gt;= 0 &amp;amp;&amp;amp; r &amp;lt; len(s); l,r = l-1, r+1 { if s[l] != s[r] { break } } return s[l+1: r] } 那么一个完整的找最长回文子串的算法为</description>
+      <guid>/internet/algorithm/manacher/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>2021年阅读书单</title>
-      <link>https://stong1994.github.io/book/book_list_2021/</link>
+      <link>/book/book_list_2021/</link>
       <pubDate>Wed, 09 Feb 2022 20:11:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/book_list_2021/</guid>
-      <description>说明 书籍的分类一直都是一个大难题，尽管我在notion的笔记上对书籍类别打了标签，但学科之间本来就是没有界限的，因此就一股脑放在一起。 书籍会</description>
+      <guid>/book/book_list_2021/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>2021年个人总结</title>
-      <link>https://stong1994.github.io/life/summory_2021/</link>
+      <link>/life/summory_2021/</link>
       <pubDate>Wed, 09 Feb 2022 19:27:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/summory_2021/</guid>
-      <description>当我坐着从老家驶向深圳的高铁上时，我意识到这是最后的“年度总结”时间。 在这趟列车达到深圳前，我都有足够的理由安慰自己旧的一年还未结束。对我来</description>
+      <guid>/life/summory_2021/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>KMP算法</title>
-      <link>https://stong1994.github.io/internet/algorithm/kmp/</link>
+      <link>/internet/algorithm/kmp/</link>
       <pubDate>Fri, 28 Jan 2022 16:32:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/algorithm/kmp/</guid>
-      <description>背景 在做LeetCode第572题——另一颗树的子树时，我看到题解上说可以用KMP算法来解决。虽然以前了解过KMP算法，但是遇到问题时还是对算法的思路、如何实现一头雾水，因此写篇文章总结下。
-KMP是什么 KMP是由三位作者的名称首字母组成的单词。KMP的目的是解决子串查找问题。
-KMP演化 如果只看KMP算法的代码，会很难理解，因此我们从头来演化KMP的思路。
-既然KMP算法要解决的是子串查找问题，那我们就从最无脑的暴力破解算法说起。在此之前，我们要规定几个概念。
-基础概念 模式字符串：要匹配的字符串模板。通常是在初始化时处理的数据。 匹配字符串：要根据模式字符串去匹配的目的字符串。通常是输入数据。往往需要找到和模式字符串相同的子串的首字母索引——即在匹配字符串中找到模式字符串。 最无脑的算法 把匹配字符串看做是一把完整的尺子，把模式字符串看做是一把残尺。尺子上的刻度数字都是随机数字。
-固定好完整的尺子，将残尺从完整的尺子的第一个刻度处开始比较，如果不匹配就把残尺往后移动一位。直到找到匹配的位置。
-func violentSearchSubStr(txt, pat string) int { for i := 0; i &amp;lt; len(txt) - len(pat)+1; i++ { j := 0 for ; j &amp;lt; len(pat); j++ { if txt[i+j] != pat[j] { break } } if j == len(pat) { return i } } return -1 } 利用已有的经验——部分匹配表PMT 在“最无脑的算法”中，每次匹配失败都会将残尺往后移动一位。假设残尺上有10个数字，匹配失败时是在匹配第10个数字时失败，那么这10次匹配经验就浪费掉了。
-模式字符串的前四个数字为3153，最后匹配的匹配字符串的四个字符串也是3153，因此，我们可以直接将残尺的3153和完整尺的3153对齐，即可以直接移动六位。
-显然，利用历史经验一次性移动六位要比移动一位的效率高很多。那么如何利用这些匹配经验，将残尺多移动几位？
-于是问题转换为：假设残尺需要移动的位数为M，移动后残尺的前N位能够匹配，如何利用已知条件求出最大的M？
-大佬们为此设计了部分匹配表（Partial Match Table）：PMT是一个数组，长度与模式字符串相同。每个元素对应的是其在模式字符串对应的字符串前缀中前后对称的字符的个数。例如：对于第4个元素来说，其对应的模式字符串前缀为3153，其前后对称的字符为3，个数为1；对于第5个元素来说，其对应的模式字符串的前缀为31531，其前后对称的字符为3和1，个数为2，因此可以得到PMT：
-如何使用PMT 我们在第10个字符匹配时匹配失败，这个时候就能够看到第9个字符对应的PMT的元素为3，即前后匹配的字符为3、1、5三个，那么我们就能够把残尺移动六（9-3）位，并从第四（3+1）个元素处开始匹配。</description>
+      <guid>/internet/algorithm/kmp/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>理解事务：InnoDB的ACID</title>
-      <link>https://stong1994.github.io/internet/mysql/acid/</link>
+      <link>/internet/mysql/acid/</link>
       <pubDate>Sun, 16 Jan 2022 17:05:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/mysql/acid/</guid>
-      <description>事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。
-每种数据库对于事务的实现都不同，有的数据库，如Redis，没有实现所有的事务特性，而目前比较火的分布式数据库，也有自己的实现特性——BASE。但理解事务的特性仍是软件开发行业从业者的基础素质。
-本篇会以InnoDB为例，来探究它是如何实现事务的。
-事务id的生成 事务id的生成规则与row_id的生成规则不能说相似，只能说一模一样。
-服务器在内存中维护一个全局变量，每当需要为某个事务分配事务id时，获取这个变量作为row_id的值，并把这个全局变量自增1 每当全局变量的值变为256的倍数时，就会将该变量写入系统表空间中 当系统启动时，将系统表空间中的该变量加上256加载到内存中（加256是为了确保内存中的值一定比记录中已存在的事务id值大） 原子性（Atomicity） 一个事务内的执行语句要么全执行，要么都不执行。可以理解为一个事务内的多个事件，如果有一个事件发生异常，就要回退到第一个事件发生前的状态。
-原子性要求我们可以对执行事务过程中改变的数据进行回滚，而为了实现回滚，InnoDB使用了undo log。
-undo log 一个索引除了会产生叶子结点段和非叶子结点段之外，还会产生回滚段。我们的undo log就是存放在回滚段中。
-对于每条记录，都会存在两个隐藏列：trx_id和roll_pointer。每次新增undo log时，会在新纪录上更新roll_pointer，指向新的undo log，而undo log也会记录旧记录上的roll_pointer，这样，以新纪录开始，与仍存在的旧记录形成了一条版本链。undo log上的旧记录可能不会记录所有的数据，如更新操作产生的日志就是只记录被更新的字段，但是通过遍历版本链就能找到旧记录的所有字段。
-向表中插入/更新/删除一条记录时，需要对聚簇索引和所有二级索引都进行插入/更新/删除，但是在记录undo log时，我们只需要针对聚簇索引来记录。聚簇索引和二级索引都是一一对应的，在回滚时，根据主键信息对所有的二级索引都进行回滚即可。所以，只有聚簇索引才会存在回滚段。
-对于插入操作 插入操作的回滚操作就是删除操作，因此，在undo log中记录插入记录的主键即可。
-对于删除操作 删除操作的逆操作插入操作，按道理来说，undo log中会记录被删除的数据，但是InnoDB没有这样做。因为如果数据被删了，那么“其他人”就看不到了，先于这个事务执行的事务就可能会产生不可重复读或者幻读。
-InnoDB中的实现是这样：
-第一阶段，将这个记录的deleted_flag（每个记录都有的隐藏列）标识为1，这就意味着这条记录正在删除中。同时，在undo log中需要记录索引各列的信息，用于后续的purge操作。 第二阶段，在事务提交后，会有专门的线程来把这条记录删除掉——把这条记录从正常记录链表中删除，并加入到垃圾链表中 对于更新操作 更新操作需要分为两种情况：更新主键、不更新主键
-不更新主键 如果不更新主键，并且更新前后这条记录的各个字段占用的空间都不变，那么直接将变更的旧字段写到undo log即可。
-如果更新后字段占用的空间有变化，那么就要删除这条旧记录，并将其放入“垃圾链表”中（并不是标记删除），如果新记录占用的空间小于旧记录，则可以“复用”旧记录的空间，否则需要重新申请一块空间来存放新记录。
-undo log会记录更新的列的旧数据，以供回滚。
-更新主键 如果要更新主键，那么就相当于先进行删除操作，再进行插入操作。即先对旧记录进行标记删除，再插入新数据，同时产生两条undo log。
-undo log在崩溃恢复时的作用 服务器在崩溃后的恢复过程中，首先根据redo log将各个页面的数据恢复到之前的状态，但是有些没有提交的redo log可能已经被刷盘，因此未提交的事务修改过的页面也被恢复了。这时需要把这些页面回滚掉。
-通过系统表空间定位到回滚段的位置，并找到状态为TRX_UNDO_ACTIVE的undo log链表，这意味着存在活跃的事务正在向这个undo log链表写入undo log，找到对应的事务id，并将其做出的修改全部回滚掉。
-一致性（Consistency） 关于一致性，似乎没有统一的说法，有的说ACID中的C是用来凑数的，一致性是事务要达到的目的，而不是事务特性；有的说一致性就是数据库对于数据的约束，如非空、唯一等；有的说一致性要由业务逻辑的程序来维持。不用纠结这些。
-另外，区别于分布式数据库中的最终一致性，InnoDB中的一致性指的是强一致性。
-隔离性（Isolation） 事务之间应该是隔离的、互不影响的。
-业内的隔离性划分（非InnoDB） 四种隔离问题 脏写：一个事务修改了另一个未提交的事务的数据 脏读：一个事务读取了另一个未提交的事务修改后的数据 不可重复读：一个事务两次读取同一条记录的数据不同，因为被另一个事务修改 幻读：一个事务两次读取的范围数据不同，因为被另一个事务进行了插入/更新操作 四种隔离级别 读未提交：只解决脏写问题 读已提交：解决脏写、脏读问题 可重复读：解决脏写、脏读、不可重复度问题 串行化：解决全部四个问题 三种锁 排它锁：对于同一条记录，只有一个事务能够修改 共享锁：对于同一条记录，多个事务都能读取，但不允许修改 范围锁：一个范围内的记录的共享锁 他们之间的关系 使用的锁 隔离问题 隔离级别 不用锁 未解决：脏写、脏读、不可重复度、幻读 无，脏写问题是必须要避免的 排它锁 只解决脏写 读未提交 排它锁+（读完就释放的）共享锁 解决脏写、脏读 读已提交 排它锁+（事务执行完才释放的）共享锁 解决脏写、脏读、不可重复读 可重复读 排它锁+共享锁+范围锁 解决脏写、脏读、不可重复读、幻读 串行化 由上可以看出，是由于使用的锁不同，进而产生了隔离问题、隔离级别！</description>
+      <guid>/internet/mysql/acid/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>解决问题时的短路问题</title>
-      <link>https://stong1994.github.io/life/short_circuit_when_solve_problem/</link>
+      <link>/life/short_circuit_when_solve_problem/</link>
       <pubDate>Sun, 09 Jan 2022 17:25:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/short_circuit_when_solve_problem/</guid>
-      <description>场景描述 前一阵子做企业微信的组织和人员同步，上线后本来是风平浪静，直到接到一个工单：有家企业的部分员工的部门信息没有同步过去。 工单描述的有点</description>
+      <guid>/life/short_circuit_when_solve_problem/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>查询、插入、删除、更新一条MySQL记录都经历了什么</title>
-      <link>https://stong1994.github.io/internet/MySQL/curd/</link>
+      <link>/internet/MySQL/curd/</link>
       <pubDate>Thu, 06 Jan 2022 17:05:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/MySQL/curd/</guid>
-      <description>一直对MySQL这个黑盒子是如何运行的不甚清楚，因此在这里总结下。
-先来了解下MySQL体系架构。
-MySQL体系架构 图片来自: https://segmentfault.com/a/1190000039693313
-以上图为对照，MySQL的查询会经历大致以下过程：
-客户端与服务端建立连接 查询缓存 将请求的SQL进行解析，并进行语法校验 通过优化器来优化SQL，生成执行计划 选择对应的存储引擎来执行计划，获取数据 向客户端返回查询结果 那么我们就来分别看看这几步都做了哪些事情。
-建立连接 客户端与服务端的连接本质上是进程间的通信，进程之间的通信方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX域套接字。我们只讨论最常见的TCP/IP套接字。
-mysql -h 127.0.0.1 -u root -p 连接时会查询mysql.user表进行权限校验。
-MySQL的通信协议是半双工的——在任意时刻，要么客户端向服务端发送数据，要么服务端向客户端发送数据。
-查询缓存 如果操作为查询，并且MySQL服务器开启了查询缓存，那么MySQL服务器会对sql进行缓存命中。
-这个缓存是由大小写敏感的哈希查找实现的，对sql的任何改动都会导致不能命中缓存。
-解析sql 在这一步会校验sql是否符合语法，并将sql解析为token。
-查询优化 MySQL使用基于成本的优化器。成本分为IO成本和CPU成本，MySQL会定义每种操作对应的代价。大致流程为：
-根据搜索条件，找出所有可能使用的索引 计算全表扫描的代价 计算使用不同索引执行查询的代价 对比各种方案，选择成本最低的那个 执行语句 只讨论增删改查。
-读取记录的过程 缓存都做了什么 InnoDB是以页为单位进行磁盘IO的，如果每次读取都要从磁盘读取，那么性能会很差。因此引入了缓存池——BufferPool，而从磁盘中加载到缓冲池中的页我们称为缓冲页。
-每次读取数据页时，都从一个哈希表（key为表空间号+页号，value为控制块）中定位到缓冲页对应的控制块，如果不存在，则从磁盘进行读取，如果存在，则直接读取缓存。
-每次从磁盘读取数据页时，都会在Buffer Pool中的free链表中获取空闲页，并填充缓冲页对应的控制块（我们需要这个结构来快速定位到目标缓冲页）。
-InnoDB还引入了LRU链表来淘汰最近最少使用的缓冲页（参考InnoDB中的LRU链表）。
-在聚簇索引中定位一条记录 通过索引页定位数据页 在索引页中，通过二分法定位记录所在的槽，这个槽对应着索引所在的索引记录组。（索引记录被分成多组，每组的最小值存入Page Directory，称为槽slot） 在索引记录组中通过next_record字段来遍历整个组，找到记录所在的索引页数据（主键+页号） 通过页号找到下一层树的目标索引页 重复上述3个步骤，直到找到最后一层树——即数据页 在数据页中定位目标记录 在数据页中找到Page Directory，通过二分法定位目标记录所在的槽（记录被分成多组，每组的最大值（思考为什么是最大值而不是最小值）存入Page Directory，称为槽slot） 通过Page Directory找到上一个槽，其对应的记录为该组的最大值，然后通过next_record来找到目的槽中的最小值，接着通过next_record来遍历整个目的组找到目标记录。 在二级索引中定位一条记录 定位方式同聚簇索引相同，不同之处在于二级索引中的数据页存储的是主键而不是完整的记录，因此需要通过主键进行回表查询。
-锁和事务 事务中不加锁的读 在事务中，如果读操作没有加锁，那么会生成一个ReadView来保证每次读到事务开始前已提交的数据（可重复读的隔离级别下每个事务中的多次读取复用同一个ReadView，读已提交的隔离界别下每次读取都会生成一个新的ReadView）
-事务中加锁的读 对读加锁有两种方式：
-SELECT .. LOCK IN SHARE MODE; : 这是一个S锁 SELECT .</description>
+      <guid>/internet/MySQL/curd/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《洞见》</title>
-      <link>https://stong1994.github.io/book/philosophy/why_buddhism_is_true/</link>
+      <link>/book/philosophy/why_buddhism_is_true/</link>
       <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/why_buddhism_is_true/</guid>
-      <description>作者：罗伯特·赖特 关于书名 最早看到这本书是李录在《文明、现代化、价值投资与中国》一书中，作为推荐书籍介绍的。当时给我留下了很深刻的印象，大半</description>
+      <guid>/book/philosophy/why_buddhism_is_true/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>塔勒布四部曲之《黑天鹅》</title>
-      <link>https://stong1994.github.io/book/philosophy/taleb_four_book/</link>
+      <link>/book/philosophy/taleb_four_book/</link>
       <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/taleb_four_book/</guid>
-      <description>塔勒布写作风格很特别，他不会着眼于书中的核心思想，而是像闲聊般的把他想说的内容都放到书中，同时伴随着对某些人的不拘一格的嘲讽。 塔勒布四部曲 《</description>
+      <guid>/book/philosophy/taleb_four_book/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>InnoDB存储引擎的物理结构</title>
-      <link>https://stong1994.github.io/internet/mysql/InnoDB_struct/</link>
+      <link>/internet/mysql/InnoDB_struct/</link>
       <pubDate>Mon, 03 Jan 2022 13:32:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/mysql/InnoDB_struct/</guid>
-      <description>要了解使用InnoDB存储引擎进行CRUD时发生了什么，怎么也绕不过其物理结构，于是在这里记录下。
-只记录关键信息，能支持理解CRUD与事务特性即可
-关于取舍 作为一个通用的数据存储方案，需要考虑很多问题，这些问题包括如何占用更少的磁盘、内存，如何提高CRUD的速度，如何保证数据的一致性等待。
-作为一个通用的方案，就一定要对这些问题进行取舍，而在InnoDB的设计中，可以看到其**优先考虑减少磁盘随机IO，然后是占用更少的磁盘空间。**而为了支持事务的特性，而引入了undo log和redo log等组件，导致整体设计上的复杂度很高。看完InnoDB的设计，再对比redis的设计，就能感慨redis的简洁，但是这不代表redis的设计更优雅，每个组件的定位不同，使用场景也不同，设计上自然也就不同。
-磁盘 页 页是InnoDB最基本的存储单位。
-页由File Header、Page Header、Infimum+Supremum、UserRecords、Free Space、Page Directory、File Trailer组成。
-File Header File Header通用于各种类型的页，用户记录页号、页类型、校验和、所属表空间、上下页的页号等。
-这些页通过上下页的页号构建了一个双向链表，无需这些页在物理上真正连着。
-File Trailer File Trailer由8字节组成。
-前4个字节表示页的校验和，此校验和应该与File Header的校验和相等，如果不等，说明刷新页的过程被中断了，如断电。
-后4个字节表示页面最后修改时对应的LSN的后4字节，正常情况下与File Header的Fil_PAGE_LSN的后4字节相同。也是用来校验页的完整性的。
-Page Header Page Header用来存储页的状态，如存储的记录条数、槽的数量、Free Space在页面的地址偏移量等。
-User Record 和 Free Space User Record和Free Space组成了页的剩余部分，每次插入数据时，都会从Free Space申请一部分空间划到User Record中。
-在User Record中是一条条紧密相邻的记录。记录中包括一些控制信息，比如记录是否被删除、下一条记录的相对位置（next_record）等。
-通过next_record，页中的记录组成了一个单向链表，链表是根据主键大小由小到大按顺序连接的，因此为了更快的找到最大值和最小值，页中又引入了两个虚拟记录——最大记录（Supremum）和最小记录(Infimum)。
-Page Directory 如果没有页目录，那么查找一条数据只能遍历查找，所以InnoDB引入了页目录。
-页目录只记录每组记录的最大值，这些最大值在页目录中被称为槽(Slot)，槽在页目录中也是从小到大按顺序存放的。
-记录的分组规则：
-最开始时只有两个虚拟记录Supremum和Infimum，各自占一个槽。 插入数据时，找到比插入数据大的第一个槽（二分法），将其插入到这个组中。 如果插入后该组的记录数大于8个，那么就将这个槽拆分成两个组，并在页目录中增加一个槽，其中小槽中分配到的记录数为5条，大槽中分配到的记录数为4条。 由上可知分组的记录特色：
-第一个槽Infimum只有其自身一条记录 最后一个槽Supremum记录数为1-8条 中间槽的记录数为4-8条 在页中查找一条记录时：
-通过二分法确定该记录所在的槽（先找到比该记录主键大的第一个槽，再找到上一个槽，根据其next_record找到记录所在槽的最小记录地址） 通过next_record遍历该组中的各个记录 索引 在查询数据时，首先需要定位数据存在于哪个页时，虽然通过遍历数据页组成的链表查询到，但性能太差，因此引入了索引。
-在页中，为了更快的找到记录，引入了Page Directory，而为了更快的找到页，也要引入这样一个目录项。
-目录项的结构与数据页的结构没什么不同（目录项也是一种页），只不过数据页存储的数据是用户记录，而目录项存储的数据是索引键+页号。目录项所在的页填满后，就会进行“页分裂”拆分成两个页，同时增加一个新的父目录项。每层目录项都同数据页一样组成了双向链表。
-目录项和PageDirectory不同的是：Page Directory存储的是一组记录中的最大值，而目录项存储的是一个页中的最小值。
-这些目录项和索引页就组成了我们常说的B+树。</description>
+      <guid>/internet/mysql/InnoDB_struct/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《关键路径》</title>
-      <link>https://stong1994.github.io/book/philosophy/critical_path/</link>
+      <link>/book/philosophy/critical_path/</link>
       <pubDate>Sun, 02 Jan 2022 16:24:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/critical_path/</guid>
-      <description>作者：理查德·巴克敏斯特·富勒 总览 富勒仅以400页书籍描述了其宏大的世界观——实现人类的可持续发展、解决近邻宇宙的可再生问题。 富勒在32岁时</description>
+      <guid>/book/philosophy/critical_path/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>和时间赛跑</title>
-      <link>https://stong1994.github.io/life/run_with_time/</link>
+      <link>/life/run_with_time/</link>
       <pubDate>Sun, 19 Dec 2021 23:39:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/run_with_time/</guid>
-      <description>高中的时候琦哥跟我说：其实我要求并不高，只要有人跟我表白我就答应。 这句话我一直想不明白，要知道像琦哥这种学习好、长得帅、性格好的人，那是校草</description>
+      <guid>/life/run_with_time/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《HR&#43;三支柱：人力资源管理转型升级与实践创新》</title>
-      <link>https://stong1994.github.io/book/improve/hr_three-pillar-mode/</link>
+      <link>/book/improve/hr_three-pillar-mode/</link>
       <pubDate>Fri, 17 Dec 2021 13:57:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/hr_three-pillar-mode/</guid>
-      <description>哈蒙兹：人力资源从业者的四宗罪 智力一般 最优秀、最聪明的人都不进入人力资源行业 追求效率大过创造价值 HR总是强调做了什么，而非创造了什么结果 代表</description>
+      <guid>/book/improve/hr_three-pillar-mode/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《菊与刀》</title>
-      <link>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</link>
+      <link>/book/anthropology/TheChrysanthemumAndTheSword/</link>
       <pubDate>Sun, 12 Dec 2021 21:36:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</guid>
-      <description>《菊与刀》是鲁思·本尼迪克特于1945年写的，记录了日本人文社会的特点。对于想要了解日本文化的人来说，这是一本必读书籍！ 70多年过去了，也许</description>
+      <guid>/book/anthropology/TheChrysanthemumAndTheSword/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>如何写没有bug的代码</title>
-      <link>https://stong1994.github.io/internet/how_to_code_without_bug/</link>
+      <link>/internet/how_to_code_without_bug/</link>
       <pubDate>Sat, 04 Dec 2021 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/how_to_code_without_bug/</guid>
-      <description>作为一名程序员，bug就是我们生活的一部分。 一听到有bug，绝大分程序员的血压会立马上升，紧接着心脏跳动加快，然后带着一丝侥幸的期待着这是个</description>
+      <guid>/internet/how_to_code_without_bug/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>简述redis的基本数据结构</title>
-      <link>https://stong1994.github.io/internet/depth/redis_base_design/</link>
+      <link>/internet/depth/redis_base_design/</link>
       <pubDate>Mon, 22 Nov 2021 16:05:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/depth/redis_base_design/</guid>
-      <description>很久之前就看过redis的基本设计与实现，但是每次都会忘掉。
-前几天又看了一遍，但是最近回顾的时候又忘了。。。
-俗话说好记性不如烂笔头，因此写在这里来加深记忆。
-文中会将数据类型的实现与go中的实现进行对比，如有理解错误的地方，望指出
-五个基本数据类型 string go中的string：在go中，string就是一组字节，且是不可变的。可以视作字节数组。
-redis中的字符串对象的编码可以是int、raw或embstr。
-如果保存的对象是整数且可以用long类型来表示，那么就保存为整数，编码为int。
-如果保存的对象是字符串且长度小于等于32字节，那么会使用embstr的编码来保存。
-如果保存的对象是字符串且长度大于32字节，那么会使用embstr的编码来保存，且存储在SDS中。
-embstr是专门用来保存短字符串的一种优化编码方式，与raw的区别在于对于redisObject和sdshdr（redisObject是redis对象中的一个属性，sdshdr是SDS的实现），embstr只需一次内存分配，而raw需要两次。
-SDS 简单动态字符串（SDS）组成：
-buf: 字节数组 len: 字符串长度（即buf数组中已使用的字节数量） free: buf数组中未使用的字节数量 SDS遵循C字符串以空字符结尾的惯例，保存空字符串的1字节空间不计算在SDS的属性中。
-空间预分配策略：修改之后的SDS长度小于1M，那么程序会分配同样大小的预留空间，即len=free；如果修改之后的SDS长度大于1M，那么程序会分配1M的预留空间。
-空间惰性释放策略：SDS中的字符串长度减小时，并不直接释放空间，而是增大free，可供未来使用，避免频繁释放/分配空间。
-list go中的slice
-构成：由三个属性构成：长度、容量、底层数组。
-扩容策略：当容量小于1024时，每次扩容为原来容量的一倍；否则扩容1/4
-缩容策略：无
-当list中元素的字符串长度都小于64字节且元素数量小于512时，使用压缩列表实现，否则使用双端链表实现。
-双端链表 双端链表有如下几个属性：
-表头节点 表尾结点 节点长度 节点复制函数 节点释放函数 节点值对比函数 节点有如下属性：
-前置节点地址
-后置节点地址
-节点值
-压缩列表 压缩列表包含的属性：
-整个压缩列表占用的字节数 计算列表尾结点距离压缩列表的起始地址有多少字节 记录压缩列表包含的节点的数量（当总数大于65535时，这个字段失效，需要遍历整个压缩列表才能计算出来） 列表节点数组（每个节点可以保存为一个字节数组或者整数） 列表节点包含的属性：
-上一个节点的长度 编码类型与长度 节点内容 压缩列表的优点就是节省内存，缺点就是增加、删除、更新可能会造成“连锁更新”，因此只有在包含少量元素时才使用。
-hash go中的map：涉及内容太多，todo
-当hash中的key和value的长度都小于64字节，且键值对的数量小于512个时，使用压缩列表实现，否则使用字典实现。
-压缩列表 key和value都作为节点存到列表中，且一个键值对的两个节点总是按着。新加的键值对节点置于表尾。
-字典 字典中包含以下几个属性：
-类型特定函数 私有数据 哈希表数组：数组长度固定为2 rehash索引，为-1时，表示没有进行rehash 哈希表包含以下几个属性：
-size: 哈希表大小 sizemask: 哈希表大小掩码，用于计算索引值。总是等于size-1 used: 已使用的数量 哈希表数组，每个数组都是一个节点 哈希节点包含的属性：</description>
+      <guid>/internet/depth/redis_base_design/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>以真实经历谈分层</title>
-      <link>https://stong1994.github.io/internet/depth/layer/</link>
+      <link>/internet/depth/layer/</link>
       <pubDate>Sat, 20 Nov 2021 13:20:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/depth/layer/</guid>
-      <description>笔者在工作过程中遇到了一些分层相关的问题，于是将问题和想法记录下来，以供未来回顾。
-提出问题 什么是分层 为什么要分层 怎样做分层 什么是分层 这是一个很简单的问题。
-这也是一个很复杂的问题。
-简单之处在于每个人都能做出回答，复杂之处在于这其实是个通用问题。
-通用问题是啥？百度百科上是没有这个词条的，因为我不知道这类问题如何划分，所以随便造了个词，或者称为底层逻辑问题更好理解些？
-程序员当然知道有哪些分层：网络有分层、操作系统有分层、项目有分层、代码有分层等等。
-但生活中的分层要更多。
-每天早上吃的鸡蛋有分层：蛋壳、蛋白、蛋黄 上班路上两边的树木有分层：树根、树干、树冠、树叶，或者将其拦腰斩断，能看到层次分明的年轮 坐电梯时可能更能体会到分层——每层楼都是一层。 进入公司，销售部、行政部、研发部等等也在分层 连我们人体本身也满是分层：上半身、下半身、头、胳膊、脚，或者皮肤、脂肪、血液、骨骼、神经等等 分层是这个世界的基本规则之一。
-思维的发散就到此为止吧，因为我已经发现没有办法直面我们最初的三个问题了。
-所以让我们来简化下问题——将问题的讨论范围限制在代码内。
-对于什么是分层——我先给出我的答案——分层就是对代码按照某种规则进行切分。
-至于为什么是这个答案，下面会讲。
-为什么要分层 我们先来回顾下分层的演进。
-最早的分层是什么呢，那一定是没有分层。当我们打印出“hello world&amp;quot;时，我们是没有分层的。
-让我们继续写代码。我可能要在前端展示一些文字，这些文字可能存储在数据库中。如果仅仅是这样的话，我们很可能还是没有分层——功能实在是太简单了。
-直到有一天，我们写了上千行的代码，突然发现代码已经很难维护了，因为数据模型、业务逻辑、前端代码等都混在一起，于是我们本能的开始分层。于是一个伟大的概念产生了——MVC。
-MVC最早据说是起源于桌面端开发，M代表数据层，V代表UI层，C代码控制层，通过分离这三层，我们的代码已经是很清晰了。
-但是该死的产品经理还在没完没了的增加那些不知道有什么用的功能。
-于是代码开发者发现三层不够用，于是把前端和后端代码进行了隔离，也就是前后端分离。后端将已有的两层扩展为三层——控制层-逻辑层-数据层（controller-service-model）。那么前端呢？前端都分出去了，我们就不管了。
-这里有个逻辑要叙述下。有些人认为是ajax这类技术的产生才导致了前后端分离。这种想法属实是本末倒置了，任何技术的产生都来源于需求！
-我对于controller-service-model这种分层可谓是异常熟悉，因为就在我大学实习的时候，就用的这种分层。当时用得是java的SSM框架，三个框架正好对应这三层（java好像搞啥都是一整套？）。这几个框架让我深受贫血模型的影响，即使我后来不写Java了。
-时代在发展，软件的用户越来越多，功能越来越复杂，开发人员越来越多。代码也越来越臃肿。
-于是某个大佬发明了微服务的概念，再然后某个大佬发明了中台的概念。
-于是我们不仅有前后端的分层，还有后端与后端的分层——前台、中台、支撑的分层。
-回到我们的问题——为什么要分层——答案应该已经很明确了，就是为了解决代码的臃肿问题，让代码更清晰！
-怎样做分层 服务分层 现状：目前公司内有很多中台仅仅是对数据库的CRUD的封装（看起来就像是封装了一个使用http做传输的ORM框架），业务逻辑仍集中在前台。这种中台没有任何意义，似乎只是为了分层而分层，或者说为了做中台而分层。进一步的原因就是设计者对中台缺乏认知。
-目前我们的项目存在两种分层方式：按功能划分与按业务划分。
-以报表功能举例：我们在多种场景中都需要报表功能，如人事报表、招聘报表。这些报表都有自己的业务逻辑，不能进行统一处理，但是都需要订阅功能，且都存在业务逻辑：当用户删除报表时，需要同时删除用户对该报表的订阅（该功能在下文用功能A标识）。
-按功能划分 根据功能的性质划分，此时订阅功能和报表功能为同等级功能。
-此时会存在：报表中台、报表前台、订阅中台、订阅前台。
-功能A应在报表前台来实现。
-按业务划分 按照业务来划分，此时订阅功能应被视为报表的附属功能。
-此时会存在：招聘报表中台、招聘报表前台、人事报表中台、人事报表前台。
-功能A应在招聘报表中台和人事报表中台分别实现。
-划分手段 上边直接说了结论，那么这样划分的依据是什么？
-首先必须要分为中台和前台：中台作为业务的聚合，而前台作为对前端的适配。这样能保证业务逻辑的内聚，使中台专注于自己的业务，避免易变的产品需求对业务核心代码的侵蚀。
-其次一定要让服务有明确的边界。设计者不能凭感觉来划分服务，一定要有自己的方法论作为指导基础。如果只凭感觉来划分，最终的结果就是服务之间没有边界，导致中台服务冗余了大量不属于自己领域内的代码。
-所以不管是按功能划分还是按业务划分又或者有其他划分方法，总之设计者一定要有自己的划分方法论。
-代码分层 现状：目前公司内大量项目的代码结构为controller+business+service。business做业务逻辑，service做服务实现。换句话说，就是将以前的service层改名为business，以前的model改名为service。这种改变的逻辑是：微服务时代需要大量调用其他服务，model不具有此含义，因此需要将model改名为service，用service来处理调用其他服务的逻辑。
-这种结构在实际开发中面临一个非常严重的问题——business和service的边界模糊——导致service层的代码和business层代码混在一起——导致本就复杂的业务层代码更加复杂且难以理解。
-如何解决business和service的边界模糊问题 边界模糊的原因1：词汇描述能力不足。我们一般使用service来写业务逻辑，现在换用了business，但是仍保留service层来做服务调用，这增加了开发者对service和business语义上的模糊。另外，从读者的角度来看，这种命名会让人十分疑惑。
-边界模糊的原因2：分层之间没有约束。目前在分层上business依赖并调用service层，没有约束business层对service层的访问限制，导致部分应属于service层的代码放到了business层，或者应属于business层的代码放到了service层。
-解决手段1：依赖倒置。要限制business对service层的访问，很自然会想到依赖倒置——让原本business层依赖service层的情况改为service层依赖business层。
-解决手段2：强化业务概念。为了避免service和business语义上的模糊，我们只保留了service，用来处理业务逻辑。那服务调用如何表示？为了突出业务逻辑层，我们弱化了服务调用层——将服务调用作为业务逻辑的辅助层。
-解决手段实现：端口-适配器模式非常契合当前的解决手段——将服务调用层抽象为适配器（adaptor），辅助业务逻辑层完成功能。将service层需要的外部资源（数据库、缓存、外部服务调用）抽象为接口，在adaptor层进行实现。即service层所需要的接口为“端口”，在adaptor层实现接口的对象为“适配器”。同时我们借助接口，实现了service层与adaptor的松耦合。（理解上述描述需要对go中的接口有一定了解）
-如何处理复杂的业务逻辑 解决了历史问题，我们再进一步思考一个问题：如何处理复杂的业务逻辑。
-写代码总是很容易的，让别人看懂则很难。
-要解决这个问题，本质上还是要让代码保持清晰。
-我们还是本能的选择了进一步分层。
-如何进一步分层？业务逻辑的复杂会导致service层代码臃肿，因此一定是在这一层进行切割。</description>
+      <guid>/internet/depth/layer/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>琦哥</title>
-      <link>https://stong1994.github.io/life/qi/</link>
+      <link>/life/qi/</link>
       <pubDate>Sun, 14 Nov 2021 18:07:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/qi/</guid>
-      <description>如何证明自己存在过？ 年轻时候的我决定要干大事，要成就一番丰功伟绩来让我的子孙们铭记他们这个伟大的先祖！ 可惜他们这个先祖并不争气，到现在还只是</description>
+      <guid>/life/qi/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《深度工作》</title>
-      <link>https://stong1994.github.io/book/improve/deep_work/</link>
+      <link>/book/improve/deep_work/</link>
       <pubDate>Thu, 07 Oct 2021 20:20:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/deep_work/</guid>
-      <description>在十一小长假的最后一天，我终于翻开了这本放在书包里很多天的《深度工作》。 本来打算今天只看一半，没想到一口气花了约三个小时，把这本240页的书</description>
+      <guid>/book/improve/deep_work/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>谈代码规范、思想</title>
-      <link>https://stong1994.github.io/internet/depth/code_thought/</link>
+      <link>/internet/depth/code_thought/</link>
       <pubDate>Wed, 06 Oct 2021 17:05:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/depth/code_thought/</guid>
-      <description>谈起代码设计规范，人们总会说出SOLID、KISS、DRY等等专业词汇。
-为了易于人们记忆，这些专业词汇都是由其英文单词首字母拼接起来的，如KEEP IT SIMPLE 、STUPID、DONT TRY YOURSELF。
-我们当然也能理解这些设计规范的意思——毕竟有那么多的博客、文章。
-然而有多少人能真正使用这些设计规范呢？相比于知道它们的人数，实际使用过的人数应该很少。
-知易行难。知行不能统一，还是不知。
-大部分人在刚入行时写的代码都“too young too simple”。很幸运的是我在刚入行时就被一位大佬告知：如果你哪天领悟了SOLID原则，就能写出好代码。
-被告知之前，我有看过SOLID原则，被告知当天，我又看了一遍SOLID原则，被告知以后的以后，我也会不时的看下SOLID原则。但是我一直都没能彻底了解这个原则——我只是看懂了那些博客说的是什么，但是究竟要如何使用SOLID原则还是一头雾水。
-也许这些原则就不是用来指导人们如何使用的，而是告诉人们好的代码应该是怎样的。
-程序猿也是在不断进化的。
-刚入行的小伙子是“鲁莽”的，他们的眼里好像只能看到“需求”，他们会飞快地将功能实现。这时候的代码没有遵循任何的设计原则，代码混乱，很容易产生bug。而且解决这些bug需要很长的时间，因为他们的代码在实现功能时没有体现业务逻辑。理清为什么这样写要耗费人不少耐心。如果这些代码被一些有强迫症的人看到，一定会给它重构一遍。
-有些工作经验的开发者会学习业内比较有名的技术、思想，就像现在的中台、DDD、TDD等。当他们照猫画虎得将这些用到实际项目中时，另外一些没学过这些技术的人会对这些东西表示怀疑——这些东西似乎让代码变得更加复杂，且没看到任何收益。
-经过一段时间的怀疑人生后，对技术照猫画虎的人们开始否定这些技术，认为这些技术是徒有其表。
-当开发者的经验积累到一定程度后，会开始反思当前的架构是否合理，于是尝试对其进行改进。然后就会突然发现，他竟然运用到了这些设计原则、思想。
-那么以后会怎样呢？</description>
+      <guid>/internet/depth/code_thought/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>异地多活</title>
-      <link>https://stong1994.github.io/internet/design/dboat/</link>
+      <link>/internet/design/dboat/</link>
       <pubDate>Mon, 04 Oct 2021 22:32:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/dboat/</guid>
-      <description>背景 随着用户的日益增多，系统的质量问题越来越突出。
-想象一下：用户正在使用软件，突然软件崩溃了、不能用了，这时候用户肯定要理(ma)解(niang)的。如果一年只崩溃一两次还好（当然，如飞机、火车运行所需要的软件是绝对不能出问题的），如果每隔几天就来这么一下，那么用户可能就要寻找替代品了。2B的产品更是如此（业内通常使用SLA来描述可靠性，也就是大佬们常说的4个9、5个9）。
-提升服务质量的手段有很多，如：
-良好的代码风格、积极的code review、完善的自动化测试——在根上减少问题出现的可能性
-合理的监控、报警、预警——保证第一时间内得到通知甚至提前预知风险
-科学的熔断策略——减小一个低质量的服务造成全体系统崩溃的风险
-完善的链路追踪、日志系统——提高解决问题的速度
-善用灰度网关——减少重构系统带来的风险以及损失
-。。。
-尽管目前的手段众多，但是如果一个地区发生了“黑天鹅”事件，如没有预警的停电、地震、海啸，又碰巧这就是我们的服务器所在地，那么上述手段也是无能为力。
-所以我们就需要更强大的容灾方案——异地多活。
-目标 实现两地三中心方案。
-什么是两地三中心？就是在两个区域部署三套服务——一个区域一套，另外一个区域两套。大部分两地三中心是在同城双活的基础上，增加了异地灾备数据中心。而对我们来说，其实就是实现的多区域同步设计方案，只是在实施上是两地三中心。
-为什么不是三地三中心？因为城市之间要通过光缆来传输数据，而这是一笔很大的开销。
-功能列表：
-用户“就近访问” 区域之间的数据同步 一个区域的服务器宕机后，流量自动打到其他区域 等 仅看这个功能列表，很多细节都很模糊（不是模糊，是根本就没有），我们先看设计方案，然后再把剩余的细节问题解决。
-设计方案 两区域间单向的数据流 上图是区域之间数据的单向流动。
-数据库的同步组件选择了阿里开源的canal，它会模拟从服务器来获取数据库的binlog canal支持tcp、kafka、rocketmq三种同步方式，我们选择kafka 发送端：主动发起同步的区域从kafka中获取到数据，然后发往被同步的区域 接收端：被同步的区域接收数据的服务即为接收端，接收到数据后会放到kafka中。这里kafka的作用是削峰与暂时的持久化。 回放端：从第四步中的kafka中获取数据，解析为sql，并执行，完成数据的回放 以上步骤解决了两个区域之间的单向同步
-两区域间双向的数据流 跟前一张图相比，只是进行了“镜像复制”，逻辑没有增加。
-但是我们发现了数据回环——即从A区域的数据同步到B区域之后，又回到了A区域。如何打断数据回环？
-一般来说，我们以“就近原则”为准，能在B区域打断就不要在A区域打断，这样至少能减少数据传输。
-我们能控制得只有接收端、回放端和发送端，并且需要在入库之前打上标记，入库拿到数据之后进行过滤。根据“就近原则”，我们在回放端标记数据，在发送端进行数据过滤。具体方案如下：
-将数据信息记录到redis的hash中，key为`replay:{数据库名}:{表名}`， field和value规则如下： 1. 对于DDL, field为crc32(sql)+区域标识, value为serverID 2. 对于插入, field为操作类型标识+主键ID+区域标识， value为来源serverID 3. 对于删除, field为操作类型标识+主键ID+区域标识， value为来源serverID 4. 对于更新, field为操作类型标识+主键ID+crc32(after)+区域标识, value为来源serverID 其中serverID为数据库实例的唯一标识，这里只来源实例。 after为更新后的列数据，在实现中是一个结构体。插入和删除都是幂等的，因此不需要记录列信息，更新操作需要判断是否为同一条语句只用主键是不行的，所以需要记录列信息。 发送端从kafka获取到数据后，先判断数据是否是回环数据，如果是则过滤，然后删除缓存。
-数据流向图如下：
-三区域间双向的数据流 逻辑与两区域相同，只是图更难画。
-区域宕机处理 在多区域中，一个区域宕机会导致其他区域的数据不一致，这时候就要找到获得宕机区域数据最新的区域（实际上，更准确的表述应该是找到每个最新的数据库表，因为各个数据库表都是独立进行同步的），对数据缺失的其他区域进行补偿。那么如何找到这个数据最新的区域？
-先了解下canal的机制：在canal的配置中，我们以数据库名作为topic，对表名进行哈希取模后作为分区存入kafka中，那么对一个表的消费情况通过偏移量offset即可确知。
-但是不同区域同一个topic的同一个分区下，同一个offset对应的数据可能是不同的，这和canal中配置的binlog文件和偏移量有关。因此，记录消费位点，我们不能以本区域的kafka偏移量为准，而应该以其他区域的kafka偏移量为准。
-这意味着发送端在发送数据时，需要将本条kakfa消息的位点告之接收端，接收端得到后，对其进行记录。
-当北京区域宕机后：
-广州区域记录表XXX中接收到北京区域的偏移量为80 上海区域记录表XXX中接收到北京区域的偏移量为100 那么我们就知道对于北京区域所同步的XXX表的数据而言，上海区域中表XXX的数据最新，因此我们需要将上海区域最新的这20条消息发给广州。</description>
+      <guid>/internet/design/dboat/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>灰度网关</title>
-      <link>https://stong1994.github.io/internet/design/gray_gateway/</link>
+      <link>/internet/design/gray_gateway/</link>
       <pubDate>Sun, 03 Oct 2021 23:57:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/gray_gateway/</guid>
-      <description>背景 对于一个公司来说，在创业初期需要对产品快速迭代来解决用户痛点、提升自己的竞争力进而占领更多的市场（这就是MVP原则的思想）。随着业务的发展，早期的快速迭代导致了代码冗余、混乱、质量低、难以维护等问题，这时候就需要对其进行重构。
-但是重构会带来极大的风险，严重的会导致服务崩溃，甚至是数据混乱。这是我们不能接受的。
-尽管重构的风险是无法避免的，但是我们却可以通过管控流量将风险降到最低。这就用到了灰度网关。
-此外，灰度网关还支持A/B测试等其他方面的功能。
-功能简介 支持将旧服务的流量打到新服务 支持按照一定的比例来分配流量 支持按照header或者ip来分配流量 支持动态配置 正常情况下的流量走向 灰度后的流量走向 技术选型 开发网关，那首选就是openresty了。openresty是一个以nginx作为网络通信，以lua语言进行开发的平台，也可以理解为是一套可以通过lua语言对nginx进行扩展的生态。
-由于需要支持动态配置，因此需要一个配置中心，我们选择了consul（整体系统的配置中心都是用的consul）。
-开发思路 nginx执行阶段选择 先来回顾下nginx的11个执行阶段。
-openResty的11个*_by_lua指令，对应了nginx的11个执行阶段。以下是其应用场景：
-init: 只会在 Master 进程被创建时执行 init_worker: 只会在每个 Worker 进程被创建时执行 ssl_certificate: 证书认证 set: 设置变量 rewrite: 转发、重定向 access：权限控制 content：生成内容返回 balancer：负载均衡 header_filter: 响应头过滤 body_filter: 响应体过滤 log: 日志记录 通过上图，我们可以得出结论：我们只能在set、rewrite、access这三个阶段进行灰度处理
-判断流量走向 首先，如果url没在配置中，那么流量一定是打入到原环境。
-如果url在配置中，那么流量需要按照比例判断是否打入到灰度环境还是原环境。
-判断url是否在配置：
-通过ngx.var.uri即可拿到访问url，然后再去配置中心进行匹配即可。 判断该请求打入到哪个环境：
-在头部拿到token：ngx.req.get_headers()
-如果token为空获取ip：
-local headers = ngx.req.get_headers() local ip = headers[&amp;#34;X-REAL-IP&amp;#34;] if ip == nil then ip = ngx.var.remote_addr end 通过对token或者ip进行哈希后对比例总额取模即可判断打入到哪个环境
-如规定比例总额为10，设置的灰度比例为6，即6成的流量要达到灰度环境。 对token或者ip进行哈希后，对10取模，得到的结果，如果是0-5则打入到灰度环境，6-9打入到原环境 最后 整体方案非常简单，由于openresty不是很流行，后续可考虑将代码整理出来。</description>
+      <guid>/internet/design/gray_gateway/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>事件分发平台</title>
-      <link>https://stong1994.github.io/internet/design/evps/</link>
+      <link>/internet/design/evps/</link>
       <pubDate>Fri, 01 Oct 2021 19:26:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/evps/</guid>
-      <description>背景 随着业务的增长，一个事件开始被多个子系统订阅，如用户注册事件就可能被处理用户逻辑的子系统和日志系统订阅。以往我们在处理这些逻辑的时候，要么在处理完注册逻辑后，调用多个子服务接口，要么用消息队列中间件来处理。这些都导致了较高的维护成本。
-另外，整体系统使用了严格的分层，下层服务不能调用上层服务，同层之间也不能调用。如果有回调等需求，也要通过事件的方式来传递数据。
-因此，我们基于消息队列的思想，创建了事件分发平台。
-为什么不直接使用MQ 架构设计 整个事件分发系统大致由以下构成：
-事件发送方：即事件的生产者 事件订阅方：即事件的消费者 事件分发服务：接收事件，处理事件的发送逻辑 事件管理平台：通过web页面管理事件的配置，显示错误日志等信息 我们主要关注事件分发服务：
-订阅者队列组：每个订阅方（事件接收方）都有自己单独的队列，因此生产者和订阅者队列是一对多的关系。订阅者队列组来管理一个事件的多个订阅队列（实际上订阅队列组在上层还有一个订阅者队列管理器，来统一管理这些订阅队列组，与业务逻辑无关，因此图中未显示）。 订阅者集群组：每个订阅者队列都对应着一个订阅者集群，该集群由多个channel组成，用来加快事件的消费速度。集群具备自动扩容、缩容的功能。 配置中心：配置中心是通过内存来存储着事件的订阅关系。配置中心通过读取或者监听redis的变动，来管理订阅关系。订阅者队列组和订阅者集群组都会读取配置中心并监听配置中心变动，来管理自己的队列或集群。 消息队列中间件的选择 事件分发平台是基于消息队列的思想来构建的，因此需要使用消息队列中间件来管理消息队列。
-市面上有许多消息队列中间件，如kafka、rabbitmq等。我们考虑到所需吞吐量并不大，所以初步选择使用redis的列表来实现。使用redis的列表来实现，优势在于能够更快速的完成开发，且整体系统更轻量。
-一旦发展到redis的列表不能满足需求时，通过接口或者叫适配器，也能轻松的完成消息队列中间件的切换。
-如何监听redis中的事件变动 在事件管理平台将事件订阅关系变动后，会将数据存储到redis中。配置中心如何监听这些数据的变动呢？
-每隔一段时间就读取全量数据是最简单的做法，也是最粗暴的做法。因为事件数据有很多，每次读取、对比都需要不少的时间，这就导致事件分发服务对于事件配置的变动很“迟钝”。
-我们通过版本号的方法来解决。通过一个hash来存储发送者信息、事件信息、订阅者信息、订阅关系信息的版本号，每次修改这些信息时，都要对其对应的版本号自增。同时，事件分发服务在内存中也会维护这样一个版本号，每隔一段时间（如200ms）读取一次，进行更新，当事件分发服务发现版本号不对的时候，就会去拉取对应的数据，来更新内存中的数据。
-这样每次只读取一个很小的hash key即可知道哪些数据需要更新。
-消费逻辑 有以下几点需要注意：
-有些订阅者服务需要按照时序来接收事件 系统处于维护状态时，不能接收事件，需要将事件暂存 整体流程图如下：
-其中时序功能采用最简单“先到先得”，即按照事件分发服务接收到请求的时间来排序。
-可进一步优化的地方 在发送事件时，如果发送失败会进行重试，但是如果超过了重试次数，那么该事件就会丢失。
-可考虑在发送失败后报警并每隔一段时间进行发送，直到服务恢复正常，能够正常返回数据时，再继续消费数据。</description>
+      <guid>/internet/design/evps/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>统一支付系统</title>
-      <link>https://stong1994.github.io/internet/design/basepay/</link>
+      <link>/internet/design/basepay/</link>
       <pubDate>Thu, 30 Sep 2021 14:31:11 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/design/basepay/</guid>
-      <description>背景 已有的支付服务经常出现支付失败、支付状态不准确等问题，且由于历史原因使用的.net开发，维护上有一定困难，因此我们决定重新做一个统一支付系统。
-需求 统一支付系统需要满足以下几点需求：
-对接微信、支付宝中的多种支付方式 处理微信、支付宝的回调结果，并通过事件分发平台通知业务方。 开发环境和测试环境要支持1分钱开关，打开开关后，任何支付都是1分钱 支持退款 需要对账功能 架构设计 红色流程为订单的预支付流程。
-黄色流程为用户支付流程，为用户与第三方服务商交互。
-绿色流程为第三方服务商回调流程
-预支付流程 用户在客户端点击商品选择支付 业务系统处理订单逻辑，并调用通用支付系统发起下单请求 通用支付系统调用对应的第三方服务商，获取支付二维码地址或者唤起客户端支付地址，并返回给业务系统，业务系统将其返回给前端 前端接收到地址后，将其转换为二维码或者调换到微信/支付宝客户端支付页面 回调流程 第三方服务商在收到用户支付或者拒绝后，会发送支付结果到回调网关
-回调网关对数据进行解密、校验并将解析出来的数据发往事件分发平台
-由于通用支付系统订阅了该事件，因此事件分发平台会将该事件发送给通用支付系统
-通用支付系统处理支付结果，并将最终的支付状态通过事件分发平台发送给业务子系统
-时序图-以微信的Native支付为例 注意事项 支付和退款分离 由于是统一支付系统，需要兼容各服务商的支付和退款，因此，为了高扩展性，将支付和退款作为两种订单处理，每种都有自己的订单状态
-统一支付接口参数 支付宝和微信的支付接口支持非常多的参数，这其中大部分是用不到的，因此在做接口设计时，没必要将这些参数放进去，保持接口的简洁。
-统一支付/退款状态 支付宝和微信的支付/退款状态并不同。
-微信有：未支付、已关闭、已撤销、支付失败、支付成功、转入退款、等待扣款 支付宝有：订单创建、交易成功、交易超时或者已全额退款、交易结束 作为统一支付系统，我们需要有自己的一套交易状态来兼容第三方服务商的交易状态。
-支付状态：
-交易创建：即未收到任何回调时 交易成功：存在真实的资金流动 交易失败：由于服务商内部服务原因导致交易失败，比如由银行返回的支付失败。 交易关闭：没有真实的资金流动，如交易被撤销，用户付款超时导致交易取消 退款状态：
-退款订单创建 退款关闭 退款成功 退款失败 统一单位 微信支付的最小单位为分，而支付宝的单位为元，支持小数。统一支付接口设计上以分为单位，不支持小数。
-幂等性 为了避免由于网络原因导致的超时重试，需要保证重复请求的数据保持一致。方案为：
-调用方需要携带幂等参数，该参数为uuid等唯一值 统一支付系统接收到请求后，对该uuid值进行分布式全局锁处理，并且将响应结果已uuid为key存入redis中。如果使用请求中的幂等参数在获取锁时，发现该锁已存在，则等待锁结束，从redis中获取其结果，并返回。 公众号配置 用于JSAPI支付，官方文档
-配置项 关联appid与商户 https://kf.qq.com/faq/1801116VJfua1801113QVNVz.html
-支付目录 支付目录需要在商户系统配置，且只需要配置一次
-授权域名 配置授权域名，并将所得证书放在对应域名下的根目录
-JS安全域名 同上
-设置ip白名单 授权域名和JS安全域名设置都需要设置相关的ip白名单，而腾讯需要对证书进行访问，以证明我们对域名的拥有。
-获取accesstoken 获取微信服务器地址(注意，是用第二个接口) </description>
+      <guid>/internet/design/basepay/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《论个人在历史上的作用问题》</title>
-      <link>https://stong1994.github.io/book/philosophy/person_and_history/</link>
+      <link>/book/philosophy/person_and_history/</link>
       <pubDate>Mon, 15 Mar 2021 00:09:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/philosophy/person_and_history/</guid>
-      <description>作者：格奥尔基·普列汉诺夫 豆瓣评分：8.6 出版年: 2010-12 提问 个人与历史之间的关系是怎样的呢？是英雄成就了历史，还是历史成就了英雄？ 解释 不应夸大英</description>
+      <guid>/book/philosophy/person_and_history/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《债务危机》</title>
-      <link>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
+      <link>/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
       <pubDate>Sun, 28 Feb 2021 23:25:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
-      <description>作者：RAY DALID 豆瓣评分：8.7 微信读书评分：8.3 术语 国际收支差额：一个特定国家的个人或机构与世界其他地区之间的所有交易的差额。 国际收支危机</description>
+      <guid>/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《原则》</title>
-      <link>https://stong1994.github.io/book/improve/principles/</link>
+      <link>/book/improve/principles/</link>
       <pubDate>Sun, 28 Feb 2021 16:19:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/principles/</guid>
-      <description>作者：RAY DALIO 微信读书评分: 8.8 豆瓣读书评分：8.3 出版时间：2018-1 《原则》内容摘录 基调 以原则为基础去生活。 核心原则 保持头脑开放（尽管这</description>
+      <guid>/book/improve/principles/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>不花一分钱搭建一个博客</title>
-      <link>https://stong1994.github.io/life/build_free_blog/</link>
+      <link>/life/build_free_blog/</link>
       <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/life/build_free_blog/</guid>
-      <description>安装hugo 1. 使用安装包 下载地址 2. 源码安装 提前准备好go环境 执行命令：go get -v github.com/gohugoio/hugo 踩坑 有些主题需要使用extended version，比如hu</description>
+      <guid>/life/build_free_blog/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《这就是OKR》</title>
-      <link>https://stong1994.github.io/book/improve/measure_what_matters/</link>
+      <link>/book/improve/measure_what_matters/</link>
       <pubDate>Sun, 31 Jan 2021 00:10:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/measure_what_matters/</guid>
-      <description>作者：约翰·杜尔（John Doerr） 微信读书评分: 8.4 豆瓣读书评分：7.4 什么是OKR Objectives and Key Results OKR是确保将整个组织的力量都聚焦于完成对所有</description>
+      <guid>/book/improve/measure_what_matters/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>《卓有成效的管理者》</title>
-      <link>https://stong1994.github.io/book/improve/the_effective_executive/</link>
+      <link>/book/improve/the_effective_executive/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/book/improve/the_effective_executive/</guid>
-      <description>作者：彼得·德鲁克 豆瓣评分：8.7 微信评分：8.9 出版年: 2005-6 提纲 1. 谁是管理者 如果一个工作者能够凭借其职位和知识，对其组织负有贡献的责任并能够</description>
-    </item>
-    
-    <item>
-      <title>DDD进阶-笔记篇</title>
-      <link>https://stong1994.github.io/internet/ddd/advance/</link>
-      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
-      
-      <guid>https://stong1994.github.io/internet/ddd/advance/</guid>
-      <description>领域事件 如何识别领域事件 很简单，和刚才讲的定义是强关联的。在做用户旅程或者场景分析时，我们要捕捉业务、需求人员或领域专家口中的关键词：“如果</description>
+      <guid>/book/improve/the_effective_executive/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>DDD实战-笔记篇</title>
-      <link>https://stong1994.github.io/internet/ddd/practise/</link>
+      <link>/internet/ddd/practise/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/ddd/practise/</guid>
-      <description>DDD实战 如何构建中台业务模型？ 1. 自顶向下的策略 这种策略是先做顶层设计，从最高领域逐级分解为中台，分别建立领域模型，根据业务属性分为通用中台或核心中台。领域建模过程主要基于业务现状，暂时不考虑系统现状。自顶向下的策略适用于全新的应用系统建设，或旧系统推倒重建的情况。
-2. 自底向上的策略 这种策略是基于业务和系统现状完成领域建模。首先分别完成系统所在业务域的领域建模；然后对齐业务域，找出具有同类或相似业务功能的领域模型，对比分析领域模型的差异，重组领域对象，重构领域模型。这个过程会沉淀公共和复用的业务能力，会将分散的业务模型整合。自底向上策略适用于遗留系统业务模型的演进式重构。
-第一步：锁定系统所在业务域，构建领域模型。 锁定系统所在的业务域，采用事件风暴，找出领域对象，构建聚合，划分限界上下文，建立领域模型。
-可以看到有很多相似的模块
-第二步：对齐业务域，构建中台业务模型 传统核心领域模型明显多于左侧的互联网电商。这个结论也给我们指明了一个方向：首先我们可以将传统核心的领域模型作为主领域模型，将互联网电商领域模型作为辅助模型来构建中台业务模型。然后再将互联网电商中重复的能力沉淀到传统核心的领域模型中，只保留自己的个性能力，比如订单。中台业务建模时，既要关注领域模型的完备性，也要关注不同渠道敏捷响应市场的要求。
-我们从互联网电商和传统核心的领域模型中，归纳并分离出能覆盖两个域的所有业务子域。通过分析，我们找到了用户、客户、承保、收付和订单五个业务域，它们是可以用于领域模型对比分析的基准域。
-构建多业务域的中台业务模型的过程，就是找出同一业务域内所有同类业务的领域模型，对比分析域内领域模型和聚合的差异和共同点，打破原有的模型，完成新的中台业务模型重组或归并的过程。
-重构后
-构建中台模型的要点 分域建模型，找准基准域，划定上下文，聚合重归类
-第三步：中台归类，根据领域模型设计微服务。 完成中台业务建模后，我们就有了下面这张图。从这张图中我们可以看到总共构建了多少个中台，中台下面有哪些领域模型，哪些中台是通用中台，哪些中台是核心中台，中台的基本信息等等，都一目了然。你根据中台下的领域模型就可以设计微服务了。
-重构过程中的领域对象 部分领域对象可能会根据新的业务要求，从原来的聚合中分离，重组到其它聚合。新领域模型的领域对象，比如实体、领域服务等，在重组后可能还会根据新的业务场景和需求进行代码重构。
-事件风暴需要准备些什么 1. 事件风暴的参与者 除了领域专家，事件风暴的其他参与者可以是 DDD 专家、架构师、产品经理、项目经理、开发人员和测试人员等项目团队成员。
-领域建模是统一团队语言的过程，因此项目团队应尽早地参与到领域建模中，这样才能高效建立起团队的通用语言。
-2. 事件风暴要准备的材料 事件风暴参与者会将自己的想法和意见写在即时贴上，并将贴纸贴在墙上的合适位置，我们戏称这个过程是“刷墙”。所以即时贴和水笔是必备材料，另外，你还可以准备一些胶带或者磁扣，以便贴纸随时能更换位置。
-值得提醒一下的是，在这个过程中，我们要用不同颜色的贴纸区分领域行为。如下图，我们可以用蓝色表示命令，用绿色表示实体，橙色表示领域事件，黄色表示补充信息等。补充信息主要用来说明注意事项，比如外部依赖等。颜色并不固定，这只是我的习惯，团队内统一才是重点。
-3. 事件风暴的场地 只需要一堵足够长的墙和足够大的空间就可以了。墙是用来贴纸的，大空间可以让人四处走动，方便合作。撤掉会议桌和椅子的事件风暴，你会发现参与者们的效率更高。
-4. 事件风暴分析的关注点 在领域建模的过程中，我们需要重点关注这类业务的语言和行为。比如某些业务动作或行为（事件）是否会触发下一个业务动作，这个动作（事件）的输入和输出是什么？是谁（实体）发出的什么动作（命令），触发了这个动作（事件）…我们可以从这些暗藏的词汇中，分析出领域模型中的事件、命令和实体等领域对象。
-如何用事件风暴构建领域模型 1. 产品愿景 产品愿景的主要目的是对产品顶层价值的设计，使产品目标用户、核心价值、差异化竞争点等信息达成一致，避免产品偏离方向。
-在建模之前，项目团队要思考这样两点：
-用户中台到底能够做什么？ 它的业务范围、目标用户、核心价值和愿景，与其它同类产品的差异和优势在哪里？ 2. 业务场景分析 场景分析是从用户视角出发的，根据业务流程或用户旅程，采用用例和场景分析，探索领域中的典型场景，找出领域事件、实体和命令等领域对象，支撑领域建模。事件风暴参与者要尽可能地遍历所有业务细节，充分发表意见，不要遗漏业务要点。
-场景分析时会产生很多的命令和领域事件。我用蓝色来表示命令，用橙色表示领域事件，用黄色表示补充信息，比如用户信息数据来源于 HR 系统的说明。
-3. 领域建模 领域建模时，我们会根据场景分析过程中产生的领域对象，比如命令、事件等之间关系，找出产生命令的实体，分析实体之间的依赖关系组成聚合，为聚合划定限界上下文，建立领域模型以及模型之间的依赖。领域模型利用限界上下文向上可以指导微服务设计，通过聚合向下可以指导聚合根、实体和值对象的设计
-第一步：从命令和事件中提取产生这些行为的实体。用绿色贴纸表示实体。通过分析用户中台的命令和事件等行为数据，提取了产生这些行为的用户、账户、认证票据、系统、菜单、岗位和用户日志七个实体。
-第二步：根据聚合根的管理性质从七个实体中找出聚合根，比如，用户管理用户相关实体以及值对象，系统可以管理与系统相关的菜单等实体等，可以找出用户和系统等聚合根。然后根据业务依赖和业务内聚原则，将聚合根以及它关联的实体和值对象组合为聚合，比如系统和菜单实体可以组合为“系统功能”聚合。按照上述方法，用户中台就有了系统功能、岗位、用户信息、用户日志、账户和认证票据六个聚合。
-第三步：划定限界上下文，根据上下文语义将聚合归类。根据用户域的上下文语境，用户基本信息和用户日志信息这两个聚合共同构成用户信息域，分别管理用户基本信息、用户登录和操作日志。认证票据和账户这两个聚合共同构成认证域，分别实现不同方式的登录和认证。系统功能和岗位这两个聚合共同构成权限域，分别实现系统和菜单管理以及系统的岗位配置。根据业务边界，我们可以将用户中台划分为三个限界上下文：用户信息、认证和权限。
-4. 微服务拆分与设计 原则上一个领域模型就可以设计为一个微服务，但由于领域建模时只考虑了业务因素，没有考虑微服务落地时的技术、团队以及运行环境等非业务因素，因此在微服务拆分与设计时，我们不能简单地将领域模型作为拆分微服务的唯一标准，它只能作为微服务拆分的一个重要依据。
-微服务的设计还需要考虑服务的粒度、分层、边界划分、依赖关系和集成关系。除了考虑业务职责单一外，我们还需要考虑将敏态与稳态业务的分离、非功能性需求（如弹性伸缩要求、安全性等要求）、团队组织和沟通效率、软件包大小以及技术异构等非业务因素。
-代码模型 没有一个统一的代码模型。
-微服务目录架构 按照 DDD 分层架构的分层职责来定义，分别为用户接口层、应用层、领域层和基础层。
-interfaces
-它主要存放用户接口层与前端交互、展现数据相关的代码。前端应用通过这一层的接口，向应用服务获取展现所需的数据。这一层主要用来处理用户发送的 Restful 请求，解析用户输入的配置文件，并将数据传递给 Application 层。数据的组装、数据传输格式以及 Facade 接口等代码都会放在这一层目录里。</description>
+      <guid>/internet/ddd/practise/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DDD进阶-笔记篇</title>
+      <link>/internet/ddd/advance/</link>
+      <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
+      
+      <guid>/internet/ddd/advance/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>DDD基础-笔记篇</title>
-      <link>https://stong1994.github.io/internet/ddd/base/</link>
+      <link>/internet/ddd/base/</link>
       <pubDate>Fri, 29 Jan 2021 23:07:51 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/internet/ddd/base/</guid>
-      <description>中台面临的问题：作为中台，需要将通用的可复用的业务能力沉淀到中台业务模型，实现企业级能力复用。因此中台面临的首要问题就是中台领域模型的重构。而中台落地时，依然会面临微服务设计和拆分的问题。
-基础 组织架构演进
-DDD解决的问题 DDD 核心思想是通过领域驱动设计方法定义领域模型，从而确定业务和应用边界，保证业务模型与代码模型的一致性。
-DDD 强调领域模型和微服务设计的一体性，先有领域模型然后才有微服务，而不是脱离领域模型来谈微服务设计。
-其次，就是通过战略设计，建立领域模型，划分微服务边界。
-最后，通过战术设计，我们会从领域模型转向微服务设计和落地。
-战略设计 战略设计主要从业务视角出发，建立业务领域模型，划分领域边界，建立通用语言的限界上下文，限界上下文可以作为微服务设计的参考边界。
-三步来划定领域模型和微服务的边界 在事件风暴中梳理业务过程中的用户操作、事件以及外部依赖关系等，根据这些要素梳理出领域实体等领域对象。 根据领域实体之间的业务关联性，将业务紧密相关的实体进行组合形成聚合，同时确定聚合中的聚合根、值对象和实体。在这个图里，聚合之间的边界是第一层边界，它们在同一个微服务实例中运行，这个边界是逻辑边界，所以用虚线表示。 根据业务及语义边界等因素，将一个或者多个聚合划定在一个限界上下文内，形成领域模型。在这个图里，限界上下文之间的边界是第二层边界，这一层边界可能就是未来微服务的边界，不同限界上下文内的领域逻辑被隔离在不同的微服务实例中运行，物理上相互隔离，所以是物理边界，边界之间用实线来表示。 战术设计 战术设计则从技术视角出发，侧重于领域模型的技术实现，完成软件开发和落地，包括：聚合根、实体、值对象、领域服务、应用服务和资源库等代码逻辑的设计和实现。
-基本概念 头脑风暴: DDD 领域建模通常采用事件风暴，它通常采用用例分析、场景分析和用户旅程分析等方法，通过头脑风暴列出所有可能的业务行为和事件，然后找出产生这些行为的领域对象，并梳理领域对象之间的关系，找出聚合根，找出与聚合根业务紧密关联的实体和值对象，再将聚合根、实体和值对象组合，构建聚合。
-领域：在研究和解决业务问题时，DDD 会按照一定的规则将业务领域进行细分，当领域细分到一定的程度后，DDD 会将问题范围限定在特定的边界内，在这个边界内建立领域模型，进而用代码实现该领域模型，解决相应的业务问题。简言之，DDD 的领域就是这个边界内要解决的业务问题域。
-子领域：我们把划分出来的多个子领域称为子域，每个子域对应一个更小的问题域或更小的业务范围。
-核心域：决定产品和公司核心竞争力的子域是核心域，它是业务成功的主要因素和公司的核心竞争力。
-通用域：没有太多个性化的诉求，同时被多个子域使用的通用功能子域是通用域。
-支撑域：既不包含决定产品和公司核心竞争力的功能，也不包含通用功能的功能子域。
-通用语言：在事件风暴过程中，通过团队交流达成共识的，能够简单、清晰、准确描述业务涵义和规则的语言就是通用语言。
-通用语言包含术语和用例场景，并且能够直接反映在代码中。通用语言中的名词可以给领域对象命名，如商品、订单等，对应实体对象；而动词则表示一个动作或事件，如商品已下单、订单已付款等，对应领域事件或者命令。
-上下文边界：用来确定语义所在的领域边界。一个上下文边界理论上就可以设计为一个微服务。
-实体：在 DDD 中有这样一类对象，它们拥有唯一标识符，且标识符在历经各种状态变更后仍能保持一致。对这些对象而言，重要的不是其属性，而是其延续性和标识，对象的延续性和标识会跨越甚至超出软件的生命周期。我们把这样的对象称为实体。
-值对象：通过对象属性值来识别的对象，它将多个相关属性组合为一个概念整体。在 DDD 中用来描述领域的特定方面，并且是一个没有标识符的对象，叫作值对象。在领域建模的过程中，值对象可以保证属性归类的清晰和概念的完整性，避免属性零碎。将“省、市、县和街道等属性”拿出来构成一个“地址属性集合”，这个集合就是值对象了
-聚合：聚合就是由业务和逻辑紧密关联的实体和值对象组合而成的，聚合是数据修改和持久化的基本单元，每一个聚合对应一个仓储，实现数据的持久化。
-聚合根：聚合根的主要目的是为了避免由于复杂数据模型缺少统一的业务规则控制，而导致聚合、实体之间数据不一致性的问题。
-如果把聚合比作组织，那聚合根就是这个组织的负责人。聚合根也称为根实体，它不仅是实体，还是聚合的管理者。
-首先它作为实体本身，拥有实体的属性和业务行为，实现自身的业务逻辑。
-其次它作为聚合的管理者，在聚合内部负责协调实体和值对象按照固定的业务规则协同完成共同的业务逻辑。
-最后在聚合之间，它还是聚合对外的接口人，以聚合根 ID 关联的方式接受外部任务和请求，在上下文内实现聚合之间的业务协同。也就是说，聚合之间通过聚合根 ID 关联引用，如果需要访问其它聚合的实体，就要先访问聚合根，再导航到聚合内部实体，外部对象不能直接访问聚合内实体。
-从事件风暴建立通用语言到领域对象设计和代码落地的完整过程。 在事件风暴的过程中，领域专家会和设计、开发人员一起建立领域模型，在领域建模的过程中会形成通用的业务术语和用户故事。事件风暴也是一个项目团队统一语言的过程。 通过用户故事分析会形成一个个的领域对象，这些领域对象对应领域模型的业务对象，每一个业务对象和领域对象都有通用的名词术语，并且一一映射。 微服务代码模型来源于领域模型，每个代码模型的代码对象跟领域对象一一对应。 类比桃树 第一步：确定研究对象，即研究领域，这里是一棵桃树。
-第二步：对研究对象进行细分，将桃树细分为器官，器官又分为营养器官和生殖器官两种。其中营养器官包括根、茎和叶，生殖器官包括花、果实和种子。桃树的知识体系是我们已经确定要研究的问题域，对应 DDD 的领域。根、茎、叶、花、果实和种子等器官则是细分后的问题子域。这个过程就是 DDD 将领域细分为多个子域的过程。
-第三步：对器官进行细分，将器官细分为组织。比如，叶子器官可细分为保护组织、营养组织和输导组织等。这个过程就是 DDD 将子域进一步细分为多个子域的过程。
-第四步：对组织进行细分，将组织细分为细胞，细胞成为我们研究的最小单元。细胞之间的细胞壁确定了单元的边界，也确定了研究的最小边界。
-聚合的一些设计原则 在一致性边界内建模真正的不变条件。聚合用来封装真正的不变性，而不是简单地将对象组合在一起。聚合内有一套不变的业务规则，各实体和值对象按照统一的业务规则运行，实现对象数据的一致性，边界之外的任何东西都与该聚合无关，这就是聚合能实现业务高内聚的原因。 设计小聚合。如果聚合设计得过大，聚合会因为包含过多的实体，导致实体之间的管理过于复杂，高频操作时会出现并发冲突或者数据库锁，最终导致系统可用性变差。而小聚合设计则可以降低由于业务过大导致聚合重构的可能性，让领域模型更能适应业务的变化。 通过唯一标识引用其它聚合。聚合之间是通过关联外部聚合根 ID 的方式引用，而不是直接对象引用的方式。外部聚合的对象放在聚合边界内管理，容易导致聚合的边界不清晰，也会增加聚合之间的耦合度。 在边界之外使用最终一致性。聚合内数据强一致性，而聚合之间数据最终一致性。在一次事务中，最多只能更改一个聚合的状态。如果一次业务操作涉及多个聚合状态的更改，应采用领域事件的方式异步修改相关的聚合，实现聚合之间的解耦（相关内容会在领域事件部分详解）。 通过应用层实现跨聚合的服务调用。为实现微服务内聚合之间的解耦，以及未来以聚合为单位的微服务组合和拆分，应避免跨聚合的领域服务调用和跨聚合的数据库表关联。 聚合的特点 高内聚、低耦合，它是领域模型中最底层的边界，可以作为拆分微服务的最小单位，但不建议对微服务过度拆分。但在对性能有极致要求的场景中，聚合可以独立作为一个微服务，以满足版本的高频发布和极致的弹性伸缩能力。</description>
+      <guid>/internet/ddd/base/</guid>
+      <description></description>
     </item>
     
   </channel>

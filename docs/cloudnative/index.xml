@@ -1,297 +1,145 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>北人</title>
-    <link>https://stong1994.github.io/cloudnative/</link>
-    <description>Recent content on 北人</description>
+    <title>主页</title>
+    <link>/cloudnative/</link>
+    <description>Recent content on 主页</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="https://stong1994.github.io/cloudnative/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="/cloudnative/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>docker基础理论</title>
-      <link>https://stong1994.github.io/cloudnative/docker/base/</link>
+      <link>/cloudnative/docker/base/</link>
       <pubDate>Sat, 22 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/docker/base/</guid>
-      <description>背景 Docker的兴起在于其解决了在Pass平台上打包十分繁琐的问题：Pass平台需要在一个虚拟机上启动来自多个不同用户的应用，而不同的应用所依赖的语言、框架、环境都不同，因此管理这些应用的依赖是非常棘手的问题。
-Docker解决这一问题的方式就是使用Docker镜像。镜像由一个完整操作系统的所有文件和目录构成，因此镜像提供者需要将自己应用所依赖的所有东西都打包到这个镜像，这避免了Pass平台自己来维护这些依赖，并且能够保证由镜像构建出来的应用不论是在本地开发还是测试环境都是同样的效果。
-核心功能 容器的核心功能，就是通过约束和修改进程的动态表现，为其创造一个”边界“
-这个“边界”的能力包括对进程的视图隔离和资源限制，分别对应Linux上的Namespaces技术和Cgroups技术。
-Namespaces-视图隔离 Linux操作系统提供了一系列的Namespace，包括：PID、Mount、UTS、IPC、Network、User。
-以PID为例，Linux系统在创建进程时在参数中指定CLONE_NEWPID，那么新建的进程就会看到一个全新的进程空间，在这个空间里，没有其他的进程，该进程本身的PID为1.当然，这只是一个障眼法，在宿主机中执行ps命令就能看到其真实的PID。
-查看容器中的PID：
-$ docker run -it busybox /bin/sh / # ps PID USER TIME COMMAND 1 root 0:00 /bin/sh 7 root 0:00 ps 在宿主机查看容器的PID:
-$ ps aux | grep busybox xxx 22834 0.0 0.0 408628368 1648 s003 S+ 9:39PM 0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=.tox busybox xxx 22438 0.0 0.2 409266240 35632 ?? S 9:31PM 0:00.12 /usr/local/bin/com.docker.cli run -it busybox /bin/sh xxx 22437 0.</description>
+      <guid>/cloudnative/docker/base/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-ServiceAccount&amp;RBAC</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</link>
+      <link>/cloudnative/k8s/serviceAccount_rbac/</link>
       <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</guid>
-      <description>ServiceAccount k8s中管理pod的访问权限的实体是ServiceAccount。
-分组 为一批用户绑定一个分组，能够实现用户和权限之间的解耦。
-内置的分组：
-system:unauthenticated: 适用于无需任何权限校验的请求 system:authenticated: 适用于权限认证已通过的请求 system:serviceaccounts: 包含系统中所有的ServiceAccount system:serviceaccounts:&amp;lt;namespace&amp;gt;: 包含指定命名空间的所有ServiceAccount example：
-apiVersion: v1 kind: Pod metadata: name: curl-custom-sa spec: serviceAccountName: foo containers: - name: main image: tutum/curl command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] - name: ambassador image: luksa/kubectl-proxy:1.6.2 RBAC ROLE BASE ACCESS CONTROL
-RBAC鉴权插件 RBAC鉴权插件用于检查是否允许用户执行某行为。
-RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。
-RBAC资源 RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
-Role和ClusterRole：指定动作能够用于哪些资源。 RoleBinding和ClusterRoleBinding: 绑定上述角色到特定的用户、组以及ServiceAccount。 Role和RoleBinding是namespace级别的资源，而ClusterRole和ClusterRoleBinding是集群级别的资源。除此之外，Role不能指定非资源类的url，而ClusterRole可以。
-动词 访问API server是通过HTTP进行访问，而控制访问则是通过动词实现的。因此动词对应于HTTP的方法：
-HTTP 方法 单个资源动词 多资源动词 GET, HEAD get (and watch for watching) list (and watch) POST create n/a PUT update n/a PATCH patch n/a DELETE delete deletecollection Example 创建只读Role apiVersion: rbac.</description>
+      <guid>/cloudnative/k8s/serviceAccount_rbac/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-可计算资源管理</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/computational_resource/</link>
+      <link>/cloudnative/k8s/computational_resource/</link>
       <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/computational_resource/</guid>
-      <description>LimitRange LimitRange校验一个pod的资源消耗，被用于LimitRanger准入控制插件中，当一个pod声明文件被发往API server时，这个插件会校验pod中声明的资源限制，一旦校验不通过，则API server会拒绝接收这个pod声明文件。
-example：
-apiVersion: v1 kind: LimitRange metadata: name: example spec: limits: - type: Pod min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi - type: Container defaultRequest: # 若pod中未声明资源请求(requests)数量，则使用默认的请求数量 cpu: 100m memory: 10Mi default: # 若pod中未声明资源的限制(limits)数量，则使用默认的限制数量 cpu: 200m memory: 100Mi min: cpu: 50m memory: 5Mi max: cpu: 1 memory: 1Gi maxLimitRequestRatio: cpu: 4 # 容器的CPU limit不能超过request的4倍 memory: 10 - type: PersistentVolumeClaim min: storage: 1Gi max: storage: 10Gi ResourceQuota 用于限制一个namespace下的总资源消耗。</description>
+      <guid>/cloudnative/k8s/computational_resource/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-调度器</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/scheduler/</link>
+      <link>/cloudnative/k8s/scheduler/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/scheduler/</guid>
-      <description>taint &amp;amp; toleration taint和toleration用来限制pod部署到特定的node。taint是node的属性，toleration是pod的属性。一个pod只会被调度到能够容忍（toleration）它的污点（taint）的节点上。
-taints的格式为&amp;lt;key&amp;gt;=&amp;lt;value&amp;gt;:&amp;lt;effect&amp;gt;，其中effect可以为：
-NoSchedule：如果pod不容忍节点的污点，则不会被调度到该节点。 PreferNoSchedule：一个软NoSchedule，pod尽量不被调度到这些有不能容忍的污点的节点上，但是如果没有其他可用的节点，那么仍会部署到这些节点上。 NoExecute：前两者只会影响待调度的pod，而NoExecute则也会影响已经运行的pod，如果向节点添加一个NoExecute污点，那么节点上的pod会被驱逐。 查看k8s的主节点：kubectl describe node master.k8s
-Name: master.k8s Role: Labels: beta.kubernetes.io/arch=amd64 beta.kubernetes.io/os=linux kubernetes.io/hostname=master.k8s node-role.kubernetes.io/master= Annotations: node.alpha.kubernetes.io/ttl=0 volumes.kubernetes.io/controller-managed-attach-detach=true Taints: node-role.kubernetes.io/master:NoSchedule affinity affinity是pod的属性，每个pod都可以定义其亲和性（affinity）规则，这意味着k8s会更青睐于将其调度到对应的节点上。</description>
+      <guid>/cloudnative/k8s/scheduler/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-自动伸缩</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/autoscaling/</link>
+      <link>/cloudnative/k8s/autoscaling/</link>
       <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/autoscaling/</guid>
-      <description>Pod水平伸缩-HorizontalPodAutoscaler 自动伸缩过程 获取所有被伸缩资源对象管理的所有pod的指标。 计算使指标达到（或接近）指定目的值所需的pod数量。 更新伸缩对象的replicas字段。 三种指标类型 Resource：如cpu、内存 Pods：关联到Pod上的任意指标，如QPS Object：适用于不直接关联到pod上的指标，如其他对象的指标是否达到目的值 Pod垂直伸缩 相对于水平伸缩的调整pod的数量，垂直伸缩是调整pod的cpu、内存请求/限制数量。
-Node水平伸缩 当请求数量猛增时，需要增加pod的数量来应对。k8s会匹配到合适的node，但是如果node资源紧缺，则无法找到合适的node，这时就需要node的自动伸缩。
-node的自动伸缩需要云服务商提供支持。
-自动扩容过程 自动伸缩器发现pod不能被调度到存在的节点上。 自动伸缩器找到能够适用于该pod的节点类型。 自动伸缩器进行node扩容。 自动缩容 为了减少云服务器的开销，当一个节点上所有的pod的cpu和内存的请求都低于50%，则可以认为该节点是多余的。当然还需要考虑其他情况，如是否是系统pod。
-当一个节点被关闭时，该节点会先被标记为不可调度，然后再驱逐节点上的pod。
-PodDisruptionBudget 一些服务需要保证最少数量的pod能够运行，这时可使用PodDisruptionBudget资源来避免自动缩容。
-apiVersion: policy/v1beta1 kind: PodDisruptionBudget metadata: name: kubia-pdb spec: minAvailable: 3 # 最少3个pod可用 selector: matchLabels: app: kubia ... </description>
+      <guid>/cloudnative/k8s/autoscaling/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s架构设计</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/architecture/</link>
+      <link>/cloudnative/k8s/architecture/</link>
       <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/architecture/</guid>
-      <description>组件 k8s可分为三大块：控制平面、节点和其他。
-控制平面包括：
-API Server Scheduler Controller Manager etcd 节点包括：
-kubelet kube-proxy 容器运行时（docker、rkt等） 其他包括：
-DNS Server Dashboard Ingress Heapster 网络插件 等 插件化 数据流向 k8s中的组件只与API server交流 API server只能与etcd交流 组件如果需要存储/读取数据，统一通过API server处理 数据一致性 k8s中存在大量组件，这些组件需要更新大量数据，如何保证高并发下的数据一致性？
-通过约束组件统一通过API server存储/读取数据，因此，只需在API server处使用乐观并发锁，就可以实现数据一致性。
-API server 鉴权&amp;amp;准入 一个对API server的请求需要经过多个插件。
-鉴权插件 ​	API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
-鉴权插件again
-再次遍历鉴权插件，判断用户是否有权限执行这个请求。
-准入插件
-如果请求需要修改、创建、删除资源，那么就会进入准入插件。准入插件也有多个，其目的是为了保证相关数据的一致性，如ServiceAccount插件保证了如用户未明确serviceaccount，则为其使用默认的serviceaccount
-异步通知 客户端通过HTTP连接API Server，用于获取对象更新事件 修改对象 API Server更新对象到etcd etcd通知API server对象更新 API Server将对象更新事件发送到所有监听该对象的客户端 调度器 Controller Manager k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等，这些控制器实际上并不会直接控制其名义上控制的资源（如ReplicaSet之于Pod），而是通过其Manager进行控制。
-这些控制器有：
-Replication Manager eplicaSet, DaemonSet, and Job controllers Deployment controller StatefulSet controller Node controller Service controller Endpoints controller Namespace controller PersistentVolume controller 等等 大部分控制器的逻辑都相同，以ReplicationManager为例：</description>
+      <guid>/cloudnative/k8s/architecture/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-volume</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/volume/</link>
+      <link>/cloudnative/k8s/volume/</link>
       <pubDate>Wed, 12 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/volume/</guid>
-      <description>容器内的进程在容器内创建的文件并不是持久的，其生命随着容器的结束而结束，这意味着容器重启后将丢失之前的数据。
-volume正是为了解决这一问题而产生的。
-emptyDir emptyDir是最简单的volume，其随着容器的创建而创建，随着容器的结束而结束。
-emptyDir可用于容器内临时的写入，也可以用于容器间共享文件。
-apiVersion: vl kind: Pod metadata: name: fortune spec: containers: - image: luksa/fortune name : html-generator volumeMounts: - name: html mountPath: /var/htdocs - image: nginx:alpine name: web-server volumeMounts: - name: html mountPath: /usr/share/nginx/html readOnly: true ports: - containerPort: 80 protocol: TCP volumes: - name: html emptyDir: {} hostPath 在一些场景中，我们需要访问容器所在节点的文件系统，这时就需要使用hostPath.
-由于使用的是节点的文件系统，因此hostPath是持久性的volume。
-docker的日志文件存储在宿主机就是最经典的一个例子。
-Volumes: varlog: Type: HostPath (bare host directory volume) Path: /var/log varlibdockercontainers: Type: HostPath (bare host directory volume) Path: /var/lib/docker/containers PersistentVolumes &amp;amp; Claim PersistentVolumes 在实际的生产中，往往具备多种存储方式，如NFS、GCE的存储服务或者AWS的存储服务等等，每种存储服务又具备多种存储类型、大小等等。这些“复杂的信息”让使用方非常困扰。</description>
+      <guid>/cloudnative/k8s/volume/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-service</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/service/</link>
+      <link>/cloudnative/k8s/service/</link>
       <pubDate>Tue, 11 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/service/</guid>
-      <description>在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
-在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
-于是k8s增加了service用于提供稳定的对外访问的服务（ip+port）。
-创建Service 通过命令创建 kubectl expose
-通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
-对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
-如果Service的名称具有中划线，则转为环境变量时会转为下划线。
-通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
-FQDN EXAMPLE: kubia.default.svc.cluster.local
-kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
-Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
-Endpoint是一个地址（ip+端口）列表，
-如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
-可以通过配置文件来创建一个Endpoint：
-apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11.</description>
+      <guid>/cloudnative/k8s/service/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-pod</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <link>/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 08 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
-      <description>什么是pod Pod是一个逻辑概念——它代表了一组共同协作的容器。
-Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。
-为什么需要pod pod解决了需要在同一个节点部署的多个容器的资源调度问题。
-我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。
-通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
-决策：是否将容器放到同一个pod 如果容器之间一定要共享namespace（如文件）就要放到同一个pod 如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod 如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod 配置 一个最简单的配置 apiVersion: v1 kind: Pod metadata: name: nginx spec: containers: - name: nginx image: nginx:1.14.2 ports: - containerPort: 80 使用宿主机的PID和IPC namespace spec: hostPID: true hostIPC: true 使用宿主机的网络namespace spec: hostNetwork: true 绑定宿主机的端口但不使用hostNetwork spec: containers: - image: luksa/kubia name: kubia ports: - containerPort: 8080 # 指定容器端口为8080 hostPort: 9000 # 指定宿主机端口为9000 protocol: TCP PodSecurityPolicy PodSecurityPolicy定义了pod的安全策略。包括：
-是否能够使用宿主机的IPC、PID、网络等命名空间 能够绑定宿主机的哪些端口 能够使用哪些userID 能否创建privileged container 限定内核能力 能够使用哪些SELinux标签 能够使用哪些文件系统 能够使用哪些挂载卷 等 example；</description>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-volume</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/configration/</link>
+      <link>/cloudnative/k8s/configration/</link>
       <pubDate>Fri, 07 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/configration/</guid>
-      <description>配置程序通常有三种方式：
-命令行参数 环境变量 指定配置文件 命令行参数 docker中的命令参数 dockerfile中存在两个命令相关的属性：
-ENTRYPOINT：容器启动时执行的命令 CMD：容器启动时执行的命令的参数 两种命令格式 SHELL：ex，ENTRYPOINT node app.js EXEC: ex, ENTRYPOINT [&amp;quot;node&amp;quot;, &amp;quot;app.js&amp;quot;] 两种格式的不同之处在于是否会调用shell。
-以EXEC格式运行的docker，应用进程（node app.js）的PID是1；
-以SHELL格式运行的docker，应用进程（node app.js）的父进程的PID为1，父进程为shell。
-因此我们应该使用EXEC格式。
-k8s的命令参数 对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。
-example:
-kind: Pod spec: containers: - image: some/image command: [&amp;#34;/bin/command&amp;#34;] args: [&amp;#34;arg1&amp;#34;, &amp;#34;arg2&amp;#34;, &amp;#34;arg3&amp;#34;] 环境变量 在容器中的定义 kind: Pod spec: containers: - image: luksa/fortune:env env: - name: INTERVAL value: &amp;#34;30&amp;#34; name: html-generator 根据先前定义的环境变量定义环境变量 env: - name: FIRST_VAR value: &amp;#34;foo&amp;#34; - name: SECOND VAR value: &amp;#34;$(FIRST_VAR)bar&amp;#34; ConfigMap 同一个参数在不同的环境中可能不同，这种差异性不应该由pod配置来解决，k8s提供了一个统一的方式——configmap来提供配置。于是我们在不同的环境可以使用相同的pod配置。</description>
+      <guid>/cloudnative/k8s/configration/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-metadata</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/metadata/</link>
+      <link>/cloudnative/k8s/metadata/</link>
       <pubDate>Thu, 06 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/metadata/</guid>
-      <description>Downward API 我们可以使用volume或者secret来将配置信息注入容器，但这些配置信息是需要在pod创建前已知的。对于那些在pod创建后才能确定的信息，如pod的ip、名称等，则无法通过volume和secret配置。
-downward API能够解决这个问题。
-downward API能够将pod的元数据注入到pod中运行的进程。这些元数据有：
-pod名称 pod ip pod所属namespace pod所在的节点名称 pod所属的Service account 每个容器的CPU和内 请求数量 每个容器的CPU和内存限制数量 pod的标签 pod的注释 大部分元数据都可以通过环境变量和挂载卷的方式注入，只有pod的标签和注释只能通过挂载卷的方式注入。
-通过环境变量注入 apiVersion: vl kind: Pod metadata: name: downward spec: containers: - name: main image: busybox command: [&amp;#34;sleep&amp;#34;, &amp;#34;9999999&amp;#34;] resources: requests: cpu: 15m memory: 100Ki limits: cpu: 100m memory: 4Mi env: - name: POD_NAME valueFrom: fieldRef: fieldPath: metadata.name - name: POD_NAMESPACE valueFrom: fieldRef: fieldPath: metadata.namespace - name: POD_IP valueFrom: fieldRef: fieldPath: status.</description>
+      <guid>/cloudnative/k8s/metadata/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>k8s-对象</title>
-      <link>https://stong1994.github.io/cloudnative/k8s/pod/</link>
+      <link>/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 01 Oct 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/k8s/pod/</guid>
-      <description>对象范畴 对象包括：
-pod：简写po node ReplicationController：简写rc ReplicaSet：简写rs events ServiceAccount：简写sc Secret ConfigMap PodSecurityPolicy：简写psp LimitRange ResourceQuota：简写quota HorizontalPodAutoscaler：简写hpa PodDisruptionBudget label label用于对象分组。
-可以通过label来筛选对象。
-annotation annotation以键值对的形式存在，它不存储标识信息，也不能用于分组、筛选，它起到注释的作用，用于解释、说明。
-namespace namespace实现了更大粒度上的分组，往往用于隔离不同环境中的资源（如实现开发、测试、正式环境之间的资源隔离）以及不同的团队使用相同的集群。
-通过yaml文件创建 apiVersion: vl kind: Namespace metadata: name: custom-ns 通过命令创建 kubectl create namespace xxx
-命令 对象说明 通过kubectl explain pods 可获取pod的使用说明。
-通过kubectl explain pod.spec可获取pod下的spec的使用说明。
-其他对象同理。
-对象描述 通过kubectl describe rc xxx可获取名为xxx的rc的信息。
-其他对象同理。
-根据yaml文件创建资源 kubectl create -f xxx.yaml
-指定namespace：-n custom-namespace 修改对象 命令 描述 kubectl edit 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia kubectl patch 更改对象的单个属性，ex: kubect1 patch deployment kubia -p&amp;rsquo; {&amp;ldquo;spec&amp;rdquo; : {&amp;ldquo;template&amp;rdquo;: {&amp;ldquo;spec&amp;rdquo;: {&amp;ldquo;containers&amp;rdquo;: [{&amp;ldquo;name&amp;rdquo;: &amp;ldquo;nodejs&amp;rdquo;, &amp;ldquo;image&amp;rdquo; : &amp;ldquo;luksa/kubia:v2&amp;rdquo;}]}}}}&#39; kubectl apply 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2.</description>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio可观测性</title>
-      <link>https://stong1994.github.io/cloudnative/istio/observe/</link>
+      <link>/cloudnative/istio/observe/</link>
       <pubDate>Wed, 17 Aug 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/observe/</guid>
-      <description>Isito作为服务网格，本身并不提供可观测行的能力，但是Istio可以非常方便的集成这些工具。
-可观测性可分为三大块：监控、日志和链路追踪。
-监控 Prometheus Prometheus是当下最流行的监控工具，其主要组件包括：
-Prometheus server：核心组件，拉取数据并存入时序数据库 Pushgateway：一般情况下，Prometheus Server会主动拉取数据，但是无法适用于生命周期短的任务服务，对于这些服务，Prometheus提供了Pushgateway以供服务进行上报数据。 Service discovery：服务发现组件基本上已经成为微服务时代的标配。 Alertmanager：Prometheus支持自定义指标和报警策略，当触发了配置的条件，则进行报警处理。 Web UI：Prometheus支持客户端通过PromQL来查询数据，常用的开源客户端为Grafana。 Grafana Grafana能够将存储的指标、追踪信息通过可视化的方式展示出来。
-Grafana支持多种数据来源，包括：Prometheus、Zipkin、Jaeger、MySQL、Elasticsearch等。
-Grafana支持可配置的可视化、自定义的查询，并提供了报警系统。
-另外，Grafana还有一系列的”周边“开源项目，如：
-Grafana Loki：提供了更丰富的日志堆栈。 Grafana Tempo: 提供了更强大的分布式追踪能力。 Grafana Mimir: 为Prometheus提供了可扩展的长期存储服务。 Kiali Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
-可视化网格拓扑结构：通过监控网格中的数据流动来推断网格的拓扑结构，让用户更直观地了解服务之间的调用关系。 健康状态可视化：通过Kiali，可以直观的看到网格中服务的健康状态。 更强大的追踪能力：Kiali集成了Jaeger并提供了更丰富的能力，包括：工作负载可视化、随时间推移而聚合的持续时间指标等等 监控Istio基础设施的状态。 Istio配置工具：提供了web页面来配置Istio，并提供校验能力。 日志 日志采集 日志文件的采集方式有两种，一种是构建单独的日志采集Pod，另一种是在Pod内构建日志采集Sidecar。Filebeat是目前常用的采集工具。
-单独的日志采集Pod 基于节点的部署方式，在k8s中，以DaemonSet方式部署，将容器的日志挂载到Filebeat Pod中。
-日志采集Sidecar Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
-ELK Stack ELK是三种工具的简称：
-Elasticarch: 开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。 Logstash：数据处理工具，将多个数据源采集到的数据进行解析、转换，并存储到指定的数据库中。 Kibana：具有日志分析、查询、汇总等功能的web管理端。 EFK 区别于ELK，EFK使用Fluentd替代了Logstash，更准确的说，是替代了Logstash+Filebeat。
-不同类型的、不同来源的日志都通过Fluentd进行统一的日志聚合和处理，并发送到后端进行存储，实现了较小的资源消耗和高性能的处理。
-链路追踪 链路追踪已经成为微服务时代的不可缺少的组件。当一个系统中的微服务往往分配给多个开发人员维护，每个开发人员只能了解自己负责的服务逻辑，对于一个请求的整体链路缺少认知。通过链路追踪，开发人员能够更清晰的了解一个请求的整体面貌。
-OpenTracing &amp;amp; Jaeger OpenTracing是一个项目，也是一套规范，这套规范已经成为了云原生下链路追踪的实现标准。重点概念包括：
-Trace：一个请求从开始到结束的整个过程。 Span：一个追踪单位，由名称和一段时间来定义，一个Trace由多个Span组成。 Span Context：一次追踪中的上下文信息，包括TraceID、SpanID以及存储的log等信息。在服务之间调用时，往往将信息进行序列化存储在请求头部，接受服务接收到请求后将信息提取出来，并构建自己的Span Context。 Jaeger已经成为了OpenTracing首选的实现组件，OpenTracing官网使用的项目正是Jaeger。其他实现了OpenTracing的开源项目有：Zipkin、SkyWalking等。
-架构 Jaeger的整体架构由以下部分组成：
-jaeger-client：通过代码在服务内部推送Jaeger数据到jaeger-agent，社区内已实现了常用语言的框架，开发能够以非常低的成本进行接入。 jaeger-agent：收集agent-client推送的数据，并推送到jager-collector。jaeger-agent可以单独部署在pod中，也可以直接部署在container中（以边车的方式）。 jaeger-collector：接受agent发送的数据，验证追踪数据并建立索引，最后异步存入数据库 DB：链路数据存储器，支持内存、Cassandra、Elasticsearch、Kafka。 UI：主要的用户交互页面，用于查询、展示数据。 </description>
+      <guid>/cloudnative/istio/observe/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio流量治理</title>
-      <link>https://stong1994.github.io/cloudnative/istio/traffic/</link>
+      <link>/cloudnative/istio/traffic/</link>
       <pubDate>Thu, 11 Aug 2022 13:16:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/traffic/</guid>
-      <description>流量治理是Istio的核心功能，也是其“立身之本”。
-在上一篇《Istio总览》中，我们可以看到，Istio分为控制平面和数据平面，流量控制属于数据平面。
-流量控制CRD Istio的流量控制是通过一系列的CRD（Kubernetes的自定义资源）实现的，包括VirtualService、DestinationRule、ServiceEntry、Gateway和Sidecar五个资源。
-VirtualService VirtualService 用于控制流量转发规则及API 粒度治理功能，包括错误注入、域控制等。
-VirtualService中定义了一组路由规则，当流量进入时，逐个规则进行匹配，直到匹配成功后将流量转发给指定的路由地址。
-DestinationRule DestinationRule 用于抽象路由转发的上游目标服务及其相关配置项，如负载均衡配置、目标服务连接池配置、熔断配置、健康检查配置等。用户DestinationRule 可以将目标服务根据特定标签匹配划分为多个子集。
-DestinationRule在VirtualService的路由规则之后起作用。
-ServiceEntry ServiceEntry可以将网格外的服务注册到Istio的注册表中，这样就可以把外部服务当作和网格内部的服务一样进行管理和操作，包括服务发现、路由控制等。
-Gateway Gateway 一般用于 Ingress 和Egress，定义了服务网格的出入口及相关治理规则。通俗来说，Gateway 会控制一些特定的工作负载打开一个公开的监听端口，供服务网格内外部业务直接访问。再配合 VirtualService 和 DestinationRule 等CRD，可以对到达该端口的流量做一系列的管理和观察。
-Gateway配置应用于网格边缘的独立的Envoy代理上，而不是服务负载的Envoy代理上。
-Sidecar Sidecar用于声明服务网格中服务间的依赖关系。一般来说，网格数据平面为了代理网格流量，只需要了解其所依赖的少量服务的状态、治理配置、目标地址等信息即可。但是，因为服务网格不了解服务间依赖关系，所以默认服务网格会将所有配置都推送给网格数据平面，从而带来内存开销膨胀的问题。而 Sidecar 则可以显式指定服务间的依赖关系，改善内存开销问题。
-灰度发布 灰度发布是指将流量按比例分配到不同的服务，常用的场景有：AB测试、金丝雀发布、
-实现灰度发布仅需在ServiceEntry中对不同的Destination配置对应的比重即可，但是通常来说，需要配合DestinationRule为目标服务根据标签来划分为多个子集。
-流量镜像 流量镜像（Mirroring /Traffic Shadow），也被称为影子流量，可以通过一定的配置将线上的真实流量复制一份到镜像服务中，并通过流量镜像转发，从而达到在不影响线上服务的情况下对流量或请求内容做具体分析的目的。它的设计思想是只做转发而不接收响应。
-传统的测试手段无法满足复杂的现实场景，因此在项目上线前使用真实的流量进行服务检测，能够最大化的找到潜在的未知问题。
-当遇到复杂的问题难以排查时，往往需要进行代码调试，而线上环境往往是不可调试的，因此，可以通过流量镜像将流量达到临时的环境中进行调试。
-流量镜像并不是备份流量，只是将流量复制到一个新的服务。
-超时控制 服务之前的请求需要设置超时时间，这样可以避免级联现象导致的“雪崩”。一般情况下我们都会在服务实例的层面上控制请求的超时时间，这样可以做到针对不同的请求设置不同的超时时间，但是这样做存在弊端：
-繁琐：为每个服务请求都设置一个超时时间，这是一个繁琐且枯燥的的工作，可以通过封装通用的工具来解决这个问题。 容易遗漏：在服务数量巨大、开发人员质量参差不齐的情况下，很容易造成一些调用漏掉了超时时间，这就为未来发生的故障埋下了种子。 通过在网格数据平面拦截流量来统一实现超时控制，这能够大大降低开发人员的心智负担。但是新的问题也随之而来——有些请求本身就很慢怎么办？
-这是一个很复杂的问题，不同的场景有不同的解决方案，如增加缓存、在数据平面增加重试、在业务上改造等等。
-重试机制 重试机制的意义在于避免了某种偶发情况（如网络波动）导致的服务故障，其目的在于提升用户体验。
-重试机制带来的问题是对服务层面的幂等性要求，当然，这不是数据平面带来的问题，普通的服务间访问也会有重试机制，但是开发人员需要明确自己的服务会不会受重试机制的影响。
-熔断机制 熔断是系统的自我保护机制，就像家里的电器一样，当“断路器”发现整体电压过大（服务故障频发），就会进行“断路”操作，避免引发更大的灾难。
-在微服务中，系统中的某些模块发生故障后，可以通过降级等方式来提升整体系统的可用性。
-故障注入 系统的健壮性不是建立在完善的测试用例上，而在于处理各种意外情况的能力。因此，在对系统整体测试时，需要模拟各种情况下的服务故障。传统的方式（如手动停服务、改代码）的成本很高，操作也很复杂，Istio中提供了一种无侵入的注入故障的能力。
-这些能力包括：模拟上游服务的处理时长、服务异常状态、自定义响应状态码等故障信息，暂不支持对服务主机内存、CPU等信息故障的模拟。实现方式则是通过配置上游主机的VirtualService实现的。</description>
+      <guid>/cloudnative/istio/traffic/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Istio总览</title>
-      <link>https://stong1994.github.io/cloudnative/istio/overview/</link>
+      <link>/cloudnative/istio/overview/</link>
       <pubDate>Sun, 07 Aug 2022 21:19:00 +0800</pubDate>
       
-      <guid>https://stong1994.github.io/cloudnative/istio/overview/</guid>
-      <description>什么是Istio Istio是一个服务网格形态的平台，用于治理云原生中的服务。
-治理什么 微服务带来了更高的可用性、可维护性等一系列好处，同时也带来了更复杂的服务调用，复杂的服务调用导致了流量控制非常繁琐，而Istio的使命就是让流量控制更简单。
-如何治理 治理手段应尽量避免对服务代码的侵入，否则维护成本会非常高。Istio是一个服务网格形态的平台，通过边车代理的方式实现了对服务实例的流量的管控。
-Istio平台整体上可分为两部分：
-控制平面：Istio平台的中央控制器，负责维护配置信息、响应管理员并控制整个网络。 数据平面：拦截服务实例的流量，并根据控制平面下发的配置来管控流量。 控制平面 控制平面的职责是管理数据平面中的边车代理，完成服务发现、配置分发、授权鉴权等功能。
-Pilot Pilot是控制控制平面的中枢系统，用于管理和配置部署在Istio数据平面的边车代理。
-抽象模型：为了实现对不同服务注册中心（Kubernetes、Consul等）的支持，Pilot需要对不同来源的输入数据进行统一格式的存储，即抽象模型。 平台适配器： Pilot的实现是基于平台适配器的，借助平台适配器Pilot可以实现服务注册中心数据和抽象模型数据之间的转换。 xDS API：Pilot使用了一套源于Envoy项目的标准数据平面API，将服务信息和流量规则下发到数据平面的Sidecar中。这套标准数据平面API，也被称为 xDS。 LDS，Listener发现服务：Listener控制Sidecar启动端口监听（目前支持的协议只有TCP），并配置L3/L4层过滤器，当网络连接完成时，配置好的网络过滤器堆栈开始处理后续事件。 RDS，Router发现服务：用于HTTP连接管理过滤器动态获取路由配置，路由配置包含HTTP 头部修改（增加、删除HTTP 头部键值）、Virtual Hosts（虚拟主机），以及Virtual Hosts定义的各个路由条目。 CDS，Cluster发现服务：用于动态获取Cluster信息。 EDS，Endpoint发现服务：用于动态维护端点信息，端点信息中还包括负载均衡权重、金丝雀状态等。基于这些信息，Sidecar可以做出智能的负载均衡决策。 Citadel Citadel是Istio中负责身份认证和证书管理的核心安全组件，主要包括CA服务器、SDS服务器、证书密钥控制器和证书轮换等模块。
-CA服务器 Citadel中的CA 签发机构是一个gRPC服务器，启动时会注册两个gRPC服务：一个是CA服务，用来处理CSR请求（Certificate Signing Request）；另一个是证书服务，用来签发证书。CA 首先通过HandleCSR接口处理来自客户端的CSR请求，然后对客户端进行身份认证（包括TLS认证和JWT认证），认证成功后会调用CreateCertificate进行证书签发。
-安全发现服务器（SDS） SDS是一种在运行时动态获取证书私钥的API，Istio中的SDS服务器负责证书管理，并实现了安全配置的自动化。
-证书密钥控制器 证书密钥控制器可以监听istio.io/key-and-cert类型的Secret资源，还会周期性地检查证书是否过期，并更新证书。
-证书轮换 Istio通过一个轮换器（Rotator）自动检查自签名的根证书，并在证书即将过期时进行更新。它本质上是一个协程（Goroutine），在后台轮询中实现。
-秘钥和证书的轮换过程 Envoy通过SDS API发送证书和密钥请求。 istio-agent作为Envoy的代理，创建一个私钥和证书签名请求（CSR），并发送给istiod。 证书签发机构验证收到CSR并生成证书。 istio-agent将私钥和从istiod中收到的证书通过SDS API发送给Envoy。 Galley Galley是整个控制平面的配置管理中心，负责配置校验、管理和分发。Galley可以使用网格配置协议（Mesh Configuration Protocol）和其他组件进行配置的交互。Galley解决了各个组件“各自为政”导致的可复用度低、缺乏统一管理、配置隔离、ACL管理等方面的问题。
-MCP协议 MCP提供了一套用于配置订阅和分发的API，这些API在MCP中可以被抽象为以下模型。
-source：“配置”的提供端，在Istio中，Galley即source。 sink：“配置”的消费端，在Istio中，典型的sink包括Pilot和Mixer组件。 resource：source和sink关注的资源体，就是Istio中的“配置”。 数据平面 Istio数据平面核心是以Sidecar模式运行的智能代理。Sidecar模式将数据平面核心组件部署到单独的流程或容器中，以提供隔离和封装。
-数据平面的Sidecar代理可以调节和控制微服务之间所有的网络通信，每个服务Pod在启动时会伴随启动istio-init和Proxy容器。其中，istio-init容器的主要功能是初始化Pod 网络和对Pod设置iptable规则，在设置完成后自动结束。
-数据平面的功能 服务发现：探测所有可用的上游或后端服务实例。 健康检测：探测上游或后端服务实例是否健康，是否准备好接收网络流量。 流量路由：将网络请求路由到正确的上游或后端服务。 负载均衡：在对上游或后端服务进行请求时，选择合适的服务实例接收请求，同时负责处理超时、断路、重试等情况。 身份认证和授权：在istio-agent与istiod的配合下，对网络请求进行身份认证、权限认证，以决定是否响应及如何响应，还可以使用mTLS或其他机制对链路进行加密等。 链路追踪：对每个请求生成详细的统计信息、日志记录和分布式追踪数据，以便操作人员能够明确调用路径并在出现问题时进行调试。 数据平面实现 Envoy：Istio默认使用的数据平面实现方案，使用C++开发，性能较高。 MOSN：由阿里巴巴公司开源，设计类似 Envoy，使用Go 语言开发，优化了过多协议支持的问题。 Linkerd：一个提供弹性云原生应用服务网格的开源项目，也是面向微服务的开源RPC代理，使用Scala开发。它的核心是一个透明代理，因此也可作为典型的数据平面实现方案。 Any Question？ 边车模式使得网络请求在每次服务访问中都增加了两跳（进入服务前被拦截&amp;amp;从服务出来后又被拦截），这会不会对整体的系统性能造成影响？</description>
+      <guid>/cloudnative/istio/overview/</guid>
+      <description></description>
     </item>
     
   </channel>

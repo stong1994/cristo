@@ -1,241 +1,785 @@
+
+
+
+
+
 <!DOCTYPE html>
-<html lang="zh">
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Language" content="zh">
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head>
+  <meta charset="utf-8" />
+  
+    <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>k8s-service &middot; 主页</title>
+    <meta name="title" content="k8s-service &middot; 主页" />
+  
+  <meta name="description" content="" />
+  
+  
+  
+  <link rel="canonical" href="/cloudnative/k8s/service/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.827e4067f785eb8991b29db972c66513a2555b27ab79607dadc6efd017da4df0fd429efe9ed49a1fc101da2d1cb711816bb8efc4e01baaf9eeb352b258c9f887.css"
+    integrity="sha512-gn5AZ/eF64mRsp25csZlE6JVWyereWB9rcbv0BfaTfD9Qp7&#43;ntSaH8EB2i0ctxGBa7jvxOAbqvnus1KyWMn4hw=="
+  />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.c6198a5ecbc6c7b35a8568d29315f50cf5d775d4461c515a476359767f1a745c245aa83fa96b0c7d83da976cf77481e1fc29537a2391a53ffe69a991638802e6.js" integrity="sha512-xhmKXsvGx7NahWjSkxX1DPXXddRGHFFaR2NZdn8adFwkWqg/qWsMfYPal2z3dIHh/ClTeiORpT/&#43;aamRY4gC5g=="></script>
+  
     
-
     
-    <meta name="description" content="在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
-在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
-于是k8s增加了service用于提供稳定的对外访问的服务（ip&#43;port）。
-创建Service 通过命令创建 kubectl expose
-通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
-对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
-如果Service的名称具有中划线，则转为环境变量时会转为下划线。
-通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
-FQDN EXAMPLE: kubia.default.svc.cluster.local
-kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
-Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
-Endpoint是一个地址（ip&#43;端口）列表，
-如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
-可以通过配置文件来创建一个Endpoint：
-apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11.">
-    <meta name="keywords" content="">
-
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="k8s-service"/>
-<meta name="twitter:description" content="在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
-在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
-于是k8s增加了service用于提供稳定的对外访问的服务（ip&#43;port）。
-创建Service 通过命令创建 kubectl expose
-通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
-对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
-如果Service的名称具有中划线，则转为环境变量时会转为下划线。
-通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
-FQDN EXAMPLE: kubia.default.svc.cluster.local
-kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
-Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
-Endpoint是一个地址（ip&#43;端口）列表，
-如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
-可以通过配置文件来创建一个Endpoint：
-apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11."/>
-
-    <meta property="og:title" content="k8s-service" />
-<meta property="og:description" content="在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。
-在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。
-于是k8s增加了service用于提供稳定的对外访问的服务（ip&#43;port）。
-创建Service 通过命令创建 kubectl expose
-通过yaml文件创建 apiVersion: vl kind: Service metadata: name: kubia spec: ports: port: 80 # service提供的端口，用于外部访问 targetPort: 8080 # 容器开放的端口，用于service访问 selector: # pod的标签选择器 app: kubia 服务发现 通过环境变量 Service创建后，可在容器内部通过环境变量获取到Service的ip和port。
-对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.
-如果Service的名称具有中划线，则转为环境变量时会转为下划线。
-通过DNS k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。
-FQDN EXAMPLE: kubia.default.svc.cluster.local
-kubia: Service名称 default: Service所在的namespace svc.cluster.local：可配置的集群域名前缀 访问Service时可只使用Service名称，即kubia。
-Endpoint Service并不直接连接pod，而是使用另外一种资源：Endpoint。
-Endpoint是一个地址（ip&#43;端口）列表，
-如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。
-可以通过配置文件来创建一个Endpoint：
-apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Service的名称相同 subsets: - addresses: # service将连接指向这些ip - ip: 11." />
+    
+  
+  
+    
+    
+  
+  
+  
+    
+    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.6d78c827ca7bcbf72056dbf698bf9aeb759a08966686187deb23f5949f73eca5f39b461284900cdfc08e2976d99eb80a8663648de778ba2a83e633ae16dbfc25.js" integrity="sha512-bXjIJ8p7y/cgVtv2mL&#43;a63WaCJZmhhh96yP1lJ9z7KXzm0YShJAM38COKXbZnrgKhmNkjed4uiqD5jOuFtv8JQ==" data-copy="Copy" data-copied="Copied"></script>
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="k8s-service" />
+<meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/cloudnative/k8s/service/" /><meta property="article:section" content="cloudnative" />
+<meta property="og:url" content="/cloudnative/k8s/service/" /><meta property="article:section" content="cloudnative" />
 <meta property="article:published_time" content="2022-10-11T21:19:00+08:00" />
-<meta property="article:modified_time" content="2022-10-11T21:19:00+08:00" />
+<meta property="article:modified_time" content="2022-10-11T21:19:00+08:00" /><meta property="og:site_name" content="主页" />
 
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s-service"/>
+<meta name="twitter:description" content=""/>
 
-
-    <title>
-  k8s-service · 北人
-</title>
-
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "",
+    "name": "k8s-service",
+    "headline": "k8s-service",
     
-      <link rel="canonical" href="https://stong1994.github.io/cloudnative/k8s/service/">
     
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
-    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
-
+    "inLanguage": "en",
+    "url" : "\/cloudnative\/k8s\/service\/",
+    "author" : {
+      "@type": "Person",
+      "name": "stong"
+    },
+    "copyrightYear": "2022",
+    "dateCreated": "2022-10-11T21:19:00\u002b08:00",
+    "datePublished": "2022-10-11T21:19:00\u002b08:00",
     
-      
-      
-      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    "dateModified": "2022-10-11T21:19:00\u002b08:00",
     
-
     
-
     
-      
-        
-        
-        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
-      
+    "mainEntityOfPage": "true",
+    "wordCount": "2036"
+  }]
+  </script>
+
+
+  
+  <meta name="author" content="stong" />
+  
     
-
+      <link href="st5983@outlook.com" rel="me" />
     
-
+      <link href="https://stong1994.github.io/" rel="me" />
     
-
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
+      <link href="https://github.com/stong1994" rel="me" />
     
-      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
-        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
-    
+  
+  
+  
 
-    <meta name="generator" content="Hugo 0.101.0" />
-  </head>
+
+
+
+
 
   
   
-    
   
-  <body class="colorscheme-auto"
-        onload=" twemoji.parse(document.body); "
+  
+
+
+  
+  
+</head><body
+    class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
   >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400"
+          >&darr;</span
+        >Skip to main content</a
+      >
+    </div>
     
-<div class="float-container">
-    <a id="dark-mode-toggle" class="colorscheme-toggle">
-        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
-    </a>
-</div>
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral print:hidden sm:py-10">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="z-40 flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >主页</a
+  >
+
+      
+
+    </div>
+    
+      
+      <label id="menu-button" for="menu-controller" class="block sm:hidden">
+        <input type="checkbox" id="menu-controller" class="hidden" />
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
 
 
-    <main class="wrapper">
-      <nav class="navigation">
-  <section class="container">
-    <a class="navigation-title" href="/">
-      北人
-    </a>
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="fixed inset-0 z-30 invisible w-full h-full m-auto overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50"
+        >
+          <ul
+            class="flex flex-col w-full px-6 py-6 mx-auto overflow-visible list-none max-w-7xl ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+          >
+            <li class="mb-1">
+              <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
+                >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+</span
+              >
+            </li>
+            
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/internet/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >计算机与互联网</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/cloudnative/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >云原生</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/web3/"
+                      title="Web3s"
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >区块链&amp;web3</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/book/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >读书笔记</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/other/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >杂谈</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/mental_model/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >心智模型</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/about/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >关于</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="https://github.com/stong1994/"
+                      title=""
+                      target="_blank"
+                      >
+                        <span
+                          class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                        >
+                          
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+                        </span>
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    
+                    
+                      <button
+                        id="search-button-1"
+                        title="Search (/)"
+                      >
+                        
+                          <span
+                            class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                          >
+                            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+                          </span>
+                        
+                          <span
+                            class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                            ></span
+                          >
+                        
+                      </button>
+                    
+                  
+                </li>
+              
+              
+            
+          </ul>
+        </div>
       </label>
-      <ul class="navigation-list">
+      
+      <ul class="flex-row hidden list-none ltr:text-right rtl:text-left sm:flex">
         
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/internet/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >计算机与互联网</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/cloudnative/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >云原生</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/web3/"
+                  title="Web3s"
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >区块链&amp;web3</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/other/">杂谈</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/book/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >读书笔记</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/other/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >杂谈</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/about/">关于</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/mental_model/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >心智模型</span
+                    >
+                  </a
+                >
+              
             </li>
           
-        
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >关于</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="https://github.com/stong1994/"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                    >
+                      
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+                    </span>
+                  </a
+                >
+              
+            </li>
+          
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                
+                
+                  <button
+                    id="search-button-2"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                      >
+                        
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+                      </span>
+                    
+                      <span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+
         
       </ul>
     
-  </section>
-</nav>
+  </nav>
+</header>
 
-
-      <div class="content">
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
         
-    <div id="toc" class="well col-md-4 col-sm-6">
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/"
+      >记录个人的成长记录</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline ">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cloudnative/"
+      >cloudnative</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cloudnative/k8s/service/"
+      >k8s-service</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        k8s-service
+      </h1>
+      <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2022-10-11 21:19:00 &#43;0800 CST">11 October 2022</time><span class="px-2 text-primary-500">&middot;</span><span>2036 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span>
+
+
+  
+  
+
+<span class="mb-[2px]">
+  <a
+    href="https://github.com/stong1994/cristo/content/cloudnative/k8s-service.md"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="Edit content"
+    >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+
+  </span>
+
+</a
+  >
+</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 ">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+    </header>
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs ltr:lg:pl-8 rtl:lg:pr-8">
+          <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
+            <details open class="mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600"
+  >
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#创建service">创建Service</a>
+    <li>
       <ul>
-        <li><a href="#通过命令创建">通过命令创建</a></li>
-        <li><a href="#通过yaml文件创建">通过yaml文件创建</a></li>
+        <li><a href="#创建service">创建Service</a>
+          <ul>
+            <li><a href="#通过命令创建">通过命令创建</a></li>
+            <li><a href="#通过yaml文件创建">通过yaml文件创建</a></li>
+          </ul>
+        </li>
+        <li><a href="#服务发现">服务发现</a>
+          <ul>
+            <li><a href="#通过环境变量">通过环境变量</a></li>
+            <li><a href="#通过dns">通过DNS</a></li>
+          </ul>
+        </li>
+        <li><a href="#endpoint">Endpoint</a>
+          <ul>
+            <li><a href="#别名">别名</a></li>
+          </ul>
+        </li>
+        <li><a href="#暴露服务到集群外">暴露服务到集群外</a>
+          <ul>
+            <li><a href="#nodeport">NodePort</a></li>
+            <li><a href="#loadbalancer">LoadBalancer</a></li>
+            <li><a href="#ingress">Ingress</a></li>
+          </ul>
+        </li>
+        <li><a href="#headless-service">Headless Service</a></li>
+        <li><a href="#特性">特性</a></li>
       </ul>
     </li>
-    <li><a href="#服务发现">服务发现</a>
-      <ul>
-        <li><a href="#通过环境变量">通过环境变量</a></li>
-        <li><a href="#通过dns">通过DNS</a></li>
-      </ul>
-    </li>
-    <li><a href="#endpoint">Endpoint</a>
-      <ul>
-        <li><a href="#别名">别名</a></li>
-      </ul>
-    </li>
-    <li><a href="#暴露服务到集群外">暴露服务到集群外</a>
-      <ul>
-        <li><a href="#nodeport">NodePort</a></li>
-        <li><a href="#loadbalancer">LoadBalancer</a></li>
-        <li><a href="#ingress">Ingress</a></li>
-      </ul>
-    </li>
-    <li><a href="#headless-service">Headless Service</a></li>
-    <li><a href="#特性">特性</a></li>
   </ul>
 </nav>
-    </div>
-  <section class="container page">
-  <article>
-    <header>
-      <h1>k8s-service</h1>
-    </header>
+  </div>
+</details>
 
-    <p>在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。</p>
+          </div>
+        </div>
+      
+      <div class="min-w-0 min-h-0 max-w-prose grow">
+        <p>在k8s中，容器代表着提供具体服务的程序，有些程序是需要被“外部”访问的。</p>
 <p>在“云原生”之前，开发者往往通过网关来提供对外的访问能力。但容器是灵活的、可变的，可能随时被创建、销毁，因此外部访问者不能直接访问容器。而容器之上的pod也只是一个概念实体，并且pod也存在“临时”性，pod分配到哪个节点是不能确定的，因此并不能提供稳定的服务（如稳定的ip）。</p>
 <p>于是k8s增加了service用于提供稳定的对外访问的服务（ip+port）。</p>
-<h2 id="创建service">创建Service</h2>
-<h3 id="通过命令创建">通过命令创建</h3>
+<h2 id="创建service" class="relative group">创建Service <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%9b%e5%bb%baservice" aria-label="Anchor">#</a></span></h2>
+<h3 id="通过命令创建" class="relative group">通过命令创建 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%9a%e8%bf%87%e5%91%bd%e4%bb%a4%e5%88%9b%e5%bb%ba" aria-label="Anchor">#</a></span></h3>
 <p><code>kubectl expose</code></p>
-<h3 id="通过yaml文件创建">通过yaml文件创建</h3>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: vl
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span> <span style="color:#007f7f"># service提供的端口，用于外部访问</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8080</span> <span style="color:#007f7f"># 容器开放的端口，用于service访问</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>: <span style="color:#007f7f"># pod的标签选择器</span>
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
-</span></span></code></pre></div><h2 id="服务发现">服务发现</h2>
-<h3 id="通过环境变量">通过环境变量</h3>
+<h3 id="通过yaml文件创建" class="relative group">通过yaml文件创建 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%9a%e8%bf%87yaml%e6%96%87%e4%bb%b6%e5%88%9b%e5%bb%ba" aria-label="Anchor">#</a></span></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">vl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="c"># service提供的端口，用于外部访问</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="c"># 容器开放的端口，用于service访问</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="c"># pod的标签选择器</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span></code></pre></div><h2 id="服务发现" class="relative group">服务发现 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" aria-label="Anchor">#</a></span></h2>
+<h3 id="通过环境变量" class="relative group">通过环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%9a%e8%bf%87%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h3>
 <p>Service创建后，可在容器内部通过环境变量获取到Service的ip和port。</p>
 <p>对于上文创建的kubia，容器内部的环境变量为KUBIA_SERVICE_HOST和KUBIA_SERVICE_PORT.</p>
 <p>如果Service的名称具有中划线，则转为环境变量时会转为下划线。</p>
-<h3 id="通过dns">通过DNS</h3>
+<h3 id="通过dns" class="relative group">通过DNS <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%9a%e8%bf%87dns" aria-label="Anchor">#</a></span></h3>
 <p>k8s提供了DNS服务，每个Service在DNS服务中都具有一个DNS实体，每个pod的客户端都可以通过FQDN（full qualified domain name）来访问Service。</p>
 <p>FQDN EXAMPLE: <code>kubia.default.svc.cluster.local</code></p>
 <ul>
@@ -244,198 +788,458 @@ apiVersion: v1 kind: Endpoints metadata: name: external-service # 需要与Servi
 <li>svc.cluster.local：可配置的集群域名前缀</li>
 </ul>
 <p>访问Service时可只使用Service名称，即kubia。</p>
-<h2 id="endpoint">Endpoint</h2>
+<h2 id="endpoint" class="relative group">Endpoint <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#endpoint" aria-label="Anchor">#</a></span></h2>
 <p>Service并不直接连接pod，而是使用另外一种资源：Endpoint。</p>
 <p>Endpoint是一个地址（ip+端口）列表，</p>
 <p>如果在创建Service是指定了pod选择器，那么Service会自动生成endpoint。</p>
 <p>可以通过配置文件来创建一个Endpoint：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Endpoints
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: external-service <span style="color:#007f7f"># 需要与Service的名称相同</span>
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">subsets</span>:
-</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">addresses</span>: <span style="color:#007f7f"># service将连接指向这些ip</span>
-</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">ip</span>: <span style="color:#ff0;font-weight:bold">11.11.11.11</span>
-</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">ip</span>: <span style="color:#ff0;font-weight:bold">22.22.22.22</span>
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">ports</span>: <span style="color:#007f7f"># 后端的端口</span>
-</span></span><span style="display:flex;"><span>  	- <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span></code></pre></div><p>Endpoint的name需要和Service保持一致。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Endpoints</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">external-service</span><span class="w"> </span><span class="c"># 需要与Service的名称相同</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">subsets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">addresses</span><span class="p">:</span><span class="w"> </span><span class="c"># service将连接指向这些ip</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="m">11.11.11.11</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">ip</span><span class="p">:</span><span class="w"> </span><span class="m">22.22.22.22</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="c"># 后端的端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span></code></pre></div><p>Endpoint的name需要和Service保持一致。</p>
 <p>可通过定制Endpoint来将集群外的服务“融入”Service中。</p>
-<h3 id="别名">别名</h3>
+<h3 id="别名" class="relative group">别名 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%ab%e5%90%8d" aria-label="Anchor">#</a></span></h3>
 <p>可以为外部的Service设置别名，这样内部服务就可以通过这个别名来进行访问。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>:
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: baidu
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">type</span>: ExternalName <span style="color:#007f7f"># 必须指定为ExternalName</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">externalName</span>: baidu.com
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">ports</span>:
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">-	port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span></code></pre></div><p>这样就可以通过baidu.default.svc.cluster.local访问baidu.com</p>
-<h2 id="暴露服务到集群外">暴露服务到集群外</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">baidu</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">ExternalName</span><span class="w"> </span><span class="c"># 必须指定为ExternalName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">externalName</span><span class="p">:</span><span class="w"> </span><span class="l">baidu.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">-	port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span></code></pre></div><p>这样就可以通过baidu.default.svc.cluster.local访问baidu.com</p>
+<h2 id="暴露服务到集群外" class="relative group">暴露服务到集群外 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9a%b4%e9%9c%b2%e6%9c%8d%e5%8a%a1%e5%88%b0%e9%9b%86%e7%be%a4%e5%a4%96" aria-label="Anchor">#</a></span></h2>
 <p>因为Service设置的是虚拟ip，因此只能供集群内访问。如果集群外的客户端想要访问Service，可以有几种方式</p>
-<h3 id="nodeport">NodePort</h3>
+<h3 id="nodeport" class="relative group">NodePort <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#nodeport" aria-label="Anchor">#</a></span></h3>
 <p>NodePort是一种Service，它会在集群所有的节点中保留一个端口，用于访问该Service。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia-nodeport
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">type</span>: NodePort <span style="color:#007f7f"># 类型设置</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span> <span style="color:#007f7f"># Service内部的集群端口</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8080</span> <span style="color:#007f7f"># 后端pod暴露的端口</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">nodePort</span>: <span style="color:#ff0;font-weight:bold">30123</span> <span style="color:#007f7f"># 集群中的每个节点都能通过30123访问Service</span>
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">selector</span>:
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
-</span></span></code></pre></div><p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021611556.png" alt=""></p>
-<h3 id="loadbalancer">LoadBalancer</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia-nodeport</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">NodePort</span><span class="w"> </span><span class="c"># 类型设置</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="c"># Service内部的集群端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="c"># 后端pod暴露的端口</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nodePort</span><span class="p">:</span><span class="w"> </span><span class="m">30123</span><span class="w"> </span><span class="c"># 集群中的每个节点都能通过30123访问Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span></code></pre></div><p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021611556.png" alt="" />
+    
+  </figure>
+
+</p>
+<h3 id="loadbalancer" class="relative group">LoadBalancer <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#loadbalancer" aria-label="Anchor">#</a></span></h3>
 <p>LoadBalancer在NodePort的基础上提供了负载均衡能力。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia-loadbalancer
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">type</span>: LoadBalancer
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8080</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>: 
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
-</span></span></code></pre></div><p>创建LoadBalancer之后，k8s会为其分配一个外部ip，通过这个ip就可以实现负载均衡的外部访问。</p>
-<h3 id="ingress">Ingress</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia-loadbalancer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">LoadBalancer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span></code></pre></div><p>创建LoadBalancer之后，k8s会为其分配一个外部ip，通过这个ip就可以实现负载均衡的外部访问。</p>
+<h3 id="ingress" class="relative group">Ingress <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ingress" aria-label="Anchor">#</a></span></h3>
 <p>LoadBalancer的缺点在于需要为每个需要暴露的Service都要设置一个LoadBalancer，并且每个LoadBalancer都需要分配一个静态ip，因此并不是很实用。</p>
 <p>Ingress则只需要一个静态ip就可以维护多个Service，就像nginx那样。</p>
 <p>LoadBalancer之所以只能服务一个Service，在于k8s本身是只处理到tcp/udp层次的包，而不处理七层协议的包，ingress则可以处理http层次的包，因此可以解析路由。</p>
 <p>example：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: extensions/vlbetal
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Ingress
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia 
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">rules</span>: 
-</span></span><span style="display:flex;"><span>	- <span style="font-weight:bold">host</span>: kubia.example.com
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">http</span>: 
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">paths</span>:
-</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">path</span>: /
-</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">backend</span>: 
-</span></span><span style="display:flex;"><span>      	<span style="font-weight:bold">serviceName</span>: kubia-nodeport
-</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">servicePort</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span></code></pre></div><p><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021637342.png" alt=""></p>
-<h2 id="headless-service">Headless Service</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">extensions/vlbetal</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">rules</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">kubia.example.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">http</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">paths</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">backend</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">serviceName</span><span class="p">:</span><span class="w"> </span><span class="l">kubia-nodeport</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">servicePort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span></code></pre></div><p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021637342.png" alt="" />
+    
+  </figure>
+
+</p>
+<h2 id="headless-service" class="relative group">Headless Service <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#headless-service" aria-label="Anchor">#</a></span></h2>
 <p>客户端通过Service会随机访问到一个pod，但有时需要访问Service下所有的pod，这时就需要设置为Headless Service。</p>
 <p>Headless Service就是clusterIP为None的Service。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">metadata</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">name</span>: kubia-headless
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">clusterIP</span>: None
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8080</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>:
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
-</span></span></code></pre></div><p>当使用DNS查询时，DNS Server会返回一系列pod的ip而不是一个pod的ip。</p>
-<h2 id="特性">特性</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia-headless</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">clusterIP</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span></code></pre></div><p>当使用DNS查询时，DNS Server会返回一系列pod的ip而不是一个pod的ip。</p>
+<h2 id="特性" class="relative group">特性 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%89%b9%e6%80%a7" aria-label="Anchor">#</a></span></h2>
 <ol>
 <li>
 <p>如果想要让同一个客户端每次都访问同一个pod，可以设置<strong>spec.sessionAffinity</strong>为<strong>ClientIP</strong>。该选项只有<strong>ClientIP</strong>和<strong>None</strong>两种，不支持cookie，因为k8s不处理HTTP级别的数据。</p>
 </li>
 <li>
 <p>一个service可以开放多个端口。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">-	name</span>: http
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8080</span>
-</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: https
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">443</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">targetPort</span>: <span style="color:#ff0;font-weight:bold">8443</span>
-</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">selector</span>: 
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">app</span>: kubia
-</span></span></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">-	name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">https</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">8443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span></code></pre></div></li>
 <li>
 <p>targetPort可以使用名称，前提是pod对port进行了命名</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Pod
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">containers</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">-	name</span>: kubia
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">-	name</span>: http
-</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">8080</span> 
-</span></span><span style="display:flex;"><span>    - <span style="font-weight:bold">name</span>: https
-</span></span><span style="display:flex;"><span>    	<span style="font-weight:bold">containerPort</span>: <span style="color:#ff0;font-weight:bold">8443</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">apiVersion</span>: v1
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">kind</span>: Service
-</span></span><span style="display:flex;"><span><span style="font-weight:bold">spec</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">ports</span>: 
-</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">-	name</span>: http
-</span></span><span style="display:flex;"><span>  	<span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">80</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">target Port</span>: http
-</span></span><span style="display:flex;"><span>  - <span style="font-weight:bold">name</span>: https
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">port</span>: <span style="color:#ff0;font-weight:bold">443</span>
-</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">targetPort</span>: https
-</span></span></code></pre></div><p>好处是当需要修改port时，只修改pod的端口即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">-	name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">-	name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">https</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8443</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">-	name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">target Port</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">https</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l">https</span><span class="w">
+</span></span></span></code></pre></div><p>好处是当需要修改port时，只修改pod的端口即可。</p>
 </li>
 <li>
 <p>Service ip不能ping通，这是因为Service的ip是一个虚拟ip，只有和port一起使用才有意义。</p>
 </li>
 </ol>
 
-  </article>
-</section>
+      </div>
+    </section>
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  <div class="flex">
+    
+      
+      
+        
+        <img
+          class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4"
+          width="96"
+          height="96"
+          alt="stong"
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_smart1.jpg"
+        />
+      
+    
+    <div class="place-self-center">
+      
+        <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+          Author
+        </div>
+        <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+          stong
+        </div>
+      
+      
+        <div class="text-sm text-neutral-700 dark:text-neutral-400">进击的程序员</div>
+      
+      <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500">
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="st5983@outlook.com"
+          target="_blank"
+          aria-label="Email"
+          rel="me noopener noreferrer"
+          >
 
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://stong1994.github.io/"
+          target="_blank"
+          aria-label="Link"
+          rel="me noopener noreferrer"
+          >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://github.com/stong1994"
+          target="_blank"
+          aria-label="Github"
+          rel="me noopener noreferrer"
+          >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/cloudnative/k8s/pod/">
+              <span
+                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >k8s-pod</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2022-10-08 21:19:00 &#43;0800 CST">8 October 2022</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/cloudnative/k8s/volume/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >k8s-volume</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2022-10-12 21:19:00 &#43;0800 CST">12 October 2022</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
   
 
+
+      
+    </footer>
+  </article>
+
+        
+          <div
+            class="pointer-events-none absolute top-[100vh] bottom-0 w-12 ltr:right-0 rtl:left-0"
+          >
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2023
+            stong
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://git.io/hugo-congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    
+    
+      <div
+        class="ltr:mr-14 rtl:ml-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+      >
+        <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+          <div
+            class="flex items-center justify-center w-12 h-12 dark:hidden"
+            title="Switch to dark appearance"
+          >
+            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+          </div>
+          <div
+            class="items-center justify-center hidden w-12 h-12 dark:flex"
+            title="Switch to light appearance"
+          >
+            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+          </div>
+        </button>
       </div>
+    
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url=""
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
 
-      
-  <footer class="footer">
-    <section class="container">
-      
-        <p>夭寿不贰，修身以俟</p>
-      
-      
-        ©
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
         
-          2021 -
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
         
-        2023
-        
-      
-      
-         · 
-         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
-      
-      
+      </ul>
     </section>
-  </footer>
+  </div>
+</div>
 
-
-    </main>
-
-    
-      
-        
-        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
-      
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    </div>
   </body>
-
 </html>

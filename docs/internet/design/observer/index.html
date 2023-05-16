@@ -1,374 +1,942 @@
+
+
+
+
+
 <!DOCTYPE html>
-<html lang="zh">
-
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Language" content="zh">
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head>
+  <meta charset="utf-8" />
+  
+    <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>设计模式之观察者模式 &middot; 主页</title>
+    <meta name="title" content="设计模式之观察者模式 &middot; 主页" />
+  
+  <meta name="description" content="" />
+  
+  
+  
+  <link rel="canonical" href="/internet/design/observer/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.827e4067f785eb8991b29db972c66513a2555b27ab79607dadc6efd017da4df0fd429efe9ed49a1fc101da2d1cb711816bb8efc4e01baaf9eeb352b258c9f887.css"
+    integrity="sha512-gn5AZ/eF64mRsp25csZlE6JVWyereWB9rcbv0BfaTfD9Qp7&#43;ntSaH8EB2i0ctxGBa7jvxOAbqvnus1KyWMn4hw=="
+  />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.c6198a5ecbc6c7b35a8568d29315f50cf5d775d4461c515a476359767f1a745c245aa83fa96b0c7d83da976cf77481e1fc29537a2391a53ffe69a991638802e6.js" integrity="sha512-xhmKXsvGx7NahWjSkxX1DPXXddRGHFFaR2NZdn8adFwkWqg/qWsMfYPal2z3dIHh/ClTeiORpT/&#43;aamRY4gC5g=="></script>
+  
     
-
     
-    <meta name="description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
-观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
-观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
-Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
-package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
-如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
-Topic和观察者耦合在了一起。
-How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
-package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t.">
-    <meta name="keywords" content="">
-
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="设计模式之观察者模式"/>
-<meta name="twitter:description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
-观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
-观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
-Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
-package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
-如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
-Topic和观察者耦合在了一起。
-How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
-package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t."/>
-
-    <meta property="og:title" content="设计模式之观察者模式" />
-<meta property="og:description" content="What 观察者模式是一种设计模式，通常用于解耦观察者与被观察者。
-观察者模式中，被观察者称为主题。主题与观察者通常是1对多的关系。
-观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。
-Why 在未考虑设计模式/原则的代码中，实现上述功能可以简述为：
-package main type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string } func (t *Topic) Notify() { Observer1{}.Update(t.msg) Observer2{}.Update(t.msg) Observer3{}.Update(t.msg) } 我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。
-如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。
-Topic和观察者耦合在了一起。
-How 通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。
-package main type Observer interface { Update(msg string) } type Observer1 struct{} func (n Observer1) Update(msg string) { // do something } type Observer2 struct{} func (n Observer2) Update(msg string) { // do something } type Observer3 struct{} func (n Observer3) Update(msg string) { // do something } type Topic struct { msg string observers []Observer } func (t *Topic) Notify() { for _, observer := range t." />
+    
+  
+  
+    
+    
+  
+  
+  
+    
+    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.6d78c827ca7bcbf72056dbf698bf9aeb759a08966686187deb23f5949f73eca5f39b461284900cdfc08e2976d99eb80a8663648de778ba2a83e633ae16dbfc25.js" integrity="sha512-bXjIJ8p7y/cgVtv2mL&#43;a63WaCJZmhhh96yP1lJ9z7KXzm0YShJAM38COKXbZnrgKhmNkjed4uiqD5jOuFtv8JQ==" data-copy="Copy" data-copied="Copied"></script>
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="设计模式之观察者模式" />
+<meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stong1994.github.io/internet/design/observer/" /><meta property="article:section" content="internet" />
+<meta property="og:url" content="/internet/design/observer/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2022-11-11T19:45:00+08:00" />
-<meta property="article:modified_time" content="2022-11-11T19:45:00+08:00" />
+<meta property="article:modified_time" content="2022-11-11T19:45:00+08:00" /><meta property="og:site_name" content="主页" />
 
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式之观察者模式"/>
+<meta name="twitter:description" content=""/>
 
-
-    <title>
-  设计模式之观察者模式 · 北人
-</title>
-
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "",
+    "name": "设计模式之观察者模式",
+    "headline": "设计模式之观察者模式",
     
-      <link rel="canonical" href="https://stong1994.github.io/internet/design/observer/">
     
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
-    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.1.7" as="font" type="font/woff2" crossorigin>
-
+    "inLanguage": "en",
+    "url" : "\/internet\/design\/observer\/",
+    "author" : {
+      "@type": "Person",
+      "name": "stong"
+    },
+    "copyrightYear": "2022",
+    "dateCreated": "2022-11-11T19:45:00\u002b08:00",
+    "datePublished": "2022-11-11T19:45:00\u002b08:00",
     
-      
-      
-      <link rel="stylesheet" href="/css/coder.min.5317d5aa4161466b8ec88da2b36cacd596a0fdc1cc6a986e05f9b413df8ad2d3.css" integrity="sha256-UxfVqkFhRmuOyI2is2ys1Zag/cHMaphuBfm0E9&#43;K0tM=" crossorigin="anonymous" media="screen" />
+    "dateModified": "2022-11-11T19:45:00\u002b08:00",
     
-
     
-
     
-      
-        
-        
-        <link rel="stylesheet" href="/css/coder-dark.min.126ad3988d46bdae6217a11105b53c9662bca05f39d42d3c0fb366919d334620.css" integrity="sha256-EmrTmI1Gva5iF6ERBbU8lmK8oF851C08D7NmkZ0zRiA=" crossorigin="anonymous" media="screen" />
-      
+    "mainEntityOfPage": "true",
+    "wordCount": "1401"
+  }]
+  </script>
+
+
+  
+  <meta name="author" content="stong" />
+  
     
-
+      <link href="st5983@outlook.com" rel="me" />
     
-
+      <link href="https://stong1994.github.io/" rel="me" />
     
-
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
+      <link href="https://github.com/stong1994" rel="me" />
     
-      <script defer src="https://twemoji.maxcdn.com/v/13.0.1/twemoji.min.js"
-        integrity="sha384-5f4X0lBluNY/Ib4VhGx0Pf6iDCF99VGXJIyYy7dDLY5QlEd7Ap0hICSSZA1XYbc4" crossorigin="anonymous"></script>
-    
+  
+  
+  
 
-    <meta name="generator" content="Hugo 0.101.0" />
-  </head>
+
+
+
+
 
   
   
-    
   
-  <body class="colorscheme-auto"
-        onload=" twemoji.parse(document.body); "
+  
+
+
+  
+  
+</head><body
+    class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
   >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400"
+          >&darr;</span
+        >Skip to main content</a
+      >
+    </div>
     
-<div class="float-container">
-    <a id="dark-mode-toggle" class="colorscheme-toggle">
-        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
-    </a>
-</div>
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral print:hidden sm:py-10">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="z-40 flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >主页</a
+  >
+
+      
+
+    </div>
+    
+      
+      <label id="menu-button" for="menu-controller" class="block sm:hidden">
+        <input type="checkbox" id="menu-controller" class="hidden" />
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
 
 
-    <main class="wrapper">
-      <nav class="navigation">
-  <section class="container">
-    <a class="navigation-title" href="/">
-      北人
-    </a>
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="fixed inset-0 z-30 invisible w-full h-full m-auto overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50"
+        >
+          <ul
+            class="flex flex-col w-full px-6 py-6 mx-auto overflow-visible list-none max-w-7xl ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+          >
+            <li class="mb-1">
+              <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
+                >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+</span
+              >
+            </li>
+            
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/internet/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >计算机与互联网</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/cloudnative/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >云原生</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/web3/"
+                      title="Web3s"
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >区块链&amp;web3</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/book/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >读书笔记</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/other/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >杂谈</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/mental_model/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >心智模型</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="/about/"
+                      title=""
+                      
+                      >
+                        <span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >关于</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    <a
+                      href="https://github.com/stong1994/"
+                      title=""
+                      target="_blank"
+                      >
+                        <span
+                          class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                        >
+                          
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+                        </span>
+                      </a
+                    >
+                  
+                </li>
+              
+                <li class="mb-1 group">
+                  
+                    
+                    
+                      <button
+                        id="search-button-1"
+                        title="Search (/)"
+                      >
+                        
+                          <span
+                            class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                          >
+                            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+                          </span>
+                        
+                          <span
+                            class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                            ></span
+                          >
+                        
+                      </button>
+                    
+                  
+                </li>
+              
+              
+            
+          </ul>
+        </div>
       </label>
-      <ul class="navigation-list">
+      
+      <ul class="flex-row hidden list-none ltr:text-right rtl:text-left sm:flex">
         
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/internet/">计算机与互联网</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/internet/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >计算机与互联网</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/cloudnative/">云原生</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/cloudnative/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >云原生</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/web3/">区块链&amp;web3</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/web3/"
+                  title="Web3s"
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >区块链&amp;web3</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/other/">杂谈</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/book/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >读书笔记</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/mental_model/">心智模型</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/other/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >杂谈</span
+                    >
+                  </a
+                >
+              
             </li>
           
-            <li class="navigation-item">
-              <a class="navigation-link" href="/about/">关于</a>
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/mental_model/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >心智模型</span
+                    >
+                  </a
+                >
+              
             </li>
           
-        
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  >
+                    <span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >关于</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                <a
+                  href="https://github.com/stong1994/"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                    >
+                      
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+
+                    </span>
+                  </a
+                >
+              
+            </li>
+          
+            <li
+              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
+            >
+              
+                
+                
+                  <button
+                    id="search-button-2"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                      >
+                        
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+                      </span>
+                    
+                      <span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+
         
       </ul>
     
-  </section>
-</nav>
+  </nav>
+</header>
 
-
-      <div class="content">
+    
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
         
-    <div id="toc" class="well col-md-4 col-sm-6">
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/"
+      >记录个人的成长记录</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline ">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/internet/"
+      >internet</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/internet/design/observer/"
+      >设计模式之观察者模式</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        设计模式之观察者模式
+      </h1>
+      <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2022-11-11 19:45:00 &#43;0800 CST">11 November 2022</time><span class="px-2 text-primary-500">&middot;</span><span>1401 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
+
+
+  
+  
+
+<span class="mb-[2px]">
+  <a
+    href="https://github.com/stong1994/cristo/content/internet/design/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f-%e8%a7%82%e5%af%9f%e8%80%85%e6%a8%a1%e5%bc%8f.md"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="Edit content"
+    >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+
+  </span>
+
+</a
+  >
+</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 ">
+      
+        
+      
+        
+      
+    </div>
+  
+
+
+      </div>
+      
+    </header>
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs ltr:lg:pl-8 rtl:lg:pr-8">
+          <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
+            <details open class="mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600"
+  >
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#what">What</a></li>
-    <li><a href="#why">Why</a></li>
-    <li><a href="#how">How</a></li>
-    <li><a href="#example">Example</a>
+    <li>
       <ul>
-        <li><a href="#antlr中的错误监听">antlr中的错误监听</a></li>
+        <li><a href="#what">What</a></li>
+        <li><a href="#why">Why</a></li>
+        <li><a href="#how">How</a></li>
+        <li><a href="#example">Example</a>
+          <ul>
+            <li><a href="#antlr中的错误监听">antlr中的错误监听</a>
+              <ul>
+                <li><a href="#定义观察者行为">定义观察者行为</a></li>
+                <li><a href="#自定义观察者">自定义观察者</a></li>
+                <li><a href="#小结">小结</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
 </nav>
-    </div>
-  <section class="container page">
-  <article>
-    <header>
-      <h1>设计模式之观察者模式</h1>
-    </header>
+  </div>
+</details>
 
-    <h2 id="what">What</h2>
+          </div>
+        </div>
+      
+      <div class="min-w-0 min-h-0 max-w-prose grow">
+        <h2 id="what" class="relative group">What <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#what" aria-label="Anchor">#</a></span></h2>
 <p>观察者模式是一种设计模式，通常用于<strong>解耦</strong>观察者与被观察者。</p>
 <p>观察者模式中，被观察者称为<strong>主题</strong>。主题与观察者通常是1对多的关系。</p>
 <p>观察者需要获取主题的变化。在观察者模式中，往往采用主题向观察者push的方式来传递数据。</p>
-<h2 id="why">Why</h2>
+<h2 id="why" class="relative group">Why <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#why" aria-label="Anchor">#</a></span></h2>
 <p>在未考虑设计模式/原则的代码中，实现上述功能可以简述为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer1 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer1) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer2 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer2) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer3 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer3) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Topic <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Topic) Notify() {
-</span></span><span style="display:flex;"><span>	Observer1{}.Update(t.msg)
-</span></span><span style="display:flex;"><span>	Observer2{}.Update(t.msg)
-</span></span><span style="display:flex;"><span>	Observer3{}.Update(t.msg)
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer1</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer1</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer2</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer2</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer3</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer3</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Topic</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">Topic</span><span class="p">)</span> <span class="nf">Notify</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Observer1</span><span class="p">{}.</span><span class="nf">Update</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Observer2</span><span class="p">{}.</span><span class="nf">Update</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Observer3</span><span class="p">{}.</span><span class="nf">Update</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>我们创建了三个观察者，当Topic需要向观察者发送数据时，需要实例化这三个观察者。</p>
 <p>如果我们需要再新增一个观察者，那么Topic的Notify方法中需要再实例化这个新的观察者。</p>
 <p><strong>Topic和观察者耦合在了一起。</strong></p>
-<h2 id="how">How</h2>
+<h2 id="how" class="relative group">How <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#how" aria-label="Anchor">#</a></span></h2>
 <p>通过将观察者抽象为接口，可以实现Topic和观察者之间的解耦。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">package</span> main
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer <span style="color:#fff;font-weight:bold">interface</span> {
-</span></span><span style="display:flex;"><span>	Update(msg <span style="color:#fff;font-weight:bold">string</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer1 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer1) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer2 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer2) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Observer3 <span style="color:#fff;font-weight:bold">struct</span>{}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (n Observer3) Update(msg <span style="color:#fff;font-weight:bold">string</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#007f7f">// do something
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Topic <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>	observers []Observer
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Topic) Notify() {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, observer := <span style="color:#fff;font-weight:bold">range</span> t.observers {
-</span></span><span style="display:flex;"><span>		observer.Update(t.msg)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer1</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer1</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer2</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer2</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Observer3</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">n</span> <span class="nx">Observer3</span><span class="p">)</span> <span class="nf">Update</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Topic</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">observers</span> <span class="p">[]</span><span class="nx">Observer</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">Topic</span><span class="p">)</span> <span class="nf">Notify</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">observer</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">t</span><span class="p">.</span><span class="nx">observers</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">observer</span><span class="p">.</span><span class="nf">Update</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>可以看到，Topic中的Notify方法没有再实例化观察者，而是遍历当前已注册的观察者。</p>
 <p>当我们需要新增观察者的时候，通过Topic的注册接口添加到observers即可。注销同理。</p>
-<h2 id="example">Example</h2>
+<h2 id="example" class="relative group">Example <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#example" aria-label="Anchor">#</a></span></h2>
 <p>理论总是很简单，实践往往复杂很多。</p>
-<h3 id="antlr中的错误监听">antlr中的错误监听</h3>
+<h3 id="antlr中的错误监听" class="relative group">antlr中的错误监听 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#antlr%e4%b8%ad%e7%9a%84%e9%94%99%e8%af%af%e7%9b%91%e5%90%ac" aria-label="Anchor">#</a></span></h3>
 <p>antlr是一个开源的语法解析工具。在语法解析过程中，有可能解析失败，这时候需要处理错误。</p>
 <p>antlr作为一个开源工具，不可能为用户提供各种错误处理方式，而通过观察者模式，antlr将错误处理的能力移交给了使用者。</p>
-<h4 id="定义观察者行为">定义观察者行为</h4>
+<h4 id="定义观察者行为" class="relative group">定义观察者行为 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e8%a7%82%e5%af%9f%e8%80%85%e8%a1%8c%e4%b8%ba" aria-label="Anchor">#</a></span></h4>
 <p>antlr中定义了观察者的行为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ErrorListener <span style="color:#fff;font-weight:bold">interface</span> {
-</span></span><span style="display:flex;"><span>	SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException)
-</span></span><span style="display:flex;"><span>	ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet)
-</span></span><span style="display:flex;"><span>	ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet)
-</span></span><span style="display:flex;"><span>	ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet)
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ErrorListener</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">e</span> <span class="nx">RecognitionException</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ReportAmbiguity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">exact</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">ambigAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ReportAttemptingFullContext</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">conflictingAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ReportContextSensitivity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">prediction</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>并且实现了两个观察者：</p>
 <ul>
 <li>默认的观察者（不处理错误的观察者）。</li>
 <li>将语法错误输出到终端的观察者。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> DefaultErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewDefaultErrorListener() *DefaultErrorListener {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(DefaultErrorListener)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (d *DefaultErrorListener) ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ConsoleErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	*DefaultErrorListener
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewConsoleErrorListener() *ConsoleErrorListener {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span>(ConsoleErrorListener)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (c *ConsoleErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
-</span></span><span style="display:flex;"><span>	fmt.Fprintln(os.Stderr, <span style="color:#0ff;font-weight:bold">&#34;line &#34;</span>+strconv.Itoa(line)+<span style="color:#0ff;font-weight:bold">&#34;:&#34;</span>+strconv.Itoa(column)+<span style="color:#0ff;font-weight:bold">&#34; &#34;</span>+msg)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="自定义观察者">自定义观察者</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">DefaultErrorListener</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewDefaultErrorListener</span><span class="p">()</span> <span class="o">*</span><span class="nx">DefaultErrorListener</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">new</span><span class="p">(</span><span class="nx">DefaultErrorListener</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">DefaultErrorListener</span><span class="p">)</span> <span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">e</span> <span class="nx">RecognitionException</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">DefaultErrorListener</span><span class="p">)</span> <span class="nf">ReportAmbiguity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">exact</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">ambigAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">DefaultErrorListener</span><span class="p">)</span> <span class="nf">ReportAttemptingFullContext</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">conflictingAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">DefaultErrorListener</span><span class="p">)</span> <span class="nf">ReportContextSensitivity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">prediction</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ConsoleErrorListener</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">*</span><span class="nx">DefaultErrorListener</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewConsoleErrorListener</span><span class="p">()</span> <span class="o">*</span><span class="nx">ConsoleErrorListener</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nb">new</span><span class="p">(</span><span class="nx">ConsoleErrorListener</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">ConsoleErrorListener</span><span class="p">)</span> <span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">e</span> <span class="nx">RecognitionException</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintln</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&#34;line &#34;</span><span class="o">+</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span><span class="o">+</span><span class="s">&#34;:&#34;</span><span class="o">+</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">column</span><span class="p">)</span><span class="o">+</span><span class="s">&#34; &#34;</span><span class="o">+</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="自定义观察者" class="relative group">自定义观察者 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%a7%82%e5%af%9f%e8%80%85" aria-label="Anchor">#</a></span></h4>
 <p>作为antlr的用户，我需要自己捕获语法错误，因此，我实现了自己的错误监听器：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ErrListener <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	antlr.DefaultErrorListener
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	errList []<span style="color:#fff;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (el *ErrListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>,
-</span></span><span style="display:flex;"><span>	msg <span style="color:#fff;font-weight:bold">string</span>, e antlr.RecognitionException) {
-</span></span><span style="display:flex;"><span>	el.errList = <span style="color:#fff;font-weight:bold">append</span>(el.errList, fmt.Sprintf(<span style="color:#0ff;font-weight:bold">&#34;pos: %d:%d, msg: %s&#34;</span>, line, column, msg))
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ErrListener</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">antlr</span><span class="p">.</span><span class="nx">DefaultErrorListener</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">errList</span> <span class="p">[]</span><span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">el</span> <span class="o">*</span><span class="nx">ErrListener</span><span class="p">)</span> <span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">antlr</span><span class="p">.</span><span class="nx">Recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span> <span class="kt">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">e</span> <span class="nx">antlr</span><span class="p">.</span><span class="nx">RecognitionException</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">el</span><span class="p">.</span><span class="nx">errList</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">errList</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;pos: %d:%d, msg: %s&#34;</span><span class="p">,</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span><span class="p">,</span> <span class="nx">msg</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>antlr的语法解析器提供了注册错误监听器的方法，所以在初始化解析器的时候将ErrListener注册进去即可:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// parser中有一个观察者数组：listeners []ErrorListener
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>parser := NewParser()
-</span></span><span style="display:flex;"><span>parser.AddErrorListener(&amp;ErrListener{})
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// parser中有一个观察者数组：listeners []ErrorListener
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">parser</span> <span class="o">:=</span> <span class="nf">NewParser</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nx">parser</span><span class="p">.</span><span class="nf">AddErrorListener</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ErrListener</span><span class="p">{})</span>
 </span></span></code></pre></div><p>在实际解析到错误时，antlr会创建一个<strong>代理</strong>来将错误信息分发给观察者。实现如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *BaseParser) NotifyErrorListeners(msg <span style="color:#fff;font-weight:bold">string</span>, offendingToken Token, err RecognitionException) {
-</span></span><span style="display:flex;"><span>	p._SyntaxErrors++
-</span></span><span style="display:flex;"><span>	line := offendingToken.GetLine()
-</span></span><span style="display:flex;"><span>	column := offendingToken.GetColumn()
-</span></span><span style="display:flex;"><span>	listener := p.GetErrorListenerDispatch()
-</span></span><span style="display:flex;"><span>	listener.SyntaxError(p, offendingToken, line, column, msg, err)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (b *BaseRecognizer) GetErrorListenerDispatch() ErrorListener {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> NewProxyErrorListener(b.listeners)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> ProxyErrorListener <span style="color:#fff;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	*DefaultErrorListener
-</span></span><span style="display:flex;"><span>	delegates []ErrorListener
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> NewProxyErrorListener(delegates []ErrorListener) *ProxyErrorListener {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> delegates == <span style="color:#fff;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">panic</span>(<span style="color:#0ff;font-weight:bold">&#34;delegates is not provided&#34;</span>)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	l := <span style="color:#fff;font-weight:bold">new</span>(ProxyErrorListener)
-</span></span><span style="display:flex;"><span>	l.delegates = delegates
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> l
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) SyntaxError(recognizer Recognizer, offendingSymbol <span style="color:#fff;font-weight:bold">interface</span>{}, line, column <span style="color:#fff;font-weight:bold">int</span>, msg <span style="color:#fff;font-weight:bold">string</span>, e RecognitionException) {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
-</span></span><span style="display:flex;"><span>		d.SyntaxError(recognizer, offendingSymbol, line, column, msg, e)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportAmbiguity(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, exact <span style="color:#fff;font-weight:bold">bool</span>, ambigAlts *BitSet, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
-</span></span><span style="display:flex;"><span>		d.ReportAmbiguity(recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportAttemptingFullContext(recognizer Parser, dfa *DFA, startIndex, stopIndex <span style="color:#fff;font-weight:bold">int</span>, conflictingAlts *BitSet, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
-</span></span><span style="display:flex;"><span>		d.ReportAttemptingFullContext(recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (p *ProxyErrorListener) ReportContextSensitivity(recognizer Parser, dfa *DFA, startIndex, stopIndex, prediction <span style="color:#fff;font-weight:bold">int</span>, configs ATNConfigSet) {
-</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> _, d := <span style="color:#fff;font-weight:bold">range</span> p.delegates {
-</span></span><span style="display:flex;"><span>		d.ReportContextSensitivity(recognizer, dfa, startIndex, stopIndex, prediction, configs)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="小结">小结</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">BaseParser</span><span class="p">)</span> <span class="nf">NotifyErrorListeners</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">offendingToken</span> <span class="nx">Token</span><span class="p">,</span> <span class="nx">err</span> <span class="nx">RecognitionException</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">p</span><span class="p">.</span><span class="nx">_SyntaxErrors</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">line</span> <span class="o">:=</span> <span class="nx">offendingToken</span><span class="p">.</span><span class="nf">GetLine</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">column</span> <span class="o">:=</span> <span class="nx">offendingToken</span><span class="p">.</span><span class="nf">GetColumn</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">listener</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.</span><span class="nf">GetErrorListenerDispatch</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">listener</span><span class="p">.</span><span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">offendingToken</span><span class="p">,</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span><span class="p">,</span> <span class="nx">msg</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">BaseRecognizer</span><span class="p">)</span> <span class="nf">GetErrorListenerDispatch</span><span class="p">()</span> <span class="nx">ErrorListener</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">NewProxyErrorListener</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">listeners</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ProxyErrorListener</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">*</span><span class="nx">DefaultErrorListener</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">delegates</span> <span class="p">[]</span><span class="nx">ErrorListener</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewProxyErrorListener</span><span class="p">(</span><span class="nx">delegates</span> <span class="p">[]</span><span class="nx">ErrorListener</span><span class="p">)</span> <span class="o">*</span><span class="nx">ProxyErrorListener</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">delegates</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">panic</span><span class="p">(</span><span class="s">&#34;delegates is not provided&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">ProxyErrorListener</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span><span class="p">.</span><span class="nx">delegates</span> <span class="p">=</span> <span class="nx">delegates</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">l</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ProxyErrorListener</span><span class="p">)</span> <span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">msg</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">e</span> <span class="nx">RecognitionException</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">d</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">p</span><span class="p">.</span><span class="nx">delegates</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span><span class="p">.</span><span class="nf">SyntaxError</span><span class="p">(</span><span class="nx">recognizer</span><span class="p">,</span> <span class="nx">offendingSymbol</span><span class="p">,</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">column</span><span class="p">,</span> <span class="nx">msg</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ProxyErrorListener</span><span class="p">)</span> <span class="nf">ReportAmbiguity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">exact</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">ambigAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">d</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">p</span><span class="p">.</span><span class="nx">delegates</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span><span class="p">.</span><span class="nf">ReportAmbiguity</span><span class="p">(</span><span class="nx">recognizer</span><span class="p">,</span> <span class="nx">dfa</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">exact</span><span class="p">,</span> <span class="nx">ambigAlts</span><span class="p">,</span> <span class="nx">configs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ProxyErrorListener</span><span class="p">)</span> <span class="nf">ReportAttemptingFullContext</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">conflictingAlts</span> <span class="o">*</span><span class="nx">BitSet</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">d</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">p</span><span class="p">.</span><span class="nx">delegates</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span><span class="p">.</span><span class="nf">ReportAttemptingFullContext</span><span class="p">(</span><span class="nx">recognizer</span><span class="p">,</span> <span class="nx">dfa</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">conflictingAlts</span><span class="p">,</span> <span class="nx">configs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ProxyErrorListener</span><span class="p">)</span> <span class="nf">ReportContextSensitivity</span><span class="p">(</span><span class="nx">recognizer</span> <span class="nx">Parser</span><span class="p">,</span> <span class="nx">dfa</span> <span class="o">*</span><span class="nx">DFA</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">prediction</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">configs</span> <span class="nx">ATNConfigSet</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">d</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">p</span><span class="p">.</span><span class="nx">delegates</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span><span class="p">.</span><span class="nf">ReportContextSensitivity</span><span class="p">(</span><span class="nx">recognizer</span><span class="p">,</span> <span class="nx">dfa</span><span class="p">,</span> <span class="nx">startIndex</span><span class="p">,</span> <span class="nx">stopIndex</span><span class="p">,</span> <span class="nx">prediction</span><span class="p">,</span> <span class="nx">configs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="小结" class="relative group">小结 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%8f%e7%bb%93" aria-label="Anchor">#</a></span></h4>
 <p>从antlr处理错误的代码中，我们可以学到：</p>
 <ol>
 <li>观察者模式提供了一种能力，让用户参与到行为（主题）的捕获与处理。</li>
@@ -376,58 +944,300 @@ package main type Observer interface { Update(msg string) } type Observer1 struc
 <li>可以通过定义一个无作为的观察者（DefaultErrorListener），方便用户实现观察者。</li>
 </ol>
 
-  </article>
-</section>
+      </div>
+    </section>
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  <div class="flex">
+    
+      
+      
+        
+        <img
+          class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4"
+          width="96"
+          height="96"
+          alt="stong"
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_smart1.jpg"
+        />
+      
+    
+    <div class="place-self-center">
+      
+        <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+          Author
+        </div>
+        <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+          stong
+        </div>
+      
+      
+        <div class="text-sm text-neutral-700 dark:text-neutral-400">进击的程序员</div>
+      
+      <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500">
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="st5983@outlook.com"
+          target="_blank"
+          aria-label="Email"
+          rel="me noopener noreferrer"
+          >
 
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://stong1994.github.io/"
+          target="_blank"
+          aria-label="Link"
+          rel="me noopener noreferrer"
+          >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://github.com/stong1994"
+          target="_blank"
+          aria-label="Github"
+          rel="me noopener noreferrer"
+          >
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+</a
+        >
+      
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/internet/design/solid/">
+              <span
+                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >SOLID原则</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2022-11-04 17:23:00 &#43;0800 CST">4 November 2022</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="/internet/design/factory/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >设计模式之工厂模式</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2022-11-13 19:45:00 &#43;0800 CST">13 November 2022</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
   
 
+
+      
+    </footer>
+  </article>
+
+        
+          <div
+            class="pointer-events-none absolute top-[100vh] bottom-0 w-12 ltr:right-0 rtl:left-0"
+          >
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2023
+            stong
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://git.io/hugo-congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    
+    
+      <div
+        class="ltr:mr-14 rtl:ml-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+      >
+        <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+          <div
+            class="flex items-center justify-center w-12 h-12 dark:hidden"
+            title="Switch to dark appearance"
+          >
+            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+          </div>
+          <div
+            class="items-center justify-center hidden w-12 h-12 dark:flex"
+            title="Switch to light appearance"
+          >
+            
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+          </div>
+        </button>
       </div>
+    
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url=""
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
 
-      
-  <footer class="footer">
-    <section class="container">
-      
-        <p>夭寿不贰，修身以俟</p>
-      
-      
-        ©
+  <span class="relative inline-block align-text-bottom icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
         
-          2021 -
+
+  <span class="relative inline-block align-text-bottom icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
         
-        2023
-        
-      
-      
-         · 
-         <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
-      
-      
+      </ul>
     </section>
-  </footer>
+  </div>
+</div>
 
-
-    </main>
-
-    
-      
-        
-        <script src="/js/dark-mode.min.c2d8a1f8f2660e4a46d776277c72695a1e0ca65939d79f754441d47551604af5.js"></script>
-      
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    </div>
   </body>
-
 </html>
