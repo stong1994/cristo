@@ -5,21 +5,28 @@
     
       <url>
             <loc>/internet/</loc>
-            <lastmod>2023-04-28T16:32:00+08:00</lastmod>
+            <lastmod>2023-05-16T19:12:00+08:00</lastmod>
             <priority>0</priority>
           </url>
     
   
     
       <url>
-            <loc>/internet/algorithm/read_black_tree/</loc>
-            <lastmod>2023-04-28T16:32:00+08:00</lastmod>
+            <loc>/</loc>
+            <lastmod>2023-05-16T19:12:00+08:00</lastmod>
           </url>
     
   
     
       <url>
-            <loc>/</loc>
+            <loc>/internet/design/skip_list/</loc>
+            <lastmod>2023-05-16T19:12:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/algorithm/read_black_tree/</loc>
             <lastmod>2023-04-28T16:32:00+08:00</lastmod>
           </url>
     
