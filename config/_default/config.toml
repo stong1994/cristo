@@ -10,6 +10,6 @@ paginate = 10
 summaryLength = 0
 hasCJKLanguage = true
 
-# [outputs]
-#   home = ["HTML", "RSS", "JSON"]
+[outputs]
+home = ["HTML", "RSS", "JSON"]
 theme = "congo"
