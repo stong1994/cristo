@@ -2,7 +2,7 @@
 
 date = 2023-02-26T11:30:00+08:00
 title = "ChatGPT教我写代码——best todo"
-url = "/internet/go/chatgpt_best-todo"
+url = "/internet/ai/chatgpt_best-todo"
 
 toc = true
 
