@@ -12,7 +12,7 @@ description = "夭寿不贰，修身以俟"
 dateFormat = "2 January 2006"
 
 [params]
-  # mainSections = ["section1", "section2"]
+  mainSections = ["internet","cloudnative", "web3","book","other","mental_model"] # 用于获取Recent模块的文章列表，选为全部即可。
 
 [author]
   name = "stong"
