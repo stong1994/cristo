@@ -19,14 +19,14 @@
   <meta name="theme-color" content="rgb(255,255,255)" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>Solidity笔记 &middot; 主页</title>
-    <meta name="title" content="Solidity笔记 &middot; 主页" />
+  <title>比特币技术汇总 &middot; 主页</title>
+    <meta name="title" content="比特币技术汇总 &middot; 主页" />
   
   <meta name="description" content="" />
-  <meta name="keywords" content="solidity" />
+  <meta name="keywords" content="bitcoin" />
   
   
-  <link rel="canonical" href="/web3/solidity_note/" />
+  <link rel="canonical" href="/web3/bitcoin_tech/" />
   
   
   
@@ -73,15 +73,15 @@
   
   
   
-  <meta property="og:title" content="Solidity笔记" />
+  <meta property="og:title" content="比特币技术汇总" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/web3/solidity_note/" /><meta property="article:section" content="web3" />
-<meta property="article:published_time" content="2022-06-10T19:37:00+08:00" />
-<meta property="article:modified_time" content="2022-06-10T19:37:00+08:00" /><meta property="og:site_name" content="主页" />
+<meta property="og:url" content="/web3/bitcoin_tech/" /><meta property="article:section" content="web3" />
+<meta property="article:published_time" content="2023-05-26T14:35:00+08:00" />
+<meta property="article:modified_time" content="2023-05-26T14:35:00+08:00" /><meta property="og:site_name" content="主页" />
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Solidity笔记"/>
+<meta name="twitter:title" content="比特币技术汇总"/>
 <meta name="twitter:description" content=""/>
 
   
@@ -90,26 +90,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Web3s",
-    "name": "Solidity笔记",
-    "headline": "Solidity笔记",
+    "name": "比特币技术汇总",
+    "headline": "比特币技术汇总",
     
     
     "inLanguage": "en",
-    "url" : "\/web3\/solidity_note\/",
+    "url" : "\/web3\/bitcoin_tech\/",
     "author" : {
       "@type": "Person",
       "name": "stong"
     },
-    "copyrightYear": "2022",
-    "dateCreated": "2022-06-10T19:37:00\u002b08:00",
-    "datePublished": "2022-06-10T19:37:00\u002b08:00",
+    "copyrightYear": "2023",
+    "dateCreated": "2023-05-26T14:35:00\u002b08:00",
+    "datePublished": "2023-05-26T14:35:00\u002b08:00",
     
-    "dateModified": "2022-06-10T19:37:00\u002b08:00",
+    "dateModified": "2023-05-26T14:35:00\u002b08:00",
     
-    "keywords": ["solidity"],
+    "keywords": ["bitcoin"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "463"
+    "wordCount": "3607"
   }]
   </script>
 
@@ -611,8 +611,8 @@
   <li class="inline hidden">
     <a
       class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
-      href="/web3/solidity_note/"
-      >Solidity笔记</a
+      href="/web3/bitcoin_tech/"
+      >比特币技术汇总</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
@@ -621,7 +621,7 @@
 
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        Solidity笔记
+        比特币技术汇总
       </h1>
       <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -659,7 +659,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2022-06-10 19:37:00 &#43;0800 CST">10 June 2022</time><span class="px-2 text-primary-500">&middot;</span><span>463 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">1 min</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-05-26 14:35:00 &#43;0800 CST">26 May 2023</time><span class="px-2 text-primary-500">&middot;</span><span>3607 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -667,7 +667,7 @@
 
 <span class="mb-[2px]">
   <a
-    href="https://github.com/stong1994/cristo/content/web3/Solidity%e7%ac%94%e8%ae%b0.md"
+    href="https://github.com/stong1994/cristo/content/web3/%e6%af%94%e7%89%b9%e5%b8%81%e6%8a%80%e6%9c%af%e6%b1%87%e6%80%bb.md"
     class="text-lg hover:text-primary-500"
     rel="noopener noreferrer"
     target="_blank"
@@ -720,23 +720,51 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#基础知识">基础知识</a>
+        <li><a href="#什么是比特币">什么是比特币</a></li>
+        <li><a href="#区块链">区块链</a>
           <ul>
-            <li><a href="#数据类型">数据类型</a>
+            <li><a href="#区块">区块</a>
               <ul>
-                <li><a href="#mapping">mapping</a></li>
+                <li><a href="#header">Header</a></li>
+                <li><a href="#body">Body</a>
+                  <ul>
+                    <li><a href="#默克尔树">默克尔树</a></li>
+                    <li><a href="#merkle-proof">Merkle Proof</a></li>
+                  </ul>
+                </li>
               </ul>
             </li>
-            <li><a href="#函数和构造函数">函数和构造函数</a></li>
-            <li><a href="#可见性和可变性修饰符">可见性和可变性修饰符</a></li>
-            <li><a href="#访问区块链元数据">访问区块链元数据</a></li>
-            <li><a href="#使用内置货币">使用内置货币</a></li>
-            <li><a href="#事件">事件</a></li>
-            <li><a href="#合约之间的交互">合约之间的交互</a></li>
+            <li><a href="#链">链</a></li>
           </ul>
         </li>
-        <li><a href="#evm">EVM</a></li>
-        <li><a href="#相关资源">相关资源</a></li>
+        <li><a href="#哈希的魅力">哈希的魅力</a></li>
+        <li><a href="#账户">账户</a>
+          <ul>
+            <li><a href="#账号">账号</a></li>
+            <li><a href="#余额">余额</a></li>
+          </ul>
+        </li>
+        <li><a href="#交易">交易</a>
+          <ul>
+            <li><a href="#交易内容">交易内容</a></li>
+            <li><a href="#矿工">矿工</a>
+              <ul>
+                <li><a href="#奖励机制">奖励机制</a></li>
+                <li><a href="#工作量证明">工作量证明</a></li>
+                <li><a href="#交易池">交易池</a></li>
+              </ul>
+            </li>
+            <li><a href="#验证交易">验证交易</a></li>
+            <li><a href="#确认交易">确认交易</a></li>
+          </ul>
+        </li>
+        <li><a href="#其他问题">其他问题</a>
+          <ul>
+            <li><a href="#节点启动时如何发现其他节点">节点启动时如何发现其他节点</a></li>
+            <li><a href="#为什么要保证10分钟一个区块">为什么要保证10分钟一个区块</a></li>
+          </ul>
+        </li>
+        <li><a href="#相关资料">相关资料</a></li>
       </ul>
     </li>
   </ul>
@@ -748,73 +776,257 @@
         </div>
       
       <div class="min-w-0 min-h-0 max-w-prose grow">
-        <h2 id="基础知识" class="relative group">基础知识 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" aria-label="Anchor">#</a></span></h2>
-<h3 id="数据类型" class="relative group">数据类型 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" aria-label="Anchor">#</a></span></h3>
-<h4 id="mapping" class="relative group">mapping <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#mapping" aria-label="Anchor">#</a></span></h4>
-<p>键值对存储/哈希表。</p>
-<p>没有内置的查询长度的方法。</p>
-<p><code>mapping (string =&gt; address) public keyValueMap</code></p>
-<h3 id="函数和构造函数" class="relative group">函数和构造函数 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%87%bd%e6%95%b0%e5%92%8c%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-solidity" data-lang="solidity"><span class="line"><span class="cl"><span class="n">func</span> <span class="n">getPrice</span><span class="p">(</span><span class="kt">address</span> <span class="n">user</span><span class="p">)</span> <span class="k">public</span> <span class="k">view</span> <span class="k">returns</span><span class="p">(</span><span class="kt">int</span> <span class="n">price</span><span class="p">,</span> <span class="kt">int</span> <span class="n">status</span><span class="p">){}</span>
-</span></span></code></pre></div><ul>
-<li>getPrice: 函数名称</li>
-<li>(address user) ：实参列表，用逗号间隔</li>
-<li>public：可见性修饰符</li>
-<li>view：可变性修饰符</li>
-<li>returns(int price, int status)：返回语句类型</li>
-</ul>
-<p>构造函数用于设置初始状态，第一次创建合约时调用。</p>
-<pre tabindex="0"><code>contract BoardAction {
-	address public president;
-	adddress public vicePresident;
-	
-	constructor(address initialPrisident, address initalVP) public {
-		president = initialPrisident;
-		vicePresident = initalVP;
-	}
-}
-</code></pre><h3 id="可见性和可变性修饰符" class="relative group">可见性和可变性修饰符 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8f%af%e8%a7%81%e6%80%a7%e5%92%8c%e5%8f%af%e5%8f%98%e6%80%a7%e4%bf%ae%e9%a5%b0%e7%ac%a6" aria-label="Anchor">#</a></span></h3>
-<p>可见性-于函数：</p>
-<ul>
-<li>public: anyone</li>
-<li>internal：只能被合约中的另一个函数调用</li>
-</ul>
-<p>可见性-于实例变量：</p>
-<ul>
-<li>public：会自动生成getter方法</li>
-<li>private：不会自动生成getter方法，只能在合约内使用</li>
-</ul>
-<p>可变性：</p>
-<ul>
-<li>默认：能够修改状态、调用其他函数</li>
-<li>view：不能修改状态、不能调用非view函数</li>
-<li>pure：甚至不能读取状态</li>
-</ul>
-<h3 id="访问区块链元数据" class="relative group">访问区块链元数据 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%ae%bf%e9%97%ae%e5%8c%ba%e5%9d%97%e9%93%be%e5%85%83%e6%95%b0%e6%8d%ae" aria-label="Anchor">#</a></span></h3>
-<pre tabindex="0"><code>block.timestamp // 区块
-</code></pre><h3 id="使用内置货币" class="relative group">使用内置货币 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%86%85%e7%bd%ae%e8%b4%a7%e5%b8%81" aria-label="Anchor">#</a></span></h3>
-<p>必须使用payable来声明函数</p>
-<pre tabindex="0"><code>func pay(int amount) public payable {
-	payable(msg.sender).transfer(amount)
-}
-</code></pre><h3 id="事件" class="relative group">事件 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%8b%e4%bb%b6" aria-label="Anchor">#</a></span></h3>
-<p>事件可以用于记录数据上链或者用做日志（开发时使用），一旦触发，事件订阅者就会接收到。</p>
-<pre tabindex="0"><code>event Registered(address registrant, string domain);
-func registerDomain(string memory domain) public {
-	require(registry[domain] == address(0));
-	registry[domain] = msg.sender;
-	emit Registered(msg.sender, domain);
-}
-</code></pre><h3 id="合约之间的交互" class="relative group">合约之间的交互 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%90%88%e7%ba%a6%e4%b9%8b%e9%97%b4%e7%9a%84%e4%ba%a4%e4%ba%92" aria-label="Anchor">#</a></span></h3>
-<h2 id="evm" class="relative group">EVM <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#evm" aria-label="Anchor">#</a></span></h2>
-<h2 id="相关资源" class="relative group">相关资源 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%9b%b8%e5%85%b3%e8%b5%84%e6%ba%90" aria-label="Anchor">#</a></span></h2>
-<ul>
-<li><a
-  href="https://faucets.chain.link"
+        <h2 id="什么是比特币" class="relative group">什么是比特币 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bb%80%e4%b9%88%e6%98%af%e6%af%94%e7%89%b9%e5%b8%81" aria-label="Anchor">#</a></span></h2>
+<p>比特币具有多重概念：</p>
+<ol>
+<li>一种电子货币；</li>
+<li>这种电子货币所依赖的整套系统；</li>
+<li>比特币的整个生态；</li>
+</ol>
+<p>这篇博客主要聊的是这套系统的技术实现。</p>
+<h2 id="区块链" class="relative group">区块链 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8c%ba%e5%9d%97%e9%93%be" aria-label="Anchor">#</a></span></h2>
+<p><strong>区块链是比特币的一个基础设施</strong>。可以将区块链分成两部分——区块和链。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305261008742.png" alt="" />
+    
+  </figure>
+
+</p>
+<h3 id="区块" class="relative group">区块 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8c%ba%e5%9d%97" aria-label="Anchor">#</a></span></h3>
+<p>从技术的角度看，区块链就是一个<strong>去中心化的数据库</strong>，而<strong>区块就是存储数据的地方</strong>。</p>
+<p>区块分为两部分：header和body——类似于http——header用于存储关键信息，body用于存储数据。</p>
+<h4 id="header" class="relative group">Header <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#header" aria-label="Anchor">#</a></span></h4>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*B9VOyRMS9AvuuaAaT0fPOA.png" alt="区块头字段" />
+    
+  </figure>
+
+</p>
+<p><a
+  href="https://medium.com/fcats-blockchain-incubator/understanding-the-bitcoin-blockchain-header-a2b0db06b515"
   
   target="_blank" rel="noreferrer noopener"
->领取以太坊测试环境空头地址</a></li>
+>图来源：Understanding the Bitcoin Blockchain Header | by RJ Rybarczyk | FCAT Blockchain Incubator | Medium</a></p>
+<p>Header中每个字段都十分重要，直接介绍字段的功能会很抽象，所以留在后面结合功能讲解。</p>
+<h4 id="body" class="relative group">Body <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#body" aria-label="Anchor">#</a></span></h4>
+<p>区块链的数据存储使用了<strong>默克尔树</strong>，是一颗<strong>二叉哈希树</strong>。这棵树将区块中所有的交易信息进行了哈希，最终得到了一个32位的哈希值。这个哈希值就是区块内交易信息的标识——一旦某个交易信息被篡改，这个哈希值就一定会改变。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305261116422.png" alt="" />
+    
+  </figure>
+
+</p>
+<h5 id="默克尔树" class="relative group">默克尔树 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%bb%98%e5%85%8b%e5%b0%94%e6%a0%91" aria-label="Anchor">#</a></span></h5>
+<p>默克尔树（Merkle tree）又称为哈希树。从下往上看，<strong>叶子结点存储数据，叶子结点的父节点存储数据的哈希值，再上一层则将两个子节点的哈希值相加再进行哈希</strong>（如果子节点数量为奇数，则复制最后一个子节点数据创建为新节点以保证子节点数量为偶数），重复这个步骤直到获得根节点。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305241735131.png" alt="" />
+    
+  </figure>
+
+</p>
+<p>区块的头部会记录默克尔树根节点的哈希值。</p>
+<h5 id="merkle-proof" class="relative group">Merkle Proof <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#merkle-proof" aria-label="Anchor">#</a></span></h5>
+<p>轻节点只会存储区块头而不存储交易数据，那么当轻节点发生了一笔交易后如何证明这笔交易已经上链了呢？</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305241806996.png" alt="" />
+    
+  </figure>
+
+</p>
+<ol>
+<li>
+<p>轻节点会向全节点请求交易验证，请求携带这个交易所在区块的默克尔树根节点哈希值和这笔交易的信息L2。</p>
+</li>
+<li>
+<p>全节点在区块链中找到对应的区块以及其默克尔树，并将Hash1与Hash0-0的值交给轻节点。</p>
+</li>
+<li>
+<p>轻节点根据L2和Hash0-1能够计算得到Hash0,在根据Hash0和Hash1计算得到根节点哈希值</p>
+</li>
+<li>
+<p>判断计算得到的根节点哈希值与区块头部记录的根节点哈希值是否相同。</p>
+</li>
+</ol>
+<p>Merkle Proof实现了<strong>零知识证明</strong>：在这个过程中，全节点没有提供任何实际的交易数据，但是向轻节点证明了区块链存在这笔交易。</p>
+<h3 id="链" class="relative group">链 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%93%be" aria-label="Anchor">#</a></span></h3>
+<p>类似于链表，区块之间也是通过”指针“进行的链接，只不过<strong>这个指针是区块的哈希值</strong>。</p>
+<p>从创世区块开始，每个子区块都记录父区块的哈希值，通过这个哈希值比特币将所有的区块进行了链接，于是形成了区块链。</p>
+<h2 id="哈希的魅力" class="relative group">哈希的魅力 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%93%88%e5%b8%8c%e7%9a%84%e9%ad%85%e5%8a%9b" aria-label="Anchor">#</a></span></h2>
+<p>比特币系统中大量使用了哈希算法，比如用公钥生成比特币地址、工作量证明中的解题、默克尔树的构建、区块之间的”链“等等。</p>
+<p>哈希算法具有以下几点优势：</p>
+<ol>
+<li><strong>输出长度稳定</strong>。比如经过SHA256，输入任意长度的字符串都能得到固定的输出长度——64位。这对用户友好——如果输出长度不固定，很多情况需要做特殊处理。</li>
+<li><strong>输出结果稳定</strong>。同样的输入，经过同一个哈希算法，得到的输出一定是相同的。</li>
+<li><strong>碰撞概率低</strong>。哈希不同的输入得到相同的输出的概率极低，基本不用考虑。因此，如果H(X)=H(Y)，那么可以认为X=Y。</li>
+<li><strong>隐私友好</strong>。这体现在两方面，一个是<strong>对输入做任意的修改，就能够得到完全不同的输出</strong>，另一个是<strong>如果输入源足够大，由于碰撞概率低，也没办法通过暴力破解来根据输出得到输入</strong>。</li>
+</ol>
+<h2 id="账户" class="relative group">账户 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%b4%a6%e6%88%b7" aria-label="Anchor">#</a></span></h2>
+<p>在普通的账号系统中，使用账号+密码的方式来做账户的识别，并且用账号来跟踪余额变动。在比特币系统中使用了完全不同的方式。</p>
+<h3 id="账号" class="relative group">账号 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%b4%a6%e5%8f%b7" aria-label="Anchor">#</a></span></h3>
+<p>在比特币系统中，使用由椭圆加密生成的公私钥作为账号，使用哈希算法通过公钥生成比特币地址。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305261443769.png" alt="" />
+    
+  </figure>
+
+</p>
+<p><a
+  href=""
+  
+  
+>图片源自《精通区块链编程》</a></p>
+<ul>
+<li><strong>私钥</strong>不能泄露，用于对交易进行签名。</li>
+<li><strong>公钥</strong>可以泄露，用于验证这笔交易的签名。</li>
+<li><strong>比特币地址</strong>需要告知他人，用于转账。</li>
 </ul>
+<h3 id="余额" class="relative group">余额 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%99%e9%a2%9d" aria-label="Anchor">#</a></span></h3>
+<p>比特币系统中不存在“余额”信息，只有转账记录。而<strong>通过转账记录（即“交易链”）就能够追踪到账户的余额</strong>。</p>
+<p>为了加快这个追踪过程，比特币系统中使用<strong>UTXO</strong>（unspent transaction output）来表示<strong>未花费的交易输出</strong>，每个全节点都维护了一个集合来保存当前状态下区块链中所有未花费的交易输出，我们称这个集合为<strong>UTXOs</strong>。</p>
+<p>每个钱包软件都会监听区块的变化，从而维护自己的秘钥可用的UTXO，因此用户能够直接从钱包软件上看到自己的余额而无需等待。</p>
+<h2 id="交易" class="relative group">交易 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%a4%e6%98%93" aria-label="Anchor">#</a></span></h2>
+<h3 id="交易内容" class="relative group">交易内容 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%a4%e6%98%93%e5%86%85%e5%ae%b9" aria-label="Anchor">#</a></span></h3>
+<p>假设Alice想要向Bob转1一个BTC，那么首先Alice需要从区块链中获取交易信息，从而确定自己的余额充足!</p>
+<p>经过确定，Mark和Jessica曾经各自转账0.6个BTC给Alice，因此Alice的余额充足。</p>
+<p>转账时需要付“小费”给矿工，Alice将其设定为0.05BTC，不然矿工可能不会对这笔交易打包。</p>
+<blockquote>
+<p>在比特币系统中，交易费不是手动设定的，而是自动计算出来的。交易费 = All（输入）- All（输出）。</p>
+<p>因此在这个场景中，Alice需要指定两个输出，一个是给Bob的1BTC，另一个是给自己的0.15BTC。</p>
+<p>现在的钱包软件已经帮我们实现了这个功能，我们只需要指定交易费而无需指定转给自己的交易。</p>
+</blockquote>
+<p>那么此时就是将Mark和Jessica转给Alice的0.6*2个BTC，转给了Bob1个BTC，矿工0.05个BTC，转给自己的0.15个BTC。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305261640312.png" alt="" />
+    
+  </figure>
+
+</p>
+<p>当Alice确认好交易内容后，就会想比特币网络广播这笔交易。矿工会验证这笔交易，并通过工作量证明来竞争“记账权”。</p>
+<h3 id="矿工" class="relative group">矿工 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%9f%bf%e5%b7%a5" aria-label="Anchor">#</a></span></h3>
+<p>矿工是一类节点的简称，这类节点需要汇总交易并打包成块写入区块链中。</p>
+<h4 id="奖励机制" class="relative group">奖励机制 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%a5%96%e5%8a%b1%e6%9c%ba%e5%88%b6" aria-label="Anchor">#</a></span></h4>
+<p>显然没有矿工，区块链就不会“延长”。矿工维持着区块链系统的正常运行，并且矿工越多，整个比特币系统就越安全（假设作恶的节点是少数）。</p>
+<p>因此奖励机制十分重要。</p>
+<p>比特币系统存在两种奖励：创建新区块的奖励以及交易费。</p>
+<p>交易费就是一个区块所有交易输入减去输出的总和；新块奖励会稍微复杂一些：<strong>初始奖励为50BTC，每210000个块减半（大概4年）</strong>。</p>
+<h4 id="工作量证明" class="relative group">工作量证明 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b7%a5%e4%bd%9c%e9%87%8f%e8%af%81%e6%98%8e" aria-label="Anchor">#</a></span></h4>
+<p>比特币系统使用工作量证明作为共识机制。简单来说，就是通过寻找一个随机数来与区块头的信息结合，并通过哈希算法获得一个哈希值，如果这个哈希值小于目的值，就可以将块打包写入区块链，经过其他矿工验证后就可以得到奖励。</p>
+<p>这个证明过程可以简单的记为<code>Hash(block header+nonce) &lt; target</code>。</p>
+<p>所谓的目的值就是一个不断调节的难度（以维持平均10分钟一个块），难度越大，哈希结果命中的概率就越大。</p>
+<p>随着竞争的加剧，遍历完32位的nonce值也不一定能够得到这个目的值，因此还可以修改区块头中的time(可微调)和coinbase中的数据来加大输出范围。</p>
+<h4 id="交易池" class="relative group">交易池 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%a4%e6%98%93%e6%b1%a0" aria-label="Anchor">#</a></span></h4>
+<p>矿工在进行工作量证明的同时，也会监听比特币网络中广播的交易以准备下个区块的竞争。</p>
+<p>当矿工监听到一笔交易后，会先验证这笔交易是合法的，然后将这笔交易放入<strong>交易池</strong>中。</p>
+<blockquote>
+<p>如果一笔交易的输入不存在，那么就说明该矿工没有收到这笔交易的前置交易，这时候这笔交易不能被写入区块中，因此需要将其放入孤儿池中，等待前置交易的到来。</p>
+<p>与此相似，节点中也存在一个孤块池来保存未找到父块的区块。</p>
+</blockquote>
+<p>如果矿工监听到当前正在竞争的块已被证明，那么就可以放弃当前块，并开启下个区块的竞争。</p>
+<blockquote>
+<p>在竞争前，矿工会将交易池中已经被打包的交易（竞争成功的区块中的交易）去掉。</p>
+</blockquote>
+<h3 id="验证交易" class="relative group">验证交易 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%aa%8c%e8%af%81%e4%ba%a4%e6%98%93" aria-label="Anchor">#</a></span></h3>
+<p>区块链中如何证明一笔交易是合法的呢？也即如何证明Alice有这笔钱呢？</p>
+<p>交易的输入是UTXO，UTXO中存在<strong>锁定脚本</strong>，锁定脚本中存在所属账户的公钥或者比特币地址。</p>
+<p>在每个交易中都存在一个<strong>解锁脚本</strong>，解锁脚本中含有花这笔钱的账户（私钥）生成的签名。</p>
+<p>验证程序会执行这两个脚本来验证Alice能否使用这个UTXO。</p>
+<h3 id="确认交易" class="relative group">确认交易 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%a1%ae%e8%ae%a4%e4%ba%a4%e6%98%93" aria-label="Anchor">#</a></span></h3>
+<p>交易往往是双向的，Alice向Bob转移1BTC以换取其他物品，以电脑为例。当Bob接收到Alice支付的1BTC后，Bob不应该将电脑立马交给Alice，而是<strong>应该等待半个小时到一个小时</strong>。</p>
+<p>这是因为最新的区块还存在被回滚的可能。比如Alice在另一笔交易中用同样的UTXO支付给自己一笔钱，这两笔交易同时出现在两个区块中，并且被不同的节点所验证。在后续的“站队”过程中，只会有一个区块会加入到区块链中，另一笔交易由于输入的UTXO已经无效而被丢弃。因此Bob存在损失这笔钱的可能性。而等待半个小时到一个小时，区块链中已经存在3~6个最新的区块，这时已经能保证这笔交易不会被回滚。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305261832820.png" alt="" />
+    
+  </figure>
+
+</p>
+<h2 id="其他问题" class="relative group">其他问题 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98" aria-label="Anchor">#</a></span></h2>
+<h3 id="节点启动时如何发现其他节点" class="relative group">节点启动时如何发现其他节点 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%8a%82%e7%82%b9%e5%90%af%e5%8a%a8%e6%97%b6%e5%a6%82%e4%bd%95%e5%8f%91%e7%8e%b0%e5%85%b6%e4%bb%96%e8%8a%82%e7%82%b9" aria-label="Anchor">#</a></span></h3>
+<p>比特币代码中硬编码了一些“种子地址”，如：</p>
+<ul>
+<li>
+<p>dnsseed.bitcoin.org</p>
+</li>
+<li>
+<p>dnsseed.bluematt.me</p>
+</li>
+<li>
+<p>dnsseed.bitcoin.sipa.be</p>
+</li>
+<li>
+<p>seed.bitcoin.sipa.be</p>
+</li>
+</ul>
+<p>通过这些节点加入网络后可以再去获取其他节点作为自己的邻居节点。</p>
+<h3 id="为什么要保证10分钟一个区块" class="relative group">为什么要保证10分钟一个区块 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%bf%9d%e8%af%8110%e5%88%86%e9%92%9f%e4%b8%80%e4%b8%aa%e5%8c%ba%e5%9d%97" aria-label="Anchor">#</a></span></h3>
+<p>如果时间太短，会容易造成区块链不稳定。出块时间越短，分叉的可能性就越大，而分叉就代表着算力的拆分，一条链算力越小，越容易被攻击。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202305271017541.png" alt="" />
+    
+  </figure>
+
+</p>
+<p>当然，出块时间也不应太长，否则会导致一个块太大且交易太慢。</p>
+<p>为了维持平均10分钟一个区块，比特币系统规定每2016个区块（两周）调整一次难度，方式为根据过去2016个块的出块时间来调整挖矿难度。</p>
+<h2 id="相关资料" class="relative group">相关资料 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%9b%b8%e5%85%b3%e8%b5%84%e6%96%99" aria-label="Anchor">#</a></span></h2>
+<ol>
+<li><a
+  href="https://medium.com/fcats-blockchain-incubator/understanding-the-bitcoin-blockchain-header-a2b0db06b515"
+  
+  target="_blank" rel="noreferrer noopener"
+>Understanding the Bitcoin Blockchain Header | by RJ Rybarczyk | FCAT Blockchain Incubator | Medium</a></li>
+<li><a
+  href="https://www.bitcoin.com/get-started/how-bitcoin-transactions-work/"
+  
+  target="_blank" rel="noreferrer noopener"
+>How bitcoin transactions work | How Do Bitcoin and Crypto Work? | Get Started with Bitcoin.com</a></li>
+<li><a
+  href="https://medium.com/bitbees/what-the-heck-is-utxo-ca68f2651819"
+  
+  target="_blank" rel="noreferrer noopener"
+>What The Heck is UTXO. Peeking into the Bitcoin Transaction… | by Rajarshi Maitra | BitHyve | Medium</a></li>
+<li>《精通区块链》</li>
+<li><a
+  href="[01-%e8%af%be%e7%a8%8b%e7%ae%80%e4%bb%8b_%e5%93%94%e5%93%a9%e5%93%94%e5%93%a9_bilibili]%28https://www.bilibili.com/video/BV1Vt411X7JF?p=1&amp;vd_source=b21f0ba0bbbd941ea05c4a71553d4c11%29"
+  
+  
+>北京大学肖臻老师《区块链技术与应用》公开课</a></li>
+</ol>
 
       </div>
     </section>
@@ -925,7 +1137,7 @@ func registerDomain(string memory domain) public {
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="group flex" href="/web3/makerdao_base_info/">
+            <a class="group flex" href="/web3/solidity_note/">
               <span
                 class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
                 >&larr;</span
@@ -937,11 +1149,11 @@ func registerDomain(string memory domain) public {
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >MakerDAO简介</span
+                  >Solidity笔记</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2022-06-04 14:35:00 &#43;0800 CST">4 June 2022</time>
+                    <time datetime="2022-06-10 19:37:00 &#43;0800 CST">10 June 2022</time>
                   
                 </span>
               </span>
@@ -949,28 +1161,6 @@ func registerDomain(string memory domain) public {
           
         </span>
         <span>
-          
-            <a class="group flex text-right" href="/web3/bitcoin_tech/">
-              <span class="flex flex-col">
-                <span
-                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >比特币技术汇总</span
-                >
-                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
-                  
-                    <time datetime="2023-05-26 14:35:00 &#43;0800 CST">26 May 2023</time>
-                  
-                </span>
-              </span>
-              <span
-                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
-              >
-              <span
-                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
-              >
-            </a>
           
         </span>
       </div>

@@ -6,7 +6,25 @@
     <description>Recent content in 记录个人的成长记录 on 主页</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 17 May 2023 11:30:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 May 2023 14:35:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>比特币技术汇总</title>
+      <link>/web3/bitcoin_tech/</link>
+      <pubDate>Fri, 26 May 2023 14:35:00 +0800</pubDate>
+      
+      <guid>/web3/bitcoin_tech/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>浅谈价值</title>
+      <link>/mental_model/value/</link>
+      <pubDate>Thu, 18 May 2023 19:00:00 +0800</pubDate>
+      
+      <guid>/mental_model/value/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>CVP架构</title>
       <link>/internet/ai/law-ai-cvp/</link>
@@ -90,10 +108,10 @@
     
     <item>
       <title>ChatGPT教我写代码——best todo</title>
-      <link>/internet/go/chatgpt_best-todo/</link>
+      <link>/internet/ai/chatgpt_best-todo/</link>
       <pubDate>Sun, 26 Feb 2023 11:30:00 +0800</pubDate>
       
-      <guid>/internet/go/chatgpt_best-todo/</guid>
+      <guid>/internet/ai/chatgpt_best-todo/</guid>
       <description></description>
     </item>
     

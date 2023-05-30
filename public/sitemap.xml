@@ -2,379 +2,382 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://stong1994.github.io/other/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
+    <loc>/internet/</loc>
+    <lastmod>2023-05-30T14:36:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/1_plus_1/</loc>
+    <loc>/internet/design/trie_intro/</loc>
+    <lastmod>2023-05-30T14:36:00+08:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2023-05-30T14:36:00+08:00</lastmod>
+  </url><url>
+    <loc>/web3/</loc>
+    <lastmod>2023-05-26T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>/web3/bitcoin_tech/</loc>
+    <lastmod>2023-05-26T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>/other/</loc>
+    <lastmod>2023-05-18T19:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>/mental_model/value/</loc>
+    <lastmod>2023-05-18T19:00:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/ai/law-ai-cvp/</loc>
+    <lastmod>2023-05-17T11:30:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/design/skip_list/</loc>
+    <lastmod>2023-05-16T19:12:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/algorithm/read_black_tree/</loc>
+    <lastmod>2023-04-28T16:32:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/algorithm/12boll/</loc>
+    <lastmod>2023-04-21T10:00:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/design/employee_adapter/</loc>
+    <lastmod>2023-04-19T15:12:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/design/fsm/</loc>
+    <lastmod>2023-03-22T14:43:00+08:00</lastmod>
+  </url><url>
+    <loc>/note/rust/the_content_rust_better_than_go/</loc>
+    <lastmod>2023-03-18T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>/note/rust/defect_by_ownership/</loc>
+    <lastmod>2023-03-16T14:35:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/flutter/setstate/</loc>
+    <lastmod>2023-03-07T20:00:00+08:00</lastmod>
+  </url><url>
+    <loc>/internet/ai/chatgpt_best-todo/</loc>
+    <lastmod>2023-02-26T11:30:00+08:00</lastmod>
+  </url><url>
+    <loc>/book/philosophy/1_plus_1/</loc>
     <lastmod>2023-02-19T10:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/stong/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/</loc>
-    <lastmod>2023-02-19T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/chatgpt_race_recursion/</loc>
+    <loc>/book/philosophy/chatgpt_race_recursion/</loc>
     <lastmod>2023-02-16T10:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/</loc>
-    <lastmod>2023-02-11T12:00:00+08:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/go/takcenter_review/</loc>
+    <loc>/internet/go/takcenter_review/</loc>
     <lastmod>2023-02-11T12:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/algorithm/towpointer/</loc>
+    <loc>/internet/algorithm/towpointer/</loc>
     <lastmod>2023-02-11T10:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/why_read_book/</loc>
+    <loc>/book/philosophy/why_read_book/</loc>
     <lastmod>2023-01-07T10:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/append_trap/</loc>
+    <loc>/internet/go/append_trap/</loc>
     <lastmod>2023-01-03T14:10:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/depth/mongo_index/</loc>
+    <loc>/internet/depth/mongo_index/</loc>
     <lastmod>2022-12-22T16:05:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/marshal_same_tag/</loc>
+    <loc>/internet/go/marshal_same_tag/</loc>
     <lastmod>2022-12-20T14:50:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/json/</loc>
+    <loc>/internet/go/json/</loc>
     <lastmod>2022-12-15T14:50:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/unmarshal_trap/</loc>
+    <loc>/internet/go/unmarshal_trap/</loc>
     <lastmod>2022-12-11T13:10:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/get_more_free_work_time/</loc>
+    <loc>/internet/get_more_free_work_time/</loc>
     <lastmod>2022-12-11T13:10:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/coder_vs_engineer/</loc>
+    <loc>/life/coder_vs_engineer/</loc>
     <lastmod>2022-11-20T23:31:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/adaptor/</loc>
+    <loc>/internet/design/adaptor/</loc>
     <lastmod>2022-11-15T11:17:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/singleton/</loc>
+    <loc>/internet/design/singleton/</loc>
     <lastmod>2022-11-14T19:45:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/iterator/</loc>
+    <loc>/internet/design/template/</loc>
     <lastmod>2022-11-14T19:45:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/template/</loc>
+    <loc>/internet/design/iterator/</loc>
     <lastmod>2022-11-14T19:45:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/factory/</loc>
+    <loc>/internet/design/factory/</loc>
     <lastmod>2022-11-13T19:45:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/observer/</loc>
+    <loc>/internet/design/observer/</loc>
     <lastmod>2022-11-11T19:45:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/other/book/</loc>
+    <loc>/book/</loc>
     <lastmod>2022-11-07T18:30:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/other/landscape_thinking/</loc>
+    <loc>/other/landscape_thinking/</loc>
     <lastmod>2022-11-07T18:30:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/solid/</loc>
+    <loc>/internet/design/solid/</loc>
     <lastmod>2022-11-04T17:23:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/zap/options/</loc>
+    <loc>/internet/go/zap/options/</loc>
     <lastmod>2022-11-02T17:23:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/syncmap/</loc>
+    <loc>/internet/go/syncmap/</loc>
     <lastmod>2022-10-31T11:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/errgroup/</loc>
+    <loc>/internet/go/errgroup/</loc>
     <lastmod>2022-10-31T00:01:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/antlr4-negative-and-minus/</loc>
+    <loc>/internet/tool/antlr4-negative-and-minus/</loc>
     <lastmod>2022-10-30T20:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/antlr4-with-go/</loc>
+    <loc>/internet/tool/antlr4-with-go/</loc>
     <lastmod>2022-10-29T20:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/antlr4-theory/</loc>
+    <loc>/internet/tool/antlr4-theory/</loc>
     <lastmod>2022-10-28T20:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/antlr4-install/</loc>
+    <loc>/internet/tool/antlr4-install/</loc>
     <lastmod>2022-10-27T20:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/</loc>
+    <loc>/cloudnative/</loc>
     <lastmod>2022-10-22T21:19:00+08:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/docker/base/</loc>
+    <loc>/cloudnative/docker/base/</loc>
     <lastmod>2022-10-22T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/serviceAccount_rbac/</loc>
+    <loc>/cloudnative/k8s/serviceAccount_rbac/</loc>
     <lastmod>2022-10-18T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/computational_resource/</loc>
+    <loc>/cloudnative/k8s/computational_resource/</loc>
     <lastmod>2022-10-17T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/scheduler/</loc>
+    <loc>/cloudnative/k8s/scheduler/</loc>
     <lastmod>2022-10-16T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/autoscaling/</loc>
+    <loc>/cloudnative/k8s/autoscaling/</loc>
     <lastmod>2022-10-15T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/architecture/</loc>
+    <loc>/cloudnative/k8s/architecture/</loc>
     <lastmod>2022-10-13T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/volume/</loc>
+    <loc>/cloudnative/k8s/volume/</loc>
     <lastmod>2022-10-12T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/service/</loc>
+    <loc>/cloudnative/k8s/service/</loc>
     <lastmod>2022-10-11T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/athens/</loc>
+    <loc>/internet/tool/athens/</loc>
     <lastmod>2022-10-11T14:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/pod/</loc>
+    <loc>/cloudnative/k8s/pod/</loc>
     <lastmod>2022-10-08T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/configration/</loc>
+    <loc>/cloudnative/k8s/configration/</loc>
     <lastmod>2022-10-07T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/metadata/</loc>
+    <loc>/cloudnative/k8s/metadata/</loc>
     <lastmod>2022-10-06T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/k8s/pod/</loc>
+    <loc>/cloudnative/k8s/pod/</loc>
     <lastmod>2022-10-01T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/istio/observe/</loc>
+    <loc>/cloudnative/istio/observe/</loc>
     <lastmod>2022-08-17T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/istio/traffic/</loc>
+    <loc>/cloudnative/istio/traffic/</loc>
     <lastmod>2022-08-11T13:16:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/cloudnative/istio/overview/</loc>
+    <loc>/cloudnative/istio/overview/</loc>
     <lastmod>2022-08-07T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/python/package_manager/</loc>
+    <loc>/internet/python/package_manager/</loc>
     <lastmod>2022-07-31T16:14:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/stone/</loc>
+    <loc>/life/boss_emp_invalid_communicate/</loc>
     <lastmod>2022-07-05T15:35:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/boss_emp_invalid_communicate/</loc>
-    <lastmod>2022-07-05T15:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/authors/atong/</loc>
+    <loc>/life/why_is_how/</loc>
     <lastmod>2022-06-22T10:23:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/why_is_how/</loc>
-    <lastmod>2022-06-22T10:23:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/life/deduction_conclude/</loc>
+    <loc>/life/deduction_conclude/</loc>
     <lastmod>2022-06-18T23:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/first_principle/</loc>
+    <loc>/book/philosophy/first_principle/</loc>
     <lastmod>2022-06-13T16:50:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/hero_with_a_thousand_faces/</loc>
+    <loc>/book/philosophy/hero_with_a_thousand_faces/</loc>
     <lastmod>2022-06-12T16:41:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/web3/solidity_note/</loc>
+    <loc>/web3/solidity_note/</loc>
     <lastmod>2022-06-10T19:37:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/web3/</loc>
-    <lastmod>2022-06-10T19:37:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/web3/makerdao_base_info/</loc>
+    <loc>/web3/makerdao_base_info/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/note/</loc>
+    <loc>/note/rust/base/</loc>
     <lastmod>2022-06-04T14:35:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/note/rust/base/</loc>
-    <lastmod>2022-06-04T14:35:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/go/channel/</loc>
+    <loc>/internet/go/channel/</loc>
     <lastmod>2022-05-11T15:39:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/why_not_solve_arithmetic_problem/</loc>
+    <loc>/internet/why_not_solve_arithmetic_problem/</loc>
     <lastmod>2022-05-11T10:30:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/authors/cristo/</loc>
+    <loc>/book/improve/subtract/</loc>
     <lastmod>2022-05-09T21:30:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/subtract/</loc>
-    <lastmod>2022-05-09T21:30:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/life/not_to_change_job_for_more_money/</loc>
+    <loc>/life/not_to_change_job_for_more_money/</loc>
     <lastmod>2022-04-28T13:24:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/interview_2022_04/</loc>
+    <loc>/life/interview_2022_04/</loc>
     <lastmod>2022-04-27T19:45:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/network/tcp/reliability/</loc>
+    <loc>/internet/network/tcp/reliability/</loc>
     <lastmod>2022-03-28T17:20:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/network/tcp_connection/</loc>
+    <loc>/internet/network/tcp_connection/</loc>
     <lastmod>2022-03-27T21:19:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/internet/browser_visit/</loc>
+    <loc>/internet/internet/browser_visit/</loc>
     <lastmod>2022-03-25T15:58:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/redis_cache_design/</loc>
+    <loc>/internet/design/redis_transaction/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/redis_transaction/</loc>
+    <loc>/internet/design/redis_cache_design/</loc>
     <lastmod>2022-03-24T13:48:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/redis_multi_server/</loc>
+    <loc>/internet/design/redis_multi_server/</loc>
     <lastmod>2022-03-24T11:33:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/depth/redis_durability/</loc>
+    <loc>/internet/depth/redis_durability/</loc>
     <lastmod>2022-03-21T11:08:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/chatgpt_best-todo/</loc>
+    <loc>/internet/go/channel/</loc>
     <lastmod>2022-03-10T14:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/go/channel/</loc>
+    <loc>/internet/tool/plantuml/</loc>
     <lastmod>2022-03-10T14:43:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/tool/plantuml/</loc>
-    <lastmod>2022-03-10T14:43:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/life/leader_mentality_change/</loc>
+    <loc>/life/leader_mentality_change/</loc>
     <lastmod>2022-03-04T11:03:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/dialog/liaofanyuan_adler/</loc>
+    <loc>/life/dialog/liaofanyuan_adler/</loc>
     <lastmod>2022-02-26T13:03:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/algorithm/manacher/</loc>
+    <loc>/internet/algorithm/manacher/</loc>
     <lastmod>2022-02-12T16:32:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/book_list_2021/</loc>
+    <loc>/book/book_list_2021/</loc>
     <lastmod>2022-02-09T20:11:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/summory_2021/</loc>
+    <loc>/life/summory_2021/</loc>
     <lastmod>2022-02-09T19:27:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/algorithm/kmp/</loc>
+    <loc>/internet/algorithm/kmp/</loc>
     <lastmod>2022-01-28T16:32:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/mysql/acid/</loc>
+    <loc>/internet/mysql/acid/</loc>
     <lastmod>2022-01-16T17:05:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/short_circuit_when_solve_problem/</loc>
+    <loc>/life/short_circuit_when_solve_problem/</loc>
     <lastmod>2022-01-09T17:25:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/MySQL/curd/</loc>
+    <loc>/internet/MySQL/curd/</loc>
     <lastmod>2022-01-06T17:05:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/why_buddhism_is_true/</loc>
+    <loc>/book/philosophy/why_buddhism_is_true/</loc>
     <lastmod>2022-01-04T16:24:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/taleb_four_book/</loc>
+    <loc>/book/philosophy/taleb_four_book/</loc>
     <lastmod>2022-01-04T16:24:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/mysql/InnoDB_struct/</loc>
+    <loc>/internet/mysql/InnoDB_struct/</loc>
     <lastmod>2022-01-03T13:32:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/critical_path/</loc>
+    <loc>/book/philosophy/critical_path/</loc>
     <lastmod>2022-01-02T16:24:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/run_with_time/</loc>
+    <loc>/life/run_with_time/</loc>
     <lastmod>2021-12-19T23:39:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/hr_three-pillar-mode/</loc>
+    <loc>/book/improve/hr_three-pillar-mode/</loc>
     <lastmod>2021-12-17T13:57:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/anthropology/TheChrysanthemumAndTheSword/</loc>
+    <loc>/book/anthropology/TheChrysanthemumAndTheSword/</loc>
     <lastmod>2021-12-12T21:36:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/tag/anthropology/</loc>
-    <lastmod>2021-12-12T21:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/category/c_anthropology/</loc>
-    <lastmod>2021-12-12T21:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/category/</loc>
-    <lastmod>2021-12-12T21:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/tag/</loc>
-    <lastmod>2021-12-12T21:36:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/how_to_code_without_bug/</loc>
+    <loc>/internet/how_to_code_without_bug/</loc>
     <lastmod>2021-12-04T23:31:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/depth/redis_base_design/</loc>
+    <loc>/internet/depth/redis_base_design/</loc>
     <lastmod>2021-11-22T16:05:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/depth/layer/</loc>
+    <loc>/internet/depth/layer/</loc>
     <lastmod>2021-11-20T13:20:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/qi/</loc>
+    <loc>/life/qi/</loc>
     <lastmod>2021-11-14T18:07:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/deep_work/</loc>
+    <loc>/book/improve/deep_work/</loc>
     <lastmod>2021-10-07T20:20:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/category/c_improve/</loc>
-    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/tag/%E6%B7%B1%E5%BA%A6%E5%B7%A5%E4%BD%9C/</loc>
-    <lastmod>2021-10-07T20:20:00+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/depth/code_thought/</loc>
+    <loc>/internet/depth/code_thought/</loc>
     <lastmod>2021-10-06T17:05:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/dboat/</loc>
+    <loc>/internet/design/dboat/</loc>
     <lastmod>2021-10-04T22:32:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/gray_gateway/</loc>
+    <loc>/internet/design/gray_gateway/</loc>
     <lastmod>2021-10-03T23:57:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/evps/</loc>
+    <loc>/internet/design/evps/</loc>
     <lastmod>2021-10-01T19:26:00+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/design/basepay/</loc>
+    <loc>/internet/design/basepay/</loc>
     <lastmod>2021-09-30T14:31:11+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/philosophy/person_and_history/</loc>
+    <loc>/book/philosophy/person_and_history/</loc>
     <lastmod>2021-03-15T00:53:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</loc>
+    <loc>/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</loc>
     <lastmod>2021-02-28T23:25:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/tag/improve/</loc>
-    <lastmod>2021-02-28T23:25:51+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/book/improve/principles/</loc>
+    <loc>/book/improve/principles/</loc>
     <lastmod>2021-02-28T16:19:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/life/build_free_blog/</loc>
+    <loc>/tags/life/</loc>
     <lastmod>2021-01-31T16:30:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/measure_what_matters/</loc>
+    <loc>/tags/</loc>
+    <lastmod>2021-01-31T16:30:51+08:00</lastmod>
+  </url><url>
+    <loc>/life/build_free_blog/</loc>
+    <lastmod>2021-01-31T16:30:51+08:00</lastmod>
+  </url><url>
+    <loc>/book/improve/measure_what_matters/</loc>
     <lastmod>2021-01-31T00:10:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/book/improve/the_effective_executive/</loc>
+    <loc>/book/improve/the_effective_executive/</loc>
     <lastmod>2021-01-30T00:20:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/ddd/advance/</loc>
-    <lastmod>2021-01-30T00:20:51+08:00</lastmod>
-  </url><url>
-    <loc>https://stong1994.github.io/internet/ddd/practise/</loc>
+    <loc>/internet/ddd/practise/</loc>
     <lastmod>2021-01-29T23:31:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/internet/ddd/base/</loc>
+    <loc>/internet/ddd/advance/</loc>
+    <lastmod>2021-01-30T00:20:51+08:00</lastmod>
+  </url><url>
+    <loc>/internet/ddd/base/</loc>
     <lastmod>2021-01-29T23:07:51+08:00</lastmod>
   </url><url>
-    <loc>https://stong1994.github.io/about/</loc>
+    <loc>/about/</loc>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/mental_model/</loc>
+    <loc>/mental_model/</loc>
     <priority>0</priority>
   </url><url>
-    <loc>https://stong1994.github.io/series/</loc>
+    <loc>/categories/</loc>
   </url>
 </urlset>
