@@ -101,7 +101,7 @@ Patricia Trie中的节点，即需要记录**“分叉信息”**，又需要记
 
 ### 优点
 
-Patricia Trie相较于Radix Trie的优点就是**
+Patricia Trie相较于Radix Trie的优点就是:
 
 1. 每个节点都是完整单词的存储节点，这节约了大量空间。
 2. 每个分叉都是二分，能够加快检索效率
