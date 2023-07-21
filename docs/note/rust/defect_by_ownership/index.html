@@ -37,15 +37,16 @@
   
   
   
+  
   <link
     type="text/css"
     rel="stylesheet"
-    href="/css/main.bundle.min.827e4067f785eb8991b29db972c66513a2555b27ab79607dadc6efd017da4df0fd429efe9ed49a1fc101da2d1cb711816bb8efc4e01baaf9eeb352b258c9f887.css"
-    integrity="sha512-gn5AZ/eF64mRsp25csZlE6JVWyereWB9rcbv0BfaTfD9Qp7&#43;ntSaH8EB2i0ctxGBa7jvxOAbqvnus1KyWMn4hw=="
+    href="/css/main.bundle.min.d2d22c5c1c2460999b194d3fbbce6097c00f40fb952d56864bb609de68cbc5ea.css"
+    integrity="sha256-0tIsXBwkYJmbGU0/u85gl8APQPuVLVaGS7YJ3mjLxeo="
   />
   
   
-  <script type="text/javascript" src="/js/appearance.min.c6198a5ecbc6c7b35a8568d29315f50cf5d775d4461c515a476359767f1a745c245aa83fa96b0c7d83da976cf77481e1fc29537a2391a53ffe69a991638802e6.js" integrity="sha512-xhmKXsvGx7NahWjSkxX1DPXXddRGHFFaR2NZdn8adFwkWqg/qWsMfYPal2z3dIHh/ClTeiORpT/&#43;aamRY4gC5g=="></script>
+  <script type="text/javascript" src="/js/appearance.min.022d0ebc3b46a335eb1c7ef79b7f2de143d7cd5156d433638592ef1ce5f8554e.js" integrity="sha256-Ai0OvDtGozXrHH73m38t4UPXzVFW1DNjhZLvHOX4VU4="></script>
   
     
     
@@ -58,7 +59,7 @@
   
   
     
-    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.6d78c827ca7bcbf72056dbf698bf9aeb759a08966686187deb23f5949f73eca5f39b461284900cdfc08e2976d99eb80a8663648de778ba2a83e633ae16dbfc25.js" integrity="sha512-bXjIJ8p7y/cgVtv2mL&#43;a63WaCJZmhhh96yP1lJ9z7KXzm0YShJAM38COKXbZnrgKhmNkjed4uiqD5jOuFtv8JQ==" data-copy="Copy" data-copied="Copied"></script>
+    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.75206d23ef83f4908b2bdd2317bf6ddff399e9173a16fff5451c40b8e857cfa8.js" integrity="sha256-dSBtI&#43;&#43;D9JCLK90jF79t3/OZ6Rc6Fv/1RRxAuOhXz6g=" data-copy="Copy" data-copied="Copied"></script>
   
   
   
@@ -78,7 +79,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/note/rust/defect_by_ownership/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2023-03-16T14:35:00+08:00" />
-<meta property="article:modified_time" content="2023-03-16T14:35:00+08:00" /><meta property="og:site_name" content="主页" />
+<meta property="article:modified_time" content="2023-03-16T14:35:00+08:00" />
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="rust中引入所有权所带来的麻烦"/>
@@ -141,15 +142,15 @@
 
   
   
-</head><body
+</head>
+<body
     class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
   >
     <div id="the-top" class="absolute flex self-center">
       <a
         class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
         href="#main-content"
-        ><span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400"
-          >&darr;</span
+        ><span class="font-bold pe-2 text-primary-600 dark:text-primary-400">&darr;</span
         >Skip to main content</a
       >
     </div>
@@ -186,10 +187,10 @@
         </div>
         <div
           id="menu-wrapper"
-          class="fixed inset-0 z-30 invisible w-full h-full m-auto overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50"
+          class="invisible fixed inset-0 z-30 m-auto h-full w-full cursor-default overflow-auto bg-neutral-100/50 opacity-0 backdrop-blur-sm transition-opacity dark:bg-neutral-900/50"
         >
           <ul
-            class="flex flex-col w-full px-6 py-6 mx-auto overflow-visible list-none max-w-7xl ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
           >
             <li class="mb-1">
               <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
@@ -205,7 +206,7 @@
             </li>
             
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/internet/"
@@ -221,7 +222,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/cloudnative/"
@@ -237,7 +238,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/web3/"
@@ -253,7 +254,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/book/"
@@ -269,7 +270,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/other/"
@@ -285,7 +286,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/mental_model/"
@@ -301,7 +302,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/about/"
@@ -317,7 +318,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="https://github.com/stong1994/"
@@ -325,7 +326,7 @@
                       target="_blank"
                       >
                         <span
-                          class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                          class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                         >
                           
 
@@ -341,7 +342,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     
                     
@@ -351,7 +352,7 @@
                       >
                         
                           <span
-                            class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                            class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                           >
                             
 
@@ -379,12 +380,10 @@
         </div>
       </label>
       
-      <ul class="flex-row hidden list-none ltr:text-right rtl:text-left sm:flex">
+      <ul class="hidden list-none flex-row ltr:text-right rtl:text-left sm:flex">
         
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/internet/"
@@ -400,9 +399,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/cloudnative/"
@@ -418,9 +415,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/web3/"
@@ -436,9 +431,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/book/"
@@ -454,9 +447,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/other/"
@@ -472,9 +463,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/mental_model/"
@@ -490,9 +479,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/about/"
@@ -508,9 +495,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="https://github.com/stong1994/"
@@ -518,7 +503,7 @@
                   target="_blank"
                   >
                     <span
-                      class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                     >
                       
 
@@ -534,9 +519,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 
                 
@@ -546,7 +529,7 @@
                   >
                     
                       <span
-                        class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                       >
                         
 
@@ -656,6 +639,7 @@
     
   
 
+
   <div class="flex flex-row flex-wrap items-center">
     
     
@@ -705,17 +689,15 @@
     </header>
     <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
       
-        <div class="order-first px-0 lg:order-last lg:max-w-xs ltr:lg:pl-8 rtl:lg:pr-8">
-          <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
-            <details open class="mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5">
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
   <summary
-    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+    class="-ms-5 block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
   >
     Table of Contents
   </summary>
-  <div
-    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600"
-  >
+  <div class="-ms-5 border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
     <li>
@@ -745,7 +727,7 @@
 <li>无需开发者手动管理，降低心智负担（自动回收的优点）</li>
 </ol>
 <p>但事物总是具有两面性的，所有权系统也为rust带了了一些缺点。</p>
-<h2 id="时刻戒备所有权" class="relative group">时刻戒备所有权 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%97%b6%e5%88%bb%e6%88%92%e5%a4%87%e6%89%80%e6%9c%89%e6%9d%83" aria-label="Anchor">#</a></span></h2>
+<h2 id="时刻戒备所有权" class="relative group">时刻戒备所有权 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%97%b6%e5%88%bb%e6%88%92%e5%a4%87%e6%89%80%e6%9c%89%e6%9d%83" aria-label="Anchor">#</a></span></h2>
 <blockquote>
 <p>一个数据在同一时间只能被一个变量拥有所有权。</p>
 </blockquote>
@@ -755,14 +737,14 @@
 <li>这个语句是否会转移所有权？</li>
 <li>数据被借用了吗，会被修改吗？</li>
 </ul>
-<h2 id="严格的引用与借用" class="relative group">严格的引用与借用 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%a5%e6%a0%bc%e7%9a%84%e5%bc%95%e7%94%a8%e4%b8%8e%e5%80%9f%e7%94%a8" aria-label="Anchor">#</a></span></h2>
+<h2 id="严格的引用与借用" class="relative group">严格的引用与借用 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%a5%e6%a0%bc%e7%9a%84%e5%bc%95%e7%94%a8%e4%b8%8e%e5%80%9f%e7%94%a8" aria-label="Anchor">#</a></span></h2>
 <p>由于所有权的限制会导致变量在函数间的传递非常麻烦——变量进入函数后会导致函数外的变量失去所有权，因此如果函数外仍要使用这个变量，只能通过接收返回值的方式来实现。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;stong&#34;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">handle_name</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// println!(&#34;{}&#34;, name); // 所有权已被转移，因此无法使用
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">new_name</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">new_name</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">handle_name</span><span class="p">(</span><span class="n">name</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span><span class="p">{</span><span class="w">
@@ -775,7 +757,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;stong&#34;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">handle_name</span><span class="p">(</span><span class="o">&amp;</span><span class="n">name</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">handle_name</span><span class="p">(</span><span class="n">name</span>: <span class="kp">&amp;</span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -786,7 +768,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;stong&#34;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">handle_name</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w">  </span><span class="c1">// stong are you ok?
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w">  </span><span class="c1">// stong are you ok?
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">handle_name</span><span class="p">(</span><span class="n">name</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -799,7 +781,7 @@
 <li>将name的可变引用传入函数中: <code>handle_name(&amp;mut name);</code></li>
 </ol>
 <p>所有mut在变量声明、函数声明、传参这三个过程中都要参与！</p>
-<h2 id="引入clone-trait" class="relative group">引入Clone trait <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e5%85%a5clone-trait" aria-label="Anchor">#</a></span></h2>
+<h2 id="引入clone-trait" class="relative group">引入Clone trait <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e5%85%a5clone-trait" aria-label="Anchor">#</a></span></h2>
 <p>如果要复制一个独立（拥有数据所有权）的结构体，需要怎样呢？由于所有权的限制，我们需要单独复制每个字段：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="cp">#[derive(Debug)]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -816,7 +798,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">name</span>: <span class="nc">person1</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span><span class="w"> </span><span class="c1">// String类型没有实现Copy trait，但实现了Clone trait, 所以使用clone方法进行复制
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">age</span>: <span class="nc">person1</span><span class="p">.</span><span class="n">age</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">};</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: {:?}, person2: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: </span><span class="si">{:?}</span><span class="s">, person2: </span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>这太麻烦了，为了方便复制结构体，rust提供了Clone trait：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="cp">#[derive(Clone, Debug)]</span><span class="w">
@@ -831,9 +813,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">age</span>: <span class="mi">20</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">};</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">person2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person1</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: {:?}, person2: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: </span><span class="si">{:?}</span><span class="s">, person2: </span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><h2 id="引入copy-trait" class="relative group">引入Copy trait <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e5%85%a5copy-trait" aria-label="Anchor">#</a></span></h2>
+</span></span></span></code></pre></div><h2 id="引入copy-trait" class="relative group">引入Copy trait <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e5%85%a5copy-trait" aria-label="Anchor">#</a></span></h2>
 <p>Clone trait需要显式调用clone方法，还是比较麻烦，rust又提供了Copy trait来直接进行复制。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="cp">#[derive(Copy, Clone, Debug)]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -845,10 +827,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">age</span>: <span class="mi">20</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">};</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">person2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person1</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: {:?}, person2: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;person1: </span><span class="si">{:?}</span><span class="s">, person2: </span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">person1</span><span class="p">,</span><span class="w"> </span><span class="n">person2</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>仔细看上边代码，可以看到我去掉了name字段，因为Copy 结构体时要求所有的字段都已实现了Copy trait，而String没有实现Copy trait，因此我将其移除了。</p>
-<h2 id="手动标注生命周期" class="relative group">手动标注生命周期 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%89%8b%e5%8a%a8%e6%a0%87%e6%b3%a8%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f" aria-label="Anchor">#</a></span></h2>
+<h2 id="手动标注生命周期" class="relative group">手动标注生命周期 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%89%8b%e5%8a%a8%e6%a0%87%e6%b3%a8%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f" aria-label="Anchor">#</a></span></h2>
 <p>所有权系统规定了变量在离开作用域的时候会进行释放，但有时候编译器没办法确定一个变量的作用域，因此需要手动标注生命周期。 看下边这个例子中中存在哪些问题？</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">longest</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">str</span> <span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -863,12 +845,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;world&#34;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">longest</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">as_str</span><span class="p">(),</span><span class="w"> </span><span class="n">s2</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The longest string is {}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The longest string is </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>编译器会告诉我们：longest函数缺少生命周期标注，因为返回值是引用类型，但是不能确定是引用的x还是y。</p>
 <p>rust要保证引用一定是有效的，那么引用的生命周期一定不能长于被引用的数据，因此编译器需要知道返回值引用的究竟是谁，更具体的说法是编译器需要知道返回值的生命周期是与x保持一致，还是与y保持一致。</p>
 <p>在这个例子中，我们会告诉编译器x和y的生命周期是一样的：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">longest</span><span class="o">&lt;&#39;</span><span class="na">a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span> <span class="p">{</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">longest</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span> <span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">x</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -881,7 +863,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;world&#34;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">longest</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">as_str</span><span class="p">(),</span><span class="w"> </span><span class="n">s2</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The longest string is {}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The longest string is </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>对生命周期的标注会让程序员痛不欲生——可以看到这么简单的一个函数签名中竟然需要多写4个<code>'a</code>！于是rust团队有规定了在一些情况下无需标注，编辑器可自行推断。</p>
 <p><strong>计算生命周期的三个原则</strong></p>
@@ -894,7 +876,7 @@
 <li>当只存在一个输入生命周期参数时，这个生命周期会被赋予给所有输出生命周期参数，例如<code>fn foo&lt;'a&gt;(x: &amp;'a i32) -&gt; &amp;'a i32</code>。</li>
 <li>当拥有多个输入生命周期参数，而其中一个是<code>&amp;self</code>或<code>&amp;mut self</code>时，self的生命周期会被赋予给所有的输出生命周期参数。这条规则使方法更加易于阅读和编写，因为它省略了一些不必要的符号。</li>
 </ol>
-<h2 id="闭包中引入move" class="relative group">闭包中引入move <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%97%ad%e5%8c%85%e4%b8%ad%e5%bc%95%e5%85%a5move" aria-label="Anchor">#</a></span></h2>
+<h2 id="闭包中引入move" class="relative group">闭包中引入move <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%97%ad%e5%8c%85%e4%b8%ad%e5%bc%95%e5%85%a5move" aria-label="Anchor">#</a></span></h2>
 <p>闭包需要变量所有权是因为它们可能在定义时捕获了变量，并在任意时间执行。因此，如果不将变量所有权转移到闭包内部，那么这些变量可能在后面的代码中被修改或删除，从而导致闭包中的代码无法正常运行。</p>
 <p>例如，假设我们有一个线程池，该线程池使用闭包来执行一些任务。这些闭包可能需要访问线程池中的数据，例如计数器或其他状态变量。如果这些变量的所有权不被转移到闭包内部，那么在执行闭包时，这些变量可能已经被其他线程修改或删除，从而导致问题。</p>
 <p>为了解决这个问题，Rust 引入了闭包变量所有权的概念，使得闭包可以在定义时捕获变量，并将它们的所有权转移到闭包内部。这样做的好处是，一旦变量的所有权移动到闭包内部，程序就可以保证这些变量在闭包执行期间是有效的，并且不会受到任何其他线程或代码的影响。</p>
@@ -903,14 +885,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">x</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">};</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">closure</span><span class="p">();</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 这里再次调用 closure 会出现编译错误，因为 x 的所有权已经被转移到闭包内部
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">//closure();
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><h2 id="最后" class="relative group">最后 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%80%e5%90%8e" aria-label="Anchor">#</a></span></h2>
+</span></span></span></code></pre></div><h2 id="最后" class="relative group">最后 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%80%e5%90%8e" aria-label="Anchor">#</a></span></h2>
 <p>上面的例子只是简单的介绍了一些由使用所有权系统所带来的复杂性，实际使用中，这些“规则”会不断地重复、叠加，因此对新手来说，确实需要一些时间去适应这些规则。而正是由于存在这种陡峭的学习曲线，我们才更应该知道为什么会有这些规则，这也是我写这篇文章的目的！</p>
 
       </div>
@@ -923,11 +905,11 @@
       
         
         <img
-          class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4"
+          class="!mb-0 !mt-0 me-4 h-24 w-24 rounded-full"
           width="96"
           height="96"
           alt="stong"
-          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_smart1.jpg"
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_center.jpg"
         />
       
     
@@ -1024,12 +1006,9 @@
           
             <a class="group flex" href="/internet/flutter/setstate/">
               <span
-                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
-              >
-              <span
-                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
               >
               <span class="flex flex-col">
                 <span
@@ -1060,12 +1039,9 @@
                 </span>
               </span>
               <span
-                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
-              >
-              <span
-                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
               >
             </a>
           
@@ -1080,9 +1056,7 @@
   </article>
 
         
-          <div
-            class="pointer-events-none absolute top-[100vh] bottom-0 w-12 ltr:right-0 rtl:left-0"
-          >
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
             <a
               href="#the-top"
               class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
@@ -1119,11 +1093,11 @@
     
     
       <div
-        class="ltr:mr-14 rtl:ml-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
       >
         <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
           <div
-            class="flex items-center justify-center w-12 h-12 dark:hidden"
+            class="flex h-12 w-12 items-center justify-center dark:hidden"
             title="Switch to dark appearance"
           >
             
@@ -1136,7 +1110,7 @@
 
           </div>
           <div
-            class="items-center justify-center hidden w-12 h-12 dark:flex"
+            class="hidden h-12 w-12 items-center justify-center dark:flex"
             title="Switch to light appearance"
           >
             

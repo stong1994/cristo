@@ -37,15 +37,16 @@
   
   
   
+  
   <link
     type="text/css"
     rel="stylesheet"
-    href="/css/main.bundle.min.827e4067f785eb8991b29db972c66513a2555b27ab79607dadc6efd017da4df0fd429efe9ed49a1fc101da2d1cb711816bb8efc4e01baaf9eeb352b258c9f887.css"
-    integrity="sha512-gn5AZ/eF64mRsp25csZlE6JVWyereWB9rcbv0BfaTfD9Qp7&#43;ntSaH8EB2i0ctxGBa7jvxOAbqvnus1KyWMn4hw=="
+    href="/css/main.bundle.min.d2d22c5c1c2460999b194d3fbbce6097c00f40fb952d56864bb609de68cbc5ea.css"
+    integrity="sha256-0tIsXBwkYJmbGU0/u85gl8APQPuVLVaGS7YJ3mjLxeo="
   />
   
   
-  <script type="text/javascript" src="/js/appearance.min.c6198a5ecbc6c7b35a8568d29315f50cf5d775d4461c515a476359767f1a745c245aa83fa96b0c7d83da976cf77481e1fc29537a2391a53ffe69a991638802e6.js" integrity="sha512-xhmKXsvGx7NahWjSkxX1DPXXddRGHFFaR2NZdn8adFwkWqg/qWsMfYPal2z3dIHh/ClTeiORpT/&#43;aamRY4gC5g=="></script>
+  <script type="text/javascript" src="/js/appearance.min.022d0ebc3b46a335eb1c7ef79b7f2de143d7cd5156d433638592ef1ce5f8554e.js" integrity="sha256-Ai0OvDtGozXrHH73m38t4UPXzVFW1DNjhZLvHOX4VU4="></script>
   
     
     
@@ -58,7 +59,7 @@
   
   
     
-    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.6d78c827ca7bcbf72056dbf698bf9aeb759a08966686187deb23f5949f73eca5f39b461284900cdfc08e2976d99eb80a8663648de778ba2a83e633ae16dbfc25.js" integrity="sha512-bXjIJ8p7y/cgVtv2mL&#43;a63WaCJZmhhh96yP1lJ9z7KXzm0YShJAM38COKXbZnrgKhmNkjed4uiqD5jOuFtv8JQ==" data-copy="Copy" data-copied="Copied"></script>
+    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.75206d23ef83f4908b2bdd2317bf6ddff399e9173a16fff5451c40b8e857cfa8.js" integrity="sha256-dSBtI&#43;&#43;D9JCLK90jF79t3/OZ6Rc6Fv/1RRxAuOhXz6g=" data-copy="Copy" data-copied="Copied"></script>
   
   
   
@@ -78,7 +79,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/note/rust/the_content_rust_better_than_go/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2023-03-18T14:35:00+08:00" />
-<meta property="article:modified_time" content="2023-03-18T14:35:00+08:00" /><meta property="og:site_name" content="主页" />
+<meta property="article:modified_time" content="2023-03-18T14:35:00+08:00" />
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="相较于go, rust好在哪"/>
@@ -141,15 +142,15 @@
 
   
   
-</head><body
+</head>
+<body
     class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
   >
     <div id="the-top" class="absolute flex self-center">
       <a
         class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
         href="#main-content"
-        ><span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400"
-          >&darr;</span
+        ><span class="font-bold pe-2 text-primary-600 dark:text-primary-400">&darr;</span
         >Skip to main content</a
       >
     </div>
@@ -186,10 +187,10 @@
         </div>
         <div
           id="menu-wrapper"
-          class="fixed inset-0 z-30 invisible w-full h-full m-auto overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50"
+          class="invisible fixed inset-0 z-30 m-auto h-full w-full cursor-default overflow-auto bg-neutral-100/50 opacity-0 backdrop-blur-sm transition-opacity dark:bg-neutral-900/50"
         >
           <ul
-            class="flex flex-col w-full px-6 py-6 mx-auto overflow-visible list-none max-w-7xl ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
           >
             <li class="mb-1">
               <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
@@ -205,7 +206,7 @@
             </li>
             
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/internet/"
@@ -221,7 +222,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/cloudnative/"
@@ -237,7 +238,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/web3/"
@@ -253,7 +254,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/book/"
@@ -269,7 +270,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/other/"
@@ -285,7 +286,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/mental_model/"
@@ -301,7 +302,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="/about/"
@@ -317,7 +318,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     <a
                       href="https://github.com/stong1994/"
@@ -325,7 +326,7 @@
                       target="_blank"
                       >
                         <span
-                          class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                          class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                         >
                           
 
@@ -341,7 +342,7 @@
                   
                 </li>
               
-                <li class="mb-1 group">
+                <li class="group mb-1">
                   
                     
                     
@@ -351,7 +352,7 @@
                       >
                         
                           <span
-                            class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                            class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                           >
                             
 
@@ -379,12 +380,10 @@
         </div>
       </label>
       
-      <ul class="flex-row hidden list-none ltr:text-right rtl:text-left sm:flex">
+      <ul class="hidden list-none flex-row ltr:text-right rtl:text-left sm:flex">
         
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/internet/"
@@ -400,9 +399,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/cloudnative/"
@@ -418,9 +415,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/web3/"
@@ -436,9 +431,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/book/"
@@ -454,9 +447,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/other/"
@@ -472,9 +463,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/mental_model/"
@@ -490,9 +479,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/about/"
@@ -508,9 +495,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="https://github.com/stong1994/"
@@ -518,7 +503,7 @@
                   target="_blank"
                   >
                     <span
-                      class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                     >
                       
 
@@ -534,9 +519,7 @@
               
             </li>
           
-            <li
-              class="mb-1 group sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"
-            >
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 
                 
@@ -546,7 +529,7 @@
                   >
                     
                       <span
-                        class="transition-colors group-dark:hover:text-primary-400 group-hover:text-primary-600"
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
                       >
                         
 
@@ -656,6 +639,7 @@
     
   
 
+
   <div class="flex flex-row flex-wrap items-center">
     
     
@@ -705,17 +689,15 @@
     </header>
     <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
       
-        <div class="order-first px-0 lg:order-last lg:max-w-xs ltr:lg:pl-8 rtl:lg:pr-8">
-          <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
-            <details open class="mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5">
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
   <summary
-    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+    class="-ms-5 block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
   >
     Table of Contents
   </summary>
-  <div
-    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600"
-  >
+  <div class="-ms-5 border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
     <li>
@@ -753,12 +735,12 @@
         </div>
       
       <div class="min-w-0 min-h-0 max-w-prose grow">
-        <h2 id="前言" class="relative group">前言 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%89%8d%e8%a8%80" aria-label="Anchor">#</a></span></h2>
+        <h2 id="前言" class="relative group">前言 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%89%8d%e8%a8%80" aria-label="Anchor">#</a></span></h2>
 <p>作为程序员，在学习一门新语言时，总是会将新的语言与已学的内容进行比较。</p>
 <p>这种类比能力能够实现知识的迁移。实际上，这正是人类能够快速学习、掌握知识的原因。</p>
 <p>作为一名资深gopher，学习一门语言自然是优先与go进行类比。</p>
-<h2 id="rust中好的地方" class="relative group">rust中好的地方 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rust%e4%b8%ad%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" aria-label="Anchor">#</a></span></h2>
-<h3 id="表达式作为返回值" class="relative group">表达式作为返回值 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e4%bd%9c%e4%b8%ba%e8%bf%94%e5%9b%9e%e5%80%bc" aria-label="Anchor">#</a></span></h3>
+<h2 id="rust中好的地方" class="relative group">rust中好的地方 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rust%e4%b8%ad%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" aria-label="Anchor">#</a></span></h2>
+<h3 id="表达式作为返回值" class="relative group">表达式作为返回值 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%a1%a8%e8%be%be%e5%bc%8f%e4%bd%9c%e4%b8%ba%e8%bf%94%e5%9b%9e%e5%80%bc" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// rust
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">add</span><span class="p">(</span><span class="kt">i32</span>: <span class="nc">a</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span>: <span class="nc">b</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="w">
@@ -768,14 +750,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>这个能够让我们少些一个return，还是不错的！</p>
-<h3 id="复用变量名" class="relative group">复用变量名 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%a4%8d%e7%94%a8%e5%8f%98%e9%87%8f%e5%90%8d" aria-label="Anchor">#</a></span></h3>
+<h3 id="复用变量名" class="relative group">复用变量名 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%a4%8d%e7%94%a8%e5%8f%98%e9%87%8f%e5%90%8d" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span> <span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;10&#34;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>go没有办法对不同类型的变量复用变量名:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="n">id</span><span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">idStr</span><span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="n">strconv</span><span class="p">.</span><span class="n">Itoa</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><p>所以rust这里确实好些~</p>
-<h3 id="三元表达式" class="relative group">三元表达式 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%89%e5%85%83%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="Anchor">#</a></span></h3>
+<h3 id="三元表达式" class="relative group">三元表达式 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%89%e5%85%83%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">condition</span><span class="w"> </span><span class="p">{</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="mi">5</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> 
@@ -788,7 +770,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span><span class="k">else</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">number</span> <span class="p">=</span> <span class="mi">6</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="结构体字段初始化简写" class="relative group">结构体：字段初始化简写 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%93%e6%9e%84%e4%bd%93%e5%ad%97%e6%ae%b5%e5%88%9d%e5%a7%8b%e5%8c%96%e7%ae%80%e5%86%99" aria-label="Anchor">#</a></span></h3>
+</span></span></code></pre></div><h3 id="结构体字段初始化简写" class="relative group">结构体：字段初始化简写 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%93%e6%9e%84%e4%bd%93%e5%ad%97%e6%ae%b5%e5%88%9d%e5%a7%8b%e5%8c%96%e7%ae%80%e5%86%99" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">username</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
@@ -819,7 +801,7 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">sign_in_count</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="结构体更新部分字段" class="relative group">结构体：更新部分字段 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%93%e6%9e%84%e4%bd%93%e6%9b%b4%e6%96%b0%e9%83%a8%e5%88%86%e5%ad%97%e6%ae%b5" aria-label="Anchor">#</a></span></h3>
+</span></span></code></pre></div><h3 id="结构体更新部分字段" class="relative group">结构体：更新部分字段 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%93%e6%9e%84%e4%bd%93%e6%9b%b4%e6%96%b0%e9%83%a8%e5%88%86%e5%ad%97%e6%ae%b5" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">user2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">email</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;another@example.com&#34;</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">username</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;anotherusername567&#34;</span><span class="p">),</span><span class="w">
@@ -829,7 +811,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">user2</span> <span class="o">:=</span> <span class="nx">user1</span>
 </span></span><span class="line"><span class="cl"><span class="nx">user2</span><span class="p">.</span><span class="nx">email</span> <span class="p">=</span> <span class="s">&#34;another@example.com&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nx">user1</span><span class="p">.</span><span class="nx">username</span> <span class="p">=</span> <span class="s">&#34;anotherusername567&#34;</span>
-</span></span></code></pre></div><h3 id="元组结构体" class="relative group">元组结构体： <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%83%e7%bb%84%e7%bb%93%e6%9e%84%e4%bd%93" aria-label="Anchor">#</a></span></h3>
+</span></span></code></pre></div><h3 id="元组结构体" class="relative group">元组结构体： <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%83%e7%bb%84%e7%bb%93%e6%9e%84%e4%bd%93" aria-label="Anchor">#</a></span></h3>
 <p>元组和结构体的结合——拥有表明自身含义的名称&amp;无需为每个字段命名。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Color</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">Point</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w">
@@ -837,7 +819,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">black</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="err">”</span><span class="w">
 </span></span></span></code></pre></div><p>这种无需为每个字段命名的场景确实存在，所以这方面确实比go做得好。</p>
-<h3 id="关联函数" class="relative group">关联函数 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%b3%e8%81%94%e5%87%bd%e6%95%b0" aria-label="Anchor">#</a></span></h3>
+<h3 id="关联函数" class="relative group">关联函数 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%b3%e8%81%94%e5%87%bd%e6%95%b0" aria-label="Anchor">#</a></span></h3>
 <p>我们常常为结构体初始化写一个函数，比如NewXxxx，在rust中，可以将这个函数放到impl中成为一个关联函数，比如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">age</span>: <span class="kt">u8</span><span class="p">,</span><span class="w">
@@ -858,7 +840,7 @@
 </span></span><span class="line"><span class="cl">        <span class="nx">age</span><span class="p">:</span> <span class="nx">age</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="枚举" class="relative group">枚举 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9e%9a%e4%b8%be" aria-label="Anchor">#</a></span></h3>
+</span></span></code></pre></div><h3 id="枚举" class="relative group">枚举 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9e%9a%e4%b8%be" aria-label="Anchor">#</a></span></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">enum</span> <span class="nc">IpAddr</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">V4</span><span class="p">(</span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">V6</span><span class="p">(</span><span class="nb">String</span><span class="p">),</span><span class="w">
@@ -871,7 +853,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Green</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Blue</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
-</span></span></span></code></pre></div><h3 id="没有空值" class="relative group">没有空值 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b2%a1%e6%9c%89%e7%a9%ba%e5%80%bc" aria-label="Anchor">#</a></span></h3>
+</span></span></span></code></pre></div><h3 id="没有空值" class="relative group">没有空值 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b2%a1%e6%9c%89%e7%a9%ba%e5%80%bc" aria-label="Anchor">#</a></span></h3>
 <p>空值的存在会导致很多问题，比如说空指针，或者频繁的非空判断。</p>
 <p>在rust中表示不存在，要使用一个名为Null的Option。在标准库中是这样定义的：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">enum</span> <span class="nb">Option</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -879,27 +861,27 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p><strong>这意味着一个有数据的变量和一个不存在的变量的类型是不一样的</strong>，一个是T,一个是<code>Option&lt;T&gt;</code>，这能够避免<strong>假设某个值存在，实际却为空</strong>的问题。</p>
-<h3 id="对字符串切片按索引获取" class="relative group">对字符串切片按索引获取 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%88%87%e7%89%87%e6%8c%89%e7%b4%a2%e5%bc%95%e8%8e%b7%e5%8f%96" aria-label="Anchor">#</a></span></h3>
+<h3 id="对字符串切片按索引获取" class="relative group">对字符串切片按索引获取 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%88%87%e7%89%87%e6%8c%89%e7%b4%a2%e5%bc%95%e8%8e%b7%e5%8f%96" aria-label="Anchor">#</a></span></h3>
 <p>在rust中，不能对一个不完整的字符进行切片，否则会直接panic：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;我是谁&#34;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">3</span><span class="p">];</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">);</span><span class="w"> </span><span class="c1">// 我
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">);</span><span class="w"> </span><span class="c1">// 我
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span><span class="w"> </span><span class="n">s3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">2</span><span class="p">];</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">s3</span><span class="p">);</span><span class="w"> </span><span class="c1">// panic
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">s3</span><span class="p">);</span><span class="w"> </span><span class="c1">// panic
 </span></span></span></code></pre></div><p>在go中是可以的：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="n">s</span><span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="s">&#34;我是谁&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">println</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span>:<span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="c1">// �
 </span></span></span></code></pre></div><p>我个人比较喜欢rust这种处理方式，能够减少很多生产上的问题。</p>
-<h2 id="go中好的地方" class="relative group">go中好的地方 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#go%e4%b8%ad%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" aria-label="Anchor">#</a></span></h2>
+<h2 id="go中好的地方" class="relative group">go中好的地方 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#go%e4%b8%ad%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" aria-label="Anchor">#</a></span></h2>
 <p><strong>大道至简！</strong></p>
 <p>go最好的地方不在于其channel、goroutine的设计，而在于其简单性，这种简单性是说go的设计很简单，不需要那么复杂的语法，看go代码很轻松，不需要很大的心智负担。</p>
 <p>比如下面这段不是很复杂的rust代码（同时使用了泛型、生命周期、trait约束）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span>::<span class="n">Display</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">longest_with_an_announcement</span><span class="o">&lt;&#39;</span><span class="na">a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">ann</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">str</span>
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">longest_with_an_announcement</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">ann</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">where</span><span class="w"> </span><span class="n">T</span>: <span class="nc">Display</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">{</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Announcement! {}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">ann</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Announcement! </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">ann</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">x</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -909,10 +891,10 @@
 </span></span></span></code></pre></div><p>这可能会导致一名rust新手的cpu飙升！</p>
 <p>而如果你让我去写一段go中最复杂的代码，我只能说做不到！</p>
 <p>当然，go中确实有好的设计，比如goroutine、channel，这些就不展开说了。</p>
-<h2 id="trait-vs-接口" class="relative group">Trait vs 接口 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#trait-vs-%e6%8e%a5%e5%8f%a3" aria-label="Anchor">#</a></span></h2>
+<h2 id="trait-vs-接口" class="relative group">Trait vs 接口 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#trait-vs-%e6%8e%a5%e5%8f%a3" aria-label="Anchor">#</a></span></h2>
 <p>了解一个语言的使用方式，可以看其对象之间的组合方式，比如java中的继承，go中的组合。<strong>开发代码的设计应该遵循语言的设计</strong>。</p>
 <p>对于rust而言，我们可以通过和go的接口对比，来看下其trait的使用。</p>
-<h3 id="异同" class="relative group">异同 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%82%e5%90%8c" aria-label="Anchor">#</a></span></h3>
+<h3 id="异同" class="relative group">异同 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%82%e5%90%8c" aria-label="Anchor">#</a></span></h3>
 <ol>
 <li>
 <p>Rust 中的 trait 和 Go 中的 接口 都是通过方法签名来描述一个类型或对象需要实现的行为规范。但是，Rust 的 trait 可以添加默<strong>认实现</strong>，而 Go 中的接口 禁止添加默认实现。</p>
@@ -936,7 +918,7 @@
 <li>
 <p>Rust 的 trait 可以包含<strong>关联常量</strong>，而 Go 中的接口不支持。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">trait</span><span class="w"> </span><span class="n">MyTrait</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">PI</span>: <span class="kt">f64</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="no">PI</span>: <span class="kt">f64</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">calc_area</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
@@ -946,10 +928,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">impl</span><span class="w"> </span><span class="n">MyTrait</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Circle</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">PI</span>: <span class="kt">f64</span> <span class="o">=</span><span class="w"> </span><span class="mf">3.1415926535</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="no">PI</span>: <span class="kt">f64</span> <span class="o">=</span><span class="w"> </span><span class="mf">3.1415926535</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">calc_area</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f64</span> <span class="p">{</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">Self</span>::<span class="n">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">radius</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">Self</span>::<span class="no">PI</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">radius</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div></li>
@@ -964,7 +946,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="n">U</span>: <span class="nb">Clone</span> <span class="o">+</span><span class="w"> </span><span class="n">Debug</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">{}</span><span class="w">
 </span></span></span></code></pre></div><p>但给开发者的体验仍然较差！</p>
-<h3 id="使用差异" class="relative group">使用差异 <span class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%b7%ae%e5%bc%82" aria-label="Anchor">#</a></span></h3>
+<h3 id="使用差异" class="relative group">使用差异 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%b7%ae%e5%bc%82" aria-label="Anchor">#</a></span></h3>
 <p>我们可以通过其使用方式来探究一些差异：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// rust
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">impl</span><span class="w"> </span><span class="n">MyTrait</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Cirle</span><span class="w"> </span><span class="p">{}</span><span class="w">
@@ -997,11 +979,11 @@
       
         
         <img
-          class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4"
+          class="!mb-0 !mt-0 me-4 h-24 w-24 rounded-full"
           width="96"
           height="96"
           alt="stong"
-          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_smart1.jpg"
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_center.jpg"
         />
       
     
@@ -1098,12 +1080,9 @@
           
             <a class="group flex" href="/note/rust/defect_by_ownership/">
               <span
-                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
-              >
-              <span
-                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
               >
               <span class="flex flex-col">
                 <span
@@ -1134,12 +1113,9 @@
                 </span>
               </span>
               <span
-                class="ml-2 text-neutral-700 transition-transform group-hover:translate-x-[2px] group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
-              >
-              <span
-                class="mr-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
               >
             </a>
           
@@ -1154,9 +1130,7 @@
   </article>
 
         
-          <div
-            class="pointer-events-none absolute top-[100vh] bottom-0 w-12 ltr:right-0 rtl:left-0"
-          >
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
             <a
               href="#the-top"
               class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
@@ -1193,11 +1167,11 @@
     
     
       <div
-        class="ltr:mr-14 rtl:ml-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
       >
         <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
           <div
-            class="flex items-center justify-center w-12 h-12 dark:hidden"
+            class="flex h-12 w-12 items-center justify-center dark:hidden"
             title="Switch to dark appearance"
           >
             
@@ -1210,7 +1184,7 @@
 
           </div>
           <div
-            class="items-center justify-center hidden w-12 h-12 dark:flex"
+            class="hidden h-12 w-12 items-center justify-center dark:flex"
             title="Switch to light appearance"
           >
             

@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>主页</title>
+    <title></title>
     <link>/internet/</link>
-    <description>Recent content on 主页</description>
+    <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 30 May 2023 14:36:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Jul 2023 17:16:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>记一次内存泄露</title>
+      <link>/internet/memory_leak_log/</link>
+      <pubDate>Thu, 20 Jul 2023 17:16:00 +0800</pubDate>
+      
+      <guid>/internet/memory_leak_log/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Trie簇基本介绍</title>
       <link>/internet/design/trie_intro/</link>
@@ -130,7 +139,7 @@
       <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
       
       <guid>/internet/go/append_trap/</guid>
-      <description>问题复现 func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
+      <description>问题复现 # func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
     </item>
     
     <item>

@@ -4,8 +4,57 @@
   
     
       <url>
+            <loc>/internet/</loc>
+            <lastmod>2023-07-20T17:16:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/memory_leak_log/</loc>
+            <lastmod>2023-07-20T17:16:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/</loc>
+            <lastmod>2023-07-20T17:16:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
             <loc>/web3/</loc>
-            <lastmod>2023-05-26T14:35:00+08:00</lastmod>
+            <lastmod>2023-07-04T14:35:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/web3/eth_pos/</loc>
+            <lastmod>2023-07-04T14:35:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/web3/eth_pow/</loc>
+            <lastmod>2023-06-04T14:35:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/design/trie_intro/</loc>
+            <lastmod>2023-05-30T14:36:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/web3/btc_eth_turing_complete/</loc>
+            <lastmod>2023-05-28T14:35:00+08:00</lastmod>
           </url>
     
   
@@ -18,16 +67,8 @@
   
     
       <url>
-            <loc>/</loc>
-            <lastmod>2023-05-26T14:35:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
             <loc>/other/</loc>
             <lastmod>2023-05-18T19:00:00+08:00</lastmod>
-            <priority>0</priority>
           </url>
     
   
@@ -35,14 +76,6 @@
       <url>
             <loc>/mental_model/value/</loc>
             <lastmod>2023-05-18T19:00:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>/internet/</loc>
-            <lastmod>2023-05-17T11:30:00+08:00</lastmod>
-            <priority>0</priority>
           </url>
     
   
@@ -246,7 +279,6 @@
       <url>
             <loc>/book/</loc>
             <lastmod>2022-11-07T18:30:00+08:00</lastmod>
-            <priority>0</priority>
           </url>
     
   
@@ -317,7 +349,6 @@
       <url>
             <loc>/cloudnative/</loc>
             <lastmod>2022-10-22T21:19:00+08:00</lastmod>
-            <priority>0</priority>
           </url>
     
   
@@ -846,14 +877,12 @@
     
       <url>
             <loc>/about/</loc>
-            <priority>0</priority>
           </url>
     
   
     
       <url>
             <loc>/mental_model/</loc>
-            <priority>0</priority>
           </url>
     
   

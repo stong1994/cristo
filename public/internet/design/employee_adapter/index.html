@@ -19,8 +19,8 @@
   <meta name="theme-color" content="rgb(255,255,255)" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>通讯录同步服务的演进 &middot; 主页</title>
-    <meta name="title" content="通讯录同步服务的演进 &middot; 主页" />
+  <title>通讯录同步服务的演进 &middot; </title>
+    <meta name="title" content="通讯录同步服务的演进 &middot; " />
   
   <meta name="description" content="" />
   
@@ -79,7 +79,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/internet/design/employee_adapter/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2023-04-19T15:12:00+08:00" />
-<meta property="article:modified_time" content="2023-04-19T15:12:00+08:00" />
+<meta property="article:modified_time" content="2023-04-19T15:12:00+08:00" /><meta property="og:site_name" content="主页" />
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="通讯录同步服务的演进"/>
@@ -110,7 +110,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "5244"
+    "wordCount": "5717"
   }]
   </script>
 
@@ -165,7 +165,7 @@
     class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
     rel="me"
     href="/"
-    >主页</a
+    ></a
   >
 
       
@@ -643,7 +643,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2023-04-19 15:12:00 &#43;0800 CST">19 April 2023</time><span class="px-2 text-primary-500">&middot;</span><span>5244 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">11 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-04-19 15:12:00 &#43;0800 CST">19 April 2023</time><span class="px-2 text-primary-500">&middot;</span><span>5717 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">12 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -731,6 +731,12 @@
         </li>
         <li><a href="#其他问题">其他问题</a>
           <ul>
+            <li><a href="#merkle-tree的应用">Merkle Tree的应用</a>
+              <ul>
+                <li><a href="#对部门构建哈希树">对部门构建哈希树</a></li>
+                <li><a href="#对员工构建哈希树">对员工构建哈希树</a></li>
+              </ul>
+            </li>
             <li><a href="#分布式同步">分布式同步</a>
               <ul>
                 <li><a href="#耗时分析">耗时分析</a></li>
@@ -1018,6 +1024,28 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="其他问题" class="relative group">其他问题 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98" aria-label="Anchor">#</a></span></h2>
+<h3 id="merkle-tree的应用" class="relative group">Merkle Tree的应用 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#merkle-tree%e7%9a%84%e5%ba%94%e7%94%a8" aria-label="Anchor">#</a></span></h3>
+<p>由于定时同步的存在，导致访问其他平台的接口会十分频繁。而大部分平台为了保护自己的服务，往往会对接口进行限流，这时我们就需要减少对这些接口的访问。</p>
+<p>解决方案是：在定时同步时，如果源数据没有做任何修改，则无需同步。</p>
+<p>那么如何判断数据没有做修改呢？一种被动的方式是通过事件来判断，另外一种主动的方式是将数据编码为一个哈希值，每次同步前判断这个哈希值是否有改变，这个哈希的过程就是组件Merkle Tree的过程。</p>
+<h4 id="对部门构建哈希树" class="relative group">对部门构建哈希树 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e9%83%a8%e9%97%a8%e6%9e%84%e5%bb%ba%e5%93%88%e5%b8%8c%e6%a0%91" aria-label="Anchor">#</a></span></h4>
+<p>对部门树从下到上按层级递归构建：</p>
+<ol>
+<li>对同级部门排序</li>
+<li>将每个部门的信息哈希得到一个值</li>
+<li>连接相邻两个部门的哈希值之后再进行哈希得到哈希值</li>
+<li>重复上个步骤，直到得到一个层级的部门哈希值</li>
+<li>将层级部门的哈希值与父部门的哈希值连接之后进行哈希得到一个哈希值</li>
+<li>重复以上步骤，直到得到整个部门树的哈希值</li>
+</ol>
+<h4 id="对员工构建哈希树" class="relative group">对员工构建哈希树 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e5%91%98%e5%b7%a5%e6%9e%84%e5%bb%ba%e5%93%88%e5%b8%8c%e6%a0%91" aria-label="Anchor">#</a></span></h4>
+<ol>
+<li>获取所有员工的信息，并排序</li>
+<li>对每个员工的信息进行哈希</li>
+<li>将哈希值两两连接，然后再进行哈希</li>
+<li>重复上个步骤，直到得到最终的哈希值</li>
+</ol>
+<p>每次同步完后，都将部门和员工的默克尔哈希值保存，再下次同步时，判断哈希值是否相同，如果相同，则无需再同步。</p>
 <h3 id="分布式同步" class="relative group">分布式同步 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%86%e5%b8%83%e5%bc%8f%e5%90%8c%e6%ad%a5" aria-label="Anchor">#</a></span></h3>
 <h4 id="耗时分析" class="relative group">耗时分析 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%80%97%e6%97%b6%e5%88%86%e6%9e%90" aria-label="Anchor">#</a></span></h4>
 <p>上述代码实现都是单线程同步的，假设一家企业有10万个员工和1万个部门，并且这些员工和部门都需要创建或者更新，那么一次同步所需时间可以大致估算为：</p>
