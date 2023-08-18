@@ -141,7 +141,7 @@ func (m *Map) Load(key any) (value any, ok bool) {
 
 通过以上分析我们得知：
 
-- 使用sync.Map时，**读操作应尽量保证能够读取到数据，否则仍会进行加锁操作，而且很可能是两次加锁操作。**
+- 使用sync.Map时，**读操作应尽量保证能够读取到数据，否则仍会进行加锁操作，而且很可能需要读三次（读两次read，一次dirty）。**
 - 只要在read中没有读到数据，那么不管是否能够在dirty中读到数据，都会进行missLocked，因此使用sync.Map时，读操作应尽量保证能够读取到数据。
 
 #### read中读不到数据-missLocked
@@ -210,7 +210,7 @@ func (e *entry) tryStore(i *any) bool {
 }
 ```
 
-1. 存储数据时，会先判断read中是否存在该键值对，如果key存在并且没有被标识为删除更新该entry。这个过程是不需要加锁的。
+1. 存储数据时，会先判断read中是否存在该键值对，如果key存在并且没有被标识为删除更新该entry。这个过程是不需要加锁的。**更新read过程不需要加锁是因为使用的是CompareAndSwap的方式修改的数据，这个过程对于runtime下的map来说是无感的（runtime下的map只有对其赋值才会检查当前的读写状态，直接修改value是不会感知到的）**。
 2. 若read中匹配不到该键值对，则会进行加锁，这时候再次读取read，判断read中是否存在key，如果存在（如果存在的entry已经被标为删除，则要将此键值对写入到dirty中），则将value写到对应的key上。
 
 3. 若read中不存在此key，但是dirty中存在，则直接写入到dirty中。
