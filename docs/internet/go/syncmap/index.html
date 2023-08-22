@@ -19,8 +19,8 @@
   <meta name="theme-color" content="rgb(255,255,255)" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>go设计之sync.Map &middot; 主页</title>
-    <meta name="title" content="go设计之sync.Map &middot; 主页" />
+  <title>go设计之sync.Map &middot; </title>
+    <meta name="title" content="go设计之sync.Map &middot; " />
   
   <meta name="description" content="" />
   
@@ -79,7 +79,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/internet/go/syncmap/" /><meta property="article:section" content="internet" />
 <meta property="article:published_time" content="2022-10-31T11:00:00+08:00" />
-<meta property="article:modified_time" content="2022-10-31T11:00:00+08:00" />
+<meta property="article:modified_time" content="2022-10-31T11:00:00+08:00" /><meta property="og:site_name" content="主页" />
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="go设计之sync.Map"/>
@@ -110,7 +110,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "3575"
+    "wordCount": "3706"
   }]
   </script>
 
@@ -165,7 +165,7 @@
     class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
     rel="me"
     href="/"
-    >主页</a
+    ></a
   >
 
       
@@ -643,7 +643,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2022-10-31 11:00:00 &#43;0800 CST">31 October 2022</time><span class="px-2 text-primary-500">&middot;</span><span>3575 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2022-10-31 11:00:00 &#43;0800 CST">31 October 2022</time><span class="px-2 text-primary-500">&middot;</span><span>3706 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -850,7 +850,7 @@
 </ol>
 <p>通过以上分析我们得知：</p>
 <ul>
-<li>使用sync.Map时，<strong>读操作应尽量保证能够读取到数据，否则仍会进行加锁操作，而且很可能是两次加锁操作。</strong></li>
+<li>使用sync.Map时，<strong>读操作应尽量保证能够读取到数据，否则仍会进行加锁操作，而且很可能需要读三次（读两次read，一次dirty）。</strong></li>
 <li>只要在read中没有读到数据，那么不管是否能够在dirty中读到数据，都会进行missLocked，因此使用sync.Map时，读操作应尽量保证能够读取到数据。</li>
 </ul>
 <h4 id="read中读不到数据-misslocked" class="relative group">read中读不到数据-missLocked <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#read%e4%b8%ad%e8%af%bb%e4%b8%8d%e5%88%b0%e6%95%b0%e6%8d%ae-misslocked" aria-label="Anchor">#</a></span></h4>
@@ -912,7 +912,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><ol>
 <li>
-<p>存储数据时，会先判断read中是否存在该键值对，如果key存在并且没有被标识为删除更新该entry。这个过程是不需要加锁的。</p>
+<p>存储数据时，会先判断read中是否存在该键值对，如果key存在并且没有被标识为删除更新该entry。这个过程是不需要加锁的。<strong>更新read过程不需要加锁是因为使用的是CompareAndSwap的方式修改的数据，这个过程对于runtime下的map来说是无感的（runtime下的map只有对其赋值才会检查当前的读写状态，直接修改value是不会感知到的）</strong>。</p>
 </li>
 <li>
 <p>若read中匹配不到该键值对，则会进行加锁，这时候再次读取read，判断read中是否存在key，如果存在（如果存在的entry已经被标为删除，则要将此键值对写入到dirty中），则将value写到对应的key上。</p>

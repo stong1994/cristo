@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>主页</title>
+    <title></title>
     <link>/internet/</link>
-    <description>Recent content on 主页</description>
+    <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Jul 2023 17:16:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Aug 2023 14:43:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一致性哈希</title>
+      <link>/internet/design/consistent_hashing/</link>
+      <pubDate>Thu, 17 Aug 2023 14:43:00 +0800</pubDate>
+      
+      <guid>/internet/design/consistent_hashing/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>记一次内存泄露</title>
       <link>/internet/memory_leak_log/</link>
