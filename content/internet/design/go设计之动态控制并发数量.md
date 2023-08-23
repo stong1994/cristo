@@ -10,6 +10,8 @@ toc = true
 
 
 
+> 当说到控制并发数量，一些场景说的是控制goroutine的最大数量，而在另一些场景说的是作为一个队列的消费者时，需要动态控制消费者的数量。前者可以通过`sync.WaitGroup`或者`errgroup.Group`来实现，后者则是这篇文章要讨论的场景。
+
 在生产中，我们常常需要并发处理任务，这时就需要动态控制并发的数量：
 
 1. 并发数不能超过最大值：并发数量过大容易导致过度使用系统资源。
@@ -155,7 +157,7 @@ func (wm *WorkerManger) addWorker() {
 
 任务空闲时，需要减少worker：
 
-```
+```go
 func (wm *WorkerManger) remWorker() {
 	fmt.Println("removing worker")
 	wm.lock.RLock()
@@ -382,5 +384,8 @@ func (s *WorkerManager) newWorker() {
 }
 ```
 
+## 优缺点分析
 
-
+1. 方法1需要频繁的加锁；而方法2无需加锁
+2. 方法1需要很多channel（每个worker一个channel）；而方法2是多个worker共享一个channel
+3. 方法1从概率的角度来平均每个worker处理的任务；而方法2则是多个worker共享一个channel，因此，方法1如果用于每个任务处理时间不平均的场景下，可能会导致某个worker的任务堆积；而方法2不会
