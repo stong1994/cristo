@@ -6,7 +6,16 @@
     <description>Recent content in 记录个人的成长记录 on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Aug 2023 14:43:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Aug 2023 19:43:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go设计之动态控制并发数量</title>
+      <link>/internet/go/concurrent_control/</link>
+      <pubDate>Tue, 22 Aug 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/go/concurrent_control/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>短链与编码</title>
       <link>/internet/design/shorten_url_encode/</link>
