@@ -8,11 +8,20 @@
     <language>en</language>
     <lastBuildDate>Tue, 22 Aug 2023 19:43:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>go设计之动态控制并发数量</title>
+      <title>并发控制</title>
       <link>/internet/go/concurrent_control/</link>
       <pubDate>Tue, 22 Aug 2023 19:43:00 +0800</pubDate>
       
       <guid>/internet/go/concurrent_control/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>限流器</title>
+      <link>/internet/go/limiter/</link>
+      <pubDate>Tue, 22 Aug 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/go/limiter/</guid>
       <description></description>
     </item>
     
