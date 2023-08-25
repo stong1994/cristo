@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>限流器</title>
-      <link>/internet/go/limiter/</link>
-      <pubDate>Tue, 22 Aug 2023 19:43:00 +0800</pubDate>
-      
-      <guid>/internet/go/limiter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>短链与编码</title>
       <link>/internet/design/shorten_url_encode/</link>
       <pubDate>Mon, 21 Aug 2023 14:43:00 +0800</pubDate>
