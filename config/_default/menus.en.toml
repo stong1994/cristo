@@ -36,13 +36,18 @@ weight = 5
 pageRef = "other"
 
 [[main]]
-name = "心智模型"
+name = "小碎片"
 weight = 6
+pageRef = "slip_paper"
+
+[[main]]
+name = "心智模型"
+weight = 7
 pageRef = "mental_model"
 
 [[main]]
 name = "关于"
-weight = 7
+weight = 8
 pageRef = "about"
 
 [[main]]
