@@ -35,6 +35,15 @@
     </item>
     
     <item>
+      <title>基于OpenAI开发需要了解的事</title>
+      <link>/internet/ai/dev-with-openai-should-know/</link>
+      <pubDate>Mon, 11 Sep 2023 11:30:00 +0800</pubDate>
+      
+      <guid>/internet/ai/dev-with-openai-should-know/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>限流器</title>
       <link>/internet/go/limiter/</link>
       <pubDate>Thu, 24 Aug 2023 19:43:00 +0800</pubDate>

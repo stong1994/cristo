@@ -1,72 +1,199 @@
 +++
 
 date = 2022-03-10T14:43:00+08:00
-title = "go设计之channel"
-url = "/internet/go/channel"
+title = "go中的测试"
+url = "/internet/go/component_test"
 
 toc = true
 
 +++
 
-channel是go中非常具有特色的设计，并且也是新手最难掌握的数据类型。
+因目的与范畴的不同，代码中的测试通常可以分为单元测试、组件测试、场景测试等等。
 
-channel的设计体现出了作者“不要用共享内存来交流，用交流来共享内存（*Do not communicate by sharing memory; instead, share memory by communicating*）”的观点。
+但是从一名程序员的角度来看，所有的测试都是为了保证代码的正确性。
 
-## channel的作用
+相信每个程序员都知道要写测试代码，但是这些人中也有很多不怎么写测试代码，有些可能是懒的写，另外一些可能就是不知道如何下手。
 
-使用channel时需要配合协程，一些协程负责写数据，另外一些协程负责读数据，channel的作用就是将这两部分协程连接起来，可理解为**channel是这些协程和数据的管理者**。
+我会在这篇博客里记录go中的一些测试技巧。
 
-## channel的核心逻辑
+## assert
 
-### 读和写
+`github.com/stretchr/testify`是go测试代码中常用的进行比较判断的库：其中`assert`模块用于做比较的判断, eg：
 
-作为数据的管理者，channel内部使用**环形队列**来存储数据，关键的数据结构为：**队列**、**读索引**、**写索引**：
+```go
+num, err := getNum()
+assert.NoError(t, err)
+assert.Equal(t, 1, num)
+```
 
-- 每写/读入一个数据，写/读索引就往右移动一位，如果索引已经是最后一位，那就移到第一位。
-- 如果**写入时队列已满**，那么写数据的协程就进入**等待队列**，等到队列存在空位置时，再唤醒这个协程，写入数据。
-- 如果**读取时队列为空**，那么读数据的协程就进入**等待队列**，等到队列中存在数据时，再唤醒这个协程，读取数据。
+assert模块提供了非常多的API，用的时候可以顺便看下。
 
-此时可以看到channel中作为协程的管理者，需要两个等待队列（读和写）来存储这些“需要等待”的协程。
+## require
 
-### 关闭channel
+同样是`github.com/stretchr/testify`下，`require`模块提供的API和`assert`基本一致，区别在于`require`模块对`assert`模块进行了一层包装：
 
-日常工作中经常能够用到关闭操作，了解其内部逻辑能够帮助我们更好的使用它。
+```go
+func NoError(t TestingT, err error, msgAndArgs ...interface{}) {
+	if h, ok := t.(tHelper); ok {
+		h.Helper()
+	}
+	if assert.NoError(t, err, msgAndArgs...) {
+		return
+	}
+	t.FailNow()
+}
+```
 
-源码（*runtime/closechan*）逻辑大致如下：
+`t.FailNow()`可是会直接退出程序的，这意味着，如果使用`require`模块的API，一旦校验没通过，剩下的测试代码就不会跑了。
 
-1. 加锁
-2. 标识channel已关闭
-3. 释放所有正在等待读取的协程（channel已关闭，不再有新数据）
-4. 释放所有正在等待写入的协程（这些协程会panic）
-5. 释放锁
+## 测试表格
 
-需要再补充一些逻辑：
+我们常常将一类测试放到一个测试表格中进行统一处理，这个测试表格就是一个“范畴”——包含了被测试代码的所有场景。
 
-1. 读取数据时，如果channel已标识关闭，并且队列为空，那么会标识未接收到数据
-2. 读取数据时，即使channel已标识关闭，但如果队列不为空，那么仍会进行读取
-3. 写入数据时，如果channel已标识关闭，则会panic
+比如我们创建了一个函数`func doubleNum(num int) (int, error)`，要对其进行测试，就可以将相关的测试用例存到一个测试表格中：
 
-综上可知，关闭channel后：
+```go
+import (
+	"github.com/stretchr/testify/require"
+	"testing"
+)
 
-1. 队列中的数据还是会被消费完
-2. 如果再写入数据，会panic
-3. 如果再读取数据，会得到零值，第二个返回值为false
+func TestDoubleNum(t *testing.T) {
+	tests := []struct {
+		name    string
+		num    int
+		wantNum int
+	}{
+		{
+			"test 0",
+			0,
+			0,
+		},
+		{
+			"test 2",
+			2,
+			4,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotNum, err := doubleNum(tt.num)
+			require.NoError(t, err)
+			t.Errorf("getNum() wantNum = %d, wantErr %d", tt.wantNum, gotNum)
+		})
+	}
+}
 
-实际工程中经常利用第三点，将关闭channel用于通知其他协程。
+func doubleNum(num int) (int, error) {
+	return num*2, nil
+}
+```
 
-## 源码中的优化
+## 适配器模式
 
-源码在实现时，对“核心逻辑”进行了一些优化，如：
+适配器模式是一种设计模式，其目的在于维护业务规则的完整性，避免调用下游服务过程中造成的代码侵蚀。但是这种模式在用于测试时也十分契合。
 
-- 写入数据时先判断是否存在正在等待读的协程，如果存在，直接将数据交给等待读取的协程，而不是先写入队列。因为存在正在等待读的协程，说明队列此时是空的，因此直接将数据交给这个等待读的协程不会影响数据的消费顺序，还能减少一次队列写入和一次队列读取。
+比如我们的业务代码需要数据库提供更新用户名称的接口，传统的方式是这样：
 
-## 思考：两个等待队列是否能同时存在
+```go
+// dao层
+type DB struct {
+	client *gorm.DB
+}
 
-即：一个channel中是否能够同时存在正在等待读的协程和正在等待写的协程？
+func (db DB) UpdateUserName(name string) error {
+	// update user
+}
 
-在上面“源码中的优化”中，我们已知：如果存在正在等待读的协程，那么写入时，会直接将数据交给这个等待读的协程，这样这个写入的协程就不会被放到等待队列中，因此结论是两个等待队列不能同时存在。
+// 注入
+type UserService struct{
+	repo dao.DB
+}
 
-## 相关文章
+func (us UserService) updateName(name string) error {
+  // some code....
+  err := us.repo.UpdateUserName(name)
+  if err != nil {
+    // handle error
+  }
+  // some code....
+}
+```
 
-- [Share Memory By Communicating](https://go.dev/blog/codelab-share)
-- [一文带你解密 Go 语言之通道 channel](https://mp.weixin.qq.com/s?__biz=MzAxMTA4Njc0OQ==&mid=2651445085&idx=3&sn=2aecb5560dec2c0128ddc7cc3403a5a5&chksm=80bb09afb7cc80b97c989d35c925350121d6164c5dd65eb5bef59aebc811f95614d41c4314fc&scene=21#wechat_redirect)
+当我们要测试UserService中的updateName方法时，因为UserService依赖DB实例，因此只能创建DB实例，也就需要一套数据库的地址、账号、密码等等。
+
+这造成了大量的工作负担，也难怪很多程序员不写测试。
+
+使用适配器模式就完全不同了。
+
+定义一个仓库适配器：
+
+```go
+type Repo interface{
+	UpdateUserName(name string) error
+}
+```
+
+然后在用户服务中注入：
+
+```go
+type UserService struct{
+	repo Repo
+}
+
+func (us UserService) updateName(name string) error {
+  // some code....
+  err := us.repo.UpdateUserName(name)
+  if err != nil {
+    // handle error
+  }
+  // some code....
+}
+```
+
+这时候UserService依赖的是Repo接口，我们可以直接mock即可：
+
+```go
+type RepoMock struct{}
+func (RepoMock) UpdateUserName(name string) error {}
+```
+
+这样就解决了数据库操作难以测试的大难题！
+
+## 异步结果测试
+
+编写测试时还有一个很繁琐的问题是如何检测异步的结果，比如在编写组件测试时要启动一个http服务，启动过程是异步的，如果检测http服务已经启动成功了？
+
+可以使用`EventuallyWithT`:
+
+```go
+require.EventuallyWithT(
+  t,
+  func(collect *assert.CollectT) {
+    resp, err := stdHttp.Get("http://localhost:8080/health") // 健康检查接口
+    if !assert.NoError(collect, err) {
+      return
+    }
+    defer resp.Body.Close()
+
+    if assert.Less(collect, resp.StatusCode, 300, "API not ready, http status: %d", resp.StatusCode) {
+      return
+    }
+  },
+  time.Second*10,
+  time.Millisecond*50,
+)
+```
+
+在上面这个例子中，规定了每50毫秒调用一次`health`接口，如果`assert`校验通过，则结束，否则会一直持续这个过程。如果10s内都没能校验通过，则校验失败。
+
+注意，EventuallyWithT中的函数做校验用到的是assert而非require，这因为require中使用了`t.FailNow()`而`t.FailNow()`必须运行在执行测试的goroutine中，相关讨论可见[How to handle failed expectations inside of a goroutine? · Issue #772 · stretchr/testify · GitHub](https://github.com/stretchr/testify/issues/772#)
+
+
+
+
+
+## 相关阅读
+
+- [4 practical principles of high-quality database integration tests in Go (threedots.tech)](https://threedots.tech/post/database-integration-testing/)
+
