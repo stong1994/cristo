@@ -615,7 +615,17 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#prometheuspull-vs-jaegers-push--20220905">Prometheus&rsquo;Pull vs Jaeger&rsquo;s Push — 2022.09.05</a></li>
+        <li><a href="#20230909">2023.09.09</a>
+          <ul>
+            <li><a href="#为什么要看书而不是看博客">为什么要看书而不是看博客？</a></li>
+            <li><a href="#选择的同时也是放弃">选择的同时也是放弃</a></li>
+          </ul>
+        </li>
+        <li><a href="#20230905">2023.09.05</a>
+          <ul>
+            <li><a href="#prometheuspull-vs-jaegers-push">Prometheus&rsquo;Pull vs Jaeger&rsquo;s Push</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -627,7 +637,14 @@
       </div>
     
     <div class="min-w-0 min-h-0 max-w-prose grow">
-      <h2 id="prometheuspull-vs-jaegers-push--20220905" class="relative group">Prometheus&rsquo;Pull vs Jaeger&rsquo;s Push — 2022.09.05 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheuspull-vs-jaegers-push--20220905" aria-label="Anchor">#</a></span></h2>
+      <h2 id="20230909" class="relative group">2023.09.09 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#20230909" aria-label="Anchor">#</a></span></h2>
+<h3 id="为什么要看书而不是看博客" class="relative group">为什么要看书而不是看博客？ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e7%9c%8b%e4%b9%a6%e8%80%8c%e4%b8%8d%e6%98%af%e7%9c%8b%e5%8d%9a%e5%ae%a2" aria-label="Anchor">#</a></span></h3>
+<blockquote>
+<p>因为一本书就是一个范畴，是词语的”无法之地“。因此需要使用一本书的内容去构建这个范畴。否则对作者之外的人来说，无法理解这个知识——因为没有构建范畴——通过构建一个一个类比，来构成一条通往知识的道路。</p>
+</blockquote>
+<h3 id="选择的同时也是放弃" class="relative group">选择的同时也是放弃 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%89%e6%8b%a9%e7%9a%84%e5%90%8c%e6%97%b6%e4%b9%9f%e6%98%af%e6%94%be%e5%bc%83" aria-label="Anchor">#</a></span></h3>
+<h2 id="20230905" class="relative group">2023.09.05 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#20230905" aria-label="Anchor">#</a></span></h2>
+<h3 id="prometheuspull-vs-jaegers-push" class="relative group">Prometheus&rsquo;Pull vs Jaeger&rsquo;s Push <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheuspull-vs-jaegers-push" aria-label="Anchor">#</a></span></h3>
 <blockquote>
 <p>对于数据的采集，Prometheus使用服务器Pull的方式而Jaeger使用客户端Push的方式，或许是由于Jaeger采集<strong>的链路对象生命周期短</strong>，Prometheus采集的指标对象生命周期长。这样服务器能够更快的释放链路对象所占用的内存；对于指标对象，通常占用内存少，因此不必考虑内存问题，而使用PULL的方式实现更简单。可参考<a
   href="http://bit.ly/3aJEPxE"
@@ -646,6 +663,17 @@
     </section>
   
 
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
         
       </main><footer class="py-10 print:hidden">
   

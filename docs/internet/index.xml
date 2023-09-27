@@ -6,7 +6,34 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Aug 2023 19:43:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Sep 2023 14:10:51 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go中对测试代码使用不同的包名</title>
+      <link>/internet/go/package_name/</link>
+      <pubDate>Tue, 19 Sep 2023 14:10:51 +0800</pubDate>
+      
+      <guid>/internet/go/package_name/</guid>
+      <description>package # 我们在编程时往往需要通过模块来对代码进行“划分”——这个代码属于登录模块，那个代码属于充值模块。划分后的代码会更清晰，更方便查找、维护。</description>
+    </item>
+    
+    <item>
+      <title>事件驱动系列—watermill</title>
+      <link>/internet/event-driven/watermill/</link>
+      <pubDate>Tue, 12 Sep 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/event-driven/watermill/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>事件驱动系列—背景</title>
+      <link>/internet/event-driven/background/</link>
+      <pubDate>Mon, 11 Sep 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/event-driven/background/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>限流器</title>
       <link>/internet/go/limiter/</link>
