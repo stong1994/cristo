@@ -19,14 +19,14 @@
   <meta name="theme-color" content="rgb(255,255,255)" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>Redis持久化机制实现 &middot; </title>
-    <meta name="title" content="Redis持久化机制实现 &middot; " />
+  <title>go中的测试 &middot; </title>
+    <meta name="title" content="go中的测试 &middot; " />
   
   <meta name="description" content="" />
   
   
   
-  <link rel="canonical" href="/internet/depth/redis_durability/" />
+  <link rel="canonical" href="/internet/go/component_test/" />
   
   
   
@@ -74,15 +74,15 @@
   
   
   
-  <meta property="og:title" content="Redis持久化机制实现" />
+  <meta property="og:title" content="go中的测试" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/internet/depth/redis_durability/" /><meta property="article:section" content="internet" />
-<meta property="article:published_time" content="2022-03-21T11:08:00+08:00" />
-<meta property="article:modified_time" content="2022-03-21T11:08:00+08:00" /><meta property="og:site_name" content="主页" />
+<meta property="og:url" content="/internet/go/component_test/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2022-03-10T14:43:00+08:00" />
+<meta property="article:modified_time" content="2022-03-10T14:43:00+08:00" /><meta property="og:site_name" content="主页" />
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Redis持久化机制实现"/>
+<meta name="twitter:title" content="go中的测试"/>
 <meta name="twitter:description" content=""/>
 
   
@@ -91,26 +91,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "",
-    "name": "Redis持久化机制实现",
-    "headline": "Redis持久化机制实现",
+    "name": "go中的测试",
+    "headline": "go中的测试",
     
     
     "inLanguage": "en",
-    "url" : "\/internet\/depth\/redis_durability\/",
+    "url" : "\/internet\/go\/component_test\/",
     "author" : {
       "@type": "Person",
       "name": "stong"
     },
     "copyrightYear": "2022",
-    "dateCreated": "2022-03-21T11:08:00\u002b08:00",
-    "datePublished": "2022-03-21T11:08:00\u002b08:00",
+    "dateCreated": "2022-03-10T14:43:00\u002b08:00",
+    "datePublished": "2022-03-10T14:43:00\u002b08:00",
     
-    "dateModified": "2022-03-21T11:08:00\u002b08:00",
+    "dateModified": "2022-03-10T14:43:00\u002b08:00",
     
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "868"
+    "wordCount": "1413"
   }]
   </script>
 
@@ -626,8 +626,8 @@
   <li class="inline hidden">
     <a
       class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
-      href="/internet/depth/redis_durability/"
-      >Redis持久化机制实现</a
+      href="/internet/go/component_test/"
+      >go中的测试</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
@@ -636,7 +636,7 @@
 
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        Redis持久化机制实现
+        go中的测试
       </h1>
       <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -675,7 +675,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2022-03-21 11:08:00 &#43;0800 CST">21 March 2022</time><span class="px-2 text-primary-500">&middot;</span><span>868 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">2 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2022-03-10 14:43:00 &#43;0800 CST">10 March 2022</time><span class="px-2 text-primary-500">&middot;</span><span>1413 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -683,7 +683,7 @@
 
 <span class="mb-[2px]">
   <a
-    href="https://github.com/stong1994/cristo/content/internet/storage/redis%e6%8c%81%e4%b9%85%e5%8c%96%e6%9c%ba%e5%88%b6%e5%ae%9e%e7%8e%b0.md"
+    href="https://github.com/stong1994/cristo/content/internet/design/go%e4%b8%ad%e7%9a%84%e7%bb%84%e4%bb%b6%e6%b5%8b%e8%af%95.md"
     class="text-lg hover:text-primary-500"
     rel="noopener noreferrer"
     target="_blank"
@@ -734,12 +734,12 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#rdb">RDB</a></li>
-        <li><a href="#aofappend-only-file">AOF（Append Only File）</a>
-          <ul>
-            <li><a href="#aof重写">AOF重写</a></li>
-          </ul>
-        </li>
+        <li><a href="#assert">assert</a></li>
+        <li><a href="#require">require</a></li>
+        <li><a href="#测试表格">测试表格</a></li>
+        <li><a href="#适配器模式">适配器模式</a></li>
+        <li><a href="#异步结果测试">异步结果测试</a></li>
+        <li><a href="#相关阅读">相关阅读</a></li>
       </ul>
     </li>
   </ul>
@@ -751,22 +751,147 @@
         </div>
       
       <div class="min-w-0 min-h-0 max-w-prose grow">
-        <p>Redis使用内存进行数据的读写，如果服务永不崩溃、服务器不会宕机——Redis服务永远正常运行，那么数据就不需要落盘。但目前的技术水平还不能达到这一水准，因此我们还是需要将数据存储到磁盘上，当服务重启时就可以加载这些数据。</p>
-<h2 id="rdb" class="relative group">RDB <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rdb" aria-label="Anchor">#</a></span></h2>
-<p>我们可以<strong>将内存中的数据直接copy到磁盘中</strong>，这种持久化方式就是<code>RDB</code>。</p>
-<p>为了防止已经copy到磁盘中的数据被用户修改，在copy过程中，Redis服务需要拒绝写操作，比如将用户请求先放入队列中，一旦copy结束再从队列中获取请求进行执行。但是这样需要考虑很多场景、条件，Redis本着简单、高效的准则，采用了最简单粗暴的方式——拒绝外部请求。</p>
-<p>但是拒绝外部请求会导致服务不可用，这是我们不能接受的，因此在copy时Redis服务会<strong>fork出一个子进程</strong>，fork完之后，父进程就可以继续工作，由子进程来进行copy。（copy on write。。。）</p>
-<h2 id="aofappend-only-file" class="relative group">AOF（Append Only File） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#aofappend-only-file" aria-label="Anchor">#</a></span></h2>
-<p><code>RDB</code>持久化最明显的缺点就是<strong>缺乏实时性</strong>，为了弥补这一点，Redis仿照文件追加的方式设计了<code>AOF</code>持久化——每执行一条写命令，就将该命令写到磁盘中。为了减少磁盘IO（毕竟太慢了），Redis需要先将命令写入到缓冲队列（aof_buf）中，然后再同步到磁盘中。（事件循环？）</p>
-<p><strong>“同步到磁盘”有三种方式</strong>：</p>
+        <p>因目的与范畴的不同，代码中的测试通常可以分为单元测试、组件测试、场景测试等等。</p>
+<p>但是从一名程序员的角度来看，所有的测试都是为了保证代码的正确性。</p>
+<p>相信每个程序员都知道要写测试代码，但是这些人中也有很多不怎么写测试代码，有些可能是懒的写，另外一些可能就是不知道如何下手。</p>
+<p>我会在这篇博客里记录go中的一些测试技巧。</p>
+<h2 id="assert" class="relative group">assert <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#assert" aria-label="Anchor">#</a></span></h2>
+<p><code>github.com/stretchr/testify</code>是go测试代码中常用的进行比较判断的库：其中<code>assert</code>模块用于做比较的判断, eg：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">num</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">getNum</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nx">assert</span><span class="p">.</span><span class="nf">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">assert</span><span class="p">.</span><span class="nf">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">num</span><span class="p">)</span>
+</span></span></code></pre></div><p>assert模块提供了非常多的API，用的时候可以顺便看下。</p>
+<h2 id="require" class="relative group">require <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#require" aria-label="Anchor">#</a></span></h2>
+<p>同样是<code>github.com/stretchr/testify</code>下，<code>require</code>模块提供的API和<code>assert</code>基本一致，区别在于<code>require</code>模块对<code>assert</code>模块进行了一层包装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NoError</span><span class="p">(</span><span class="nx">t</span> <span class="nx">TestingT</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">,</span> <span class="nx">msgAndArgs</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">t</span><span class="p">.(</span><span class="nx">tHelper</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">h</span><span class="p">.</span><span class="nf">Helper</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">assert</span><span class="p">.</span><span class="nf">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">msgAndArgs</span><span class="o">...</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">t</span><span class="p">.</span><span class="nf">FailNow</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>t.FailNow()</code>可是会直接退出程序的，这意味着，如果使用<code>require</code>模块的API，一旦校验没通过，剩下的测试代码就不会跑了。</p>
+<h2 id="测试表格" class="relative group">测试表格 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b5%8b%e8%af%95%e8%a1%a8%e6%a0%bc" aria-label="Anchor">#</a></span></h2>
+<p>我们常常将一类测试放到一个测试表格中进行统一处理，这个测试表格就是一个“范畴”——包含了被测试代码的所有场景。</p>
+<p>比如我们创建了一个函数<code>func doubleNum(num int) (int, error)</code>，要对其进行测试，就可以将相关的测试用例存到一个测试表格中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/stretchr/testify/require&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">TestDoubleNum</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tests</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">name</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">num</span>    <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">wantNum</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}{</span>
+</span></span><span class="line"><span class="cl">		<span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="s">&#34;test 0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="s">&#34;test 2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">tt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">tests</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">gotNum</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">doubleNum</span><span class="p">(</span><span class="nx">tt</span><span class="p">.</span><span class="nx">num</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">require</span><span class="p">.</span><span class="nf">NoError</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;getNum() wantNum = %d, wantErr %d&#34;</span><span class="p">,</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">wantNum</span><span class="p">,</span> <span class="nx">gotNum</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">doubleNum</span><span class="p">(</span><span class="nx">num</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">num</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="适配器模式" class="relative group">适配器模式 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%80%82%e9%85%8d%e5%99%a8%e6%a8%a1%e5%bc%8f" aria-label="Anchor">#</a></span></h2>
+<p>适配器模式是一种设计模式，其目的在于维护业务规则的完整性，避免调用下游服务过程中造成的代码侵蚀。但是这种模式在用于测试时也十分契合。</p>
+<p>比如我们的业务代码需要数据库提供更新用户名称的接口，传统的方式是这样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// dao层
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">DB</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">client</span> <span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">db</span> <span class="nx">DB</span><span class="p">)</span> <span class="nf">UpdateUserName</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// update user
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 注入
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">UserService</span> <span class="kd">struct</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">repo</span> <span class="nx">dao</span><span class="p">.</span><span class="nx">DB</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">us</span> <span class="nx">UserService</span><span class="p">)</span> <span class="nf">updateName</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">us</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nf">UpdateUserName</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>当我们要测试UserService中的updateName方法时，因为UserService依赖DB实例，因此只能创建DB实例，也就需要一套数据库的地址、账号、密码等等。</p>
+<p>这造成了大量的工作负担，也难怪很多程序员不写测试。</p>
+<p>使用适配器模式就完全不同了。</p>
+<p>定义一个仓库适配器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Repo</span> <span class="kd">interface</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">UpdateUserName</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>然后在用户服务中注入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">UserService</span> <span class="kd">struct</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">repo</span> <span class="nx">Repo</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">us</span> <span class="nx">UserService</span><span class="p">)</span> <span class="nf">updateName</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">us</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nf">UpdateUserName</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// handle error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>这时候UserService依赖的是Repo接口，我们可以直接mock即可：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">RepoMock</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">RepoMock</span><span class="p">)</span> <span class="nf">UpdateUserName</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{}</span>
+</span></span></code></pre></div><p>这样就解决了数据库操作难以测试的大难题！</p>
+<h2 id="异步结果测试" class="relative group">异步结果测试 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%82%e6%ad%a5%e7%bb%93%e6%9e%9c%e6%b5%8b%e8%af%95" aria-label="Anchor">#</a></span></h2>
+<p>编写测试时还有一个很繁琐的问题是如何检测异步的结果，比如在编写组件测试时要启动一个http服务，启动过程是异步的，如果检测http服务已经启动成功了？</p>
+<p>可以使用<code>EventuallyWithT</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">require</span><span class="p">.</span><span class="nf">EventuallyWithT</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">t</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">func</span><span class="p">(</span><span class="nx">collect</span> <span class="o">*</span><span class="nx">assert</span><span class="p">.</span><span class="nx">CollectT</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">stdHttp</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;http://localhost:8080/health&#34;</span><span class="p">)</span> <span class="c1">// 健康检查接口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">!</span><span class="nx">assert</span><span class="p">.</span><span class="nf">NoError</span><span class="p">(</span><span class="nx">collect</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">assert</span><span class="p">.</span><span class="nf">Less</span><span class="p">(</span><span class="nx">collect</span><span class="p">,</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">StatusCode</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="s">&#34;API not ready, http status: %d&#34;</span><span class="p">,</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">StatusCode</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="o">*</span><span class="mi">50</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>在上面这个例子中，规定了每50毫秒调用一次<code>health</code>接口，如果<code>assert</code>校验通过，则结束，否则会一直持续这个过程。如果10s内都没能校验通过，则校验失败。</p>
+<p>注意，EventuallyWithT中的函数做校验用到的是assert而非require，这因为require中使用了<code>t.FailNow()</code>而<code>t.FailNow()</code>必须运行在执行测试的goroutine中，相关讨论可见<a
+  href="https://github.com/stretchr/testify/issues/772#"
+  
+  target="_blank" rel="noreferrer noopener"
+>How to handle failed expectations inside of a goroutine? · Issue #772 · stretchr/testify · GitHub</a></p>
+<h2 id="相关阅读" class="relative group">相关阅读 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%9b%b8%e5%85%b3%e9%98%85%e8%af%bb" aria-label="Anchor">#</a></span></h2>
 <ul>
-<li>将缓冲队列中的数据直接写入并同步（fsync）到文件中。</li>
-<li>将缓冲队列中的数据写入到文件中，并每隔一秒进行一次同步。</li>
-<li>将缓冲队列中的数据写入到文件中，同步操作由操作系统控制。</li>
+<li><a
+  href="https://threedots.tech/post/database-integration-testing/"
+  
+  target="_blank" rel="noreferrer noopener"
+>4 practical principles of high-quality database integration tests in Go (threedots.tech)</a></li>
 </ul>
-<h3 id="aof重写" class="relative group">AOF重写 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#aof%e9%87%8d%e5%86%99" aria-label="Anchor">#</a></span></h3>
-<p>随着命令的增多，AOF文件越来越大，<strong>为了解决AOF文件膨胀问题</strong>，Redis提供了<strong>文件重写</strong>功能。</p>
-<p>一个key往往对应着多条命令，为了找到key对应的数据，直接读取内存会更方便。因此，<strong>AOF重写的过程就是将内存中的数据copy到AOF文件的过程</strong>。在copy过程中，为了Redis对外提供服务，因此<strong>fork出子进程来实现AOF重写</strong>，同时，写命令会存入AOF缓冲区和AOF重写缓冲区分别用于现有AOF文件的同步和AOF重写。重写完成后会将新AOF文件覆盖旧AOF文件。</p>
 
       </div>
     </section>
@@ -877,7 +1002,7 @@
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="group flex" href="/internet/go/component_test/">
+            <a class="group flex" href="/internet/go/channel/">
               <span
                 class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
                 ><span class="ltr:inline rtl:hidden">&larr;</span
@@ -886,7 +1011,7 @@
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >go中的测试</span
+                  >go设计之channel</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
@@ -899,15 +1024,15 @@
         </span>
         <span>
           
-            <a class="group flex text-right" href="/internet/design/redis_multi_server/">
+            <a class="group flex text-right" href="/internet/depth/redis_durability/">
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >Redis复制、哨兵、集群</span
+                  >Redis持久化机制实现</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2022-03-24 11:33:00 &#43;0800 CST">24 March 2022</time>
+                    <time datetime="2022-03-21 11:08:00 &#43;0800 CST">21 March 2022</time>
                   
                 </span>
               </span>

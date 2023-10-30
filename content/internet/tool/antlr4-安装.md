@@ -12,7 +12,9 @@ toc = true
 
 ## 1. 安装antlr4
 
-直接按照 [官网步骤](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md)安装即可。
+直接按照 [官网步骤](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md)安装即可。或者直接使用[antlr4-tools](https://github.com/antlr/antlr4-tools)安装：
+
+`pip install antlr4-tools`
 
 ## 2. 运行example
 
