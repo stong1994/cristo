@@ -110,7 +110,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "1241"
+    "wordCount": "1501"
   }]
   </script>
 
@@ -675,7 +675,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2023-09-11 19:43:00 &#43;0800 CST">11 September 2023</time><span class="px-2 text-primary-500">&middot;</span><span>1241 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-09-11 19:43:00 &#43;0800 CST">11 September 2023</time><span class="px-2 text-primary-500">&middot;</span><span>1501 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -739,6 +739,13 @@
             <li><a href="#同步vs异步">同步vs异步</a></li>
             <li><a href="#ddd基础设施">DDD基础设施</a></li>
             <li><a href="#可溯的事件流">可溯的事件流</a></li>
+          </ul>
+        </li>
+        <li><a href="#事件类型">事件类型</a>
+          <ul>
+            <li><a href="#domain-event">Domain Event</a></li>
+            <li><a href="#event-sourced-event">Event Sourced Event</a></li>
+            <li><a href="#integration-event">Integration Event</a></li>
           </ul>
         </li>
         <li><a href="#小结">小结</a></li>
@@ -829,11 +836,35 @@
 >图片来自于Domain-Driven Design (DDD) in Modern Software Architecture | Bits and Pieces (bitsrc.io)</a></em></p>
 <h3 id="可溯的事件流" class="relative group">可溯的事件流 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8f%af%e6%ba%af%e7%9a%84%e4%ba%8b%e4%bb%b6%e6%b5%81" aria-label="Anchor">#</a></span></h3>
 <p>大数据平台往往需要收集、清洗业务系统的数据，这个收集的操作往往是通过事件进行的。</p>
-<p>在这个过程中，如果将事件汇总在一起，并存入一个我们称之为事件湖的地方，就形成了一条完整的事件流。</p>
+<p>在这个过程中，如果将事件汇总在一起，并存入一个我们称之为<code>event sourcing</code>的地方，就形成了一条完整的事件流。</p>
 <p>既然有了这条事件流，那么当某个系统的数据出现错乱后，就可以从数据湖中的某个时间开始回溯这些事件，从而达到修复数据的目的。</p>
 <blockquote>
 <p>区块链就是这样一种事物。之前有个钱包应用由于开发问题导致数据出现了问题，但由于团队将交易事件都保存在区块链中，因此读取完整的区块链便能将应用中的数据回溯到正常状态。</p>
 </blockquote>
+<h2 id="事件类型" class="relative group">事件类型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%8b%e4%bb%b6%e7%b1%bb%e5%9e%8b" aria-label="Anchor">#</a></span></h2>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202310142123667.png" alt="" />
+    
+  </figure>
+
+</p>
+<p><em><a
+  href=""
+  
+  
+>图片来自《Event-Driven Architecture in Golang》第6章</a></em></p>
+<h3 id="domain-event" class="relative group">Domain Event <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#domain-event" aria-label="Anchor">#</a></span></h3>
+<p>领域模块是一个服务中最核心的部分，领域事件就是用于Application层中不同领域模块之间进行通信。</p>
+<p>领域事件通常不会暴露给外部服务。</p>
+<h3 id="event-sourced-event" class="relative group">Event Sourced Event <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event-sourced-event" aria-label="Anchor">#</a></span></h3>
+<p>事件源通常存储于服务内部，用于追踪事件相关的状态变更。</p>
+<h3 id="integration-event" class="relative group">Integration Event <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#integration-event" aria-label="Anchor">#</a></span></h3>
+<p>集成事件用于服务之间的消息通知。通常来说，发送方并不关心有多少个订阅方。</p>
+<p>这种事件对于订阅双方来说是一种协议，发送方需要保证事件结构不能改变，如果需要改变，则要使用不同的版本号。其他两个事件只用于服务内部，因此无需做版本处理。</p>
 <h2 id="小结" class="relative group">小结 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%8f%e7%bb%93" aria-label="Anchor">#</a></span></h2>
 <p>随着软件的复杂度提升，对模块的解耦、数据的一致性的要求都会越来越高，而事件驱动在这些地方能够发挥关键作用，因此掌握事件驱动的技术和思想已成为必备的技术修炼。</p>
 

@@ -65,7 +65,7 @@ fn main() {
 }
 ```
 
-#### 数组类型
+#### 数组Array `[T;N]`
 
 与元组不同，数组中的每一个元素都必须是相同的类型。Rust中的数组拥有固定的长度，一旦声明就再也不能随意更改大小。
 
@@ -75,6 +75,27 @@ fn main() {
 “即假如你想要创建一个含有相同元素的数组，那么你可以在方括号中指定元素的值，并接着填入一个分号及数组的长度，如下所示：
 `let a = [3; 5]；`
 以a命名的数组将会拥有5个元素，而这些元素全部拥有相同的初始值3。这一写法等价于`let a = [3, 3, 3, 3, 3];`，但却更加精简。”
+
+#### 向量Vector `Vec<T>`
+
+Vector能够动态分配，分配在堆上。
+
+```rust
+let mut primes = vec![2, 3, 5, 7]; // vec! 等同于Vec::new()
+assert_eq!(primes.iter().product::<i32>(), 210);
+
+primes.push(11);
+primes.push(13);
+assert_eq!(primes.iter().product::<i32>(), 30030);
+```
+
+
+
+#### 切片Slice `&[T]`
+
+`&[T]`是能够共享读而不允许修改的切片， `&mut [T]`是能够修改单不允许共享读的切片。
+
+
 
 ## 函数
 
@@ -176,7 +197,9 @@ fn main() {
 三个原则：
 
 • Rust中的每一个值都有一个对应的变量作为它的所有者。
+
 • 在同一时间内，值有且仅有一个所有者。
+
 • 当所有者离开自己的作用域时，它持有的值就会被释放掉。
 
 ```rust
@@ -202,7 +225,7 @@ fn def(x: i32) { // x进入作用域
 
 
 
-### 引用(借用)
+### 引用与借用
 
 所有权则规定了每个值有且只有一个所有者，决定了在哪里和何时释放内存。
 
@@ -746,6 +769,44 @@ fn main() {
     
 }
 ```
+
+### raw string
+
+使用`r###`能够获得原始的字符串，类似于go中的飘号。
+
+```rust
+println!(r###"
+    This raw string started with 'r###"'.
+    Therefore it does not end until we reach a quote mark ('"')
+    followed immediately by three pound signs ('###'):
+"###);
+```
+
+### byte string
+
+```rust
+let method = b"GET"; // method's type is &[u8; 3]
+```
+
+### strings in memory
+
+```rust
+let noodles = "noodles".to_string(); // &str => String
+let oodles = &noodles[1..];
+let poodles = "ಠ_ಠ";
+```
+
+- noodles是String类型，数据存储在堆中，在栈中存储地址与长度、容量。
+- oodles是&str类型，引用了noodles的后7个字符。
+- poodles也是&str类型。
+
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202311131709513.png)
+
+[*图片来自《Programming Rust》*]()
+
+
+
+
 
 ## 哈希表
 
