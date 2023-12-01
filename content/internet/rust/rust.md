@@ -647,6 +647,41 @@ fn main() {
 }
 ```
 
+break:
+
+```rust
+'search:
+for room in apartment {
+    for spot in room.hiding_spots() {
+        if spot.contains(keys) {
+            println!("Your keys are {} in the {}.", spot, room);
+            break 'search;
+        }
+    }
+}
+```
+
+表达式中的break
+
+```rust
+let sqrt = 'outer: loop {
+    let n = next_number();
+    for i in 1.. {
+        let square = i * i;
+        if square == n {
+            // Found a square root.
+            break 'outer i;
+        }
+        if square > n {
+            // `n` isn't a perfect square, try the next
+            break;
+        }
+    }
+};
+```
+
+
+
 ### match
 
 1. 必须穷举所有可能
@@ -894,7 +929,7 @@ fn main() {
 
 ```
 
-## 关联类型
+## 关联类型（associate trait）
 
 关联类型是在 trait 中定义的类型占位符。一个 trait 可以定义一个或多个关联类型，这些关联类型在 trait 中使用，但没有定义具体的类型。具体类型的定义由实现 trait 的类型来提供。例如：
 
@@ -1268,13 +1303,81 @@ fn main() {
 
 - `FnOnce` trait 适用于通过所有权调用的函数。
 
+### Extension trait
+
+为其他人的类型实现trait，比如为char类型实现：
+
+```go
+trait IsEmoji {
+    fn is_emoji(&self) -> bool;
+}
+
+/// Implement IsEmoji for the built-in character type.
+impl IsEmoji for char {
+    fn is_emoji(&self) -> bool {
+        ...
+    }
+}
+
+assert_eq!('$'.is_emoji(), false);
+```
+
+或者为Write trait实现：
+
+```rust
+use std::io::{self, Write};
+
+/// Trait for values to which you can send HTML.
+trait WriteHtml {
+    fn write_html(&mut self, html: &HtmlDocument) -> io::Result<()>;
+}
+
+/// You can write HTML to any std::io writer.
+impl<W: Write> WriteHtml for W {
+    fn write_html(&mut self, html: &HtmlDocument) -> io::Result<()> {
+        ...
+    }
+}
+```
+
+### Self
+
+可以用Self来表示当前类型：
+
+```rust
+pub trait Spliceable {
+    fn splice(&self, other: &Self) -> Self;
+}
+```
+
+注意：Self类型不能用于trait objects.
+
+> trait object: 对于trait类型的引用称为trait object，如writer:
+>
+> ```rust
+> let mut buf: Vec<u8> = vec![];
+> let writer: &mut dyn Write = &mut buf;
+> ```
+
+### Sub trait
+
+```rust
+trait Creature: Visible {
+    fn position(&self) -> (i32, i32);
+    fn facing(&self) -> Direction;
+    ...
+}
+```
+
+所有实现了Creature的类型都实现了Visible。
+
 
 
 ## 引用中的生命周期
 
 当引用的生命周期可能以不同的方式相互关联时，我们就必须手动标注生命周期。Rust需要我们注明泛型生命周期参数之间的关系，来确保运行时实际使用的引用一定是有效的。
 
-生命周期的标注使用了一种明显不同的语法：**它们的参数名称必须以撇号（'）开头，且通常使用全小写字符**。与泛型一样，它们的名称通常也会非常简短。'a被大部分开发者选择作为默认使用的名称。我们会将生命周期参数的标注填写在&引用运算符之后，并通过一个空格符来将标注与引用类型区分开来。
+生命周期的标注使用了一种明显不同的语法：**它们的参数名称必须以撇号（'）开头，且通常使用全小写字符**。与泛型一样，它们的名称通常也会非常简短。'a(读作tick a)被大部分开发者选择作为默认使用的名称。我们会将生命周期参数的标注填写在&引用运算符之后，并通过一个空格符来将标注与引用类型区分开来。
 
 ```rust
 fn main() {

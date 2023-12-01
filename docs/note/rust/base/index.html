@@ -110,7 +110,7 @@
     "keywords": ["rust"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "13583"
+    "wordCount": "13915"
   }]
   </script>
 
@@ -675,7 +675,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2022-06-04 14:35:00 &#43;0800 CST">4 June 2022</time><span class="px-2 text-primary-500">&middot;</span><span>13583 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">28 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2022-06-04 14:35:00 &#43;0800 CST">4 June 2022</time><span class="px-2 text-primary-500">&middot;</span><span>13915 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">28 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -747,7 +747,9 @@
             <li><a href="#复合类型compound">复合类型（compound）</a>
               <ul>
                 <li><a href="#元组">元组</a></li>
-                <li><a href="#数组类型">数组类型</a></li>
+                <li><a href="#数组array-tn">数组Array <code>[T;N]</code></a></li>
+                <li><a href="#向量vector-vect">向量Vector <code>Vec&lt;T&gt;</code></a></li>
+                <li><a href="#切片slice-t">切片Slice <code>&amp;[T]</code></a></li>
               </ul>
             </li>
           </ul>
@@ -772,7 +774,7 @@
         </li>
         <li><a href="#所有权">所有权</a>
           <ul>
-            <li><a href="#引用借用">引用(借用)</a></li>
+            <li><a href="#引用与借用">引用与借用</a></li>
             <li><a href="#解引用">解引用</a>
               <ul>
                 <li><a href="#可变引用">可变引用</a></li>
@@ -804,7 +806,13 @@
           </ul>
         </li>
         <li><a href="#动态数组">动态数组</a></li>
-        <li><a href="#字符串-1">字符串</a></li>
+        <li><a href="#字符串-1">字符串</a>
+          <ul>
+            <li><a href="#raw-string">raw string</a></li>
+            <li><a href="#byte-string">byte string</a></li>
+            <li><a href="#strings-in-memory">strings in memory</a></li>
+          </ul>
+        </li>
         <li><a href="#哈希表">哈希表</a></li>
         <li><a href="#泛型">泛型</a></li>
         <li><a href="#关联类型">关联类型</a></li>
@@ -926,13 +934,23 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The value of y is: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The value of z is: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">tup</span><span class="p">.</span><span class="mi">2</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><h4 id="数组类型" class="relative group">数组类型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%95%b0%e7%bb%84%e7%b1%bb%e5%9e%8b" aria-label="Anchor">#</a></span></h4>
+</span></span></span></code></pre></div><h4 id="数组array-tn" class="relative group">数组Array <code>[T;N]</code> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%95%b0%e7%bb%84array-tn" aria-label="Anchor">#</a></span></h4>
 <p>与元组不同，数组中的每一个元素都必须是相同的类型。Rust中的数组拥有固定的长度，一旦声明就再也不能随意更改大小。</p>
 <p>为了写出数组的类型，你需要使用一对方括号，并在方括号中填写数组内所有元素的类型、一个分号及数组内元素的数量，如下所示：
 <code>let a: [i32; 5] = [1, 2, 3, 4, 5];</code></p>
 <p>“即假如你想要创建一个含有相同元素的数组，那么你可以在方括号中指定元素的值，并接着填入一个分号及数组的长度，如下所示：
 <code>let a = [3; 5]；</code>
 以a命名的数组将会拥有5个元素，而这些元素全部拥有相同的初始值3。这一写法等价于<code>let a = [3, 3, 3, 3, 3];</code>，但却更加精简。”</p>
+<h4 id="向量vector-vect" class="relative group">向量Vector <code>Vec&lt;T&gt;</code> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%90%91%e9%87%8fvector-vect" aria-label="Anchor">#</a></span></h4>
+<p>Vector能够动态分配，分配在堆上。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">primes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">];</span><span class="w"> </span><span class="c1">// vec! 等同于Vec::new()
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">primes</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">product</span>::<span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">(),</span><span class="w"> </span><span class="mi">210</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">primes</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">11</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">primes</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">13</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">primes</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">product</span>::<span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">(),</span><span class="w"> </span><span class="mi">30030</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><h4 id="切片slice-t" class="relative group">切片Slice <code>&amp;[T]</code> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%87%e7%89%87slice-t" aria-label="Anchor">#</a></span></h4>
+<p><code>&amp;[T]</code>是能够共享读而不允许修改的切片， <code>&amp;mut [T]</code>是能够修改单不允许共享读的切片。</p>
 <h2 id="函数" class="relative group">函数 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%87%bd%e6%95%b0" aria-label="Anchor">#</a></span></h2>
 <p>Rust代码使用蛇形命名法（snake case）来作为规范函数和变量名称的风格。蛇形命名法只使用小写的字母进行命名，并以下画线分隔单词。</p>
 <h3 id="函数的返回值" class="relative group">函数的返回值 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e8%bf%94%e5%9b%9e%e5%80%bc" aria-label="Anchor">#</a></span></h3>
@@ -992,9 +1010,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><h2 id="所有权" class="relative group">所有权 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%89%80%e6%9c%89%e6%9d%83" aria-label="Anchor">#</a></span></h2>
 <p>三个原则：</p>
-<p>• Rust中的每一个值都有一个对应的变量作为它的所有者。
-• 在同一时间内，值有且仅有一个所有者。
-• 当所有者离开自己的作用域时，它持有的值就会被释放掉。</p>
+<p>• Rust中的每一个值都有一个对应的变量作为它的所有者。</p>
+<p>• 在同一时间内，值有且仅有一个所有者。</p>
+<p>• 当所有者离开自己的作用域时，它持有的值就会被释放掉。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 变量s进入作用域
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    
@@ -1013,7 +1031,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">def</span><span class="p">(</span><span class="n">x</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// x进入作用域
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w"> </span><span class="c1">// x离开作用域，无事发生
-</span></span></span></code></pre></div><h3 id="引用借用" class="relative group">引用(借用) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e7%94%a8%e5%80%9f%e7%94%a8" aria-label="Anchor">#</a></span></h3>
+</span></span></span></code></pre></div><h3 id="引用与借用" class="relative group">引用与借用 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%95%e7%94%a8%e4%b8%8e%e5%80%9f%e7%94%a8" aria-label="Anchor">#</a></span></h3>
 <p>所有权则规定了每个值有且只有一个所有者，决定了在哪里和何时释放内存。</p>
 <p>引用是一种机制，让程序在不移动数据所有权的情况下访问和操作数据。</p>
 <p>引用表现为指向变量的指针，可以把引用看成是一个指针地址。</p>
@@ -1453,7 +1471,40 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><h2 id="哈希表" class="relative group">哈希表 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%93%88%e5%b8%8c%e8%a1%a8" aria-label="Anchor">#</a></span></h2>
+</span></span></span></code></pre></div><h3 id="raw-string" class="relative group">raw string <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#raw-string" aria-label="Anchor">#</a></span></h3>
+<p>使用<code>r###</code>能够获得原始的字符串，类似于go中的飘号。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="fm">println!</span><span class="p">(</span><span class="sa">r</span><span class="s">###&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    This raw string started with &#39;r###&#34;&#39;.
+</span></span></span><span class="line"><span class="cl"><span class="s">    Therefore it does not end until we reach a quote mark (&#39;&#34;&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s">    followed immediately by three pound signs (&#39;###&#39;):
+</span></span></span><span class="line"><span class="cl"><span class="s">&#34;###</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><h3 id="byte-string" class="relative group">byte string <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#byte-string" aria-label="Anchor">#</a></span></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">b</span><span class="s">&#34;GET&#34;</span><span class="p">;</span><span class="w"> </span><span class="c1">// method&#39;s type is &amp;[u8; 3]
+</span></span></span></code></pre></div><h3 id="strings-in-memory" class="relative group">strings in memory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#strings-in-memory" aria-label="Anchor">#</a></span></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">noodles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;noodles&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span><span class="w"> </span><span class="c1">// &amp;str =&gt; String
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span><span class="w"> </span><span class="n">oodles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">noodles</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">poodles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;ಠ_ಠ&#34;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>noodles是String类型，数据存储在堆中，在栈中存储地址与长度、容量。</li>
+<li>oodles是&amp;str类型，引用了noodles的后7个字符。</li>
+<li>poodles也是&amp;str类型。</li>
+</ul>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202311131709513.png" alt="" />
+    
+  </figure>
+
+</p>
+<p><a
+  href=""
+  
+  
+><em>图片来自《Programming Rust》</em></a></p>
+<h2 id="哈希表" class="relative group">哈希表 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%93%88%e5%b8%8c%e8%a1%a8" aria-label="Anchor">#</a></span></h2>
 <ol>
 <li>所有的键必须拥有相同的类型，所有的值也必须拥有相同的类型。</li>
 <li>对于具有控制权的file_name和field_value，在调用insert方法后，field_name和field_value变量被移动到哈希映射中，我们再也没有办法使用这两个变量了.</li>
