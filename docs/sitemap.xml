@@ -5,20 +5,27 @@
     
       <url>
             <loc>/internet/</loc>
-            <lastmod>2023-10-30T14:43:00+08:00</lastmod>
+            <lastmod>2023-11-13T19:43:00+08:00</lastmod>
           </url>
     
   
     
       <url>
-            <loc>/internet/go/dependence_injection/</loc>
-            <lastmod>2023-10-30T14:43:00+08:00</lastmod>
+            <loc>/internet/go/single_responsibility_and_functional/</loc>
+            <lastmod>2023-11-13T19:43:00+08:00</lastmod>
           </url>
     
   
     
       <url>
             <loc>/</loc>
+            <lastmod>2023-11-13T19:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/go/dependence_injection/</loc>
             <lastmod>2023-10-30T14:43:00+08:00</lastmod>
           </url>
     

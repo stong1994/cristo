@@ -6,7 +6,16 @@
     <description>Recent content in 记录个人的成长记录 on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 30 Oct 2023 14:43:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Nov 2023 19:43:00 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单一职责与函数编程的一点思考</title>
+      <link>/internet/go/single_responsibility_and_functional/</link>
+      <pubDate>Mon, 13 Nov 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/go/single_responsibility_and_functional/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>go中的依赖注入</title>
       <link>/internet/go/dependence_injection/</link>

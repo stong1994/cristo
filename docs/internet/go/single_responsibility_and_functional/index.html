@@ -19,14 +19,14 @@
   <meta name="theme-color" content="rgb(255,255,255)" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>go中的依赖注入 &middot; </title>
-    <meta name="title" content="go中的依赖注入 &middot; " />
+  <title>单一职责与函数编程的一点思考 &middot; </title>
+    <meta name="title" content="单一职责与函数编程的一点思考 &middot; " />
   
   <meta name="description" content="" />
   
   
   
-  <link rel="canonical" href="/internet/go/dependence_injection/" />
+  <link rel="canonical" href="/internet/go/single_responsibility_and_functional/" />
   
   
   
@@ -74,15 +74,15 @@
   
   
   
-  <meta property="og:title" content="go中的依赖注入" />
+  <meta property="og:title" content="单一职责与函数编程的一点思考" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/internet/go/dependence_injection/" /><meta property="article:section" content="internet" />
-<meta property="article:published_time" content="2023-10-30T14:43:00+08:00" />
-<meta property="article:modified_time" content="2023-10-30T14:43:00+08:00" /><meta property="og:site_name" content="主页" />
+<meta property="og:url" content="/internet/go/single_responsibility_and_functional/" /><meta property="article:section" content="internet" />
+<meta property="article:published_time" content="2023-11-13T19:43:00+08:00" />
+<meta property="article:modified_time" content="2023-11-13T19:43:00+08:00" /><meta property="og:site_name" content="主页" />
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="go中的依赖注入"/>
+<meta name="twitter:title" content="单一职责与函数编程的一点思考"/>
 <meta name="twitter:description" content=""/>
 
   
@@ -91,26 +91,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "",
-    "name": "go中的依赖注入",
-    "headline": "go中的依赖注入",
+    "name": "单一职责与函数编程的一点思考",
+    "headline": "单一职责与函数编程的一点思考",
     
     
     "inLanguage": "en",
-    "url" : "\/internet\/go\/dependence_injection\/",
+    "url" : "\/internet\/go\/single_responsibility_and_functional\/",
     "author" : {
       "@type": "Person",
       "name": "stong"
     },
     "copyrightYear": "2023",
-    "dateCreated": "2023-10-30T14:43:00\u002b08:00",
-    "datePublished": "2023-10-30T14:43:00\u002b08:00",
+    "dateCreated": "2023-11-13T19:43:00\u002b08:00",
+    "datePublished": "2023-11-13T19:43:00\u002b08:00",
     
-    "dateModified": "2023-10-30T14:43:00\u002b08:00",
+    "dateModified": "2023-11-13T19:43:00\u002b08:00",
     
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "1243"
+    "wordCount": "1121"
   }]
   </script>
 
@@ -626,8 +626,8 @@
   <li class="inline hidden">
     <a
       class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
-      href="/internet/go/dependence_injection/"
-      >go中的依赖注入</a
+      href="/internet/go/single_responsibility_and_functional/"
+      >单一职责与函数编程的一点思考</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
@@ -636,7 +636,7 @@
 
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        go中的依赖注入
+        单一职责与函数编程的一点思考
       </h1>
       <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -675,7 +675,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2023-10-30 14:43:00 &#43;0800 CST">30 October 2023</time><span class="px-2 text-primary-500">&middot;</span><span>1243 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-11-13 19:43:00 &#43;0800 CST">13 November 2023</time><span class="px-2 text-primary-500">&middot;</span><span>1121 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -683,7 +683,7 @@
 
 <span class="mb-[2px]">
   <a
-    href="https://github.com/stong1994/cristo/content/internet/design/go%e4%b8%ad%e7%9a%84%e4%be%9d%e8%b5%96%e6%b3%a8%e5%85%a5.md"
+    href="https://github.com/stong1994/cristo/content/internet/design/%e5%8d%95%e4%b8%80%e8%81%8c%e8%b4%a3%e4%b8%8e%e5%87%bd%e6%95%b0%e7%bc%96%e7%a8%8b%e7%9a%84%e4%b8%80%e7%82%b9%e6%80%9d%e8%80%83.md"
     class="text-lg hover:text-primary-500"
     rel="noopener noreferrer"
     target="_blank"
@@ -734,11 +734,11 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#方法1将构造所需组件放入一个容器中">方法1：将构造所需组件放入一个容器中</a></li>
-        <li><a href="#方法2dig">方法2：dig</a></li>
-        <li><a href="#方法3wire">方法3：wire</a></li>
-        <li><a href="#小结">小结</a></li>
-        <li><a href="#示例代码">示例代码</a></li>
+        <li><a href="#一个简单的反例">一个简单的反例</a></li>
+        <li><a href="#解决问题">解决问题</a></li>
+        <li><a href="#到底有什么好处">到底有什么好处</a></li>
+        <li><a href="#单一职责在做什么">单一职责在做什么</a></li>
+        <li><a href="#函数式编程">函数式编程?</a></li>
       </ul>
     </li>
   </ul>
@@ -750,263 +750,154 @@
         </div>
       
       <div class="min-w-0 min-h-0 max-w-prose grow">
-        <p>现在的服务代码往往需要使用多种中间件、调用多个服务，这些中间件、服务都需要通过参数的方式注入到构造器中，比如这样：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Service</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">userRepo</span> <span class="nx">Repo</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">userCache</span> <span class="nx">Cache</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">companyAPI</span> <span class="nx">CompanyAPI</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">eventPublisher</span> <span class="nx">Publisher</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewService</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">userRepo</span> <span class="nx">Repo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span> <span class="nx">Cache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span> <span class="nx">CompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">eventPublisher</span> <span class="nx">Publisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">*</span><span class="nx">Service</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="o">&amp;</span><span class="nx">Service</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">userRepo</span> <span class="p">:</span><span class="nx">userRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">userCache</span> <span class="p">:</span><span class="nx">userCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">companyAPI</span> <span class="p">:</span><span class="nx">companyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">eventPublisher</span> <span class="p">:</span><span class="nx">eventPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>想象一下代码中有非常多的Service，那么构造函数的初始化过程会相当痛苦！</p>
-<h2 id="方法1将构造所需组件放入一个容器中" class="relative group">方法1：将构造所需组件放入一个容器中 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%96%b9%e6%b3%951%e5%b0%86%e6%9e%84%e9%80%a0%e6%89%80%e9%9c%80%e7%bb%84%e4%bb%b6%e6%94%be%e5%85%a5%e4%b8%80%e4%b8%aa%e5%ae%b9%e5%99%a8%e4%b8%ad" aria-label="Anchor">#</a></span></h2>
-<p>最简单的方式就是将所有被需要的组件放到一个组件中，然后在构造函数中从这个组件中获取：</p>
+        <p>单一职责是SOLID原则中的一个思想，使用函数式编程能够更天然的实现单一职责。</p>
+<h2 id="一个简单的反例" class="relative group">一个简单的反例 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e5%8f%8d%e4%be%8b" aria-label="Anchor">#</a></span></h2>
+<p>由于某种特殊原因，我们需要计算一个整数列表的double列表和奇数列表，实现很简单：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span> <span class="o">:=</span> <span class="nx">di</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span><span class="p">.</span><span class="nf">AddSingleton</span><span class="p">(</span><span class="nx">keyRepo</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">c</span> <span class="nx">di</span><span class="p">.</span><span class="nx">Container</span><span class="p">)</span> <span class="p">(</span><span class="nx">any</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nf">NewUserRepo</span><span class="p">(),</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span><span class="p">.</span><span class="nf">AddSingleton</span><span class="p">(</span><span class="nx">keyCache</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">c</span> <span class="nx">di</span><span class="p">.</span><span class="nx">Container</span><span class="p">)</span> <span class="p">(</span><span class="nx">any</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nf">NewUserCache</span><span class="p">(),</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span><span class="p">.</span><span class="nf">AddSingleton</span><span class="p">(</span><span class="nx">keyCompanyAPI</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">c</span> <span class="nx">di</span><span class="p">.</span><span class="nx">Container</span><span class="p">)</span> <span class="p">(</span><span class="nx">any</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nf">NewCompanyAPI</span><span class="p">(),</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span><span class="p">.</span><span class="nf">AddSingleton</span><span class="p">(</span><span class="nx">keyPublisher</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">c</span> <span class="nx">di</span><span class="p">.</span><span class="nx">Container</span><span class="p">)</span> <span class="p">(</span><span class="nx">any</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nf">NewPublisher</span><span class="p">(),</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">counts</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	<span class="nx">service</span> <span class="o">:=</span> <span class="nf">NewService</span><span class="p">(</span><span class="nx">container</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">_</span> <span class="p">=</span> <span class="nx">service</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewService</span><span class="p">(</span><span class="nx">container</span> <span class="nx">di</span><span class="p">.</span><span class="nx">Container</span><span class="p">)</span> <span class="o">*</span><span class="nx">Service</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">service</span> <span class="o">:=</span> <span class="nx">Service</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userRepo</span><span class="p">:</span>       <span class="nx">container</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">keyRepo</span><span class="p">).(</span><span class="nx">Repo</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userCache</span><span class="p">:</span>      <span class="nx">container</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">keyCache</span><span class="p">).(</span><span class="nx">Cache</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">companyAPI</span><span class="p">:</span>     <span class="nx">container</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">keyCompanyAPI</span><span class="p">).(</span><span class="nx">CompanyAPI</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">eventPublisher</span><span class="p">:</span> <span class="nx">container</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">keyPublisher</span><span class="p">).(</span><span class="nx">Publisher</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">doubleCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">oddCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">doubleCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">oddCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">service</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">doubleCounts</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>container的代码见<a
-  href=""
-  
-  
->github</a></p>
-<p>这种方式简化了构造函数的签名——只需要一个container即可。</p>
-<p>不过进一步讲，也可以将container放入context中，然后在需要使用组件时从context中获取。</p>
-<h2 id="方法2dig" class="relative group">方法2：dig <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%96%b9%e6%b3%952dig" aria-label="Anchor">#</a></span></h2>
-<p><a
-  href="https://github.com/uber-go/dig"
-  
-  target="_blank" rel="noreferrer noopener"
->dig</a>是uber开源的一款专门用于项目初始化的框架，它使用反射的方式来将组件的实例注册到容器中，然后在<code>Invode</code>时判断需要的组件，然后从容器中获取对应的实例。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;go.uber.org/dig&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Repo</span> <span class="kd">interface</span><span class="p">{}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewUserRepo</span><span class="p">()</span> <span class="nx">Repo</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Cache</span> <span class="kd">interface</span><span class="p">{}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewUserCache</span><span class="p">()</span> <span class="nx">Cache</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">2</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">CompanyAPI</span> <span class="kd">interface</span><span class="p">{}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewCompanyAPI</span><span class="p">()</span> <span class="nx">CompanyAPI</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">3</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Publisher</span> <span class="kd">interface</span><span class="p">{}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewPublisher</span><span class="p">()</span> <span class="nx">Publisher</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">4</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Service</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span>       <span class="nx">Repo</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span>      <span class="nx">Cache</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span>     <span class="nx">CompanyAPI</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewService</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span> <span class="nx">Repo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span> <span class="nx">Cache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span> <span class="nx">CompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">*</span><span class="nx">Service</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Service</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userRepo</span><span class="p">:</span>       <span class="nx">userRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userCache</span><span class="p">:</span>      <span class="nx">userCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">companyAPI</span><span class="p">:</span>     <span class="nx">companyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">eventPublisher</span><span class="p">:</span> <span class="nx">eventPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">svc</span> <span class="o">*</span><span class="nx">Service</span><span class="p">)</span> <span class="nf">DoSomething</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">svc</span><span class="p">.</span><span class="nx">userRepo</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">svc</span><span class="p">.</span><span class="nx">userCache</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">svc</span><span class="p">.</span><span class="nx">companyAPI</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">||</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">svc</span><span class="p">.</span><span class="nx">eventPublisher</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">panic</span><span class="p">(</span><span class="s">&#34;init failed&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;init success&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">container</span> <span class="o">:=</span> <span class="nx">dig</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">NewUserRepo</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">NewUserCache</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">NewCompanyAPI</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">NewPublisher</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">NewService</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">container</span><span class="p">.</span><span class="nf">Invoke</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">svc</span> <span class="o">*</span><span class="nx">Service</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">svc</span><span class="p">.</span><span class="nf">DoSomething</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustNoErr</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">mustProvide</span><span class="p">(</span><span class="nx">container</span> <span class="o">*</span><span class="nx">dig</span><span class="p">.</span><span class="nx">Container</span><span class="p">,</span> <span class="nx">constructor</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">container</span><span class="p">.</span><span class="nf">Provide</span><span class="p">(</span><span class="nx">constructor</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="nf">mustNoErr</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">mustNoErr</span><span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>dig在获取实例时会通过DAG将实例所依赖的组件依次初始化，因此不必担心组件的注册顺序。</p>
-<p>dig广为诟病的就是在编译阶段无法知晓哪些组件遗漏了注册或者注册失败，因为dig是通过反射的方式“临时”注册的，因此这个问题无法解决。</p>
-<h2 id="方法3wire" class="relative group">方法3：wire <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%96%b9%e6%b3%953wire" aria-label="Anchor">#</a></span></h2>
-<p><a
-  href="https://github.com/google/wire"
-  
-  target="_blank" rel="noreferrer noopener"
->wire</a>是google开源的用于解决依赖注入的工具。</p>
-<p>不同于dig使用反射，wire使用代码生成的方式来自动生成构造函数的代码，如：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Service</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span>       <span class="nx">Repo</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span>      <span class="nx">Cache</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span>     <span class="nx">CompanyAPI</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">svcSet</span> <span class="p">=</span> <span class="nx">wire</span><span class="p">.</span><span class="nf">NewSet</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewUserRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewUserCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewCompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewService</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span> <span class="nx">Repo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span> <span class="nx">Cache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span> <span class="nx">CompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">*</span><span class="nx">Service</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Service</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userRepo</span><span class="p">:</span>       <span class="nx">userRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userCache</span><span class="p">:</span>      <span class="nx">userCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">companyAPI</span><span class="p">:</span>     <span class="nx">companyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">eventPublisher</span><span class="p">:</span> <span class="nx">eventPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">InitService</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">Service</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nb">panic</span><span class="p">(</span><span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">svcSet</span><span class="p">,</span> <span class="nx">NewService</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>执行<code>wire gen</code>命令，可以看到自动生成了一个名为<code>wire_gen.go</code>的文件，代码内容为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Code generated by Wire. DO NOT EDIT.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">//go:generate go run github.com/google/wire/cmd/wire
-</span></span></span><span class="line"><span class="cl"><span class="c1">//go:build !wireinject
-</span></span></span><span class="line"><span class="cl"><span class="c1">// +build !wireinject
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/google/wire&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// Injectors from main.go:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">InitService</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">Service</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">repo</span> <span class="o">:=</span> <span class="nf">NewUserRepo</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">cache</span> <span class="o">:=</span> <span class="nf">NewUserCache</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span> <span class="o">:=</span> <span class="nf">NewCompanyAPI</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">publisher</span> <span class="o">:=</span> <span class="nf">NewPublisher</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">service</span> <span class="o">:=</span> <span class="nf">NewService</span><span class="p">(</span><span class="nx">repo</span><span class="p">,</span> <span class="nx">cache</span><span class="p">,</span> <span class="nx">companyAPI</span><span class="p">,</span> <span class="nx">publisher</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">service</span><span class="p">,</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// main.go:
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Service</span> <span class="kd">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span>       <span class="nx">Repo</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span>      <span class="nx">Cache</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span>     <span class="nx">CompanyAPI</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">svcSet</span> <span class="p">=</span> <span class="nx">wire</span><span class="p">.</span><span class="nf">NewSet</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewUserRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewUserCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewCompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">NewPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewService</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userRepo</span> <span class="nx">Repo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">userCache</span> <span class="nx">Cache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">companyAPI</span> <span class="nx">CompanyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">eventPublisher</span> <span class="nx">Publisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">*</span><span class="nx">Service</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Service</span><span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userRepo</span><span class="p">:</span>       <span class="nx">userRepo</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">userCache</span><span class="p">:</span>      <span class="nx">userCache</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">companyAPI</span><span class="p">:</span>     <span class="nx">companyAPI</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">		<span class="nx">eventPublisher</span><span class="p">:</span> <span class="nx">eventPublisher</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="小结" class="relative group">小结 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%8f%e7%bb%93" aria-label="Anchor">#</a></span></h2>
-<p>我们通过例子讲解了go中三种实现依赖注入的方式。这里只展示了这三种方式最基本的用法，更丰富的用法还待进一步探索。其中：</p>
+</span></span></code></pre></div><p>但是在这个简单的例子中，我们违反了“单一职责原则”——一个for循环中做了两个事情：</p>
 <ol>
-<li>通过key-value的方式将组件注册到容器中是最简单直观的方式。</li>
-<li>dig中通过反射的方式实现了“动态”注册。dig不用像方法1中需要手动指定key，因此使用上最简单，缺点就是编译阶段无法检测所依赖的组件是否注册成功（个人认为作为项目初始化的工具，这不是一个严重的缺点）。</li>
-<li>wire是一个代码生成工具，用于自动生成构造函数。</li>
+<li>计算double值，并加入double列表</li>
+<li>判断是否是奇数，并加入奇数列表</li>
 </ol>
-<h2 id="示例代码" class="relative group">示例代码 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%a4%ba%e4%be%8b%e4%bb%a3%e7%a0%81" aria-label="Anchor">#</a></span></h2>
-<p><a
-  href="https://github.com/stong1994/golang-notes/tree/master/di"
+<h2 id="解决问题" class="relative group">解决问题 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%a7%a3%e5%86%b3%e9%97%ae%e9%a2%98" aria-label="Anchor">#</a></span></h2>
+<p>最简单的方式就是遍历两遍：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">counts</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">doubleCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">oddCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">doubleCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">oddCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">doubleCounts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>看起来有点蠢？是的，那我们优化下——将两个逻辑抽象为函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">counts</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">doubleCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">oddCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">doubles</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">cnt</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">doubleCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">odds</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">cnt</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">oddCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">doubles</span><span class="p">(</span><span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">odds</span><span class="p">(</span><span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">doubleCounts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>问题得以解决！</p>
+<p>尽管看上去for循环中还是做了这两件事情，但是通过将逻辑抽离出来，for循环中实际上没有处理任何逻辑，它只是起了一个聚合作用。</p>
+<h2 id="到底有什么好处" class="relative group">到底有什么好处 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%b0%e5%ba%95%e6%9c%89%e4%bb%80%e4%b9%88%e5%a5%bd%e5%a4%84" aria-label="Anchor">#</a></span></h2>
+<p>这样写到底有什么好处呢？我们再举一个例子。</p>
+<p>现在需求需要变更：double列表长度不能超过3！</p>
+<p>在原代码的基础上很容易实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">counts</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">doubleCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">oddCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">doubleCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">oddCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">doubleCounts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>随着功能的实现，bug也产生了！在double列表长度超过3之后不再继续遍历，这进而影响了奇数列表的逻辑！</p>
+<p>如果是“单一责任”的代码，则不会有任何问题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">counts</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">doubleCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">oddCounts</span> <span class="p">[]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">doubles</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">cnt</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">doubleCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">doubleCounts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="p">{</span> <span class="c1">// 改动的代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">odds</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">cnt</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">oddCounts</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cnt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">counts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">doubles</span><span class="p">(</span><span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">odds</span><span class="p">(</span><span class="nx">cnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">oddCounts</span><span class="p">,</span> <span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">doubleCounts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="单一职责在做什么" class="relative group">单一职责在做什么 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8d%95%e4%b8%80%e8%81%8c%e8%b4%a3%e5%9c%a8%e5%81%9a%e4%bb%80%e4%b9%88" aria-label="Anchor">#</a></span></h2>
+<p><strong>单一职责的任务，就是将各个逻辑抽离出来，不要互相影响！</strong></p>
+<p>我们在修改double列表的逻辑时，不应该影响奇数列表的逻辑；我们在修改奇数列表的逻辑时，也不应该影响double列表的逻辑。</p>
+<h2 id="函数式编程" class="relative group">函数式编程? <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%87%bd%e6%95%b0%e5%bc%8f%e7%bc%96%e7%a8%8b" aria-label="Anchor">#</a></span></h2>
+<p>这段代码很难说是函数式编程，但是却体现了函数式编程中“无副作用”的特点。</p>
+<p>“单一职责”就是保护代码逻辑不会受到其他逻辑的“副作用”影响！</p>
+<p>让我们看一段<a
+  href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/"
   
   target="_blank" rel="noreferrer noopener"
->golang-notes/di at master · stong1994/golang-notes (github.com)</a></p>
+>《函数式编程指北》</a>中的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">CARS</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Ferrari FF&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">660</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">700000</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">true</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Spyker C12 Zagato&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">650</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">648000</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">false</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Jaguar XKR-S&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">550</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">132000</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">false</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Audi R8&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">525</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">114200</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">false</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Aston Martin One-77&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">750</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">1850000</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">true</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&#34;Pagani Huayra&#34;</span><span class="p">,</span> <span class="nx">horsepower</span><span class="o">:</span> <span class="mi">700</span><span class="p">,</span> <span class="nx">dollar_value</span><span class="o">:</span> <span class="mi">1300000</span><span class="p">,</span> <span class="nx">in_stock</span><span class="o">:</span> <span class="kc">false</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// ============
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">isLastInStock</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;in_stock&#39;</span><span class="p">),</span> <span class="nx">_</span><span class="p">.</span><span class="nx">last</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">isLastInStock</span><span class="p">(</span><span class="nx">CARS</span><span class="p">));</span> <span class="c1">// false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ============
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">nameOfFirstCar</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="nx">_</span><span class="p">.</span><span class="nx">head</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nameOfFirstCar</span><span class="p">(</span><span class="nx">CARS</span><span class="p">));</span> <span class="c1">// Ferrari FF
+</span></span></span></code></pre></div><p>函数<code>isLastInStock</code>的逻辑是：</p>
+<ol>
+<li>获取CARS列表中的最后一个对象</li>
+<li>获取对象中的in_stock属性</li>
+</ol>
+<p>函数<code>nameOfFirstCar</code>的逻辑是：</p>
+<ol>
+<li>获取CARS列表中的第一个对象</li>
+<li>获取对象中的name属性</li>
+</ol>
+<p><strong>有没有感受到“单一职责”？！</strong></p>
+<p>每个函数只做一件事情，然后将函数组合起来，这就是函数式编程，没有中间状态，也没有副作用!</p>
 
       </div>
     </section>
@@ -1117,7 +1008,7 @@
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="group flex" href="/internet/go/package_name/">
+            <a class="group flex" href="/internet/go/dependence_injection/">
               <span
                 class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
                 ><span class="ltr:inline rtl:hidden">&larr;</span
@@ -1126,11 +1017,11 @@
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >go中对测试代码使用不同的包名</span
+                  >go中的依赖注入</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2023-09-19 14:10:51 &#43;0800 CST">19 September 2023</time>
+                    <time datetime="2023-10-30 14:43:00 &#43;0800 CST">30 October 2023</time>
                   
                 </span>
               </span>
@@ -1138,25 +1029,6 @@
           
         </span>
         <span>
-          
-            <a class="group flex text-right" href="/internet/go/single_responsibility_and_functional/">
-              <span class="flex flex-col">
-                <span
-                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >单一职责与函数编程的一点思考</span
-                >
-                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
-                  
-                    <time datetime="2023-11-13 19:43:00 &#43;0800 CST">13 November 2023</time>
-                  
-                </span>
-              </span>
-              <span
-                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
-                ><span class="ltr:inline rtl:hidden">&rarr;</span
-                ><span class="ltr:hidden rtl:inline">&larr;</span></span
-              >
-            </a>
           
         </span>
       </div>
