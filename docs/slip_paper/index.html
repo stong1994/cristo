@@ -615,6 +615,22 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#2024113">2024.1.13</a>
+          <ul>
+            <li><a href="#用户产品与沟通">用户、产品与沟通</a></li>
+            <li><a href="#信息架构的目的">信息架构的目的</a></li>
+          </ul>
+        </li>
+        <li><a href="#2024112">2024.1.12</a>
+          <ul>
+            <li><a href="#rust编程之道基于消息通信的并发模型">《rust编程之道》：基于消息通信的并发模型</a></li>
+          </ul>
+        </li>
+        <li><a href="#2024111">2024.1.11</a>
+          <ul>
+            <li><a href="#rust编程之道中关于进程线程协程的介绍">《rust编程之道》中关于进程、线程、协程的介绍</a></li>
+          </ul>
+        </li>
         <li><a href="#20231108">2023.11.08</a>
           <ul>
             <li><a href="#日本版的量化宽松">日本版的量化宽松</a></li>
@@ -647,7 +663,42 @@
       </div>
     
     <div class="min-w-0 min-h-0 max-w-prose grow">
-      <h2 id="20231108" class="relative group">2023.11.08 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#20231108" aria-label="Anchor">#</a></span></h2>
+      <h2 id="2024113" class="relative group">2024.1.13 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#2024113" aria-label="Anchor">#</a></span></h2>
+<h3 id="用户产品与沟通" class="relative group">用户、产品与沟通 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%94%a8%e6%88%b7%e4%ba%a7%e5%93%81%e4%b8%8e%e6%b2%9f%e9%80%9a" aria-label="Anchor">#</a></span></h3>
+<p>用户在使用我们的产品时实际上就是在和产品的创造者（也就是我们）交流，如果用户的体验很差，那就是我们的表达能力很差。从这个逻辑上说，如果用户发现了bug，那实际上就是我们“讲的东西”有自相矛盾的地方。</p>
+<h3 id="信息架构的目的" class="relative group">信息架构的目的 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bf%a1%e6%81%af%e6%9e%b6%e6%9e%84%e7%9a%84%e7%9b%ae%e7%9a%84" aria-label="Anchor">#</a></span></h3>
+<p>和现实世界中场所的设计一样，<strong>信息架构的目的</strong>是让用户的需求（想要在一种舒适、熟 悉的环境中查找和理解信息）与拥有环境（通常都拥有要满足的业务目标，例如，某个 销售目标）的组织和全社会的需求达到<strong>平衡</strong>。当达到正确的平衡时，整个组织的产品和 服务（从网站到物理环境的寻路系统）就会有连贯性和可理解性。 <strong>一个经过精心设计的组织结构可以帮助用户理解全新的、不熟悉的环境。</strong></p>
+<h2 id="2024112" class="relative group">2024.1.12 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#2024112" aria-label="Anchor">#</a></span></h2>
+<h3 id="rust编程之道基于消息通信的并发模型" class="relative group">《rust编程之道》：基于消息通信的并发模型 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rust%e7%bc%96%e7%a8%8b%e4%b9%8b%e9%81%93%e5%9f%ba%e4%ba%8e%e6%b6%88%e6%81%af%e9%80%9a%e4%bf%a1%e7%9a%84%e5%b9%b6%e5%8f%91%e6%a8%a1%e5%9e%8b" aria-label="Anchor">#</a></span></h3>
+<p>基于消息通信的并发模型主要有两种：Actor模型和CSP模型。</p>
+<p>Actor模型的代表语言是Erlang，而CSP模型的代表语言是Golang。这两种并发模型的区别如下：
+· 在Actor模型中，主角是Actor，Actor之间直接发送、接收消息；而在CSP模型中，主角是Channel，其并不关注谁发送消息、谁接收消息。
+· 在Actor模型中，Actor之间是直接通信的；而在CSP模型中，依靠Channel来通信。
+· Actor模型的耦合程度要高于CSP模型，因为CSP模型不关注消息发送者和接收者。</p>
+<p>
+
+
+
+  <figure>
+    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202401121017081.png" alt="" />
+    
+  </figure>
+
+</p>
+<h2 id="2024111" class="relative group">2024.1.11 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#2024111" aria-label="Anchor">#</a></span></h2>
+<h3 id="rust编程之道中关于进程线程协程的介绍" class="relative group">《rust编程之道》中关于进程、线程、协程的介绍 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rust%e7%bc%96%e7%a8%8b%e4%b9%8b%e9%81%93%e4%b8%ad%e5%85%b3%e4%ba%8e%e8%bf%9b%e7%a8%8b%e7%ba%bf%e7%a8%8b%e5%8d%8f%e7%a8%8b%e7%9a%84%e4%bb%8b%e7%bb%8d" aria-label="Anchor">#</a></span></h3>
+<p>进程是资源分配的最小单元，线程是程序执行时的最小单元。
+从操作系统的角度来看，进程代表操作系统分配的内存、CPU时间片等资源的基本单位，它为程序提供基本的运行环境。不同的应用程序可以按业务划分为不同的进程。从用户的角度来看，进程代表运行中的应用程序，它是动态条件下由操作系统维护的资源管理实体，而非静态的应用程序文件。每个进程都享有自己独立的内存单元，从而极大地提高了程序的运行效率。</p>
+<p>进程会占用相当可观的系统资源，还有切换复杂、CPU利用率低、创建和销毁复杂等缺点。</p>
+<p>为了寻求比进程更小的资源占用，线程应运而生。线程是进程内的实体，它无法独立存在，必须依靠进程，线程的系统资源都来源于进程，包括内存。每个进程至少拥有一个线程，这个线程就是主线程。每个进程也可以生成若干个线程来并发执行多任务，但只能有一个主线程，线程和线程之间可以共享同一个进程内的资源。一个线程也可以创建或销毁另一个线程，所以线程会有创建、就绪、运行、阻塞和死亡五种状态。每个线程也有自己独享的资源，比如线程栈。</p>
+<p>为了解决C10K问题，事件驱动编程应运而生，最知名的就是Linux推出的epoll技术。事件驱动也可以称为事件轮询，它的优点在于编程更加容易，不用做并发设计的考虑，不需要引入锁，不需要考虑内部调度，只需要依赖于事件，最重要的是不会阻塞。所以它可以很方便地和编程语言相集成，比如 Node.js，也就是第一个事件驱动编程模型语言。在 Node.js中，仅仅使用单线程就可以拥有强大的并发处理能力，其力量来源就是事件驱动和异步回调（Callback） 。通过内置的事件循环机制，不断地从事件队列中查询是否有事件发生，当读取到事件时，就会调用和此事件关联的回调函数，整个过程是非阻塞的。</p>
+<p>事件驱动和回调函数虽然解决了C10K的问题，但是对于开发者来说还远远没有那么完美。问题就出在回调函数上面，如果编写业务比较复杂的代码，开发者将陷入“回调地狱（Call Hell）
+”中。</p>
+<p>为了避免“回调地狱”，不停地有新方案被提出，比如Promise和Future
+，这两种方案从不同的角度来处理回调函数。Promise 站在任务处理者的角度，将异步任务完成或失败的状态标记到 Promise 对象中。Future 则站在任务调用者的角度，来检测任务是否完成，如果完成则直接获取结果，如果未完成则阻塞直到获取到结果，或者编写回调函数避免阻塞，根据相应的完成状态执行此回调函数。</p>
+<p>为了进一步完善基于事件驱动的编程体验，一种叫作协程的解决方案浮出水面。“协程为协同任务提供了一种抽象，这种抽象本质上就是控制流的出让和恢复。协程的这种机制，正好符合现实世界中人类异步处理事务的直觉。</p>
+<p>当事件来临时，出让当前的控制权，切换场景，完成该事件，然后再切换回之前的场景，恢复之前的工作。如果说事件驱动编程和异步回调是站在事件发生的角度进行编程的，那么协程就是站在开发者的角度来进行编程的。</p>
+<h2 id="20231108" class="relative group">2023.11.08 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#20231108" aria-label="Anchor">#</a></span></h2>
 <h3 id="日本版的量化宽松" class="relative group">日本版的量化宽松 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%97%a5%e6%9c%ac%e7%89%88%e7%9a%84%e9%87%8f%e5%8c%96%e5%ae%bd%e6%9d%be" aria-label="Anchor">#</a></span></h3>
 <ol>
 <li>日本央行增发货币</li>
@@ -726,7 +777,7 @@
       
         <p class="text-sm text-neutral-500 dark:text-neutral-400">
             &copy;
-            2023
+            2024
             stong
         </p>
       

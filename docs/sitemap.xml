@@ -5,20 +5,41 @@
     
       <url>
             <loc>/internet/</loc>
-            <lastmod>2023-11-13T19:43:00+08:00</lastmod>
+            <lastmod>2023-12-30T14:35:00+08:00</lastmod>
           </url>
     
   
     
       <url>
-            <loc>/internet/go/single_responsibility_and_functional/</loc>
-            <lastmod>2023-11-13T19:43:00+08:00</lastmod>
+            <loc>/note/rust/rust_vs_go/</loc>
+            <lastmod>2023-12-30T14:35:00+08:00</lastmod>
           </url>
     
   
     
       <url>
             <loc>/</loc>
+            <lastmod>2023-12-30T14:35:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/dept_sort/</loc>
+            <lastmod>2023-12-02T19:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/pagination/</loc>
+            <lastmod>2023-12-01T19:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/internet/go/single_responsibility_and_functional/</loc>
             <lastmod>2023-11-13T19:43:00+08:00</lastmod>
           </url>
     

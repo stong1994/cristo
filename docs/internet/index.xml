@@ -6,7 +6,34 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Nov 2023 19:43:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Dec 2023 14:35:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>rust vs go</title>
+      <link>/note/rust/rust_vs_go/</link>
+      <pubDate>Sat, 30 Dec 2023 14:35:00 +0800</pubDate>
+      
+      <guid>/note/rust/rust_vs_go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>查询子孙部门的方案</title>
+      <link>/internet/dept_sort/</link>
+      <pubDate>Sat, 02 Dec 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/dept_sort/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据分页方案汇总</title>
+      <link>/internet/pagination/</link>
+      <pubDate>Fri, 01 Dec 2023 19:43:00 +0800</pubDate>
+      
+      <guid>/internet/pagination/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>单一职责与函数编程的一点思考</title>
       <link>/internet/go/single_responsibility_and_functional/</link>
