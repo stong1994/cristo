@@ -3,7 +3,9 @@
 
 
 
-<!DOCTYPE html>
+
+
+<!doctype html>
 <html
   lang="en"
   dir="ltr"
@@ -12,24 +14,21 @@
   data-auto-appearance="true"
 ><head>
   <meta charset="utf-8" />
-  
-    <meta http-equiv="content-language" content="en" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="rgb(255,255,255)" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
   <title>事件驱动系列—watermill &middot; </title>
     <meta name="title" content="事件驱动系列—watermill &middot; " />
   
-  <meta name="description" content="" />
   
   
   
-  <link rel="canonical" href="/internet/event-driven/watermill/" />
   
-  
-  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
   
   
   
@@ -41,32 +40,56 @@
   <link
     type="text/css"
     rel="stylesheet"
-    href="/css/main.bundle.min.d2d22c5c1c2460999b194d3fbbce6097c00f40fb952d56864bb609de68cbc5ea.css"
-    integrity="sha256-0tIsXBwkYJmbGU0/u85gl8APQPuVLVaGS7YJ3mjLxeo="
+    href="/css/main.bundle.min.9602fe0216290b9ff0322c1fd14e88ab9fc0a13741f4de563f67831708d72bb2.css"
+    integrity="sha256-lgL&#43;AhYpC5/wMiwf0U6Iq5/AoTdB9N5WP2eDFwjXK7I="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+    
+    
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.bb487ad6073790cb02c354ee8c5f8822c42c5513e10bf7a86bbe8f82118cd1fc.js"
+      integrity="sha256-u0h61gc3kMsCw1TujF&#43;IIsQsVRPhC/eoa76PghGM0fw="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
   />
   
   
-  <script type="text/javascript" src="/js/appearance.min.022d0ebc3b46a335eb1c7ef79b7f2de143d7cd5156d433638592ef1ce5f8554e.js" integrity="sha256-Ai0OvDtGozXrHH73m38t4UPXzVFW1DNjhZLvHOX4VU4="></script>
   
-    
-    
-    
-  
-  
-    
-    
-  
-  
-  
-    
-    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.b1f8d2a7796afc4797afcc2b7f81e78f0810f3e8fca1b900c33ead64c354def8.js" integrity="sha256-sfjSp3lq/EeXr8wrf4HnjwgQ8&#43;j8obkAwz6tZMNU3vg=" data-copy="Copy" data-copied="Copied"></script>
-  
+  <link rel="canonical" href="/internet/event-driven/watermill/" />
   
   
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+  
   
   
   
@@ -84,12 +107,14 @@
     <meta property="article:published_time" content="2023-09-12T19:43:00+08:00">
     <meta property="article:modified_time" content="2023-09-12T19:43:00+08:00">
 
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="事件驱动系列—watermill">
-<meta name="twitter:description" content="">
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="事件驱动系列—watermill">
+  <meta name="twitter:description" content="夭寿不贰，修身以俟">
 
   
   <script type="application/ld+json">
-  [{
+  {
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "",
@@ -112,8 +137,8 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "8343"
-  }]
+    "wordCount": "8332"
+  }
   </script>
 
 
@@ -141,6 +166,7 @@
   
   
   
+  
 
 
 
@@ -149,19 +175,19 @@
   
 </head>
 <body
-    class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
   >
     <div id="the-top" class="absolute flex self-center">
       <a
-        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
         href="#main-content"
-        ><span class="font-bold pe-2 text-primary-600 dark:text-primary-400">&darr;</span
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
         >Skip to main content</a
       >
     </div>
     
     
-      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral print:hidden sm:py-10">
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
   <nav class="flex items-start justify-between sm:items-center">
     
     <div class="z-40 flex flex-row items-center">
@@ -173,52 +199,39 @@
     ></a
   >
 
-      
-
     </div>
     
       
       <label id="menu-button" for="menu-controller" class="block sm:hidden">
         <input type="checkbox" id="menu-controller" class="hidden" />
         <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
-          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
-
-  </span>
-
-
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
         </div>
         <div
           id="menu-wrapper"
           class="invisible fixed inset-0 z-30 m-auto h-full w-full cursor-default overflow-auto bg-neutral-100/50 opacity-0 backdrop-blur-sm transition-opacity dark:bg-neutral-900/50"
         >
           <ul
-            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 text-end sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
           >
             <li class="mb-1">
               <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
-                >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
-
-  </span>
-
-</span
+                ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span></span
               >
             </li>
             
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/internet/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >计算机与互联网</span
                         >
@@ -227,14 +240,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/cloudnative/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >云原生</span
                         >
@@ -243,14 +257,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/web3/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >区块链&amp;web3</span
                         >
@@ -259,14 +274,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/book/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >读书笔记</span
                         >
@@ -275,14 +291,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/other/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >杂谈</span
                         >
@@ -291,14 +308,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/slip_paper/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >小碎片</span
                         >
@@ -307,14 +325,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/mental_model/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >心智模型</span
                         >
@@ -323,14 +342,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/about/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >关于</span
                         >
@@ -339,30 +359,24 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="https://github.com/stong1994/"
                       title=""
+                      onclick="close_menu()"
                       target="_blank"
                       >
                         <span
                           class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                        >
-                          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-
-                        </span>
-                      </a
+                        ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
                     >
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     
@@ -374,18 +388,8 @@
                         
                           <span
                             class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                          >
-                            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
-                          </span>
-                        
-                          <span
+                          ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
                             class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                             ></span
                           >
@@ -401,17 +405,17 @@
         </div>
       </label>
       
-      <ul class="hidden list-none flex-row ltr:text-right rtl:text-left sm:flex">
+      <ul class="hidden list-none flex-row text-end sm:flex">
         
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/internet/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >计算机与互联网</span
                     >
@@ -420,14 +424,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/cloudnative/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >云原生</span
                     >
@@ -436,14 +440,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/web3/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >区块链&amp;web3</span
                     >
@@ -452,14 +456,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/book/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >读书笔记</span
                     >
@@ -468,14 +472,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/other/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >杂谈</span
                     >
@@ -484,14 +488,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/slip_paper/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >小碎片</span
                     >
@@ -500,14 +504,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/mental_model/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >心智模型</span
                     >
@@ -516,14 +520,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/about/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >关于</span
                     >
@@ -532,6 +536,7 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
@@ -541,21 +546,13 @@
                   >
                     <span
                       class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                    >
-                      
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-
-                    </span>
-                  </a
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
                 >
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 
@@ -567,18 +564,8 @@
                     
                       <span
                         class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                      >
-                        
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
-                      </span>
-                    
-                      <span
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
                         class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                         ></span
                       >
@@ -597,40 +584,40 @@
 </header>
 
     
-    <div class="relative flex flex-col grow">
+    <div class="relative flex grow flex-col">
       <main id="main-content" class="grow">
         
   <article>
     <header class="max-w-prose">
       
-        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
   
   
     
   
     
   
-  <li class="inline hidden">
+  <li class="hidden inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/"
       >记录个人的成长记录</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
   
-  <li class="inline ">
+  <li class=" inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/internet/"
       >internet</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
   
-  <li class="inline hidden">
+  <li class="hidden inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/internet/event-driven/watermill/"
       >事件驱动系列—watermill</a
     ><span class="px-1 text-primary-500">/</span>
@@ -643,8 +630,9 @@
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
         事件驱动系列—watermill
       </h1>
-      <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-        
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
 
 
 
@@ -680,29 +668,23 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      &lt;time datetime=&#34;2023-09-12 19:43:00 &amp;#43;0800 CST&#34;&gt;12 September 2023&lt;/time&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;&lt;span&gt;8343 words&lt;/span&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;&lt;span title=&#34;Reading time&#34;&gt;17 mins&lt;/span&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;
+      <time datetime="2023-09-12 19:43:00 &#43;0800 CST">12 September 2023</time><span class="px-2 text-primary-500">&middot;</span><span>8332 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">17 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
   
 
-&lt;span class=&#34;mb-[2px]&#34;&gt;
-  &lt;a
-    href=&#34;https://github.com/stong1994/cristo/content/internet/design/%e4%ba%8b%e4%bb%b6%e9%a9%b1%e5%8a%a8%e7%b3%bb%e5%88%97%e2%80%94watermill.md&#34;
-    class=&#34;text-lg hover:text-primary-500&#34;
-    rel=&#34;noopener noreferrer&#34;
-    target=&#34;_blank&#34;
-    title=&#34;Edit content&#34;
-    &gt;
-
-  &lt;span class=&#34;relative inline-block align-text-bottom icon&#34;&gt;
-    &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z&#34;/&gt;&lt;/svg&gt;
-
-  &lt;/span&gt;
-
-&lt;/a
-  &gt;
-&lt;/span&gt;
+<span class="mb-[2px]">
+  <a
+    href="https://github.com/stong1994/cristo/content/internet/design/%e4%ba%8b%e4%bb%b6%e9%a9%b1%e5%8a%a8%e7%b3%bb%e5%88%97%e2%80%94watermill.md"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="Edit content"
+    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+</span></a
+  >
+</span>
     
 
     
@@ -711,7 +693,7 @@
 
   
   
-    <div class="my-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 ">
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
       
         
       
@@ -721,20 +703,21 @@
   
 
 
-      </div>
+        </div>
+      
       
     </header>
-    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
       
         <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
           <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
             <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
   <summary
-    class="-ms-5 block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
   >
     Table of Contents
   </summary>
-  <div class="-ms-5 border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
     <li>
@@ -861,20 +844,12 @@
           </div>
         </div>
       
-      <div class="min-w-0 min-h-0 max-w-prose grow">
-        <h2 id="背景" class="relative group">背景 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%83%8c%e6%99%af" aria-label="Anchor">#</a></span></h2>
-<p>使用HTTP构建应用时无需关注HTTP的底层协议，同样，使用事件驱动时同样也应无需关注事件的底层协议——<a
-  href="https://github.com/ThreeDotsLabs/watermill"
-  
-  target="_blank" rel="noreferrer noopener"
->watermill</a>为我们封装好了这些功能。</p>
-<h2 id="base-usage" class="relative group">Base Usage <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#base-usage" aria-label="Anchor">#</a></span></h2>
-<h3 id="event" class="relative group">Event <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event" aria-label="Anchor">#</a></span></h3>
-<p>事件由两方面构成：数据结构和命名。</p>
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <h2 id="背景" class="relative group">背景 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%83%8c%e6%99%af" aria-label="Anchor">#</a></span></h2><p>使用HTTP构建应用时无需关注HTTP的底层协议，同样，使用事件驱动时同样也应无需关注事件的底层协议——<a href="https://github.com/ThreeDotsLabs/watermill" target="_blank" rel="noreferrer">watermill</a>为我们封装好了这些功能。</p>
+<h2 id="base-usage" class="relative group">Base Usage <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#base-usage" aria-label="Anchor">#</a></span></h2><h3 id="event" class="relative group">Event <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event" aria-label="Anchor">#</a></span></h3><p>事件由两方面构成：数据结构和命名。</p>
 <p>数据结构由发送方定义，但往往也要综合考虑订阅方的需求，比如员工离职事件可以只包含企业ID和员工ID，但员工更新事件可能就要包含更新字段的新旧两种数据，就像MySQL的binlog（Row格式）一样。</p>
 <p>数据结构也不能任意改动，实际上数据结构是订阅双方的一种协议。如果一定要改数据结构，需要了解都有哪些订阅方，会造成哪些影响。</p>
-<h4 id="命名" class="relative group">命名 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%91%bd%e5%90%8d" aria-label="Anchor">#</a></span></h4>
-<p>在事件驱动的系统中会存在大量的事件，事件成了业务逻辑的“枢纽”，因此事件的命名尤为重要。</p>
+<h4 id="命名" class="relative group">命名 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%91%bd%e5%90%8d" aria-label="Anchor">#</a></span></h4><p>在事件驱动的系统中会存在大量的事件，事件成了业务逻辑的“枢纽”，因此事件的命名尤为重要。</p>
 <p><strong>事件要命名为过去式，表示已发生的事件。</strong></p>
 <p>场景举例：当用户注册后，需要发送邮件。让我们看下这个事件应如何命名：<code>UserSignedUp</code> 还是<code>SendWelcomeEmailIsReadyToSend</code>?</p>
 <p>前者代表了<strong>用户已经注册</strong>，后者表示<strong>将要发送邮件</strong>。看起来差别不大？</p>
@@ -884,15 +859,13 @@
 <li>对于<code>SendWelcomeEmailIsReadyToSend</code>，则需要在原有的代码基础上再发送一个<code>JoinMessageSubscribeList</code>事件。</li>
 </ul>
 <p>这就是为什么要将事件命名为过去式！</p>
-<h3 id="publisher" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher" aria-label="Anchor">#</a></span></h3>
-<p>事件需要发送者和订阅者，watermill自然也对这些进行了封装。</p>
+<h3 id="publisher" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher" aria-label="Anchor">#</a></span></h3><p>事件需要发送者和订阅者，watermill自然也对这些进行了封装。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Publisher</span> <span class="kd">interface</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nf">Publish</span><span class="p">(</span><span class="nx">topic</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">messages</span> <span class="o">...*</span><span class="nx">Message</span><span class="p">)</span> <span class="kt">error</span>
 </span></span><span class="line"><span class="cl">	<span class="nf">Close</span><span class="p">()</span> <span class="kt">error</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Publisher的API相当简洁（这也是watermill的一个设计哲学）</p>
-<h4 id="constructor" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor" aria-label="Anchor">#</a></span></h4>
-<p>watermill中已经集成了多种Publisher，如kafka、rabbitmq、nats等等。我们以使用redis stream为例创建一个publisher：</p>
+<h4 id="constructor" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor" aria-label="Anchor">#</a></span></h4><p>watermill中已经集成了多种Publisher，如kafka、rabbitmq、nats等等。我们以使用redis stream为例创建一个publisher：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewRedisPublisher</span><span class="p">(</span><span class="nx">rdb</span> <span class="o">*</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">watermillLogger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">pub</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">redisstream</span><span class="p">.</span><span class="nf">NewPublisher</span><span class="p">(</span><span class="nx">redisstream</span><span class="p">.</span><span class="nx">PublisherConfig</span><span class="p">{</span><span class="nx">Client</span><span class="p">:</span> <span class="nx">rdb</span><span class="p">},</span> <span class="nx">watermillLogger</span><span class="p">)</span>
@@ -902,8 +875,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">pub</span> <span class="p">=</span> <span class="nx">observability</span><span class="p">.</span><span class="nx">TracingPublisherDecorator</span><span class="p">{</span><span class="nx">pub</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">pub</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="decortor" class="relative group">Decortor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#decortor" aria-label="Anchor">#</a></span></h4>
-<p>可以使用装饰器来包装publisher，如在消息中加入链路信息：</p>
+</span></span></code></pre></div><h4 id="decortor" class="relative group">Decortor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#decortor" aria-label="Anchor">#</a></span></h4><p>可以使用装饰器来包装publisher，如在消息中加入链路信息：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">TracingPublisherDecorator</span> <span class="kd">struct</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -920,19 +892,15 @@
 </span></span><span class="line"><span class="cl">  <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="nx">pub</span> <span class="p">=</span> <span class="nx">observability</span><span class="p">.</span><span class="nx">TracingPublisherDecorator</span><span class="p">{</span><span class="nx">pub</span><span class="p">}</span>
-</span></span></code></pre></div><h4 id="config" class="relative group">Config <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#config" aria-label="Anchor">#</a></span></h4>
-<p>每个发送者的实现都依赖于“消息队列”，而每个消息队列支持的功能不同，配置也不同。基于redis的stream实现的发送者的配置如下：</p>
+</span></span></code></pre></div><h4 id="config" class="relative group">Config <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#config" aria-label="Anchor">#</a></span></h4><p>每个发送者的实现都依赖于“消息队列”，而每个消息队列支持的功能不同，配置也不同。基于redis的stream实现的发送者的配置如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">PublisherConfig</span> <span class="kd">struct</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">Client</span>     <span class="nx">redis</span><span class="p">.</span><span class="nx">UniversalClient</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">Marshaller</span> <span class="nx">Marshaller</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">Maxlens</span>    <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int64</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="subscriber" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber" aria-label="Anchor">#</a></span></h3>
-<p>订阅者的封装逻辑基本上与Publisher一致，不再赘述。</p>
-<h2 id="router" class="relative group">Router <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#router" aria-label="Anchor">#</a></span></h2>
-<p>router的用法和HTTP框架的router很像。</p>
-<h3 id="基本用法" class="relative group">基本用法 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">  <span class="nx">logger</span> <span class="o">:=</span> <span class="nx">watermill</span><span class="p">.</span><span class="nf">NewStdLogger</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="subscriber" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber" aria-label="Anchor">#</a></span></h3><p>订阅者的封装逻辑基本上与Publisher一致，不再赘述。</p>
+<h2 id="router" class="relative group">Router <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#router" aria-label="Anchor">#</a></span></h2><p>router的用法和HTTP框架的router很像。</p>
+<h3 id="基本用法" class="relative group">基本用法 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">  <span class="nx">logger</span> <span class="o">:=</span> <span class="nx">watermill</span><span class="p">.</span><span class="nf">NewStdLogger</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  <span class="nx">router</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">message</span><span class="p">.</span><span class="nf">NewRouter</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">RouterConfig</span><span class="p">{},</span> <span class="nx">logger</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
@@ -981,14 +949,15 @@
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309121528483.png" alt="" />
-    
-  </figure>
 
+
+
+  
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309121528483.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
 </p>
-<h3 id="addnopublisherhandler" class="relative group">AddNoPublisherHandler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#addnopublisherhandler" aria-label="Anchor">#</a></span></h3>
-<p>如果只是处理事件而无需再次发布事件，可以使用<code>NoPublisherHandler</code>.</p>
+<h3 id="addnopublisherhandler" class="relative group">AddNoPublisherHandler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#addnopublisherhandler" aria-label="Anchor">#</a></span></h3><p>如果只是处理事件而无需再次发布事件，可以使用<code>NoPublisherHandler</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddNoPublisherHandler</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">		<span class="s">&#34;handler for test&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">		<span class="s">&#34;subscriber_topic&#34;</span><span class="p">,</span>
@@ -1002,27 +971,22 @@
 <blockquote>
 <p>实现了类似消费者组的功能，但不同于消费者组的消费逻辑，这里实现的是路由逻辑。比如说如果需要将事件保存到数据湖，则应该在路由层添加Handler。</p>
 </blockquote>
-<h3 id="middleware" class="relative group">Middleware <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#middleware" aria-label="Anchor">#</a></span></h3>
-<p>中间件可以用来处理鉴权、增加日志、添加链路信息等等。</p>
-<h4 id="log" class="relative group">Log <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#log" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">  <span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
+<h3 id="middleware" class="relative group">Middleware <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#middleware" aria-label="Anchor">#</a></span></h3><p>中间件可以用来处理鉴权、增加日志、添加链路信息等等。</p>
+<h4 id="log" class="relative group">Log <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#log" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">  <span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span> <span class="p">([]</span><span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">logger</span><span class="p">.</span><span class="nf">Info</span><span class="p">(</span><span class="s">&#34;log&#34;</span><span class="p">,</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LogFields</span><span class="p">{</span><span class="s">&#34;payload&#34;</span><span class="p">:</span><span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Payload</span><span class="p">)})</span>
 </span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nf">h</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span></code></pre></div><h4 id="recover" class="relative group">Recover <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#recover" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nx">Recoverer</span><span class="p">)</span>
-</span></span></code></pre></div><h4 id="retry" class="relative group">Retry <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#retry" aria-label="Anchor">#</a></span></h4>
-<pre tabindex="0"><code>router.AddMiddleware(middleware.Retry{
+</span></span></code></pre></div><h4 id="recover" class="relative group">Recover <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#recover" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nx">Recoverer</span><span class="p">)</span>
+</span></span></code></pre></div><h4 id="retry" class="relative group">Retry <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#retry" aria-label="Anchor">#</a></span></h4><pre tabindex="0"><code>router.AddMiddleware(middleware.Retry{
 		MaxRetries:      10,
 		InitialInterval: time.Millisecond * 100,
 		MaxInterval:     time.Second,
 		Multiplier:      2,
 		Logger:          watermillLogger,
 	}.Middleware)
-</code></pre><h4 id="prometheus" class="relative group">Prometheus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheus" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</code></pre><h4 id="prometheus" class="relative group">Prometheus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheus" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">messageProcessTotal</span> <span class="p">=</span> <span class="nx">promauto</span><span class="p">.</span><span class="nf">NewCounterVec</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">prometheus</span><span class="p">.</span><span class="nx">CounterOpts</span><span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">Namespace</span><span class="p">:</span> <span class="s">&#34;messages&#34;</span><span class="p">,</span>
@@ -1066,8 +1030,7 @@
 </span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">msgs</span><span class="p">,</span> <span class="nx">err</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span></code></pre></div><h4 id="tracing" class="relative group">Tracing <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
+</span></span></code></pre></div><h4 id="tracing" class="relative group">Tracing <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span> <span class="p">(</span><span class="nx">events</span> <span class="p">[]</span><span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">topic</span> <span class="o">:=</span> <span class="nx">message</span><span class="p">.</span><span class="nf">SubscribeTopicFromCtx</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nf">Context</span><span class="p">())</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">handler</span> <span class="o">:=</span> <span class="nx">message</span><span class="p">.</span><span class="nf">HandlerNameFromCtx</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nf">Context</span><span class="p">())</span>
@@ -1092,8 +1055,7 @@
 </span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">msgs</span><span class="p">,</span> <span class="nx">err</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span></code></pre></div><h3 id="decorators" class="relative group">Decorators <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#decorators" aria-label="Anchor">#</a></span></h3>
-<p>可以分别对订阅者和发布者构造装饰器，如保证每个发布者都携带<code>correlation_id</code>标识:</p>
+</span></span></code></pre></div><h3 id="decorators" class="relative group">Decorators <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#decorators" aria-label="Anchor">#</a></span></h3><p>可以分别对订阅者和发布者构造装饰器，如保证每个发布者都携带<code>correlation_id</code>标识:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">correlationIDMessageMetadataKey</span> <span class="p">=</span> <span class="s">&#34;correlation_id&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">correlationIDKey</span> <span class="p">=</span> <span class="s">&#34;correlation_key&#34;</span>
 </span></span><span class="line"><span class="cl">
@@ -1137,51 +1099,43 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddSubscriberDecorators</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">sub</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Subscriber</span><span class="p">)</span> <span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">Subscriber</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">CorrelationSubscriberDecorator</span><span class="p">{</span><span class="nx">pub</span><span class="p">},</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span></code></pre></div><h3 id="routerplugin" class="relative group">RouterPlugin <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#routerplugin" aria-label="Anchor">#</a></span></h3>
-<p>RouterPlugin其实就是服务于Router的中间件，在这里可以添加处理路由的操作，比如监听路由启动完成、监听信号关闭路由。。。</p>
+</span></span></code></pre></div><h3 id="routerplugin" class="relative group">RouterPlugin <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#routerplugin" aria-label="Anchor">#</a></span></h3><p>RouterPlugin其实就是服务于Router的中间件，在这里可以添加处理路由的操作，比如监听路由启动完成、监听信号关闭路由。。。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddPlugin</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">router</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Router</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="o">&lt;-</span><span class="nx">router</span><span class="p">.</span><span class="nf">Running</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;started&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
-</span></span></code></pre></div><h2 id="cqrs" class="relative group">CQRS <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#cqrs" aria-label="Anchor">#</a></span></h2>
-<p>watermill提供了一整套框架来在事件驱动的架构中实现CQRS（<em>Command-query responsibility segregation</em>），其中主要有三个部分：Event Bus、Event Processor、Event Handler。</p>
+</span></span></code></pre></div><h2 id="cqrs" class="relative group">CQRS <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#cqrs" aria-label="Anchor">#</a></span></h2><p>watermill提供了一整套框架来在事件驱动的架构中实现CQRS（<em>Command-query responsibility segregation</em>），其中主要有三个部分：Event Bus、Event Processor、Event Handler。</p>
 <p>操作的时序图如下：</p>
 <p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309192316583.png" alt="" />
-    
-  </figure>
 
-</p>
-<p><em><a
-  href="https://academy.threedots.tech/trainings/go-event-driven/exercise/4c908a02-a3e9-4a20-ad09-20a511c1c912"
+
+
   
-  target="_blank" rel="noreferrer noopener"
->图片来自Three Dots Labs Academy</a></em></p>
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309192316583.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p><em><a href="https://academy.threedots.tech/trainings/go-event-driven/exercise/4c908a02-a3e9-4a20-ad09-20a511c1c912" target="_blank" rel="noreferrer">图片来自Three Dots Labs Academy</a></em></p>
 <p>一个实际的使用场景可能是：</p>
 <p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://threedots.tech/watermill-io/cqrs-big-picture.svg" alt="" />
-    
-  </figure>
 
-</p>
-<p><em><a
-  href="https://watermill.io/docs/cqrs/"
+
+
   
-  target="_blank" rel="noreferrer noopener"
->图片来自CQRS Component (watermill.io)</a></em></p>
-<h3 id="event-bus" class="relative group">Event Bus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event-bus" aria-label="Anchor">#</a></span></h3>
-<p>Event Bus封装了事件的发布，使得发布相关代码更简洁。</p>
-<h4 id="constructor-1" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor-1" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewBus</span><span class="p">(</span><span class="nx">publisher</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="o">*</span><span class="nx">cqrs</span><span class="p">.</span><span class="nx">EventBus</span> <span class="p">{</span>
+  
+<figure><img src="https://threedots.tech/watermill-io/cqrs-big-picture.svg" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p><em><a href="https://watermill.io/docs/cqrs/" target="_blank" rel="noreferrer">图片来自CQRS Component (watermill.io)</a></em></p>
+<h3 id="event-bus" class="relative group">Event Bus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event-bus" aria-label="Anchor">#</a></span></h3><p>Event Bus封装了事件的发布，使得发布相关代码更简洁。</p>
+<h4 id="constructor-1" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor-1" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewBus</span><span class="p">(</span><span class="nx">publisher</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="o">*</span><span class="nx">cqrs</span><span class="p">.</span><span class="nx">EventBus</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">eventBus</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cqrs</span><span class="p">.</span><span class="nf">NewEventBusWithConfig</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">publisher</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">cqrs</span><span class="p">.</span><span class="nx">EventBusConfig</span><span class="p">{</span>
@@ -1228,13 +1182,10 @@
 <li>Logger：日志适配器</li>
 </ul>
 <p>需要注意的是<code>GeneratePublishTopic</code>中使用的<code>EventName</code>是从<code>Marshaler</code>的<code>Name</code>方法中获取的。</p>
-<h4 id="publish" class="relative group">Publish <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publish" aria-label="Anchor">#</a></span></h4>
-<p>当我们有了Event Bus后，推送事件就变得很简单了, 且EventBus只有一个public API：</p>
+<h4 id="publish" class="relative group">Publish <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publish" aria-label="Anchor">#</a></span></h4><p>当我们有了Event Bus后，推送事件就变得很简单了, 且EventBus只有一个public API：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">EventBus</span><span class="p">)</span> <span class="nf">Publish</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="nx">any</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{}</span>
-</span></span></code></pre></div><h3 id="event-processor" class="relative group">Event Processor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event-processor" aria-label="Anchor">#</a></span></h3>
-<p>Event Bus负责事件的发送，相对应，Event Processor负责事件的接收。</p>
-<h4 id="constructor-2" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor-2" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewEventProcessorWithConfig</span><span class="p">(</span><span class="nx">router</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Router</span><span class="p">,</span> <span class="nx">config</span> <span class="nx">EventProcessorConfig</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">EventProcessor</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span></code></pre></div><h3 id="event-processor" class="relative group">Event Processor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#event-processor" aria-label="Anchor">#</a></span></h3><p>Event Bus负责事件的发送，相对应，Event Processor负责事件的接收。</p>
+<h4 id="constructor-2" class="relative group">Constructor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constructor-2" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewEventProcessorWithConfig</span><span class="p">(</span><span class="nx">router</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Router</span><span class="p">,</span> <span class="nx">config</span> <span class="nx">EventProcessorConfig</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">EventProcessor</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">config</span><span class="p">.</span><span class="nf">setDefaults</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">config</span><span class="p">.</span><span class="nf">Validate</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
@@ -1332,8 +1283,7 @@
 </span></span><span class="line"><span class="cl"><span class="nx">watermillLogger</span><span class="p">)</span>
 </span></span></code></pre></div></li>
 </ul>
-<h4 id="eventhandler" class="relative group">EventHandler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#eventhandler" aria-label="Anchor">#</a></span></h4>
-<p>既然Event Processor是用来管理事件的接收和处理，那么也就需要管理事件处理的对象——EventHandler。其构造函数如下：</p>
+<h4 id="eventhandler" class="relative group">EventHandler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#eventhandler" aria-label="Anchor">#</a></span></h4><p>既然Event Processor是用来管理事件的接收和处理，那么也就需要管理事件处理的对象——EventHandler。其构造函数如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nx">NewEventHandler</span><span class="p">[</span><span class="nx">T</span> <span class="nx">any</span><span class="p">](</span><span class="nx">handlerName</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">handleFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="o">*</span><span class="nx">T</span><span class="p">)</span> <span class="kt">error</span><span class="p">)</span> <span class="nx">EventHandler</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">genericEventHandler</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">handleFunc</span><span class="p">:</span>  <span class="nx">handleFunc</span><span class="p">,</span>
@@ -1357,8 +1307,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nf">Handle</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="nx">any</span><span class="p">)</span> <span class="kt">error</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Event Processor只有一个public API：<code>func (p *EventProcessor) AddHandlers(handlers ...EventHandler) error </code>，因此无需考虑复杂的管理操作。</p>
-<h3 id="command-bus" class="relative group">Command Bus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#command-bus" aria-label="Anchor">#</a></span></h3>
-<p>区别于Event，Command：</p>
+<h3 id="command-bus" class="relative group">Command Bus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#command-bus" aria-label="Anchor">#</a></span></h3><p>区别于Event，Command：</p>
 <ul>
 <li>不使用“过去式”来描述，而是“命令式”</li>
 <li>常常只有一个消费者</li>
@@ -1388,8 +1337,7 @@
 </span></span><span class="line"><span class="cl"> <span class="nx">bus</span> <span class="o">:=</span> <span class="nf">NewBus</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"> <span class="nx">bus</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">Command</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="command-processor" class="relative group">Command Processor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#command-processor" aria-label="Anchor">#</a></span></h3>
-<p>Command Processor用于处理命令接收和命令处理：</p>
+</span></span></code></pre></div><h3 id="command-processor" class="relative group">Command Processor <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#command-processor" aria-label="Anchor">#</a></span></h3><p>Command Processor用于处理命令接收和命令处理：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">SendNotification</span> <span class="kd">struct</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">NotificationID</span> <span class="kt">string</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">Email</span>          <span class="kt">string</span>
@@ -1432,12 +1380,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">eventProcessor</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="requestreply" class="relative group">RequestReply <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#requestreply" aria-label="Anchor">#</a></span></h4>
-<p>对于需要接收请求的同步命令处理，可以使用<a
-  href="https://github.com/ThreeDotsLabs/watermill/tree/master/components/requestreply"
-  
-  target="_blank" rel="noreferrer noopener"
-><code>requestreply</code></a></p>
+</span></span></code></pre></div><h4 id="requestreply" class="relative group">RequestReply <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#requestreply" aria-label="Anchor">#</a></span></h4><p>对于需要接收请求的同步命令处理，可以使用<a href="https://github.com/ThreeDotsLabs/watermill/tree/master/components/requestreply" target="_blank" rel="noreferrer"><code>requestreply</code></a></p>
 <p>执行命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">commandProcessor</span><span class="p">.</span><span class="nf">AddHandlers</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">requestreply</span><span class="p">.</span><span class="nf">NewCommandHandler</span><span class="p">(</span>
@@ -1477,30 +1420,15 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">reply</span><span class="p">.</span><span class="nx">Result</span><span class="p">.</span><span class="nx">PaymentReference</span><span class="p">)</span> <span class="c1">// it&#39;s equal to &#34;1234&#34;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">reply</span><span class="p">.</span><span class="nx">Error</span><span class="p">)</span> <span class="c1">// it&#39;s nil
-</span></span></span></code></pre></div><h2 id="outbox" class="relative group">Outbox <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#outbox" aria-label="Anchor">#</a></span></h2>
-<h3 id="场景" class="relative group">场景 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9c%ba%e6%99%af" aria-label="Anchor">#</a></span></h3>
-<p>当用户下单成功后，我们既要扣除商品数量，又要发送下单成功通知。那么如何保证两个操作的一致性呢？</p>
+</span></span></span></code></pre></div><h2 id="outbox" class="relative group">Outbox <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#outbox" aria-label="Anchor">#</a></span></h2><h3 id="场景" class="relative group">场景 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9c%ba%e6%99%af" aria-label="Anchor">#</a></span></h3><p>当用户下单成功后，我们既要扣除商品数量，又要发送下单成功通知。那么如何保证两个操作的一致性呢？</p>
 <p>消息推送往往使用消息队列，而消息队列往往不支持事务，这时候可以使用数据库来做中转——将事件存入数据库中，然后再异步消费。</p>
 <p>watermill中把这种功能进行了封装，称其为outbox。outbox能够确保一个消息最少能够发送成功一次。</p>
 <blockquote>
-<p>outbox实际上是一种设计模式，可以参考这篇博客——<a
-  href="https://event-driven.io/en/outbox_inbox_patterns_and_delivery_guarantees_explained/"
-  
-  target="_blank" rel="noreferrer noopener"
->Outbox, Inbox patterns and delivery guarantees explained - Event-Driven.io</a></p>
-<p>如果你正在担心使用数据库带来的性能问题，可以参考这篇博客——<a
-  href="https://event-driven.io/en/push_based_outbox_pattern_with_postgres_logical_replication/"
-  
-  target="_blank" rel="noreferrer noopener"
->Push-based Outbox Pattern with Postgres Logical Replication - Event-Driven.io</a></p>
-<p>在设计“中转表”之前，阅读这篇文章可以少走弯路——<a
-  href="https://event-driven.io/en/ordering_in_postgres_outbox/"
-  
-  target="_blank" rel="noreferrer noopener"
->How Postgres sequences issues can impact your messaging guarantees - Event-Driven.io</a></p>
+<p>outbox实际上是一种设计模式，可以参考这篇博客——<a href="https://event-driven.io/en/outbox_inbox_patterns_and_delivery_guarantees_explained/" target="_blank" rel="noreferrer">Outbox, Inbox patterns and delivery guarantees explained - Event-Driven.io</a></p>
+<p>如果你正在担心使用数据库带来的性能问题，可以参考这篇博客——<a href="https://event-driven.io/en/push_based_outbox_pattern_with_postgres_logical_replication/" target="_blank" rel="noreferrer">Push-based Outbox Pattern with Postgres Logical Replication - Event-Driven.io</a></p>
+<p>在设计“中转表”之前，阅读这篇文章可以少走弯路——<a href="https://event-driven.io/en/ordering_in_postgres_outbox/" target="_blank" rel="noreferrer">How Postgres sequences issues can impact your messaging guarantees - Event-Driven.io</a></p>
 </blockquote>
-<h3 id="publisher-1" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-1" aria-label="Anchor">#</a></span></h3>
-<p>将事件保存在数据库并消费这个过程可以抽象为发送和订阅。因此outbox中的发送者也实现了Publisher.</p>
+<h3 id="publisher-1" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-1" aria-label="Anchor">#</a></span></h3><p>将事件保存在数据库并消费这个过程可以抽象为发送和订阅。因此outbox中的发送者也实现了Publisher.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">PublishInTx</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">message</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">tx</span> <span class="o">*</span><span class="nx">sql</span><span class="p">.</span><span class="nx">Tx</span><span class="p">,</span>
@@ -1536,8 +1464,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div></li>
 </ul>
-<h3 id="subscriber-1" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber-1" aria-label="Anchor">#</a></span></h3>
-<p>outbox中的订阅者使用方式如下：</p>
+<h3 id="subscriber-1" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber-1" aria-label="Anchor">#</a></span></h3><p>outbox中的订阅者使用方式如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">SubscribeForMessages</span><span class="p">(</span><span class="nx">db</span> <span class="o">*</span><span class="nx">sqlx</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span> <span class="nx">topic</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="p">(</span><span class="o">&lt;-</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">subscriber</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">NewSubscriber</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">db</span><span class="p">,</span>
@@ -1565,20 +1492,20 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">offset_consumed</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">consumer_group</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">;</span><span class="w">
-</span></span></span></code></pre></div><h3 id="forwarder" class="relative group">Forwarder <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#forwarder" aria-label="Anchor">#</a></span></h3>
-<p>上述方式需要为每个topic设置两个表，可以使用Forwarder来让topic共用同一张表（实际是两个）。</p>
+</span></span></span></code></pre></div><h3 id="forwarder" class="relative group">Forwarder <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#forwarder" aria-label="Anchor">#</a></span></h3><p>上述方式需要为每个topic设置两个表，可以使用Forwarder来让topic共用同一张表（实际是两个）。</p>
 <p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309231057464.png" alt="" />
-    
-  </figure>
 
+
+
+  
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309231057464.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
 </p>
-<h4 id="publisher-2" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-2" aria-label="Anchor">#</a></span></h4>
-<p>将消息封装在一个更上层的topic上，比<code>events_to_forward</code>为例：</p>
+<h4 id="publisher-2" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-2" aria-label="Anchor">#</a></span></h4><p>将消息封装在一个更上层的topic上，比<code>events_to_forward</code>为例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">outboxTopic</span> <span class="p">=</span> <span class="s">&#34;events_to_forward&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">PublishInTx</span><span class="p">(</span>
@@ -1603,8 +1530,7 @@
 </span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">fp</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">fp</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;TopicName&#34;</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="subscriber-2" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber-2" aria-label="Anchor">#</a></span></h4>
-<p>对应的订阅为：</p>
+</span></span></code></pre></div><h4 id="subscriber-2" class="relative group">Subscriber <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#subscriber-2" aria-label="Anchor">#</a></span></h4><p>对应的订阅为：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">RunForwarder</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">db</span> <span class="o">*</span><span class="nx">sqlx</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">rdb</span> <span class="o">*</span><span class="nx">redis</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span>
@@ -1646,11 +1572,9 @@
 </span></span><span class="line"><span class="cl">	<span class="o">&lt;-</span><span class="nx">fd</span><span class="p">.</span><span class="nf">Running</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="事件顺序" class="relative group">事件顺序 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%8b%e4%bb%b6%e9%a1%ba%e5%ba%8f" aria-label="Anchor">#</a></span></h2>
-<p>在事件驱动的架构中，事件往往以topic的方式展现，而对topic的消费又往往是并行处理。</p>
+</span></span></code></pre></div><h2 id="事件顺序" class="relative group">事件顺序 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%ba%8b%e4%bb%b6%e9%a1%ba%e5%ba%8f" aria-label="Anchor">#</a></span></h2><p>在事件驱动的架构中，事件往往以topic的方式展现，而对topic的消费又往往是并行处理。</p>
 <p>有些事件需要严格控制执行顺序，否则会导致数据错乱：比如说员工调岗事件和员工离职事件，如果先处理了员工离职事件，那么处理员工调岗事件就会造成相当大的困惑。</p>
-<h3 id="使用消费者组订阅所有事件" class="relative group">使用消费者组订阅所有事件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e6%b6%88%e8%b4%b9%e8%80%85%e7%bb%84%e8%ae%a2%e9%98%85%e6%89%80%e6%9c%89%e4%ba%8b%e4%bb%b6" aria-label="Anchor">#</a></span></h3>
-<p>可以将所有的事件都放到同一个topic（比如<code>events</code>）中，然后使用消费者组——以达到事件<code>fan-out</code>到多个消费者的效果。</p>
+<h3 id="使用消费者组订阅所有事件" class="relative group">使用消费者组订阅所有事件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e6%b6%88%e8%b4%b9%e8%80%85%e7%bb%84%e8%ae%a2%e9%98%85%e6%89%80%e6%9c%89%e4%ba%8b%e4%bb%b6" aria-label="Anchor">#</a></span></h3><p>可以将所有的事件都放到同一个topic（比如<code>events</code>）中，然后使用消费者组——以达到事件<code>fan-out</code>到多个消费者的效果。</p>
 <p>然后将相关的事件放入一个Group中进行处理，忽略不相关的事件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl">	<span class="nx">eventProcessor</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cqrs</span><span class="p">.</span><span class="nf">NewEventGroupProcessorWithConfig</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">router</span><span class="p">,</span>
@@ -1697,16 +1621,14 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">cfg</span><span class="p">.</span><span class="nx">Consumer</span><span class="p">.</span><span class="nx">Offsets</span><span class="p">.</span><span class="nx">Initial</span> <span class="p">=</span> <span class="nx">sarama</span><span class="p">.</span><span class="nx">OffsetOldest</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">cfg</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="分片" class="relative group">分片 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%86%e7%89%87" aria-label="Anchor">#</a></span></h3>
-<p>上述方案是在消费端进行处理，缺点是消费端需要消费所有的事件。另外一种办法就是按照“实例ID”来进行分片，比如使用员工ID进行分片，那么同一个员工的事件就会顺序消费。以kafka为例：</p>
+</span></span></code></pre></div><h3 id="分片" class="relative group">分片 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%86%e7%89%87" aria-label="Anchor">#</a></span></h3><p>上述方案是在消费端进行处理，缺点是消费端需要消费所有的事件。另外一种办法就是按照“实例ID”来进行分片，比如使用员工ID进行分片，那么同一个员工的事件就会顺序消费。以kafka为例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">kafka</span><span class="p">.</span><span class="nf">NewPublisher</span><span class="p">(</span><span class="nx">kafka</span><span class="p">.</span><span class="nx">PublisherConfig</span><span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">Brokers</span><span class="p">:</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">kafkaAddr</span><span class="p">},</span>
 </span></span><span class="line"><span class="cl">		<span class="nx">Marshaler</span><span class="p">:</span> <span class="nx">kafka</span><span class="p">.</span><span class="nf">NewWithPartitioningMarshaler</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">topic</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span> <span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Metadata</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;employee_id&#34;</span><span class="p">),</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl">		<span class="p">}),</span>
 </span></span><span class="line"><span class="cl">	<span class="p">},</span> <span class="nx">logger</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="乐观锁" class="relative group">乐观锁 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b9%90%e8%a7%82%e9%94%81" aria-label="Anchor">#</a></span></h3>
-<p>可以使用乐观锁来避免并发问题。我们使用version字段来标记当前记录的版本，每当发送一个事件时，将version放入事件实体中，然后在消费时，判断version的值是否正常。</p>
+</span></span></code></pre></div><h3 id="乐观锁" class="relative group">乐观锁 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b9%90%e8%a7%82%e9%94%81" aria-label="Anchor">#</a></span></h3><p>可以使用乐观锁来避免并发问题。我们使用version字段来标记当前记录的版本，每当发送一个事件时，将version放入事件实体中，然后在消费时，判断version的值是否正常。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">cqrs</span><span class="p">.</span><span class="nf">NewEventHandler</span><span class="p">(</span><span class="s">&#34;OnEmployeeLeft&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="o">*</span><span class="nx">EmployeeLeft</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">employee</span> <span class="o">:=</span> <span class="nf">getEmployee</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">EmployeeID</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">			
@@ -1719,14 +1641,10 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span></code></pre></div><h3 id="独自更新" class="relative group">独自更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%8b%ac%e8%87%aa%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h3>
-<p>有一种无需考虑并发问题的解决办法，那就是从源头解决问题：每个事件都不互相影响。</p>
+</span></span></code></pre></div><h3 id="独自更新" class="relative group">独自更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%8b%ac%e8%87%aa%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h3><p>有一种无需考虑并发问题的解决办法，那就是从源头解决问题：每个事件都不互相影响。</p>
 <p>比如说员工离职事件只是将离职状态进行更改，员工调岗事件只是改变员工岗位而无需查询员工状态。这样两个事件就可以实现“独自更新”互不影响。</p>
-<h2 id="metrics" class="relative group">Metrics <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#metrics" aria-label="Anchor">#</a></span></h2>
-<h3 id="prometheus-1" class="relative group">Prometheus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheus-1" aria-label="Anchor">#</a></span></h3>
-<p>Prometheus是一个用于监控和告警的工具包，由Cloud Native Computing Foundation (CNCF) 开发。它用于从各种来源收集、处理和显示指标，例如Kubernetes、节点和应用程序。</p>
-<h4 id="全局指标" class="relative group">全局指标 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%a8%e5%b1%80%e6%8c%87%e6%a0%87" aria-label="Anchor">#</a></span></h4>
-<p>全局变量往往会由于其众多的引用关系从而导致项目难以维护，但有些例外，如：监控指标、日志。</p>
+<h2 id="metrics" class="relative group">Metrics <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#metrics" aria-label="Anchor">#</a></span></h2><h3 id="prometheus-1" class="relative group">Prometheus <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prometheus-1" aria-label="Anchor">#</a></span></h3><p>Prometheus是一个用于监控和告警的工具包，由Cloud Native Computing Foundation (CNCF) 开发。它用于从各种来源收集、处理和显示指标，例如Kubernetes、节点和应用程序。</p>
+<h4 id="全局指标" class="relative group">全局指标 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%85%a8%e5%b1%80%e6%8c%87%e6%a0%87" aria-label="Anchor">#</a></span></h4><p>全局变量往往会由于其众多的引用关系从而导致项目难以维护，但有些例外，如：监控指标、日志。</p>
 <p>下面是一些基本指标：处理的消息数量、失败的消息数量、处理的时间分布。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">messageProcessTotal</span> <span class="p">=</span> <span class="nx">promauto</span><span class="p">.</span><span class="nf">NewCounterVec</span><span class="p">(</span>
@@ -1755,8 +1673,7 @@
 </span></span><span class="line"><span class="cl">		<span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;topic&#34;</span><span class="p">,</span> <span class="s">&#34;handler&#34;</span><span class="p">},</span>
 </span></span><span class="line"><span class="cl">	<span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span></code></pre></div><h4 id="注入到中间件" class="relative group">注入到中间件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b3%a8%e5%85%a5%e5%88%b0%e4%b8%ad%e9%97%b4%e4%bb%b6" aria-label="Anchor">#</a></span></h4>
-<p>基本的监控指标在中间件中注入即可，无需影响业务代码。</p>
+</span></span></code></pre></div><h4 id="注入到中间件" class="relative group">注入到中间件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b3%a8%e5%85%a5%e5%88%b0%e4%b8%ad%e9%97%b4%e4%bb%b6" aria-label="Anchor">#</a></span></h4><p>基本的监控指标在中间件中注入即可，无需影响业务代码。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">useMiddlewares</span><span class="p">(</span><span class="nx">router</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Router</span><span class="p">,</span> <span class="nx">watermillLogger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span> <span class="p">([]</span><span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
@@ -1775,8 +1692,7 @@
 </span></span><span class="line"><span class="cl">		<span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="开放入口" class="relative group">开放入口 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%80%e6%94%be%e5%85%a5%e5%8f%a3" aria-label="Anchor">#</a></span></h4>
-<p>Prometheus基本上都是采用服务端拉取的方式进行采集，因此作为客户端的服务需要提供接口：</p>
+</span></span></code></pre></div><h4 id="开放入口" class="relative group">开放入口 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%bc%80%e6%94%be%e5%85%a5%e5%8f%a3" aria-label="Anchor">#</a></span></h4><p>Prometheus基本上都是采用服务端拉取的方式进行采集，因此作为客户端的服务需要提供接口：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// echo
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">import</span> <span class="p">(</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">libHttp</span> <span class="s">&#34;github.com/ThreeDotsLabs/go-event-driven/common/http&#34;</span>
@@ -1798,14 +1714,8 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">app</span> <span class="o">:=</span> <span class="nx">iris</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">app</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;/metrics&#34;</span><span class="p">,</span> <span class="nx">iris</span><span class="p">.</span><span class="nf">FromStd</span><span class="p">(</span><span class="nx">promhttp</span><span class="p">.</span><span class="nf">Handler</span><span class="p">()))</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="消息队列exporter" class="relative group">消息队列exporter <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97exporter" aria-label="Anchor">#</a></span></h4>
-<p>对于消息队列的Pub/Sub监控，可以在<a
-  href="https://prometheus.io/docs/instrumenting/exporters/#messaging-systems"
-  
-  target="_blank" rel="noreferrer noopener"
->Prometheus官网</a>找到对应的exporter。</p>
-<h3 id="tracing-1" class="relative group">Tracing <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing-1" aria-label="Anchor">#</a></span></h3>
-<p>链路追踪与指标监控一样，都是微服务时代必不可少的组件。链路追踪能够将追踪一个请求的完整信息，从而能让使用者更了解系统的运作，也能够快速定位错误。</p>
+</span></span></code></pre></div><h4 id="消息队列exporter" class="relative group">消息队列exporter <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97exporter" aria-label="Anchor">#</a></span></h4><p>对于消息队列的Pub/Sub监控，可以在<a href="https://prometheus.io/docs/instrumenting/exporters/#messaging-systems" target="_blank" rel="noreferrer">Prometheus官网</a>找到对应的exporter。</p>
+<h3 id="tracing-1" class="relative group">Tracing <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing-1" aria-label="Anchor">#</a></span></h3><p>链路追踪与指标监控一样，都是微服务时代必不可少的组件。链路追踪能够将追踪一个请求的完整信息，从而能让使用者更了解系统的运作，也能够快速定位错误。</p>
 <p>目前常用的链路协议为OpenTelemetry。</p>
 <blockquote>
 <p>OpenTelemetry和Jaeger的区别：</p>
@@ -1813,24 +1723,20 @@
 <p>Jaeger是一个实现了OpenTracing标准的开源跟踪系统。它提供了一个完整的跟踪解决方案，包括收集、存储和查询跟踪数据的组件。Jaeger支持多种后端存储，包括Cassandra、Elasticsearch和Memory等。</p>
 <p>因此，OpenTelemetry是一种标准和API/SDK，而Jaeger是一个完整的跟踪系统。OpenTelemetry可以与Jaeger一起使用，或者与其他跟踪系统集成。</p>
 </blockquote>
-<h4 id="消息系统中的链路传播" class="relative group">消息系统中的链路传播 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b6%88%e6%81%af%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e9%93%be%e8%b7%af%e4%bc%a0%e6%92%ad" aria-label="Anchor">#</a></span></h4>
-<p>
+<h4 id="消息系统中的链路传播" class="relative group">消息系统中的链路传播 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%b6%88%e6%81%af%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e9%93%be%e8%b7%af%e4%bc%a0%e6%92%ad" aria-label="Anchor">#</a></span></h4><p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309241622154.png" alt="" />
-    
-  </figure>
 
-</p>
-<p>链路传播需要维护上下文信息，OpenTelemetry推荐的格式为 <a
-  href="https://www.w3.org/TR/trace-context/"
+
+
   
-  target="_blank" rel="noreferrer noopener"
->W3C Trace Context</a>。</p>
-<h4 id="publisher-3" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-3" aria-label="Anchor">#</a></span></h4>
-<p>在发送事件时需要携带链路信息（将上下文中的链路信息提取出来放到消息header中），我们可以通过装饰器模式实现：</p>
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309241622154.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p>链路传播需要维护上下文信息，OpenTelemetry推荐的格式为 <a href="https://www.w3.org/TR/trace-context/" target="_blank" rel="noreferrer">W3C Trace Context</a>。</p>
+<h4 id="publisher-3" class="relative group">Publisher <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#publisher-3" aria-label="Anchor">#</a></span></h4><p>在发送事件时需要携带链路信息（将上下文中的链路信息提取出来放到消息header中），我们可以通过装饰器模式实现：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">TracingPublisherDecorator</span> <span class="kd">struct</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1845,8 +1751,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">pub</span> <span class="nx">message</span><span class="p">.</span><span class="nx">Publisher</span>
 </span></span><span class="line"><span class="cl"><span class="nx">pub</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">redisstream</span><span class="p">.</span><span class="nf">NewPublisher</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nx">pub</span> <span class="p">=</span> <span class="nx">PublishDecorator</span><span class="p">{</span><span class="nx">pub</span><span class="p">}</span>
-</span></span></code></pre></div><h4 id="middleware-1" class="relative group">Middleware <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#middleware-1" aria-label="Anchor">#</a></span></h4>
-<p>在路由层，我们需要从消息的header中提取链路信息，然后保存到上下文中：</p>
+</span></span></code></pre></div><h4 id="middleware-1" class="relative group">Middleware <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#middleware-1" aria-label="Anchor">#</a></span></h4><p>在路由层，我们需要从消息的header中提取链路信息，然后保存到上下文中：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">useMiddlewares</span><span class="p">(</span><span class="nx">router</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Router</span><span class="p">,</span> <span class="nx">watermillLogger</span> <span class="nx">watermill</span><span class="p">.</span><span class="nx">LoggerAdapter</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">h</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="nx">message</span><span class="p">.</span><span class="nx">HandlerFunc</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span> <span class="p">(</span><span class="nx">events</span> <span class="p">[]</span><span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
@@ -1875,10 +1780,8 @@
 </span></span><span class="line"><span class="cl">	<span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>在这个过程中，我们启动了一个新的<code>Span</code>，并记录了topic和handler（保存在Span的属性中），并且如果发生了错误还会记录错误状态。</p>
-<h4 id="handler" class="relative group">Handler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#handler" aria-label="Anchor">#</a></span></h4>
-<p>我们通过Publisher和Middleware成功的在异步消息中传递了链路信息，那么当我们执行sql、调用接口等等操作时如何上报链路呢？</p>
-<h5 id="postgres" class="relative group">Postgres <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#postgres" aria-label="Anchor">#</a></span></h5>
-<p>Opentelemetry已经提供了Postgres的插件：</p>
+<h4 id="handler" class="relative group">Handler <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#handler" aria-label="Anchor">#</a></span></h4><p>我们通过Publisher和Middleware成功的在异步消息中传递了链路信息，那么当我们执行sql、调用接口等等操作时如何上报链路呢？</p>
+<h5 id="postgres" class="relative group">Postgres <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#postgres" aria-label="Anchor">#</a></span></h5><p>Opentelemetry已经提供了Postgres的插件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/jmoiron/sqlx&#34;</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">_</span> <span class="s">&#34;github.com/lib/pq&#34;</span>
@@ -1899,8 +1802,7 @@
 </span></span><span class="line"><span class="cl">	<span class="nx">dbConn</span> <span class="o">:=</span> <span class="nx">sqlx</span><span class="p">.</span><span class="nf">NewDb</span><span class="p">(</span><span class="nx">traceDB</span><span class="p">,</span> <span class="s">&#34;postgres&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">dbConn</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h5 id="http" class="relative group">Http <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#http" aria-label="Anchor">#</a></span></h5>
-<p>Opentelemetry也提供了http的插件：</p>
+</span></span></code></pre></div><h5 id="http" class="relative group">Http <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#http" aria-label="Anchor">#</a></span></h5><p>Opentelemetry也提供了http的插件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="s">&#34;go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="s">&#34;net/http&#34;</span>
@@ -1915,8 +1817,7 @@
 </span></span><span class="line"><span class="cl">			<span class="p">})),</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="traceprovider" class="relative group">TraceProvider <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#traceprovider" aria-label="Anchor">#</a></span></h4>
-<p>Opentelemetry是链路追踪的一个SDK，那么链路信息要上报到哪里呢？OpenTelemetry提供了多种Provider，最常用的是Jaeger。</p>
+</span></span></code></pre></div><h4 id="traceprovider" class="relative group">TraceProvider <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#traceprovider" aria-label="Anchor">#</a></span></h4><p>Opentelemetry是链路追踪的一个SDK，那么链路信息要上报到哪里呢？OpenTelemetry提供了多种Provider，最常用的是Jaeger。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">observability</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
@@ -1963,8 +1864,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">tp</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="outbox兼容" class="relative group">Outbox兼容 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#outbox%e5%85%bc%e5%ae%b9" aria-label="Anchor">#</a></span></h4>
-<p>之前我们提到，为了实现一致性，我们先通过事务将一些事件存储到数据库，这时候要如何保存链路信息呢？</p>
+</span></span></code></pre></div><h4 id="outbox兼容" class="relative group">Outbox兼容 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#outbox%e5%85%bc%e5%ae%b9" aria-label="Anchor">#</a></span></h4><p>之前我们提到，为了实现一致性，我们先通过事务将一些事件存储到数据库，这时候要如何保存链路信息呢？</p>
 <p>其实也很简单，因为我们本来就存储了事件的header，所以只需要在存储到数据库之前将上下文信息存入header即可（利用之前写好的装饰器可以很方便的实现这一功能）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">PublishInTx</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">msg</span> <span class="o">*</span><span class="nx">message</span><span class="p">.</span><span class="nx">Message</span><span class="p">,</span>
@@ -2001,22 +1901,21 @@
 <li>第二次装饰了<code>forwarder.Publisher</code>：将从数据库中的事件发布到forwarder这个过程的上下文信息中的链路信息提取到header。</li>
 </ol>
 <p>第二次装饰器并不是简单的重复提取链路信息，而是携带了<code>forwarder</code>过程中的数据库信息。</p>
-<h2 id="可用性" class="relative group">可用性 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8f%af%e7%94%a8%e6%80%a7" aria-label="Anchor">#</a></span></h2>
-<h3 id="限流" class="relative group">限流 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%99%90%e6%b5%81" aria-label="Anchor">#</a></span></h3>
-<p>如果高并发地消费事件会对下游服务造成压力，那么可以考虑限流。</p>
+<h2 id="可用性" class="relative group">可用性 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8f%af%e7%94%a8%e6%80%a7" aria-label="Anchor">#</a></span></h2><h3 id="限流" class="relative group">限流 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%99%90%e6%b5%81" aria-label="Anchor">#</a></span></h3><p>如果高并发地消费事件会对下游服务造成压力，那么可以考虑限流。</p>
 <p>watermill中提供了限流中间件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">message</span><span class="p">.</span><span class="nf">NewRouter</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">RouterConfig</span><span class="p">{},</span> <span class="nx">logger</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nf">NewThrottle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">).</span><span class="nx">Middleware</span><span class="p">)</span> <span class="c1">// 允许一秒最多处理10个消息
-</span></span></span></code></pre></div><h3 id="熔断" class="relative group">熔断 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%86%94%e6%96%ad" aria-label="Anchor">#</a></span></h3>
-<p>
+</span></span></span></code></pre></div><h3 id="熔断" class="relative group">熔断 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%86%94%e6%96%ad" aria-label="Anchor">#</a></span></h3><p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309241806158.png" alt="" />
-    
-  </figure>
 
+
+
+  
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202309241806158.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
 </p>
 <p>熔断也是常用的微服务治理工具：当下游服务出现大量报错后，身为上游服务不应再给予下游服务大量压力，而应该等待一段时间后再去访问，以防止整个系统雪崩。</p>
 <p>watermill中使用<code>gobreaker</code>作为其熔断中间件的实现：</p>
@@ -2036,8 +1935,7 @@
 </span></span><span class="line"><span class="cl">  <span class="nx">MaxRequests</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">Timeout</span><span class="p">:</span>     <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl"><span class="p">}).</span><span class="nx">Middleware</span><span class="p">)</span>
-</span></span></code></pre></div><h3 id="死信队列" class="relative group">死信队列 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%ad%bb%e4%bf%a1%e9%98%9f%e5%88%97" aria-label="Anchor">#</a></span></h3>
-<p>如果一个消息被损坏而不能正常消费，这时候就要把它放入“死信队列”，以待更进一步的检查。</p>
+</span></span></code></pre></div><h3 id="死信队列" class="relative group">死信队列 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%ad%bb%e4%bf%a1%e9%98%9f%e5%88%97" aria-label="Anchor">#</a></span></h3><p>如果一个消息被损坏而不能正常消费，这时候就要把它放入“死信队列”，以待更进一步的检查。</p>
 <p>watermill中提供了该功能的中间件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="nx">middleware</span><span class="p">.</span><span class="nf">PoisonQueue</span><span class="p">(</span><span class="nx">publisher</span><span class="p">,</span> <span class="s">&#34;poison_queue&#34;</span><span class="p">))</span>
 </span></span></code></pre></div><p>设置了上述中间件后，如果消息在消费过程中遇到了错误，并且返回了错误，那么这个消息会被ACK，并发送到<code>poison_queue</code>中。</p>
@@ -2069,20 +1967,55 @@
 
       </div>
     </section>
-    <footer class="pt-8 max-w-prose print:hidden">
+    <footer class="max-w-prose pt-8 print:hidden">
       
   <div class="flex">
+    
+    
     
       
       
         
-        <img
-          class="!mb-0 !mt-0 me-4 h-24 w-24 rounded-full"
-          width="96"
-          height="96"
-          alt="stong"
-          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_center.jpg"
-        />
+        
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+      
+    >
+      
+      
+      
+      
+      <img
+        width="1080"
+        height="1434"
+        class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+        alt="stong"
+        loading="lazy" decoding="async"
+        
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg"
+          srcset="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_330x0_resize_q75_box.jpg 330w,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg 660w
+          
+            ,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_1024x0_resize_q75_box.jpg 1024w
+          
+          
+            ,/imgs/mine.jpg 1080w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
       
     
     <div class="place-self-center">
@@ -2108,14 +2041,8 @@
           target="_blank"
           aria-label="Email"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
+</span></a
         >
       
     
@@ -2127,14 +2054,8 @@
           target="_blank"
           aria-label="Link"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
+</span></a
         >
       
     
@@ -2146,14 +2067,8 @@
           target="_blank"
           aria-label="Github"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></a
         >
       
     
@@ -2258,94 +2173,74 @@
           
           
           Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://git.io/hugo-congo" target="_blank" rel="noopener noreferrer">Congo</a>
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
         </p>
       
     </div>
-    
-    
-      <div
-        class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-      >
-        <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
-          <div
-            class="flex h-12 w-12 items-center justify-center dark:hidden"
-            title="Switch to dark appearance"
-          >
-            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
-
-  </span>
-
-
-          </div>
-          <div
-            class="hidden h-12 w-12 items-center justify-center dark:flex"
-            title="Switch to light appearance"
-          >
-            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
-
-  </span>
-
-
-          </div>
-        </button>
-      </div>
-    
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
   </div>
   
   
 </footer>
 <div
   id="search-wrapper"
-  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
   data-url="/"
 >
   <div
     id="search-modal"
-    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
   >
-    <header class="relative z-10 flex items-center justify-between flex-none px-2">
-      <form class="flex items-center flex-auto min-w-0">
-        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
-          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
         </div>
         <input
           type="search"
           id="search-query"
-          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
           placeholder="Search"
           tabindex="0"
         />
       </form>
       <button
         id="close-search-button"
-        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
         title="Close (Esc)"
       >
-        
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
-
-  </span>
-
-
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
       </button>
     </header>
-    <section class="flex-auto px-2 overflow-auto">
+    <section class="flex-auto overflow-auto px-2">
       <ul id="search-results">
         
       </ul>

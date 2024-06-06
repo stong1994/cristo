@@ -3,7 +3,9 @@
 
 
 
-<!DOCTYPE html>
+
+
+<!doctype html>
 <html
   lang="en"
   dir="ltr"
@@ -12,24 +14,21 @@
   data-auto-appearance="true"
 ><head>
   <meta charset="utf-8" />
-  
-    <meta http-equiv="content-language" content="en" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="rgb(255,255,255)" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
   <title>k8s-pod &middot; </title>
     <meta name="title" content="k8s-pod &middot; " />
   
-  <meta name="description" content="" />
   
   
   
-  <link rel="canonical" href="/cloudnative/k8s/pod/" />
   
-  
-  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
   
   
   
@@ -41,32 +40,56 @@
   <link
     type="text/css"
     rel="stylesheet"
-    href="/css/main.bundle.min.d2d22c5c1c2460999b194d3fbbce6097c00f40fb952d56864bb609de68cbc5ea.css"
-    integrity="sha256-0tIsXBwkYJmbGU0/u85gl8APQPuVLVaGS7YJ3mjLxeo="
+    href="/css/main.bundle.min.9602fe0216290b9ff0322c1fd14e88ab9fc0a13741f4de563f67831708d72bb2.css"
+    integrity="sha256-lgL&#43;AhYpC5/wMiwf0U6Iq5/AoTdB9N5WP2eDFwjXK7I="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+    
+    
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.bb487ad6073790cb02c354ee8c5f8822c42c5513e10bf7a86bbe8f82118cd1fc.js"
+      integrity="sha256-u0h61gc3kMsCw1TujF&#43;IIsQsVRPhC/eoa76PghGM0fw="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      
+        
+      
+    "
   />
   
   
-  <script type="text/javascript" src="/js/appearance.min.022d0ebc3b46a335eb1c7ef79b7f2de143d7cd5156d433638592ef1ce5f8554e.js" integrity="sha256-Ai0OvDtGozXrHH73m38t4UPXzVFW1DNjhZLvHOX4VU4="></script>
   
-    
-    
-    
-  
-  
-    
-    
-  
-  
-  
-    
-    <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.b1f8d2a7796afc4797afcc2b7f81e78f0810f3e8fca1b900c33ead64c354def8.js" integrity="sha256-sfjSp3lq/EeXr8wrf4HnjwgQ8&#43;j8obkAwz6tZMNU3vg=" data-copy="Copy" data-copied="Copied"></script>
-  
+  <link rel="canonical" href="/cloudnative/k8s/pod/" />
   
   
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+  
   
   
   
@@ -84,12 +107,14 @@
     <meta property="article:published_time" content="2022-10-08T21:19:00+08:00">
     <meta property="article:modified_time" content="2022-10-08T21:19:00+08:00">
 
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="k8s-pod">
-<meta name="twitter:description" content="">
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="k8s-pod">
+  <meta name="twitter:description" content="夭寿不贰，修身以俟">
 
   
   <script type="application/ld+json">
-  [{
+  {
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "",
@@ -112,8 +137,8 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "5112"
-  }]
+    "wordCount": "5099"
+  }
   </script>
 
 
@@ -141,6 +166,7 @@
   
   
   
+  
 
 
 
@@ -149,19 +175,19 @@
   
 </head>
 <body
-    class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
   >
     <div id="the-top" class="absolute flex self-center">
       <a
-        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
         href="#main-content"
-        ><span class="font-bold pe-2 text-primary-600 dark:text-primary-400">&darr;</span
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
         >Skip to main content</a
       >
     </div>
     
     
-      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral print:hidden sm:py-10">
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
   <nav class="flex items-start justify-between sm:items-center">
     
     <div class="z-40 flex flex-row items-center">
@@ -173,52 +199,39 @@
     ></a
   >
 
-      
-
     </div>
     
       
       <label id="menu-button" for="menu-controller" class="block sm:hidden">
         <input type="checkbox" id="menu-controller" class="hidden" />
         <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
-          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
-
-  </span>
-
-
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
         </div>
         <div
           id="menu-wrapper"
           class="invisible fixed inset-0 z-30 m-auto h-full w-full cursor-default overflow-auto bg-neutral-100/50 opacity-0 backdrop-blur-sm transition-opacity dark:bg-neutral-900/50"
         >
           <ul
-            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 ltr:text-right rtl:text-left sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 text-end sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
           >
             <li class="mb-1">
               <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
-                >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
-
-  </span>
-
-</span
+                ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span></span
               >
             </li>
             
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/internet/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >计算机与互联网</span
                         >
@@ -227,14 +240,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/cloudnative/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >云原生</span
                         >
@@ -243,14 +257,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/web3/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >区块链&amp;web3</span
                         >
@@ -259,14 +274,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/book/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >读书笔记</span
                         >
@@ -275,14 +291,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/other/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >杂谈</span
                         >
@@ -291,14 +308,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/slip_paper/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >小碎片</span
                         >
@@ -307,14 +325,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/mental_model/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >心智模型</span
                         >
@@ -323,14 +342,15 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="/about/"
                       title=""
+                      onclick="close_menu()"
                       
-                      >
-                        <span
+                      ><span
                           class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                           >关于</span
                         >
@@ -339,30 +359,24 @@
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     <a
                       href="https://github.com/stong1994/"
                       title=""
+                      onclick="close_menu()"
                       target="_blank"
                       >
                         <span
                           class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                        >
-                          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-
-                        </span>
-                      </a
+                        ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
                     >
                   
                 </li>
               
+                
                 <li class="group mb-1">
                   
                     
@@ -374,18 +388,8 @@
                         
                           <span
                             class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                          >
-                            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
-                          </span>
-                        
-                          <span
+                          ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
                             class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                             ></span
                           >
@@ -401,17 +405,17 @@
         </div>
       </label>
       
-      <ul class="hidden list-none flex-row ltr:text-right rtl:text-left sm:flex">
+      <ul class="hidden list-none flex-row text-end sm:flex">
         
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/internet/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >计算机与互联网</span
                     >
@@ -420,14 +424,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/cloudnative/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >云原生</span
                     >
@@ -436,14 +440,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/web3/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >区块链&amp;web3</span
                     >
@@ -452,14 +456,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/book/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >读书笔记</span
                     >
@@ -468,14 +472,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/other/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >杂谈</span
                     >
@@ -484,14 +488,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/slip_paper/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >小碎片</span
                     >
@@ -500,14 +504,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/mental_model/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >心智模型</span
                     >
@@ -516,14 +520,14 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
                   href="/about/"
                   title=""
                   
-                  >
-                    <span
+                  ><span
                       class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                       >关于</span
                     >
@@ -532,6 +536,7 @@
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 <a
@@ -541,21 +546,13 @@
                   >
                     <span
                       class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                    >
-                      
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-
-                    </span>
-                  </a
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
                 >
               
             </li>
           
+            
             <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
               
                 
@@ -567,18 +564,8 @@
                     
                       <span
                         class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
-                      >
-                        
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
-                      </span>
-                    
-                      <span
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
                         class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
                         ></span
                       >
@@ -597,40 +584,40 @@
 </header>
 
     
-    <div class="relative flex flex-col grow">
+    <div class="relative flex grow flex-col">
       <main id="main-content" class="grow">
         
   <article>
     <header class="max-w-prose">
       
-        <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
   
   
     
   
     
   
-  <li class="inline hidden">
+  <li class="hidden inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/"
       >记录个人的成长记录</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
   
-  <li class="inline ">
+  <li class=" inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/cloudnative/"
       >cloudnative</a
     ><span class="px-1 text-primary-500">/</span>
   </li>
 
   
-  <li class="inline hidden">
+  <li class="hidden inline">
     <a
-      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
       href="/cloudnative/k8s/pod/"
       >k8s-pod</a
     ><span class="px-1 text-primary-500">/</span>
@@ -643,8 +630,9 @@
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
         k8s-pod
       </h1>
-      <div class="mt-8 mb-12 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-        
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
 
 
 
@@ -680,29 +668,23 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      &lt;time datetime=&#34;2022-10-08 21:19:00 &amp;#43;0800 CST&#34;&gt;8 October 2022&lt;/time&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;&lt;span&gt;5112 words&lt;/span&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;&lt;span title=&#34;Reading time&#34;&gt;11 mins&lt;/span&gt;&lt;span class=&#34;px-2 text-primary-500&#34;&gt;&amp;middot;&lt;/span&gt;
+      <time datetime="2022-10-08 21:19:00 &#43;0800 CST">8 October 2022</time><span class="px-2 text-primary-500">&middot;</span><span>5099 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">11 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
   
 
-&lt;span class=&#34;mb-[2px]&#34;&gt;
-  &lt;a
-    href=&#34;https://github.com/stong1994/cristo/content/cloudnative/k8s-pod.md&#34;
-    class=&#34;text-lg hover:text-primary-500&#34;
-    rel=&#34;noopener noreferrer&#34;
-    target=&#34;_blank&#34;
-    title=&#34;Edit content&#34;
-    &gt;
-
-  &lt;span class=&#34;relative inline-block align-text-bottom icon&#34;&gt;
-    &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z&#34;/&gt;&lt;/svg&gt;
-
-  &lt;/span&gt;
-
-&lt;/a
-  &gt;
-&lt;/span&gt;
+<span class="mb-[2px]">
+  <a
+    href="https://github.com/stong1994/cristo/content/cloudnative/k8s-pod.md"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="Edit content"
+    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+</span></a
+  >
+</span>
     
 
     
@@ -711,7 +693,7 @@
 
   
   
-    <div class="my-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400 ">
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
       
         
       
@@ -721,20 +703,21 @@
   
 
 
-      </div>
+        </div>
+      
       
     </header>
-    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
       
         <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
           <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
             <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
   <summary
-    class="-ms-5 block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
   >
     Table of Contents
   </summary>
-  <div class="-ms-5 border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
     <nav id="TableOfContents">
   <ul>
     <li>
@@ -812,23 +795,18 @@
           </div>
         </div>
       
-      <div class="min-w-0 min-h-0 max-w-prose grow">
-        <h2 id="什么是pod" class="relative group">什么是pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bb%80%e4%b9%88%e6%98%afpod" aria-label="Anchor">#</a></span></h2>
-<p>Pod是一个逻辑概念——它代表了一组共同协作的容器。</p>
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <h2 id="什么是pod" class="relative group">什么是pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bb%80%e4%b9%88%e6%98%afpod" aria-label="Anchor">#</a></span></h2><p>Pod是一个逻辑概念——它代表了一组共同协作的容器。</p>
 <p>Pod是一组容器——这意味着它可以只包含一个容器，也可以包含多个容器。</p>
-<h2 id="为什么需要pod" class="relative group">为什么需要pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81pod" aria-label="Anchor">#</a></span></h2>
-<p><strong>pod解决了需要在同一个节点部署的多个容器的资源调度问题。</strong></p>
+<h2 id="为什么需要pod" class="relative group">为什么需要pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81pod" aria-label="Anchor">#</a></span></h2><p><strong>pod解决了需要在同一个节点部署的多个容器的资源调度问题。</strong></p>
 <p>我们假定容器A、B、C需要在同一个节点部署，A需要1G内存，B需要2G，C需要3G。通过设置亲和性来实现三个容器部署到同一个节点。如果容器A先进行了部署，这时候调度B和C到了容器A所在节点，然后这时才发现节点的内存只有4G，三个容器无论如何也不能同时部署到这个节点。</p>
 <p>通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。</p>
-<h3 id="决策是否将容器放到同一个pod" class="relative group">决策：是否将容器放到同一个pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%86%b3%e7%ad%96%e6%98%af%e5%90%a6%e5%b0%86%e5%ae%b9%e5%99%a8%e6%94%be%e5%88%b0%e5%90%8c%e4%b8%80%e4%b8%aapod" aria-label="Anchor">#</a></span></h3>
-<ol>
+<h3 id="决策是否将容器放到同一个pod" class="relative group">决策：是否将容器放到同一个pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%86%b3%e7%ad%96%e6%98%af%e5%90%a6%e5%b0%86%e5%ae%b9%e5%99%a8%e6%94%be%e5%88%b0%e5%90%8c%e4%b8%80%e4%b8%aapod" aria-label="Anchor">#</a></span></h3><ol>
 <li>如果容器之间一定要共享namespace（如文件）就要放到同一个pod</li>
 <li>如果多个容器中的进程是一个“整体”，那么就应该放到同一个pod</li>
 <li>如果容器之间的scale策略、条件不同，那么就不应该放到同一个pod</li>
 </ol>
-<h2 id="配置" class="relative group">配置 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%85%8d%e7%bd%ae" aria-label="Anchor">#</a></span></h2>
-<h3 id="一个最简单的配置" class="relative group">一个最简单的配置 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%80%e4%b8%aa%e6%9c%80%e7%ae%80%e5%8d%95%e7%9a%84%e9%85%8d%e7%bd%ae" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+<h2 id="配置" class="relative group">配置 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%85%8d%e7%bd%ae" aria-label="Anchor">#</a></span></h2><h3 id="一个最简单的配置" class="relative group">一个最简单的配置 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%80%e4%b8%aa%e6%9c%80%e7%ae%80%e5%8d%95%e7%9a%84%e9%85%8d%e7%bd%ae" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
@@ -838,15 +816,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
-</span></span></span></code></pre></div><h3 id="使用宿主机的pid和ipc-namespace" class="relative group">使用宿主机的PID和IPC namespace <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84pid%e5%92%8cipc-namespace" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span></code></pre></div><h3 id="使用宿主机的pid和ipc-namespace" class="relative group">使用宿主机的PID和IPC namespace <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84pid%e5%92%8cipc-namespace" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostPID</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostIPC</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></div><h3 id="使用宿主机的网络namespace" class="relative group">使用宿主机的网络namespace <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84%e7%bd%91%e7%bb%9cnamespace" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span></code></pre></div><h3 id="使用宿主机的网络namespace" class="relative group">使用宿主机的网络namespace <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84%e7%bd%91%e7%bb%9cnamespace" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostNetwork</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span></code></pre></div><h3 id="绑定宿主机的端口但不使用hostnetwork" class="relative group">绑定宿主机的端口但不使用hostNetwork <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%91%e5%ae%9a%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84%e7%ab%af%e5%8f%a3%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8hostnetwork" aria-label="Anchor">#</a></span></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span></code></pre></div><h3 id="绑定宿主机的端口但不使用hostnetwork" class="relative group">绑定宿主机的端口但不使用hostNetwork <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%91%e5%ae%9a%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84%e7%ab%af%e5%8f%a3%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8hostnetwork" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
@@ -854,8 +829,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="c"># 指定容器端口为8080</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">hostPort</span><span class="p">:</span><span class="w"> </span><span class="m">9000</span><span class="w"> </span><span class="c"># 指定宿主机端口为9000</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
-</span></span></span></code></pre></div><h3 id="podsecuritypolicy" class="relative group">PodSecurityPolicy <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#podsecuritypolicy" aria-label="Anchor">#</a></span></h3>
-<p>PodSecurityPolicy定义了pod的安全策略。包括：</p>
+</span></span></span></code></pre></div><h3 id="podsecuritypolicy" class="relative group">PodSecurityPolicy <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#podsecuritypolicy" aria-label="Anchor">#</a></span></h3><p>PodSecurityPolicy定义了pod的安全策略。包括：</p>
 <ul>
 <li>是否能够使用宿主机的IPC、PID、网络等命名空间</li>
 <li>能够绑定宿主机的哪些端口</li>
@@ -894,8 +868,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="s1">&#39;*&#39;</span><span class="w">
 </span></span></span></code></pre></div><p>PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterRole。</p>
-<h3 id="命令" class="relative group">命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%91%bd%e4%bb%a4" aria-label="Anchor">#</a></span></h3>
-<table>
+<h3 id="命令" class="relative group">命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%91%bd%e4%bb%a4" aria-label="Anchor">#</a></span></h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -953,24 +926,22 @@
 </tr>
 </tbody>
 </table>
-<h3 id="heading" class="relative group"> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#heading" aria-label="Anchor">#</a></span></h3>
-<h2 id="pod-lifecycle" class="relative group">Pod lifecycle <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod-lifecycle" aria-label="Anchor">#</a></span></h2>
-<h3 id="pause-container实现pod内容器去隔离" class="relative group">pause container—实现pod内容器”去隔离“ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pause-container%e5%ae%9e%e7%8e%b0pod%e5%86%85%e5%ae%b9%e5%99%a8%e5%8e%bb%e9%9a%94%e7%a6%bb" aria-label="Anchor">#</a></span></h3>
-<p>同一个pod下的容器需要共享资源，彼此之间没有视图上的限制。容器之间实现资源限制和视图隔离是通过Cgroups和Namespace来实现的——他们都是Linux上的文件，因此，实现pod之间“去隔离”的方式就是共享这些文件。</p>
+<h3 id="heading" class="relative group"> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#heading" aria-label="Anchor">#</a></span></h3><h2 id="pod-lifecycle" class="relative group">Pod lifecycle <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod-lifecycle" aria-label="Anchor">#</a></span></h2><h3 id="pause-container实现pod内容器去隔离" class="relative group">pause container—实现pod内容器”去隔离“ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pause-container%e5%ae%9e%e7%8e%b0pod%e5%86%85%e5%ae%b9%e5%99%a8%e5%8e%bb%e9%9a%94%e7%a6%bb" aria-label="Anchor">#</a></span></h3><p>同一个pod下的容器需要共享资源，彼此之间没有视图上的限制。容器之间实现资源限制和视图隔离是通过Cgroups和Namespace来实现的——他们都是Linux上的文件，因此，实现pod之间“去隔离”的方式就是共享这些文件。</p>
 <p>在pod中，管理这些资源文件的容器是pause容器，pod中其他的容器与pause共享这些文件。</p>
 <p>在节点上执行命令<code>docker ps</code>，会看到一个<code>pause</code>容器，这个容器的作用是持有pod的namespace——<strong>该pod下的用户定义的容器都使用<code>pause</code>容器的namespace</strong>。</p>
 <p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt="" />
-    
-  </figure>
 
+
+
+  
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
 </p>
-<h3 id="init-container初始化pod" class="relative group">init container—初始化pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#init-container%e5%88%9d%e5%a7%8b%e5%8c%96pod" aria-label="Anchor">#</a></span></h3>
-<p>init容器用于pod的初始化，pod可拥有任意数量的init容器。</p>
+<h3 id="init-container初始化pod" class="relative group">init container—初始化pod <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#init-container%e5%88%9d%e5%a7%8b%e5%8c%96pod" aria-label="Anchor">#</a></span></h3><p>init容器用于pod的初始化，pod可拥有任意数量的init容器。</p>
 <p>pod定义的init容器会在pod启动后一个接一个的线性执行，当所有init容器执行完后才会执行主容器。</p>
 <p>init容器往往用于等待主容器所依赖的service或者资源准备就绪。</p>
 <p>example：</p>
@@ -984,8 +955,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">	  </span>- <span class="s1">&#39;while true; do echo &#34;Waiting for fortune service to come up...&#34;;
 </span></span></span><span class="line"><span class="cl"><span class="s1">    wget http://fortune -q -T 1 -O /dev/null &gt;/dev/null 2&gt;/dev/null 
 </span></span></span><span class="line"><span class="cl"><span class="s1">    &amp;&amp; break; sleep 1; done; echo &#34;Service is up! Starting main container.&#34;&#39;</span><span class="w">
-</span></span></span></code></pre></div><h3 id="post-start-hook" class="relative group">post-start hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#post-start-hook" aria-label="Anchor">#</a></span></h3>
-<p>当容器的主程序启动后，会执行post-start钩子。</p>
+</span></span></span></code></pre></div><h3 id="post-start-hook" class="relative group">post-start hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#post-start-hook" aria-label="Anchor">#</a></span></h3><p>当容器的主程序启动后，会执行post-start钩子。</p>
 <p>可以用于执行额外的应用命令而不用修改服务代码。</p>
 <p>如果post-start钩子退出状态不是0，则主容器会被kill。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
@@ -1003,8 +973,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">sh</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span>- -<span class="l">c</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="s2">&#34;echo &#39;hook will fail with exit code 15&#39;; sleep 5; exit 15&#34;</span><span class="w">
-</span></span></span></code></pre></div><h3 id="pre-stop-hook" class="relative group">pre-stop hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pre-stop-hook" aria-label="Anchor">#</a></span></h3>
-<p>当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。</p>
+</span></span></span></code></pre></div><h3 id="pre-stop-hook" class="relative group">pre-stop hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pre-stop-hook" aria-label="Anchor">#</a></span></h3><p>当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。</p>
 <p>example：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">lifecycle</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">preStop</span><span class="p">:</span><span class="w"> </span><span class="c"># 定义pre-stop钩子</span><span class="w">
@@ -1012,8 +981,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">shutdown</span><span class="w">
 </span></span></span></code></pre></div><p>当容器中断后会发送<code>SIGTERM</code>信号到钩子。钩子会发送一个http请求，地址为<code>http:// POD_IP:8080/shutdown</code>.</p>
-<h3 id="pod关闭流程" class="relative group">pod关闭流程 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod%e5%85%b3%e9%97%ad%e6%b5%81%e7%a8%8b" aria-label="Anchor">#</a></span></h3>
-<p>在k8s中，API server控制所有的对象的生命周期。</p>
+<h3 id="pod关闭流程" class="relative group">pod关闭流程 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod%e5%85%b3%e9%97%ad%e6%b5%81%e7%a8%8b" aria-label="Anchor">#</a></span></h3><p>在k8s中，API server控制所有的对象的生命周期。</p>
 <p>当API server收到一个请求删除对象的请求后，并不会直接删除对象，而是设置<code>deletionTimestamp</code>字段到这个对象上。pod上的kubelet监听到<code>deletionTimestamp</code>字段生成，会执行关闭流程。</p>
 <ol>
 <li>执行pre-stop钩子</li>
@@ -1021,9 +989,7 @@
 <li>等待程序优雅关闭或者关闭超时。</li>
 <li>如果程序没有优雅关闭，则使用<code>SIGKILL</code>信号强制关闭。</li>
 </ol>
-<h2 id="pod-manager" class="relative group">Pod Manager <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod-manager" aria-label="Anchor">#</a></span></h2>
-<h3 id="存活探针liveness-probe" class="relative group">存活探针（liveness probe） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ad%98%e6%b4%bb%e6%8e%a2%e9%92%88liveness-probe" aria-label="Anchor">#</a></span></h3>
-<p>pod管理器管理pod的生命周期，因此需要知道pod当前的状态，即pod是否存活。</p>
+<h2 id="pod-manager" class="relative group">Pod Manager <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod-manager" aria-label="Anchor">#</a></span></h2><h3 id="存活探针liveness-probe" class="relative group">存活探针（liveness probe） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ad%98%e6%b4%bb%e6%8e%a2%e9%92%88liveness-probe" aria-label="Anchor">#</a></span></h3><p>pod管理器管理pod的生命周期，因此需要知道pod当前的状态，即pod是否存活。</p>
 <p>目前有三种存活探针：</p>
 <ol>
 <li>HTTP：能够正常响应（http响应状态码是2xx或者3xx）</li>
@@ -1044,8 +1010,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      		</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/ </span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      		</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
 </span></span></span></code></pre></div><p>k8s存在重试机制，如果探针检测到异常，会重试多次，因此客户端无需实现重试。</p>
-<h3 id="就绪探针readiness-probe" class="relative group">就绪探针（readiness probe） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%b1%e7%bb%aa%e6%8e%a2%e9%92%88readiness-probe" aria-label="Anchor">#</a></span></h3>
-<p>pod对外提供服务时，作为为其代理流量的Service需要知道pod是否已准备接收流量。</p>
+<h3 id="就绪探针readiness-probe" class="relative group">就绪探针（readiness probe） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%b1%e7%bb%aa%e6%8e%a2%e9%92%88readiness-probe" aria-label="Anchor">#</a></span></h3><p>pod对外提供服务时，作为为其代理流量的Service需要知道pod是否已准备接收流量。</p>
 <p>同存活探针相同，就绪探针也有三种：</p>
 <ol>
 <li>HTTP</li>
@@ -1070,18 +1035,19 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">ls</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">/var/ready</span><span class="w">
 </span></span></span></code></pre></div><p>探针会在容器内执行 <code>ls /var/ready</code>，如果命令返回状态码不是0，则说明命令失败——pod未就绪。</p>
-<h3 id="replicationcontroller" class="relative group">ReplicationController <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#replicationcontroller" aria-label="Anchor">#</a></span></h3>
-<p>ReplicationController是k8s中的一种资源，用来保证pod一直running。</p>
+<h3 id="replicationcontroller" class="relative group">ReplicationController <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#replicationcontroller" aria-label="Anchor">#</a></span></h3><p>ReplicationController是k8s中的一种资源，用来保证pod一直running。</p>
 <p>如果pod由于某种原因消失，那么ReplicationController就会新建一个。</p>
 <p>
 
 
 
-  <figure>
-    <img class="mx-auto my-0 rounded-md" src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021129017.png" alt="" />
-    
-  </figure>
 
+
+
+  
+  
+<figure><img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021129017.png" alt="" class="mx-auto my-0 rounded-md" />
+</figure>
 </p>
 <p>三个关键元素：</p>
 <ol>
@@ -1114,8 +1080,7 @@
 <li>修改rc中的标签选择，会导致rc创建新的pod</li>
 <li>默认情况下删除rc会导致其管理的pod被删除，如不想pod被删除，需使用参数cascade。<code>kubectl delete rc xxx --cascade=false</code></li>
 </ol>
-<h3 id="replicaset" class="relative group">ReplicaSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#replicaset" aria-label="Anchor">#</a></span></h3>
-<p>RS是升级版的RC，相较于RC，RS提供了更丰富的标签选择机制。如</p>
+<h3 id="replicaset" class="relative group">ReplicaSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#replicaset" aria-label="Anchor">#</a></span></h3><p>RS是升级版的RC，相较于RC，RS提供了更丰富的标签选择机制。如</p>
 <ol>
 <li>RS可以同时匹配一个标签的多个值，如env=dev和env=pd两种标签，而RC不可以。</li>
 <li>RS可以匹配标签而不管其值如何，RC不可以。</li>
@@ -1137,8 +1102,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">selector</span><span class="p">:</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span></code></pre></div><h3 id="daemonset" class="relative group">DaemonSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#daemonset" aria-label="Anchor">#</a></span></h3>
-<p>DS保证一个pod在每个节点有且只有一个，常用于基础组件相关的pod。</p>
+</span></span></span></code></pre></div><h3 id="daemonset" class="relative group">DaemonSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#daemonset" aria-label="Anchor">#</a></span></h3><p>DS保证一个pod在每个节点有且只有一个，常用于基础组件相关的pod。</p>
 <p>DS使用节点选择器来筛选节点。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1beta2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">DaemonSet</span><span class="w">
@@ -1159,8 +1123,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/ssd-monitor</span><span class="w">
 </span></span></span></code></pre></div><p>以上配置会在标签disk为ssd的节点上部署一个只有一个容器的pod，容器镜像为luksa/ssd-monitor</p>
-<h3 id="job" class="relative group">Job <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#job" aria-label="Anchor">#</a></span></h3>
-<p>Job用于那些只执行一次任务的pod。</p>
+<h3 id="job" class="relative group">Job <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#job" aria-label="Anchor">#</a></span></h3><p>Job用于那些只执行一次任务的pod。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">batch/v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Job</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
@@ -1179,8 +1142,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/batch-job</span><span class="w">
-</span></span></span></code></pre></div><h3 id="cronjob" class="relative group">CronJob <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#cronjob" aria-label="Anchor">#</a></span></h3>
-<p>CronJob用于执行定时任务。</p>
+</span></span></span></code></pre></div><h3 id="cronjob" class="relative group">CronJob <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#cronjob" aria-label="Anchor">#</a></span></h3><p>CronJob用于执行定时任务。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">batch/v1betal</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">CronJob</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
@@ -1199,17 +1161,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">        		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/batch-job</span><span class="w">
-</span></span></span></code></pre></div><h3 id="滚动更新-kubectl命令" class="relative group">滚动更新-kubectl命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0-kubectl%e5%91%bd%e4%bb%a4" aria-label="Anchor">#</a></span></h3>
-<p>升级版本时往往使用滚动更新的方式来避免服务不可用。kubectl提供了命令来实现。</p>
+</span></span></span></code></pre></div><h3 id="滚动更新-kubectl命令" class="relative group">滚动更新-kubectl命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0-kubectl%e5%91%bd%e4%bb%a4" aria-label="Anchor">#</a></span></h3><p>升级版本时往往使用滚动更新的方式来避免服务不可用。kubectl提供了命令来实现。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rolling-update kubia-vl kubia-v2 --image<span class="o">=</span>luksa/kubia:v2
 </span></span><span class="line"><span class="cl">Created kubia-v2 Scaling up kubia-v2 from <span class="m">0</span> to 3, scaling down kubia-vl from <span class="m">3</span> to <span class="m">0</span> <span class="o">(</span>keep <span class="m">3</span> pods available, don<span class="err">&#39;</span>t exceed <span class="m">4</span> pods<span class="o">)</span>
 </span></span></code></pre></div><p>该命令为：已有旧版本kubia-v1，想要更新为kubia-v2，新的镜像标签为kubia:v2。</p>
 <p>命令执行后会立即创建新的RC：kubia-v2，并且逐渐替换掉旧有的三个pod</p>
-<h3 id="deployment" class="relative group">Deployment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#deployment" aria-label="Anchor">#</a></span></h3>
-<p>相较于RC、RS这些对象而言，Deployment是更高级的对象。Deployment并不直接管理pod，它使用RS来管理pod。当创建一个Deployment后，会自动创建一个RS。</p>
+<h3 id="deployment" class="relative group">Deployment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#deployment" aria-label="Anchor">#</a></span></h3><p>相较于RC、RS这些对象而言，Deployment是更高级的对象。Deployment并不直接管理pod，它使用RS来管理pod。当创建一个Deployment后，会自动创建一个RS。</p>
 <p>k8s的核心理念之一就是声明式设计，因此滚动更新也应该通过声明的方式来实现，Deployment正是这样包含滚动更新的pod管理工具。</p>
-<h4 id="部署" class="relative group">部署 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%83%a8%e7%bd%b2" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/vibetal</span><span class="w">
+<h4 id="部署" class="relative group">部署 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%83%a8%e7%bd%b2" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/vibetal</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
@@ -1227,24 +1186,20 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl get replicasets 
 </span></span><span class="line"><span class="cl">NAME 							DESIRED CURRENT AGE 
 </span></span><span class="line"><span class="cl">kubia-1506449474  <span class="m">3</span> 		  <span class="m">3</span> 		  10s
-</span></span></code></pre></div><h4 id="滚动更新" class="relative group">滚动更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h4>
-<p>更新Deployment中的镜像标签</p>
+</span></span></code></pre></div><h4 id="滚动更新" class="relative group">滚动更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h4><p>更新Deployment中的镜像标签</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl <span class="nb">set</span> image deployment kubia <span class="nv">nodejs</span><span class="o">=</span>luksa/kubia:v2 
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> image updated
 </span></span></code></pre></div><p>命令执行后kubia就会由v1滚动更新至v2</p>
-<h4 id="查看滚动状态" class="relative group">查看滚动状态 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9f%a5%e7%9c%8b%e6%bb%9a%e5%8a%a8%e7%8a%b6%e6%80%81" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout status deployment kubia
+<h4 id="查看滚动状态" class="relative group">查看滚动状态 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9f%a5%e7%9c%8b%e6%bb%9a%e5%8a%a8%e7%8a%b6%e6%80%81" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout status deployment kubia
 </span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> out of <span class="m">3</span> new replicas have been updated... 
 </span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">2</span> out of <span class="m">3</span> new replicas have been updated... 
 </span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> old replicas are pending termination... 
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> successfully rolled out
-</span></span></code></pre></div><h4 id="回滚" class="relative group">回滚 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9b%9e%e6%bb%9a" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout undo deployment kubia
+</span></span></code></pre></div><h4 id="回滚" class="relative group">回滚 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9b%9e%e6%bb%9a" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout undo deployment kubia
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> rolled back
 </span></span></code></pre></div><p>指定版本</p>
 <pre tabindex="0"><code>kubectl rollout undo deployment kubia --to-revision=1
-</code></pre><h4 id="控制滚动频率" class="relative group">控制滚动频率 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%8e%a7%e5%88%b6%e6%bb%9a%e5%8a%a8%e9%a2%91%e7%8e%87" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</code></pre><h4 id="控制滚动频率" class="relative group">控制滚动频率 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%8e%a7%e5%88%b6%e6%bb%9a%e5%8a%a8%e9%a2%91%e7%8e%87" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">strategy</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">rollingUpdate</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
@@ -1254,14 +1209,11 @@
 <li>maxSurge: pod能够同时退出的最大数量，最多且默认是25%</li>
 <li>maxUnavailable：相对于期望的pod数量能够允许多少pod是不可用的，默认是25%</li>
 </ul>
-<h4 id="暂停滚动" class="relative group">暂停滚动 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9a%82%e5%81%9c%e6%bb%9a%e5%8a%a8" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout pause deployment kubia
+<h4 id="暂停滚动" class="relative group">暂停滚动 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9a%82%e5%81%9c%e6%bb%9a%e5%8a%a8" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout pause deployment kubia
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> paused
-</span></span></code></pre></div><h4 id="启动滚动" class="relative group">启动滚动 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%90%af%e5%8a%a8%e6%bb%9a%e5%8a%a8" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout resume deployment kubia
+</span></span></code></pre></div><h4 id="启动滚动" class="relative group">启动滚动 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%90%af%e5%8a%a8%e6%bb%9a%e5%8a%a8" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout resume deployment kubia
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> resumed
-</span></span></code></pre></div><h4 id="配置就绪探针" class="relative group">配置就绪探针 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%85%8d%e7%bd%ae%e5%b0%b1%e7%bb%aa%e6%8e%a2%e9%92%88" aria-label="Anchor">#</a></span></h4>
-<p>如果就绪探针获取到pod未就绪，则不会向外提供该pod的服务。</p>
+</span></span></code></pre></div><h4 id="配置就绪探针" class="relative group">配置就绪探针 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%85%8d%e7%bd%ae%e5%b0%b1%e7%bb%aa%e6%8e%a2%e9%92%88" aria-label="Anchor">#</a></span></h4><p>如果就绪探针获取到pod未就绪，则不会向外提供该pod的服务。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1beta1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
@@ -1278,21 +1230,17 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="nt">httpGet</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">						</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
-</span></span></span></code></pre></div><h3 id="statefulset" class="relative group">StatefulSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#statefulset" aria-label="Anchor">#</a></span></h3>
-<p>RC、RS、Deployment这些都是用来管理无状态的服务的，对于有状态的服务则需要使用StatefulSet。</p>
+</span></span></span></code></pre></div><h3 id="statefulset" class="relative group">StatefulSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#statefulset" aria-label="Anchor">#</a></span></h3><p>RC、RS、Deployment这些都是用来管理无状态的服务的，对于有状态的服务则需要使用StatefulSet。</p>
 <p>StatefulSet将每个pod视为不可替代的，并且具有固定名称和状态。</p>
-<h4 id="稳定的标识" class="relative group">稳定的标识 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%a8%b3%e5%ae%9a%e7%9a%84%e6%a0%87%e8%af%86" aria-label="Anchor">#</a></span></h4>
-<p>每个被SS创建的pod都会被分配一个有序的索引号，这个索引号被用来生成pod的name和hostname，并且用了关联一个稳定的存储。序列号从0开始递增。</p>
+<h4 id="稳定的标识" class="relative group">稳定的标识 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%a8%b3%e5%ae%9a%e7%9a%84%e6%a0%87%e8%af%86" aria-label="Anchor">#</a></span></h4><p>每个被SS创建的pod都会被分配一个有序的索引号，这个索引号被用来生成pod的name和hostname，并且用了关联一个稳定的存储。序列号从0开始递增。</p>
 <p>由于每个pod都是不可替代的，因此需要使用HeadlessService来提供服务。于是在DNS Server中，每个pod都拥有自己的DNS实体，每个pod都能够通过hostname进行访问。</p>
 <p>当一个pod意外结束后，SS会再创建一个相同标识的pod。</p>
-<h4 id="扩展策略" class="relative group">扩展策略 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%89%a9%e5%b1%95%e7%ad%96%e7%95%a5" aria-label="Anchor">#</a></span></h4>
-<ol>
+<h4 id="扩展策略" class="relative group">扩展策略 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%89%a9%e5%b1%95%e7%ad%96%e7%95%a5" aria-label="Anchor">#</a></span></h4><ol>
 <li>在缩容场景下，SS会自动结束高序列号的pod</li>
 <li>缩容时，SS在同一时间只会关闭一个pod，防止在分布式场景下丢失数据。</li>
 <li>缩容时，只会删除pod而不会删除PVC，防止PV被回收或者删除导致数据丢失。</li>
 </ol>
-<h4 id="example" class="relative group">example <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#example" aria-label="Anchor">#</a></span></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1beta1</span><span class="w">
+<h4 id="example" class="relative group">example <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#example" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1beta1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">StatefulSet</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
@@ -1324,14 +1272,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ReadWriteOnce</span><span class="w">
 </span></span></span></code></pre></div><p>与RS相比，多了一个<code>volumeClaimTemplates</code>，上述配置中名为<code>data</code>的<code>volumeClaimTemplates</code>会在创建pod的PVC时使用.</p>
 <p>在部署时，只有前一个pod准备好才会创建下一个pod。</p>
-<h4 id="服务发现" class="relative group">服务发现 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" aria-label="Anchor">#</a></span></h4>
-<h5 id="srv记录" class="relative group">SRV记录 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#srv%e8%ae%b0%e5%bd%95" aria-label="Anchor">#</a></span></h5>
-<p>k8s通过创建SRV记录来指向headlessService下的pod的hostname和port。</p>
+<h4 id="服务发现" class="relative group">服务发现 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" aria-label="Anchor">#</a></span></h4><h5 id="srv记录" class="relative group">SRV记录 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#srv%e8%ae%b0%e5%bd%95" aria-label="Anchor">#</a></span></h5><p>k8s通过创建SRV记录来指向headlessService下的pod的hostname和port。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl run -it srvlookup --image<span class="o">=</span>tutum/dnsutils --rm
 </span></span><span class="line"><span class="cl">	--restart<span class="o">=</span>Never -- dig SRV kubia.default.svc.cluster.local
 </span></span></code></pre></div><p>如果一个pod想要查找同一个SS下的其他pod，可以通过SRV DNS查找.</p>
-<h4 id="服务故障" class="relative group">服务故障 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e6%95%85%e9%9a%9c" aria-label="Anchor">#</a></span></h4>
-<p>假设一个节点的网络出现故障无法与其他节点交流，如果api server重新生成一个pod，那么这新旧两个pod的名称可能相同，这意味着他们使用的存储也是相同的。这时数据就有可能出现问题。</p>
+<h4 id="服务故障" class="relative group">服务故障 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e6%95%85%e9%9a%9c" aria-label="Anchor">#</a></span></h4><p>假设一个节点的网络出现故障无法与其他节点交流，如果api server重新生成一个pod，那么这新旧两个pod的名称可能相同，这意味着他们使用的存储也是相同的。这时数据就有可能出现问题。</p>
 <p>为了避免这种问题，k8s只有在确定一个pod被删掉才会重新创建pod。</p>
 <p>对于上述假设，k8s的处理流程是：</p>
 <ol>
@@ -1348,20 +1293,55 @@
 
       </div>
     </section>
-    <footer class="pt-8 max-w-prose print:hidden">
+    <footer class="max-w-prose pt-8 print:hidden">
       
   <div class="flex">
+    
+    
     
       
       
         
-        <img
-          class="!mb-0 !mt-0 me-4 h-24 w-24 rounded-full"
-          width="96"
-          height="96"
-          alt="stong"
-          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_192x192_fill_q75_box_center.jpg"
-        />
+        
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+      
+    >
+      
+      
+      
+      
+      <img
+        width="1080"
+        height="1434"
+        class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+        alt="stong"
+        loading="lazy" decoding="async"
+        
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg"
+          srcset="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_330x0_resize_q75_box.jpg 330w,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg 660w
+          
+            ,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_1024x0_resize_q75_box.jpg 1024w
+          
+          
+            ,/imgs/mine.jpg 1080w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
       
     
     <div class="place-self-center">
@@ -1387,14 +1367,8 @@
           target="_blank"
           aria-label="Email"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
+</span></a
         >
       
     
@@ -1406,14 +1380,8 @@
           target="_blank"
           aria-label="Link"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
+</span></a
         >
       
     
@@ -1425,14 +1393,8 @@
           target="_blank"
           aria-label="Github"
           rel="me noopener noreferrer"
-          >
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-
-  </span>
-
-</a
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></a
         >
       
     
@@ -1537,94 +1499,74 @@
           
           
           Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://git.io/hugo-congo" target="_blank" rel="noopener noreferrer">Congo</a>
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
         </p>
       
     </div>
-    
-    
-      <div
-        class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-      >
-        <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
-          <div
-            class="flex h-12 w-12 items-center justify-center dark:hidden"
-            title="Switch to dark appearance"
-          >
-            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
-
-  </span>
-
-
-          </div>
-          <div
-            class="hidden h-12 w-12 items-center justify-center dark:flex"
-            title="Switch to light appearance"
-          >
-            
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
-
-  </span>
-
-
-          </div>
-        </button>
-      </div>
-    
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
   </div>
   
   
 </footer>
 <div
   id="search-wrapper"
-  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
   data-url="/"
 >
   <div
     id="search-modal"
-    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
   >
-    <header class="relative z-10 flex items-center justify-between flex-none px-2">
-      <form class="flex items-center flex-auto min-w-0">
-        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
-          
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
-
-  </span>
-
-
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
         </div>
         <input
           type="search"
           id="search-query"
-          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
           placeholder="Search"
           tabindex="0"
         />
       </form>
       <button
         id="close-search-button"
-        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
         title="Close (Esc)"
       >
-        
-
-  <span class="relative inline-block align-text-bottom icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
-
-  </span>
-
-
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
       </button>
     </header>
-    <section class="flex-auto px-2 overflow-auto">
+    <section class="flex-auto overflow-auto px-2">
       <ul id="search-results">
         
       </ul>

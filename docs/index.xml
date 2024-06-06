@@ -6,13 +6,13 @@
     <description>Recent content in 记录个人的成长记录 on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Dec 2023 14:35:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2024 10:43:00 +0800</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>rust vs go</title>
-      <link>/note/rust/rust_vs_go/</link>
-      <pubDate>Sat, 30 Dec 2023 14:35:00 +0800</pubDate>
-      <guid>/note/rust/rust_vs_go/</guid>
+      <title>使用vim实现多光标功能</title>
+      <link>/internet/tool/vim-multi-op/</link>
+      <pubDate>Wed, 05 Jun 2024 10:43:00 +0800</pubDate>
+      <guid>/internet/tool/vim-multi-op/</guid>
       <description></description>
     </item>
     <item>
@@ -55,7 +55,7 @@
       <link>/internet/go/package_name/</link>
       <pubDate>Tue, 19 Sep 2023 14:10:51 +0800</pubDate>
       <guid>/internet/go/package_name/</guid>
-      <description>package # 我们在编程时往往需要通过模块来对代码进行“划分”——这个代码属于登录模块，那个代码属于充值模块。划分后的代码会更清晰，更方便查找、维护。</description>
+      <description>package #我们在编程时往往需要通过模块来对代码进行“划分”——这个代码属于登录模块，那个代码属于充值模块。划分后的代码会更清晰，更方便查找、维护。</description>
     </item>
     <item>
       <title>事件驱动系列—watermill</title>
@@ -265,7 +265,7 @@
       <link>/internet/go/append_trap/</link>
       <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
       <guid>/internet/go/append_trap/</guid>
-      <description>问题复现 # func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
+      <description>问题复现 #func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
     </item>
     <item>
       <title>MongoDB索引</title>

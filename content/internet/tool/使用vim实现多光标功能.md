@@ -37,9 +37,7 @@ const (
 3. 增加两个字符Op
 4. 按Esc进行批量插入
 
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406051035866.gif)
-
-
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406061359560.gif)
 
 ## 2. gn
 
@@ -74,25 +72,27 @@ const (
 4. 按`Esc`退出插入模式
 5. 按`n`跳转到下一个匹配字符串，然后按点`.`进行替换（重复按`.`可以直接替换下一个）
 
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406051058285.gif)
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406061403944.gif)
+
+
 
 如果想要跳过某个不想替换的单词，可以使用`n`进行跳过。
 
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406051123632.gif)
-
-## 
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406061405430.gif)
 
 ### 2. dgn
 
 可以使用dgn进行快速删除多个：
 
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406051127733.gif)
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406061406151.gif)
+
+
 
 ## 3. lsp
 
 说到批量修改，我们常用的是对某个变量重命名，这其实是用到了lsp，比如go用的是gopls。
 
-![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406051146424.gif)
+![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202406061407325.gif)
 
 ## 相关文档
 
