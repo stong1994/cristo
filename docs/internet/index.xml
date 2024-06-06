@@ -4,710 +4,555 @@
     <title></title>
     <link>/internet/</link>
     <description>Recent content on </description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Dec 2023 14:35:00 +0800</lastBuildDate><atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Dec 2023 14:35:00 +0800</lastBuildDate>
+    <atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>rust vs go</title>
       <link>/note/rust/rust_vs_go/</link>
       <pubDate>Sat, 30 Dec 2023 14:35:00 +0800</pubDate>
-      
       <guid>/note/rust/rust_vs_go/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>查询子孙部门的方案</title>
       <link>/internet/dept_sort/</link>
       <pubDate>Sat, 02 Dec 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/dept_sort/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>数据分页方案汇总</title>
       <link>/internet/pagination/</link>
       <pubDate>Fri, 01 Dec 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/pagination/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>单一职责与函数编程的一点思考</title>
       <link>/internet/go/single_responsibility_and_functional/</link>
       <pubDate>Mon, 13 Nov 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/go/single_responsibility_and_functional/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go中的依赖注入</title>
       <link>/internet/go/dependence_injection/</link>
       <pubDate>Mon, 30 Oct 2023 14:43:00 +0800</pubDate>
-      
       <guid>/internet/go/dependence_injection/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go中对测试代码使用不同的包名</title>
       <link>/internet/go/package_name/</link>
       <pubDate>Tue, 19 Sep 2023 14:10:51 +0800</pubDate>
-      
       <guid>/internet/go/package_name/</guid>
       <description>package # 我们在编程时往往需要通过模块来对代码进行“划分”——这个代码属于登录模块，那个代码属于充值模块。划分后的代码会更清晰，更方便查找、维护。</description>
     </item>
-    
     <item>
       <title>事件驱动系列—watermill</title>
       <link>/internet/event-driven/watermill/</link>
       <pubDate>Tue, 12 Sep 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/event-driven/watermill/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>事件驱动系列—背景</title>
       <link>/internet/event-driven/background/</link>
       <pubDate>Mon, 11 Sep 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/event-driven/background/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>基于OpenAI开发需要了解的事</title>
       <link>/internet/ai/dev-with-openai-should-know/</link>
       <pubDate>Mon, 11 Sep 2023 11:30:00 +0800</pubDate>
-      
       <guid>/internet/ai/dev-with-openai-should-know/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>限流器</title>
       <link>/internet/go/limiter/</link>
       <pubDate>Thu, 24 Aug 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/go/limiter/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>并发控制</title>
       <link>/internet/go/concurrent_control/</link>
       <pubDate>Tue, 22 Aug 2023 19:43:00 +0800</pubDate>
-      
       <guid>/internet/go/concurrent_control/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>短链与编码</title>
       <link>/internet/design/shorten_url_encode/</link>
       <pubDate>Mon, 21 Aug 2023 14:43:00 +0800</pubDate>
-      
       <guid>/internet/design/shorten_url_encode/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>一致性哈希</title>
       <link>/internet/design/consistent_hashing/</link>
       <pubDate>Thu, 17 Aug 2023 14:43:00 +0800</pubDate>
-      
       <guid>/internet/design/consistent_hashing/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>记一次内存泄露</title>
       <link>/internet/memory_leak_log/</link>
       <pubDate>Thu, 20 Jul 2023 17:16:00 +0800</pubDate>
-      
       <guid>/internet/memory_leak_log/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Trie簇基本介绍</title>
       <link>/internet/design/trie_intro/</link>
       <pubDate>Tue, 30 May 2023 14:36:00 +0800</pubDate>
-      
       <guid>/internet/design/trie_intro/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>CVP架构</title>
       <link>/internet/ai/law-ai-cvp/</link>
       <pubDate>Wed, 17 May 2023 11:30:00 +0800</pubDate>
-      
       <guid>/internet/ai/law-ai-cvp/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>跳跃表原理</title>
       <link>/internet/design/skip_list/</link>
       <pubDate>Tue, 16 May 2023 19:12:00 +0800</pubDate>
-      
       <guid>/internet/design/skip_list/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>自下而上的红黑树</title>
       <link>/internet/algorithm/read_black_tree/</link>
       <pubDate>Fri, 28 Apr 2023 16:32:00 +0800</pubDate>
-      
       <guid>/internet/algorithm/read_black_tree/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>12球问题</title>
       <link>/internet/algorithm/12boll/</link>
       <pubDate>Fri, 21 Apr 2023 10:00:00 +0800</pubDate>
-      
       <guid>/internet/algorithm/12boll/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>通讯录同步服务的演进</title>
       <link>/internet/design/employee_adapter/</link>
       <pubDate>Wed, 19 Apr 2023 15:12:00 +0800</pubDate>
-      
       <guid>/internet/design/employee_adapter/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>有限状态机小结</title>
       <link>/internet/design/fsm/</link>
       <pubDate>Wed, 22 Mar 2023 14:43:00 +0800</pubDate>
-      
       <guid>/internet/design/fsm/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>相较于go, rust好在哪</title>
       <link>/note/rust/the_content_rust_better_than_go/</link>
       <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
-      
       <guid>/note/rust/the_content_rust_better_than_go/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>rust中引入所有权所带来的麻烦</title>
       <link>/note/rust/defect_by_ownership/</link>
       <pubDate>Thu, 16 Mar 2023 14:35:00 +0800</pubDate>
-      
       <guid>/note/rust/defect_by_ownership/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>详解flutter中的setState</title>
       <link>/internet/flutter/setstate/</link>
       <pubDate>Tue, 07 Mar 2023 20:00:00 +0800</pubDate>
-      
       <guid>/internet/flutter/setstate/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ChatGPT教我写代码——best todo</title>
       <link>/internet/ai/chatgpt_best-todo/</link>
       <pubDate>Sun, 26 Feb 2023 11:30:00 +0800</pubDate>
-      
       <guid>/internet/ai/chatgpt_best-todo/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>对于任务中心系统设计上的反思</title>
       <link>/internet/go/takcenter_review/</link>
       <pubDate>Sat, 11 Feb 2023 12:00:00 +0800</pubDate>
-      
       <guid>/internet/go/takcenter_review/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>快慢双指针中的相对速度</title>
       <link>/internet/algorithm/towpointer/</link>
       <pubDate>Sat, 11 Feb 2023 10:00:00 +0800</pubDate>
-      
       <guid>/internet/algorithm/towpointer/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go中append的坑</title>
       <link>/internet/go/append_trap/</link>
       <pubDate>Tue, 03 Jan 2023 14:10:51 +0800</pubDate>
-      
       <guid>/internet/go/append_trap/</guid>
       <description>问题复现 # func main() { a := []int{3, 1, 5, 8} b := append(a[:1], a[2:].</description>
     </item>
-    
     <item>
       <title>MongoDB索引</title>
       <link>/internet/depth/mongo_index/</link>
       <pubDate>Thu, 22 Dec 2022 16:05:00 +0800</pubDate>
-      
       <guid>/internet/depth/mongo_index/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Marshal具有相同json tag的结构体</title>
       <link>/internet/go/marshal_same_tag/</link>
       <pubDate>Tue, 20 Dec 2022 14:50:00 +0800</pubDate>
-      
       <guid>/internet/go/marshal_same_tag/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go设计之json</title>
       <link>/internet/go/json/</link>
       <pubDate>Thu, 15 Dec 2022 14:50:00 +0800</pubDate>
-      
       <guid>/internet/go/json/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go中unmarshal的坑</title>
       <link>/internet/go/unmarshal_trap/</link>
       <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
-      
       <guid>/internet/go/unmarshal_trap/</guid>
       <description>encoding/json是go中内置的json序列化工具库，但是如果随意使用而不了解其内部实现的话就可能会带来一些困扰。</description>
     </item>
-    
     <item>
       <title>如何获得更多的摸鱼时间</title>
       <link>/internet/get_more_free_work_time/</link>
       <pubDate>Sun, 11 Dec 2022 13:10:51 +0800</pubDate>
-      
       <guid>/internet/get_more_free_work_time/</guid>
       <description>互联网这个行业最大的好处就是可以不断学习，当然，对于某些人来说，就可能是一个缺点。</description>
     </item>
-    
     <item>
       <title>设计模式之适配器、装饰器、外观</title>
       <link>/internet/design/adaptor/</link>
       <pubDate>Tue, 15 Nov 2022 11:17:00 +0800</pubDate>
-      
       <guid>/internet/design/adaptor/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>设计模式之单例模式</title>
       <link>/internet/design/singleton/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
-      
       <guid>/internet/design/singleton/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>设计模式之模版方法模式</title>
       <link>/internet/design/template/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
-      
       <guid>/internet/design/template/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>设计模式之迭代器、组合</title>
       <link>/internet/design/iterator/</link>
       <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
-      
       <guid>/internet/design/iterator/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>设计模式之工厂模式</title>
       <link>/internet/design/factory/</link>
       <pubDate>Sun, 13 Nov 2022 19:45:00 +0800</pubDate>
-      
       <guid>/internet/design/factory/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>设计模式之观察者模式</title>
       <link>/internet/design/observer/</link>
       <pubDate>Fri, 11 Nov 2022 19:45:00 +0800</pubDate>
-      
       <guid>/internet/design/observer/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>SOLID原则</title>
       <link>/internet/design/solid/</link>
       <pubDate>Fri, 04 Nov 2022 17:23:00 +0800</pubDate>
-      
       <guid>/internet/design/solid/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>zap-优雅的可选配置</title>
       <link>/internet/go/zap/options/</link>
       <pubDate>Wed, 02 Nov 2022 17:23:00 +0800</pubDate>
-      
       <guid>/internet/go/zap/options/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go设计之sync.Map</title>
       <link>/internet/go/syncmap/</link>
       <pubDate>Mon, 31 Oct 2022 11:00:00 +0800</pubDate>
-      
       <guid>/internet/go/syncmap/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go设计之errgroup</title>
       <link>/internet/go/errgroup/</link>
       <pubDate>Mon, 31 Oct 2022 00:01:00 +0800</pubDate>
-      
       <guid>/internet/go/errgroup/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>antlr4-减号和负号</title>
       <link>/internet/tool/antlr4-negative-and-minus/</link>
       <pubDate>Sun, 30 Oct 2022 20:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/antlr4-negative-and-minus/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>antlr4实战</title>
       <link>/internet/tool/antlr4-with-go/</link>
       <pubDate>Sat, 29 Oct 2022 20:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/antlr4-with-go/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>antlr4-理论基础</title>
       <link>/internet/tool/antlr4-theory/</link>
       <pubDate>Fri, 28 Oct 2022 20:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/antlr4-theory/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>antlr4-安装</title>
       <link>/internet/tool/antlr4-install/</link>
       <pubDate>Thu, 27 Oct 2022 20:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/antlr4-install/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Athens安装及使用</title>
       <link>/internet/tool/athens/</link>
       <pubDate>Tue, 11 Oct 2022 14:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/athens/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>python之包管理工具</title>
       <link>/internet/python/package_manager/</link>
       <pubDate>Sun, 31 Jul 2022 16:14:00 +0800</pubDate>
-      
       <guid>/internet/python/package_manager/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>rust基础笔记</title>
       <link>/note/rust/base/</link>
       <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
-      
       <guid>/note/rust/base/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>记录一次保持业务规则一致性的小优化</title>
       <link>/internet/go/channel/</link>
       <pubDate>Wed, 11 May 2022 15:39:00 +0800</pubDate>
-      
       <guid>/internet/go/channel/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>为什么我没有做出这道算法题</title>
       <link>/internet/why_not_solve_arithmetic_problem/</link>
       <pubDate>Wed, 11 May 2022 10:30:51 +0800</pubDate>
-      
       <guid>/internet/why_not_solve_arithmetic_problem/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>理解TCP协议的可靠性</title>
       <link>/internet/network/tcp/reliability/</link>
       <pubDate>Mon, 28 Mar 2022 17:20:00 +0800</pubDate>
-      
       <guid>/internet/network/tcp/reliability/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>理解TCP握手和挥手</title>
       <link>/internet/network/tcp_connection/</link>
       <pubDate>Sun, 27 Mar 2022 21:19:00 +0800</pubDate>
-      
       <guid>/internet/network/tcp_connection/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>在浏览器访问一个网址都经历了哪些</title>
       <link>/internet/internet/browser_visit/</link>
       <pubDate>Fri, 25 Mar 2022 15:58:00 +0800</pubDate>
-      
       <guid>/internet/internet/browser_visit/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Redis事务</title>
       <link>/internet/design/redis_transaction/</link>
       <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
-      
       <guid>/internet/design/redis_transaction/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Redis缓存设计中的问题</title>
       <link>/internet/design/redis_cache_design/</link>
       <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
-      
       <guid>/internet/design/redis_cache_design/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Redis复制、哨兵、集群</title>
       <link>/internet/design/redis_multi_server/</link>
       <pubDate>Thu, 24 Mar 2022 11:33:00 +0800</pubDate>
-      
       <guid>/internet/design/redis_multi_server/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Redis持久化机制实现</title>
       <link>/internet/depth/redis_durability/</link>
       <pubDate>Mon, 21 Mar 2022 11:08:00 +0800</pubDate>
-      
       <guid>/internet/depth/redis_durability/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go中的测试</title>
       <link>/internet/go/component_test/</link>
       <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
-      
       <guid>/internet/go/component_test/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>go设计之channel</title>
       <link>/internet/go/channel/</link>
       <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
-      
       <guid>/internet/go/channel/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>plantuml安装</title>
       <link>/internet/tool/plantuml/</link>
       <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
-      
       <guid>/internet/tool/plantuml/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Manacher算法</title>
       <link>/internet/algorithm/manacher/</link>
       <pubDate>Sat, 12 Feb 2022 16:32:00 +0800</pubDate>
-      
       <guid>/internet/algorithm/manacher/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>KMP算法</title>
       <link>/internet/algorithm/kmp/</link>
       <pubDate>Fri, 28 Jan 2022 16:32:00 +0800</pubDate>
-      
       <guid>/internet/algorithm/kmp/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>理解事务：InnoDB的ACID</title>
       <link>/internet/mysql/acid/</link>
       <pubDate>Sun, 16 Jan 2022 17:05:00 +0800</pubDate>
-      
       <guid>/internet/mysql/acid/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>查询、插入、删除、更新一条MySQL记录都经历了什么</title>
       <link>/internet/MySQL/curd/</link>
       <pubDate>Thu, 06 Jan 2022 17:05:00 +0800</pubDate>
-      
       <guid>/internet/MySQL/curd/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>InnoDB存储引擎的物理结构</title>
       <link>/internet/mysql/InnoDB_struct/</link>
       <pubDate>Mon, 03 Jan 2022 13:32:00 +0800</pubDate>
-      
       <guid>/internet/mysql/InnoDB_struct/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>如何写没有bug的代码</title>
       <link>/internet/how_to_code_without_bug/</link>
       <pubDate>Sat, 04 Dec 2021 23:31:51 +0800</pubDate>
-      
       <guid>/internet/how_to_code_without_bug/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>简述redis的基本数据结构</title>
       <link>/internet/depth/redis_base_design/</link>
       <pubDate>Mon, 22 Nov 2021 16:05:00 +0800</pubDate>
-      
       <guid>/internet/depth/redis_base_design/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>以真实经历谈分层</title>
       <link>/internet/depth/layer/</link>
       <pubDate>Sat, 20 Nov 2021 13:20:00 +0800</pubDate>
-      
       <guid>/internet/depth/layer/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>谈代码规范、思想</title>
       <link>/internet/depth/code_thought/</link>
       <pubDate>Wed, 06 Oct 2021 17:05:00 +0800</pubDate>
-      
       <guid>/internet/depth/code_thought/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>异地多活</title>
       <link>/internet/design/dboat/</link>
       <pubDate>Mon, 04 Oct 2021 22:32:00 +0800</pubDate>
-      
       <guid>/internet/design/dboat/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>灰度网关</title>
       <link>/internet/design/gray_gateway/</link>
       <pubDate>Sun, 03 Oct 2021 23:57:00 +0800</pubDate>
-      
       <guid>/internet/design/gray_gateway/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>事件分发平台</title>
       <link>/internet/design/evps/</link>
       <pubDate>Fri, 01 Oct 2021 19:26:00 +0800</pubDate>
-      
       <guid>/internet/design/evps/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>统一支付系统</title>
       <link>/internet/design/basepay/</link>
       <pubDate>Thu, 30 Sep 2021 14:31:11 +0800</pubDate>
-      
       <guid>/internet/design/basepay/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>DDD实战-笔记篇</title>
       <link>/internet/ddd/practise/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
-      
       <guid>/internet/ddd/practise/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>DDD进阶-笔记篇</title>
       <link>/internet/ddd/advance/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
-      
       <guid>/internet/ddd/advance/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>DDD基础-笔记篇</title>
       <link>/internet/ddd/base/</link>
       <pubDate>Fri, 29 Jan 2021 23:07:51 +0800</pubDate>
-      
       <guid>/internet/ddd/base/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

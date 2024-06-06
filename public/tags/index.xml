@@ -2,19 +2,60 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on </title>
-    <link>/tags/</link>
+    <link>//localhost:1313/tags/</link>
     <description>Recent content in Tags on </description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 31 Jan 2021 16:30:51 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>life</title>
-      <link>/tags/life/</link>
-      <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
-      
-      <guid>/tags/life/</guid>
+      <title>Icons</title>
+      <link>//localhost:1313/tags/icons/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/icons/</guid>
       <description></description>
     </item>
-    
+    <item>
+      <title>Sample</title>
+      <link>//localhost:1313/tags/sample/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/sample/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shortcodes</title>
+      <link>//localhost:1313/tags/shortcodes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/shortcodes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gn</title>
+      <link>//localhost:1313/tags/gn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/gn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vim</title>
+      <link>//localhost:1313/tags/vim/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/vim/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Virtual</title>
+      <link>//localhost:1313/tags/virtual/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/virtual/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Life</title>
+      <link>//localhost:1313/tags/life/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/life/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

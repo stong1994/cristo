@@ -2,145 +2,116 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>/book/</link>
+    <link>//localhost:1313/book/</link>
     <description>Recent content on </description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Nov 2022 18:30:00 +0800</lastBuildDate><atom:link href="/book/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Nov 2022 18:30:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/book/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用景观思维解决复杂问题</title>
-      <link>/other/landscape_thinking/</link>
+      <link>//localhost:1313/other/landscape_thinking/</link>
       <pubDate>Mon, 07 Nov 2022 18:30:00 +0800</pubDate>
-      
-      <guid>/other/landscape_thinking/</guid>
+      <guid>//localhost:1313/other/landscape_thinking/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《千面英雄》</title>
-      <link>/book/philosophy/hero_with_a_thousand_faces/</link>
+      <link>//localhost:1313/book/philosophy/hero_with_a_thousand_faces/</link>
       <pubDate>Sun, 12 Jun 2022 16:41:00 +0800</pubDate>
-      
-      <guid>/book/philosophy/hero_with_a_thousand_faces/</guid>
+      <guid>//localhost:1313/book/philosophy/hero_with_a_thousand_faces/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>每个人都应该做《减法》</title>
-      <link>/book/improve/subtract/</link>
+      <link>//localhost:1313/book/improve/subtract/</link>
       <pubDate>Mon, 09 May 2022 21:30:00 +0800</pubDate>
-      
-      <guid>/book/improve/subtract/</guid>
+      <guid>//localhost:1313/book/improve/subtract/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>2021年阅读书单</title>
-      <link>/book/book_list_2021/</link>
+      <link>//localhost:1313/book/book_list_2021/</link>
       <pubDate>Wed, 09 Feb 2022 20:11:00 +0800</pubDate>
-      
-      <guid>/book/book_list_2021/</guid>
+      <guid>//localhost:1313/book/book_list_2021/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《洞见》</title>
-      <link>/book/philosophy/why_buddhism_is_true/</link>
+      <link>//localhost:1313/book/philosophy/why_buddhism_is_true/</link>
       <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
-      
-      <guid>/book/philosophy/why_buddhism_is_true/</guid>
+      <guid>//localhost:1313/book/philosophy/why_buddhism_is_true/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>塔勒布四部曲之《黑天鹅》</title>
-      <link>/book/philosophy/taleb_four_book/</link>
+      <link>//localhost:1313/book/philosophy/taleb_four_book/</link>
       <pubDate>Tue, 04 Jan 2022 16:24:00 +0800</pubDate>
-      
-      <guid>/book/philosophy/taleb_four_book/</guid>
+      <guid>//localhost:1313/book/philosophy/taleb_four_book/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《关键路径》</title>
-      <link>/book/philosophy/critical_path/</link>
+      <link>//localhost:1313/book/philosophy/critical_path/</link>
       <pubDate>Sun, 02 Jan 2022 16:24:00 +0800</pubDate>
-      
-      <guid>/book/philosophy/critical_path/</guid>
+      <guid>//localhost:1313/book/philosophy/critical_path/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《HR&#43;三支柱：人力资源管理转型升级与实践创新》</title>
-      <link>/book/improve/hr_three-pillar-mode/</link>
+      <link>//localhost:1313/book/improve/hr_three-pillar-mode/</link>
       <pubDate>Fri, 17 Dec 2021 13:57:00 +0800</pubDate>
-      
-      <guid>/book/improve/hr_three-pillar-mode/</guid>
+      <guid>//localhost:1313/book/improve/hr_three-pillar-mode/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《菊与刀》</title>
-      <link>/book/anthropology/TheChrysanthemumAndTheSword/</link>
+      <link>//localhost:1313/book/anthropology/TheChrysanthemumAndTheSword/</link>
       <pubDate>Sun, 12 Dec 2021 21:36:00 +0800</pubDate>
-      
-      <guid>/book/anthropology/TheChrysanthemumAndTheSword/</guid>
+      <guid>//localhost:1313/book/anthropology/TheChrysanthemumAndTheSword/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《深度工作》</title>
-      <link>/book/improve/deep_work/</link>
+      <link>//localhost:1313/book/improve/deep_work/</link>
       <pubDate>Thu, 07 Oct 2021 20:20:00 +0800</pubDate>
-      
-      <guid>/book/improve/deep_work/</guid>
+      <guid>//localhost:1313/book/improve/deep_work/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《论个人在历史上的作用问题》</title>
-      <link>/book/philosophy/person_and_history/</link>
+      <link>//localhost:1313/book/philosophy/person_and_history/</link>
       <pubDate>Mon, 15 Mar 2021 00:09:00 +0800</pubDate>
-      
-      <guid>/book/philosophy/person_and_history/</guid>
+      <guid>//localhost:1313/book/philosophy/person_and_history/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《债务危机》</title>
-      <link>/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
+      <link>//localhost:1313/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</link>
       <pubDate>Sun, 28 Feb 2021 23:25:51 +0800</pubDate>
-      
-      <guid>/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
+      <guid>//localhost:1313/book/improve/A_Template_For_Understanding_BIG_DEBT_CRISES/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《原则》</title>
-      <link>/book/improve/principles/</link>
+      <link>//localhost:1313/book/improve/principles/</link>
       <pubDate>Sun, 28 Feb 2021 16:19:51 +0800</pubDate>
-      
-      <guid>/book/improve/principles/</guid>
+      <guid>//localhost:1313/book/improve/principles/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《这就是OKR》</title>
-      <link>/book/improve/measure_what_matters/</link>
+      <link>//localhost:1313/book/improve/measure_what_matters/</link>
       <pubDate>Sun, 31 Jan 2021 00:10:51 +0800</pubDate>
-      
-      <guid>/book/improve/measure_what_matters/</guid>
+      <guid>//localhost:1313/book/improve/measure_what_matters/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>《卓有成效的管理者》</title>
-      <link>/book/improve/the_effective_executive/</link>
+      <link>//localhost:1313/book/improve/the_effective_executive/</link>
       <pubDate>Fri, 29 Jan 2021 23:31:51 +0800</pubDate>
-      
-      <guid>/book/improve/the_effective_executive/</guid>
+      <guid>//localhost:1313/book/improve/the_effective_executive/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

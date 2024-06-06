@@ -3,7 +3,7 @@ title: "rust vs go"
 date: 2023-12-30T14:35:00+08:00
 url: "/note/rust/rust_vs_go"
 isCJKLanguage: true
-draft: false
+draft: true
 toc:  true
 keywords:
   - rust

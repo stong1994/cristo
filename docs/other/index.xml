@@ -4,179 +4,142 @@
     <title></title>
     <link>/other/</link>
     <description>Recent content on </description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Oct 2023 13:13:00 +0800</lastBuildDate><atom:link href="/other/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Oct 2023 13:13:00 +0800</lastBuildDate>
+    <atom:link href="/other/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>对于焦虑的思考</title>
       <link>/life/think_about_anxiety/</link>
       <pubDate>Fri, 27 Oct 2023 13:13:00 +0800</pubDate>
-      
       <guid>/life/think_about_anxiety/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>浅谈价值</title>
       <link>/mental_model/value/</link>
       <pubDate>Thu, 18 May 2023 19:00:00 +0800</pubDate>
-      
       <guid>/mental_model/value/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>1&#43;1=?</title>
       <link>/book/philosophy/1_plus_1/</link>
       <pubDate>Sun, 19 Feb 2023 10:00:00 +0800</pubDate>
-      
       <guid>/book/philosophy/1_plus_1/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ChatGPT 龟兔赛跑 无穷递归</title>
       <link>/book/philosophy/chatgpt_race_recursion/</link>
       <pubDate>Thu, 16 Feb 2023 10:00:00 +0800</pubDate>
-      
       <guid>/book/philosophy/chatgpt_race_recursion/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>为什么要读书</title>
       <link>/book/philosophy/why_read_book/</link>
       <pubDate>Sat, 07 Jan 2023 10:00:00 +0800</pubDate>
-      
       <guid>/book/philosophy/why_read_book/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>程序员思维VS工程师思维</title>
       <link>/life/coder_vs_engineer/</link>
       <pubDate>Sun, 20 Nov 2022 23:31:51 +0800</pubDate>
-      
       <guid>/life/coder_vs_engineer/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>老板和员工之间的无效沟通</title>
       <link>/life/boss_emp_invalid_communicate/</link>
       <pubDate>Tue, 05 Jul 2022 15:35:00 +0800</pubDate>
-      
       <guid>/life/boss_emp_invalid_communicate/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>WHY-IS-HOW</title>
       <link>/life/why_is_how/</link>
       <pubDate>Wed, 22 Jun 2022 10:23:00 +0800</pubDate>
-      
       <guid>/life/why_is_how/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>演绎法与归纳法</title>
       <link>/life/deduction_conclude/</link>
       <pubDate>Sat, 18 Jun 2022 23:48:00 +0800</pubDate>
-      
       <guid>/life/deduction_conclude/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>第一性原理</title>
       <link>/book/philosophy/first_principle/</link>
       <pubDate>Mon, 13 Jun 2022 16:50:00 +0800</pubDate>
-      
       <guid>/book/philosophy/first_principle/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>跳槽是涨薪的最快方式?</title>
       <link>/life/not_to_change_job_for_more_money/</link>
       <pubDate>Thu, 28 Apr 2022 13:24:00 +0800</pubDate>
-      
       <guid>/life/not_to_change_job_for_more_money/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>面试小结2022-04</title>
       <link>/life/interview_2022_04/</link>
       <pubDate>Wed, 27 Apr 2022 19:45:51 +0800</pubDate>
-      
       <guid>/life/interview_2022_04/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>论领导者在团队扩张后的心态变化</title>
       <link>/life/leader_mentality_change/</link>
       <pubDate>Fri, 04 Mar 2022 11:03:00 +0800</pubDate>
-      
       <guid>/life/leader_mentality_change/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>跨越时空的对话——袁了凡与阿德勒</title>
       <link>/life/dialog/liaofanyuan_adler/</link>
       <pubDate>Sat, 26 Feb 2022 13:03:00 +0800</pubDate>
-      
       <guid>/life/dialog/liaofanyuan_adler/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>2021年个人总结</title>
       <link>/life/summory_2021/</link>
       <pubDate>Wed, 09 Feb 2022 19:27:00 +0800</pubDate>
-      
       <guid>/life/summory_2021/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>解决问题时的短路问题</title>
       <link>/life/short_circuit_when_solve_problem/</link>
       <pubDate>Sun, 09 Jan 2022 17:25:00 +0800</pubDate>
-      
       <guid>/life/short_circuit_when_solve_problem/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>和时间赛跑</title>
       <link>/life/run_with_time/</link>
       <pubDate>Sun, 19 Dec 2021 23:39:00 +0800</pubDate>
-      
       <guid>/life/run_with_time/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>琦哥</title>
       <link>/life/qi/</link>
       <pubDate>Sun, 14 Nov 2021 18:07:00 +0800</pubDate>
-      
       <guid>/life/qi/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>不花一分钱搭建一个博客</title>
       <link>/life/build_free_blog/</link>
       <pubDate>Sun, 31 Jan 2021 16:30:51 +0800</pubDate>
-      
       <guid>/life/build_free_blog/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

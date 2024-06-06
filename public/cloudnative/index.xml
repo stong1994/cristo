@@ -2,145 +2,116 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>/cloudnative/</link>
+    <link>//localhost:1313/cloudnative/</link>
     <description>Recent content on </description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate><atom:link href="/cloudnative/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Oct 2022 21:19:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/cloudnative/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>docker基础理论</title>
-      <link>/cloudnative/docker/base/</link>
+      <link>//localhost:1313/cloudnative/docker/base/</link>
       <pubDate>Sat, 22 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/docker/base/</guid>
+      <guid>//localhost:1313/cloudnative/docker/base/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-ServiceAccount&amp;RBAC</title>
-      <link>/cloudnative/k8s/serviceAccount_rbac/</link>
+      <link>//localhost:1313/cloudnative/k8s/serviceAccount_rbac/</link>
       <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/serviceAccount_rbac/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/serviceAccount_rbac/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-可计算资源管理</title>
-      <link>/cloudnative/k8s/computational_resource/</link>
+      <link>//localhost:1313/cloudnative/k8s/computational_resource/</link>
       <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/computational_resource/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/computational_resource/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-调度器</title>
-      <link>/cloudnative/k8s/scheduler/</link>
+      <link>//localhost:1313/cloudnative/k8s/scheduler/</link>
       <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/scheduler/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/scheduler/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-自动伸缩</title>
-      <link>/cloudnative/k8s/autoscaling/</link>
+      <link>//localhost:1313/cloudnative/k8s/autoscaling/</link>
       <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/autoscaling/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/autoscaling/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s架构设计</title>
-      <link>/cloudnative/k8s/architecture/</link>
+      <link>//localhost:1313/cloudnative/k8s/architecture/</link>
       <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/architecture/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/architecture/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-volume</title>
-      <link>/cloudnative/k8s/volume/</link>
+      <link>//localhost:1313/cloudnative/k8s/volume/</link>
       <pubDate>Wed, 12 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/volume/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/volume/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-service</title>
-      <link>/cloudnative/k8s/service/</link>
+      <link>//localhost:1313/cloudnative/k8s/service/</link>
       <pubDate>Tue, 11 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/service/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/service/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-pod</title>
-      <link>/cloudnative/k8s/pod/</link>
+      <link>//localhost:1313/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 08 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/pod/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/pod/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-volume</title>
-      <link>/cloudnative/k8s/configration/</link>
+      <link>//localhost:1313/cloudnative/k8s/configration/</link>
       <pubDate>Fri, 07 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/configration/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/configration/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-metadata</title>
-      <link>/cloudnative/k8s/metadata/</link>
+      <link>//localhost:1313/cloudnative/k8s/metadata/</link>
       <pubDate>Thu, 06 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/metadata/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/metadata/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>k8s-对象</title>
-      <link>/cloudnative/k8s/pod/</link>
+      <link>//localhost:1313/cloudnative/k8s/pod/</link>
       <pubDate>Sat, 01 Oct 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/k8s/pod/</guid>
+      <guid>//localhost:1313/cloudnative/k8s/pod/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Istio可观测性</title>
-      <link>/cloudnative/istio/observe/</link>
+      <link>//localhost:1313/cloudnative/istio/observe/</link>
       <pubDate>Wed, 17 Aug 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/istio/observe/</guid>
+      <guid>//localhost:1313/cloudnative/istio/observe/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Istio流量治理</title>
-      <link>/cloudnative/istio/traffic/</link>
+      <link>//localhost:1313/cloudnative/istio/traffic/</link>
       <pubDate>Thu, 11 Aug 2022 13:16:00 +0800</pubDate>
-      
-      <guid>/cloudnative/istio/traffic/</guid>
+      <guid>//localhost:1313/cloudnative/istio/traffic/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Istio总览</title>
-      <link>/cloudnative/istio/overview/</link>
+      <link>//localhost:1313/cloudnative/istio/overview/</link>
       <pubDate>Sun, 07 Aug 2022 21:19:00 +0800</pubDate>
-      
-      <guid>/cloudnative/istio/overview/</guid>
+      <guid>//localhost:1313/cloudnative/istio/overview/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

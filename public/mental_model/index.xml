@@ -2,9 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>/mental_model/</link>
+    <link>//localhost:1313/mental_model/</link>
     <description>Recent content on </description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="/mental_model/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="//localhost:1313/mental_model/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -1,26 +1,33 @@
 
 [params]
-  mainSections = ["internet","cloudnative", "web3","book","other","mental_model"] # 用于获取Recent模块的文章列表，选为全部即可。
-  dateFormat = "2 January 2006"
-  languageCode = "en"
-  languageName = "English"
-  displayName = "EN"
-  isoCode = "en"
-  weight = 1
-  rtl = false
-  title = "主页"
-  description = "夭寿不贰，修身以俟"
-  # copyright = "Copy, _right?_ :thinking_face:"
-  
-[author]
-  name = "stong"
-  image = "imgs/mine.jpg"
-  # headline = "I'm only human"
-  bio = "进击的程序员"
-  links = [
-    { email = "st5983@outlook.com" },
-    { link = "https://stong1994.github.io/" },
-    { github = "https://github.com/stong1994" },
+mainSections = [
+  "internet",
+  "cloudnative",
+  "web3",
+  "book",
+  "other",
+  "mental_model",
+] # 用于获取Recent模块的文章列表，选为全部即可。
+dateFormat = "2 January 2006"
+languageCode = "en"
+languageName = "English"
+displayName = "EN"
+isoCode = "en"
+weight = 1
+rtl = false
+title = "主页"
+description = "夭寿不贰，修身以俟"
+# copyright = "Copy, _right?_ :thinking_face:"
+
+[params.author]
+name = "stong"
+image = "imgs/mine.jpg"
+# headline = "I'm only human"
+bio = "进击的程序员"
+links = [
+  { email = "st5983@outlook.com" },
+  { link = "https://stong1994.github.io/" },
+  { github = "https://github.com/stong1994" },
   #   { amazon = "https://www.amazon.com/hz/wishlist/ls/wishlist-id" },
   #   { apple = "https://www.apple.com" },
   #   { blogger = "https://username.blogspot.com/" },
@@ -59,4 +66,4 @@
   #   { twitter = "https://twitter.com/username" },
   #   { whatsapp = "https://wa.me/phone-number" },
   #   { youtube = "https://youtube.com/username" },
-  ]
+]
