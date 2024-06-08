@@ -6,27 +6,20 @@
     <description>Recent content in 记录个人的成长记录 on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 08 Jun 2024 23:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Icons</title>
-      <link>//localhost:1313/internet/tool/icons/</link>
-      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/internet/tool/icons/</guid>
-      <description>Congo has built-in support for a</description>
+      <title>漫谈ai</title>
+      <link>//localhost:1313/internet/ai/talking_about_ai/</link>
+      <pubDate>Sat, 08 Jun 2024 23:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/ai/talking_about_ai/</guid>
+      <description></description>
     </item>
     <item>
       <title>使用vim实现多光标功能</title>
       <link>//localhost:1313/internet/tool/vim-multi-op/</link>
       <pubDate>Wed, 05 Jun 2024 10:43:00 +0800</pubDate>
       <guid>//localhost:1313/internet/tool/vim-multi-op/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>rust vs go</title>
-      <link>//localhost:1313/note/rust/rust_vs_go/</link>
-      <pubDate>Sat, 30 Dec 2023 14:35:00 +0800</pubDate>
-      <guid>//localhost:1313/note/rust/rust_vs_go/</guid>
       <description></description>
     </item>
     <item>

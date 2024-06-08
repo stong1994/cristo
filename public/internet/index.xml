@@ -6,8 +6,15 @@
     <description>Recent content on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Jun 2024 10:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 08 Jun 2024 23:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>漫谈ai</title>
+      <link>//localhost:1313/internet/ai/talking_about_ai/</link>
+      <pubDate>Sat, 08 Jun 2024 23:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/ai/talking_about_ai/</guid>
+      <description></description>
+    </item>
     <item>
       <title>使用vim实现多光标功能</title>
       <link>//localhost:1313/internet/tool/vim-multi-op/</link>
