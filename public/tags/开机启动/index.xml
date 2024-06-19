@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>开机启动 on </title>
+    <link>//localhost:1313/tags/%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/</link>
+    <description>Recent content in 开机启动 on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 19 Jun 2024 10:43:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mac系统设置程序开机启动</title>
+      <link>//localhost:1313/internet/tool/command_autorun_mac/</link>
+      <pubDate>Wed, 19 Jun 2024 10:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/tool/command_autorun_mac/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
