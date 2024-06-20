@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mail on </title>
+    <link>//localhost:1313/tags/mail/</link>
+    <description>Recent content in Mail on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 20 Jun 2024 12:43:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/mail/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在终端使用命令连接邮箱服务器</title>
+      <link>//localhost:1313/internet/tool/connect_mail_server/</link>
+      <pubDate>Thu, 20 Jun 2024 12:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/tool/connect_mail_server/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

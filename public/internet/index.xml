@@ -6,8 +6,22 @@
     <description>Recent content on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Jun 2024 23:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 Jun 2024 12:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在终端使用命令连接邮箱服务器</title>
+      <link>//localhost:1313/internet/tool/connect_mail_server/</link>
+      <pubDate>Thu, 20 Jun 2024 12:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/tool/connect_mail_server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>mac系统设置程序开机启动</title>
+      <link>//localhost:1313/internet/tool/command_autorun_mac/</link>
+      <pubDate>Wed, 19 Jun 2024 10:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/tool/command_autorun_mac/</guid>
+      <description></description>
+    </item>
     <item>
       <title>漫谈ai</title>
       <link>//localhost:1313/internet/ai/talking_about_ai/</link>
