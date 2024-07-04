@@ -6,8 +6,15 @@
     <description>Recent content on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Jun 2024 12:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jul 2024 10:43:00 +0800</lastBuildDate>
     <atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust中的惰性计算</title>
+      <link>/internet/rust/lay_evaluation/</link>
+      <pubDate>Mon, 01 Jul 2024 10:43:00 +0800</pubDate>
+      <guid>/internet/rust/lay_evaluation/</guid>
+      <description></description>
+    </item>
     <item>
       <title>在终端使用命令连接邮箱服务器</title>
       <link>/internet/tool/connect_mail_server/</link>
