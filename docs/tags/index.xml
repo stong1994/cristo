@@ -6,8 +6,36 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jul 2024 12:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jul 2024 08:43:00 +0800</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chrome Extension</title>
+      <link>/tags/chrome-extension/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/chrome-extension/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flutter</title>
+      <link>/tags/flutter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/flutter/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>/tags/rust/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tool</title>
+      <link>/tags/tool/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/tool/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Dig</title>
       <link>/tags/dig/</link>
@@ -34,13 +62,6 @@
       <link>/tags/lazy-evaluation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>/tags/lazy-evaluation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Rust</title>
-      <link>/tags/rust/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>/tags/rust/</guid>
       <description></description>
     </item>
     <item>
