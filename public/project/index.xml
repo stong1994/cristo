@@ -6,7 +6,14 @@
     <description>Recent content in Projects on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Fri, 05 Jul 2024 08:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/project/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>秘钥本</title>
+      <link>//localhost:1313/project/secret_book/</link>
+      <pubDate>Fri, 05 Jul 2024 08:43:00 +0800</pubDate>
+      <guid>//localhost:1313/project/secret_book/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

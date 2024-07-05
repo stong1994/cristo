@@ -6,8 +6,36 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jul 2024 12:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jul 2024 08:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chrome Extension</title>
+      <link>//localhost:1313/tags/chrome-extension/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/chrome-extension/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flutter</title>
+      <link>//localhost:1313/tags/flutter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/flutter/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>//localhost:1313/tags/rust/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tool</title>
+      <link>//localhost:1313/tags/tool/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/tags/tool/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Dig</title>
       <link>//localhost:1313/tags/dig/</link>
@@ -34,13 +62,6 @@
       <link>//localhost:1313/tags/lazy-evaluation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>//localhost:1313/tags/lazy-evaluation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Rust</title>
-      <link>//localhost:1313/tags/rust/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>//localhost:1313/tags/rust/</guid>
       <description></description>
     </item>
     <item>
