@@ -4,14 +4,13 @@ date: 2023-03-18T14:35:00+08:00
 url: "/note/rust/the_content_rust_better_than_go"
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
 keywords:
   - rust
 authors:
   - stong
+tags: ["rust", "go"]
 ---
-
-
 
 ## 前言
 
@@ -57,11 +56,11 @@ idStr := strconv.Itoa(id)
 ### 三元表达式
 
 ```rust
-let number = if condition { 
-  5 
-} else { 
-  6 
-}; 
+let number = if condition {
+  5
+} else {
+  6
+};
 ```
 
 虽然rust中也不支持那种极简的三元表达式`let number = if conditon ? 5 : 6;`，不过最起码还是有的。如果是go的话，只能：
@@ -113,8 +112,6 @@ func build_user(email string, username string) User {
     }
 }
 ```
-
-
 
 ### 结构体：更新部分字段
 
@@ -214,8 +211,6 @@ enum Option<T> {
 
 **这意味着一个有数据的变量和一个不存在的变量的类型是不一样的**，一个是T,一个是`Option<T>`，这能够避免**假设某个值存在，实际却为空**的问题。
 
-
-
 ### 对字符串切片按索引获取
 
 在rust中，不能对一个不完整的字符进行切片，否则会直接panic：
@@ -236,6 +231,22 @@ println(s[0:2]) // �
 ```
 
 我个人比较喜欢rust这种处理方式，能够减少很多生产上的问题。
+
+### rust支持CTFE(Compile-Time Function Execution)
+
+rust可以在编译期间执行函数，比如初始化一个有N个0的数组：
+
+```rust
+const fn init_len() -> usize {
+    5
+}
+
+fn main() {
+    let arr = [0, init_len()];
+}
+```
+
+go不支持CTFE。
 
 ## go中好的地方
 
@@ -266,8 +277,6 @@ fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a st
 
 当然，go中确实有好的设计，比如goroutine、channel，这些就不展开说了。
 
-
-
 ## Trait vs 接口
 
 了解一个语言的使用方式，可以看其对象之间的组合方式，比如java中的继承，go中的组合。**开发代码的设计应该遵循语言的设计**。
@@ -291,8 +300,6 @@ fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a st
    }
    ```
 
-   
-
 2. 由于没有默认实现，在 Go 中，如果一个类型要实现接口，则要定义接口中的的所有方法。
 
 3. GO中的接口是鸭子类型，不用显式声明一个结构体实现了哪些接口。
@@ -302,17 +309,17 @@ fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a st
    ```rust
    trait MyTrait {
        const PI: f64;
-   
+
        fn calc_area(&self) -> f64;
    }
-   
+
    struct Circle {
        radius: f64,
    }
-   
+
    impl MyTrait for Circle {
        const PI: f64 = 3.1415926535;
-   
+
        fn calc_area(&self) -> f64 {
            Self::PI * self.radius * self.radius
        }
@@ -370,4 +377,3 @@ func (Admin) ID() string {
 我们可以看到，**rust中的trait是结构体的组件或者约束，因此一个结构体可以有多个trait来做组件或者约束。而go中的结构体只是用来做接口的适配！**
 
 因此，**在使用方式上，Rust 的 trait 更适合描述一个类型的一组行为，而 Go 的接口更适合描述具有一组行为的一个类型！**
-

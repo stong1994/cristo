@@ -4,14 +4,13 @@ date: 2023-03-16T14:35:00+08:00
 url: "/note/rust/defect_by_ownership"
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
 keywords:
   - rust
 authors:
   - stong
+tags: ["rust", "所有权"]
 ---
-
-
 
 编程语言中主要有两种回收内存的方式：手动回收和后台系统自动回收。rust提出了第三种回收方式——内存会自动地在拥有它的变量离开作用域后进行释放——也就是rust中的所有权系统。
 
@@ -24,7 +23,7 @@ authors:
 
 ## 时刻戒备所有权
 
->  一个数据在同一时间只能被一个变量拥有所有权。
+> 一个数据在同一时间只能被一个变量拥有所有权。
 
 开发者在使用一个变量的时候需要戒备这个变量是否还拥有数据的所有权.
 
@@ -60,7 +59,7 @@ fn main() {
     let name = String::from("stong");
     handle_name(&name);
 
-    println!("{}", name); 
+    println!("{}", name);
 }
 
 fn handle_name(name: &String) {
@@ -117,22 +116,22 @@ fn main() {
 
 这太麻烦了，为了方便复制结构体，rust提供了Clone trait：
 
- ```rust
- #[derive(Clone, Debug)]
- struct Person {
-     name: String,
-     age: u8,
- }
- 
- fn main() {
-     let person1 = Person {
-         name: String::from("Alice"),
-         age: 20,
-     };
-     let person2 = person1.clone();
-     println!("person1: {:?}, person2: {:?}", person1, person2);
- }
- ```
+```rust
+#[derive(Clone, Debug)]
+struct Person {
+    name: String,
+    age: u8,
+}
+
+fn main() {
+    let person1 = Person {
+        name: String::from("Alice"),
+        age: 20,
+    };
+    let person2 = person1.clone();
+    println!("person1: {:?}, person2: {:?}", person1, person2);
+}
+```
 
 ## 引入Copy trait
 
@@ -236,21 +235,6 @@ fn main() {
 }
 ```
 
-
-
 ## 最后
 
 上面的例子只是简单的介绍了一些由使用所有权系统所带来的复杂性，实际使用中，这些“规则”会不断地重复、叠加，因此对新手来说，确实需要一些时间去适应这些规则。而正是由于存在这种陡峭的学习曲线，我们才更应该知道为什么会有这些规则，这也是我写这篇文章的目的！
-
-
-
-
-
-
-
-
-
-
-
-
-
