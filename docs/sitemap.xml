@@ -4,6 +4,20 @@
   
     
       <url>
+            <loc>/book/</loc>
+            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/</loc>
+            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
             <loc>/internet/</loc>
             <lastmod>2024-07-05T19:43:00+08:00</lastmod>
           </url>
@@ -22,13 +36,6 @@
   
     
   
-    
-  
-    
-      <url>
-            <loc>/</loc>
-            <lastmod>2024-07-05T19:43:00+08:00</lastmod>
-          </url>
     
   
     
@@ -329,6 +336,8 @@
     
   
     
+  
+    
       <url>
             <loc>/internet/flutter/setstate/</loc>
             <lastmod>2023-03-07T20:00:00+08:00</lastmod>
@@ -472,13 +481,6 @@
       <url>
             <loc>/internet/design/observer/</loc>
             <lastmod>2022-11-11T19:45:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>/book/</loc>
-            <lastmod>2022-11-07T18:30:00+08:00</lastmod>
           </url>
     
   

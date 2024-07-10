@@ -22,5 +22,26 @@
       <guid>/internet/rust/lay_evaluation/</guid>
       <description></description>
     </item>
+    <item>
+      <title>相较于go, rust好在哪</title>
+      <link>/note/rust/the_content_rust_better_than_go/</link>
+      <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
+      <guid>/note/rust/the_content_rust_better_than_go/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>rust中引入所有权所带来的麻烦</title>
+      <link>/note/rust/defect_by_ownership/</link>
+      <pubDate>Thu, 16 Mar 2023 14:35:00 +0800</pubDate>
+      <guid>/note/rust/defect_by_ownership/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>rust基础笔记</title>
+      <link>/note/rust/base/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      <guid>/note/rust/base/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

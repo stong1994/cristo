@@ -139,7 +139,7 @@
     "keywords": ["rust"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "2186"
+    "wordCount": "2444"
   }
   </script>
 
@@ -663,7 +663,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2023-03-18 14:35:00 &#43;0800 CST">18 March 2023</time><span class="px-2 text-primary-500">&middot;</span><span>2186 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-03-18 14:35:00 &#43;0800 CST">18 March 2023</time><span class="px-2 text-primary-500">&middot;</span><span>2444 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -745,6 +745,7 @@
             <li><a href="#没有空值">没有空值</a></li>
             <li><a href="#对字符串切片按索引获取">对字符串切片按索引获取</a></li>
             <li><a href="#rust支持ctfecompile-time-function-execution">rust支持CTFE(Compile-Time Function Execution)</a></li>
+            <li><a href="#自动释放资源">自动释放资源</a></li>
           </ul>
         </li>
         <li><a href="#go中好的地方">go中好的地方</a></li>
@@ -899,6 +900,47 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">init_len</span><span class="p">()];</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>go不支持CTFE。</p>
+<h3 id="自动释放资源" class="relative group">自动释放资源 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%87%aa%e5%8a%a8%e9%87%8a%e6%94%be%e8%b5%84%e6%ba%90" aria-label="Anchor">#</a></span></h3><p>go中经常使用defer来释放资源，这是相比较其他语言的一种设计优势————能够更清晰、稳定的释放资源。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;file.txt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Error opening file:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Ensure the file is closed when the function returns
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">defer</span> <span class="nx">file</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Do some operations with the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>但是Rust在这种场景下是一种降维打击————<strong>资源的释放是自动的</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">prelude</span>::<span class="o">*</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">Error</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&#34;file.txt&#34;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">file</span><span class="p">.</span><span class="n">read_to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">contents</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Do some operations with the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// The file is automatically closed when `file` goes out of scope.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>这是因为Rust的所有权系统，当file超出作用域时，会自动调用drop方法，释放资源。</p>
+<p>对于自定义的资源，可以实现Drop trait来释放资源。</p>
 <h2 id="go中好的地方" class="relative group">go中好的地方 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#go%e4%b8%ad%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" aria-label="Anchor">#</a></span></h2><p><strong>大道至简！</strong></p>
 <p>go最好的地方不在于其channel、goroutine的设计，而在于其简单性，这种简单性是说go的设计很简单，不需要那么复杂的语法，看go代码很轻松，不需要很大的心智负担。</p>
 <p>比如下面这段不是很复杂的rust代码（同时使用了泛型、生命周期、trait约束）：</p>

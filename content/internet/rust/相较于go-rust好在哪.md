@@ -248,6 +248,59 @@ fn main() {
 
 go不支持CTFE。
 
+### 自动释放资源
+
+go中经常使用defer来释放资源，这是相比较其他语言的一种设计优势————能够更清晰、稳定的释放资源。
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	file, err := os.Open("file.txt")
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+
+	// Ensure the file is closed when the function returns
+	defer file.Close()
+
+	// Do some operations with the file
+	// ...
+}
+```
+
+但是Rust在这种场景下是一种降维打击————**资源的释放是自动的**:
+
+```rust
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::Error;
+
+fn main() -> Result<(), Error> {
+    let mut file = File::open("file.txt")?;
+
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+
+    // Do some operations with the file
+    // ...
+
+    // The file is automatically closed when `file` goes out of scope.
+
+    Ok(())
+}
+```
+
+这是因为Rust的所有权系统，当file超出作用域时，会自动调用drop方法，释放资源。
+
+对于自定义的资源，可以实现Drop trait来释放资源。
+
 ## go中好的地方
 
 **大道至简！**

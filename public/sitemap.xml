@@ -4,6 +4,27 @@
   
     
       <url>
+            <loc>//localhost:1313/book/</loc>
+            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/book/improve/TheInnovator&#39;sDilemma/</loc>
+            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/</loc>
+            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
             <loc>//localhost:1313/internet/</loc>
             <lastmod>2024-07-05T19:43:00+08:00</lastmod>
           </url>
@@ -22,13 +43,6 @@
   
     
   
-    
-  
-    
-      <url>
-            <loc>//localhost:1313/</loc>
-            <lastmod>2024-07-05T19:43:00+08:00</lastmod>
-          </url>
     
   
     
@@ -474,13 +488,6 @@
       <url>
             <loc>//localhost:1313/internet/design/observer/</loc>
             <lastmod>2022-11-11T19:45:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>//localhost:1313/book/</loc>
-            <lastmod>2022-11-07T18:30:00+08:00</lastmod>
           </url>
     
   
