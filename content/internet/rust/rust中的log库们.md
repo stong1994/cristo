@@ -523,3 +523,22 @@ e=200, otel.status_code=OK, http.route=/hello/{name}/{age})
     file: /Users/stong/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/tracing-actix-web-0.7.11/src/root_s
 pan_builder.rs
 ```
+
+输出内容太多，导致可读性很低，可以过滤掉一些不重要的信息：
+
+```rust
+    let skipped_fields = vec!["http.host", "http.flavor", "file"];
+    let formatting_layer = BunyanFormattingLayer::new(name, std::io::stdout)
+        .skip_fields(skipped_fields.into_iter())
+        .expect("One of the specified fields cannot be skipped");
+
+```
+
+输出：
+
+```shell
+[2024-07-11T14:51:44.069846Z]  INFO: logs blog/81862 on MacBook-Air.lan: [VISIT HELLO - START] (target=logs
+, line=40, user_age=20, user_name=stong)
+[2024-07-11T14:51:44.070002Z]  INFO: logs blog/81862 on MacBook-Air.lan: [VISIT HELLO - END] (target=logs,
+line=40, user_age=20, user_name=stong, elapsed_milliseconds=0)
+```
