@@ -139,7 +139,7 @@
     "keywords": ["rust"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "2444"
+    "wordCount": "2828"
   }
   </script>
 
@@ -663,7 +663,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2023-03-18 14:35:00 &#43;0800 CST">18 March 2023</time><span class="px-2 text-primary-500">&middot;</span><span>2444 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2023-03-18 14:35:00 &#43;0800 CST">18 March 2023</time><span class="px-2 text-primary-500">&middot;</span><span>2828 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">6 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -881,6 +881,32 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p><strong>这意味着一个有数据的变量和一个不存在的变量的类型是不一样的</strong>，一个是T,一个是<code>Option&lt;T&gt;</code>，这能够避免<strong>假设某个值存在，实际却为空</strong>的问题。</p>
+<p>Option非常有用，比如指标有个属性叫组件类型, 在go中可以这样定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ComponentType</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeRegion</span> <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;region&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeYear</span>   <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;year&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeMonth</span>  <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;month&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeDay</span>    <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;day&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeMinute</span> <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;minute&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ComponentTypeNone</span> <span class="nx">ComponentType</span> <span class="p">=</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>但是这个属性是可以为空的——即指标可以是没有组件类型的。我们要怎么展示这个业务规则呢：</p>
+<ol>
+<li>将组件类型属性定义为指针类型，这样指针为null就表示没有这个属性。缺点就是代码中会有非常多的非空判断，以及指针带来的gc开销。</li>
+<li>加入一个<code>ComponentTypeNone</code>来表示没有这个属性。缺点是混淆了”没有“和”空“的业务含义，比如我们在做校验时，可能会这样写：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">ComponentType</span><span class="p">)</span> <span class="nf">Validate</span><span class="p">()</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeRegion</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeYear</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeMonth</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeDay</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeMinute</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="o">==</span> <span class="nx">ComponentTypeNone</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这样写是有问题的，因为<code>ComponentTypeNone</code>并不是一个合法的组件类型，但是这样写会让我们以为它是合法的。</p>
+<p>而在rust中，我们可以直接使用Option<ComponentType>来表示这个属性。有就是有，没有就是没有，不会有混淆、模糊的含义。</p>
 <h3 id="对字符串切片按索引获取" class="relative group">对字符串切片按索引获取 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%88%87%e7%89%87%e6%8c%89%e7%b4%a2%e5%bc%95%e8%8e%b7%e5%8f%96" aria-label="Anchor">#</a></span></h3><p>在rust中，不能对一个不完整的字符进行切片，否则会直接panic：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;我是谁&#34;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">3</span><span class="p">];</span><span class="w">

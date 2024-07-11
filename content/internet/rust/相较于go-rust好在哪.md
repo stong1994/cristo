@@ -211,6 +211,42 @@ enum Option<T> {
 
 **这意味着一个有数据的变量和一个不存在的变量的类型是不一样的**，一个是T,一个是`Option<T>`，这能够避免**假设某个值存在，实际却为空**的问题。
 
+Option非常有用，比如指标有个属性叫组件类型, 在go中可以这样定义：
+
+```go
+type ComponentType string
+
+const (
+	ComponentTypeRegion ComponentType = "region"
+	ComponentTypeYear   ComponentType = "year"
+	ComponentTypeMonth  ComponentType = "month"
+	ComponentTypeDay    ComponentType = "day"
+	ComponentTypeMinute ComponentType = "minute"
+	ComponentTypeNone ComponentType = ""
+)
+
+```
+
+但是这个属性是可以为空的——即指标可以是没有组件类型的。我们要怎么展示这个业务规则呢：
+
+1. 将组件类型属性定义为指针类型，这样指针为null就表示没有这个属性。缺点就是代码中会有非常多的非空判断，以及指针带来的gc开销。
+2. 加入一个`ComponentTypeNone`来表示没有这个属性。缺点是混淆了”没有“和”空“的业务含义，比如我们在做校验时，可能会这样写：
+
+```go
+func (c ComponentType) Validate() bool {
+	return c == ComponentTypeRegion ||
+		c == ComponentTypeYear ||
+		c == ComponentTypeMonth ||
+		c == ComponentTypeDay ||
+		c == ComponentTypeMinute ||
+		c == ComponentTypeNone
+}
+```
+
+这样写是有问题的，因为`ComponentTypeNone`并不是一个合法的组件类型，但是这样写会让我们以为它是合法的。
+
+而在rust中，我们可以直接使用Option<ComponentType>来表示这个属性。有就是有，没有就是没有，不会有混淆、模糊的含义。
+
 ### 对字符串切片按索引获取
 
 在rust中，不能对一个不完整的字符进行切片，否则会直接panic：
