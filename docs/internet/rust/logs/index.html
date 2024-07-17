@@ -1,0 +1,1429 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="dark"
+  data-auto-appearance="true"
+><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="rgb(255,255,255)" />
+  
+  <title>Rust中的log库们 &middot; </title>
+    <meta name="title" content="Rust中的log库们 &middot; " />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/appearance.min.74ad8406faea02f3e186ba5126249aaeed9073629e04b05037b903396b188724.js"
+    integrity="sha256-dK2EBvrqAvPhhrpRJiSaru2Qc2KeBLBQN7kDOWsYhyQ="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/css/main.bundle.min.9602fe0216290b9ff0322c1fd14e88ab9fc0a13741f4de563f67831708d72bb2.css"
+    integrity="sha256-lgL&#43;AhYpC5/wMiwf0U6Iq5/AoTdB9N5WP2eDFwjXK7I="
+  />
+  
+    
+    
+    
+  
+  
+  
+    
+    
+  
+  
+    
+    
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/js/main.bundle.min.bb487ad6073790cb02c354ee8c5f8822c42c5513e10bf7a86bbe8f82118cd1fc.js"
+      integrity="sha256-u0h61gc3kMsCw1TujF&#43;IIsQsVRPhC/eoa76PghGM0fw="
+      data-copy="Copy"
+      data-copied="Copied"
+    ></script>
+  
+  
+  <meta
+    name="description"
+    content="
+      Rust中的log库们
+    "
+  />
+  
+  
+  
+  <link rel="canonical" href="/internet/rust/logs/" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="/internet/rust/logs/">
+  <meta property="og:site_name" content="主页">
+  <meta property="og:title" content="Rust中的log库们">
+  <meta property="og:description" content="Rust中的log库们">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="internet">
+    <meta property="article:published_time" content="2024-07-11T19:43:00+08:00">
+    <meta property="article:modified_time" content="2024-07-11T19:43:00+08:00">
+    <meta property="article:tag" content="Log">
+    <meta property="article:tag" content="Rust">
+    <meta property="article:tag" content="Env_logger">
+    <meta property="article:tag" content="Tracing">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rust中的log库们">
+  <meta name="twitter:description" content="Rust中的log库们">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "",
+    "name": "Rust中的log库们",
+    "headline": "Rust中的log库们",
+    "description": "Rust中的log库们",
+    
+    "inLanguage": "en",
+    "url" : "\/internet\/rust\/logs\/",
+    "author" : {
+      "@type": "Person",
+      "name": "stong"
+    },
+    "copyrightYear": "2024",
+    "dateCreated": "2024-07-11T19:43:00\u002b08:00",
+    "datePublished": "2024-07-11T19:43:00\u002b08:00",
+    
+    "dateModified": "2024-07-11T19:43:00\u002b08:00",
+    
+    "keywords": ["log","rust","env_logger","tracing"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "2060"
+  }
+  </script>
+
+
+  
+  <meta name="author" content="stong" />
+  
+    
+      <link href="st5983@outlook.com" rel="me" />
+    
+      <link href="https://stong1994.github.io/" rel="me" />
+    
+      <link href="https://github.com/stong1994" rel="me" />
+    
+  
+  
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 sm:px-14 md:px-24 lg:px-32 dark:bg-neutral-800 dark:text-neutral"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 print:hidden sm:py-10 dark:text-neutral">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="z-40 flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    ></a
+  >
+
+    </div>
+    
+      
+      <label id="menu-button" for="menu-controller" class="block sm:hidden">
+        <input type="checkbox" id="menu-controller" class="hidden" />
+        <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+        </div>
+        <div
+          id="menu-wrapper"
+          class="invisible fixed inset-0 z-30 m-auto h-full w-full cursor-default overflow-auto bg-neutral-100/50 opacity-0 backdrop-blur-sm transition-opacity dark:bg-neutral-900/50"
+        >
+          <ul
+            class="mx-auto flex w-full max-w-7xl list-none flex-col overflow-visible px-6 py-6 text-end sm:px-14 sm:py-10 sm:pt-10 md:px-24 lg:px-32"
+          >
+            <li class="mb-1">
+              <span class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"
+                ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span></span
+              >
+            </li>
+            
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/internet/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >计算机与互联网</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/cloudnative/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >云原生</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/web3/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >区块链&amp;web3</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/book/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >读书笔记</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/other/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >杂谈</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/slip_paper/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >小碎片</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/mental_model/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >心智模型</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="/about/"
+                      title=""
+                      onclick="close_menu()"
+                      
+                      ><span
+                          class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                          >关于</span
+                        >
+                      </a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    <a
+                      href="https://github.com/stong1994/"
+                      title=""
+                      onclick="close_menu()"
+                      target="_blank"
+                      >
+                        <span
+                          class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                        ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                    >
+                  
+                </li>
+              
+                
+                <li class="group mb-1">
+                  
+                    
+                    
+                      <button
+                        id="search-button-1"
+                        title="Search (/)"
+                      >
+                        
+                          <span
+                            class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                          ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                            class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                            ></span
+                          >
+                        
+                      </button>
+                    
+                  
+                </li>
+              
+              
+            
+          </ul>
+        </div>
+      </label>
+      
+      <ul class="hidden list-none flex-row text-end sm:flex">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/internet/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >计算机与互联网</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/cloudnative/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >云原生</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/web3/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >区块链&amp;web3</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/book/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >读书笔记</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/other/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >杂谈</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/slip_paper/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >小碎片</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/mental_model/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >心智模型</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="/about/"
+                  title=""
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >关于</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                <a
+                  href="https://github.com/stong1994/"
+                  title=""
+                  target="_blank"
+                  >
+                    <span
+                      class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0">
+              
+                
+                
+                  <button
+                    id="search-button-2"
+                    title="Search (/)"
+                  >
+                    
+                      <span
+                        class="group-dark:hover:text-primary-400 transition-colors group-hover:text-primary-600"
+                      ><span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></span><span
+                        class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                        ></span
+                      >
+                    
+                  </button>
+                
+              
+            </li>
+          
+          
+
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+        <ol class="text-sm text-neutral-500 print:hidden dark:text-neutral-400">
+  
+  
+    
+  
+    
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/"
+      >记录个人的成长记录</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class=" inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/internet/"
+      >internet</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden inline">
+    <a
+      class="dark:underline-neutral-600 decoration-neutral-300 hover:underline"
+      href="/internet/rust/logs/"
+      >Rust中的log库们</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Rust中的log库们
+      </h1>
+      
+        <div class="mb-12 mt-8 text-base text-neutral-500 print:hidden dark:text-neutral-400">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2024-07-11 19:43:00 &#43;0800 CST">11 July 2024</time><span class="px-2 text-primary-500">&middot;</span><span>2060 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span><span class="px-2 text-primary-500">&middot;</span>
+
+
+  
+  
+
+<span class="mb-[2px]">
+  <a
+    href="https://github.com/stong1994/cristo/content/internet/rust/rust%e4%b8%ad%e7%9a%84log%e5%ba%93%e4%bb%ac.md"
+    class="text-lg hover:text-primary-500"
+    rel="noopener noreferrer"
+    target="_blank"
+    title="Edit content"
+    ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+</span></a
+  >
+</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+    <div class="my-1 flex flex-wrap text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+      
+        
+      
+        
+          
+            <a
+              href="/tags/log/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Log</a
+            >
+          
+            <a
+              href="/tags/rust/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Rust</a
+            >
+          
+            <a
+              href="/tags/env_logger/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Env_logger</a
+            >
+          
+            <a
+              href="/tags/tracing/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Tracing</a
+            >
+          
+        
+      
+    </div>
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+        <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+          <div class="toc pe-5 print:hidden lg:sticky lg:top-10">
+            <details open class="-ms-5 mt-0 overflow-hidden rounded-lg ps-5">
+  <summary
+    class="block cursor-pointer bg-neutral-100 py-1 ps-5 text-lg font-semibold text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden"
+  >
+    Table of Contents
+  </summary>
+  <div class="border-s border-dotted border-neutral-300 py-2 ps-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#log">log</a></li>
+        <li><a href="#simple_logger">simple_logger</a></li>
+        <li><a href="#env_logger">env_logger</a></li>
+        <li><a href="#tracing">tracing</a>
+          <ul>
+            <li><a href="#span">span</a></li>
+            <li><a href="#json格式化">json格式化</a></li>
+            <li><a href="#bunyan">bunyan</a></li>
+            <li><a href="#优化actix_web">优化+actix_web</a></li>
+            <li><a href="#instrument隔离日志和业务逻辑">instrument：隔离日志和业务逻辑</a></li>
+            <li><a href="#tracing_actix_web">tracing_actix_web</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+          </div>
+        </div>
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <h2 id="log" class="relative group">log <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#log" aria-label="Anchor">#</a></span></h2><p>添加依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cargo add log
+</span></span></code></pre></div><p>打印一下:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">log</span>::<span class="fm">info!</span><span class="p">(</span><span class="s">&#34;Hello, world!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>执行程序后发现没有任何输出。这是因为log只是一个日志的门面（A lightweight logging facade）:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="sd">/// A trait encapsulating the operations required of a logger.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">Log</span>: <span class="nb">Sync</span> <span class="o">+</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="sd">/// Determines if a log message with the specified metadata would be
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// logged.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// This is used by the `log_enabled!` macro to allow callers to avoid
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// expensive computation of log message arguments if the message would be
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// discarded anyway.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// # For implementors
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// This method isn&#39;t called automatically by the `log!` macros.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// It&#39;s up to an implementation of the `Log` trait to call `enabled` in its own
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// `log` method implementation to guarantee that filtering is applied.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="k">fn</span> <span class="nf">enabled</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span>: <span class="kp">&amp;</span><span class="nc">Metadata</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="sd">/// Logs the `Record`.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// # For implementors
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// Note that `enabled` is *not* necessarily called before this method.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// Implementations of `log` should perform all necessary filtering
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// internally.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="k">fn</span> <span class="nf">log</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span>: <span class="kp">&amp;</span><span class="nc">Record</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="sd">/// Flushes any buffered records.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// # For implementors
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">///
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// This method isn&#39;t called automatically by the `log!` macros.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="sd">/// It can be called manually on shut-down to ensure any in-flight records are flushed.
+</span></span></span><span class="line"><span class="cl"><span class="sd"></span><span class="w">    </span><span class="k">fn</span> <span class="nf">flush</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>如果没有选择具体的日志实现，它会使用<code>NopLogger</code>, 而<code>NopLogger</code>是不会输出任何日志的:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// Just used as a dummy initial value for LOGGER
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">NopLogger</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">impl</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">NopLogger</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">enabled</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_</span>: <span class="kp">&amp;</span><span class="nc">Metadata</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">log</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_</span>: <span class="kp">&amp;</span><span class="nc">Record</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">flush</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">impl</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">&amp;</span><span class="nb">&#39;_</span><span class="w"> </span><span class="n">T</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">where</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">T</span>: <span class="o">?</span><span class="nb">Sized</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Log</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">enabled</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span>: <span class="kp">&amp;</span><span class="nc">Metadata</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="p">).</span><span class="n">enabled</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">log</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span>: <span class="kp">&amp;</span><span class="nc">Record</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="p">).</span><span class="n">log</span><span class="p">(</span><span class="n">record</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">flush</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="p">).</span><span class="n">flush</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// ......
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// The LOGGER static holds a pointer to the global logger. It is protected by
+</span></span></span><span class="line"><span class="cl"><span class="c1">// the STATE static which determines whether LOGGER has been initialized yet.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="no">LOGGER</span>: <span class="kp">&amp;</span><span class="nc">dyn</span><span class="w"> </span><span class="n">Log</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">NopLogger</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h2 id="simple_logger" class="relative group">simple_logger <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#simple_logger" aria-label="Anchor">#</a></span></h2><p>就像名字暗示的那样，simple_logger就是一个简单的Log实现, 只能在控制台输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">log</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span>: <span class="kp">&amp;</span><span class="nc">Record</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1">// ........
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">format!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}{}</span><span class="s"> [</span><span class="si">{}{}</span><span class="s">] </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="n">level_string</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">thread</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">args</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="cp">#[cfg(not(feature = </span><span class="s">&#34;stderr&#34;</span><span class="cp">))]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="cp">#[cfg(feature = </span><span class="s">&#34;stderr&#34;</span><span class="cp">)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="fm">eprintln!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>使用举例:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">simple_logger</span>::<span class="n">SimpleLogger</span>::<span class="n">new</span><span class="p">().</span><span class="n">env</span><span class="p">().</span><span class="n">init</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">log</span>::<span class="fm">info!</span><span class="p">(</span><span class="s">&#34;Hello, world!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h2 id="env_logger" class="relative group">env_logger <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#env_logger" aria-label="Anchor">#</a></span></h2><p>添加依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cargo add log env_logger
+</span></span></code></pre></div><p><code>env_logger</code>是比<code>simple_logger</code>复杂些的Log实现。</p>
+<p>从名字上看<code>env_logger</code>的愿景是通过环境变量来控制日志输出的行为，但这不是它的主要卖点（<code>simple_logger</code>也可以通过环境变量来设置日志级别）.
+相比于<code>simple_logger</code>, <code>env_logger</code>:</p>
+<ol>
+<li>提供了更丰富的样式配置</li>
+<li>输出可选<code>stdout</code> 或者<code>stderr</code>, <code>simple_logger</code>只能选择<code>stdout</code>。</li>
+<li>可以按模块来配置日志。</li>
+</ol>
+<p><code>env_logger</code>的默认日志级别是<code>Error</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">log</span>::<span class="p">{</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">warn</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">env_logger</span>::<span class="n">init</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">max_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log</span>::<span class="n">max_level</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Max log level: </span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">max_level</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">info!</span><span class="p">(</span><span class="s">&#34;This is a info message&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">warn!</span><span class="p">(</span><span class="s">&#34;This is a warn message&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">error!</span><span class="p">(</span><span class="s">&#34;This is a error message&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<pre tabindex="0"><code>Max log level: Error
+[2024-07-11T04:45:34Z ERROR logs] This is a error message
+</code></pre><p>通过环境变量来指定日志级别为info：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> <span class="nv">RUST_LOG</span><span class="o">=</span>info cargo run
+</span></span><span class="line"><span class="cl">Max log level: Info
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T05:01:19Z INFO  logs<span class="o">]</span> This is a info message
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T05:01:19Z WARN  logs<span class="o">]</span> This is a warn message
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T05:01:19Z ERROR logs<span class="o">]</span> This is a error message
+</span></span></code></pre></div><h2 id="tracing" class="relative group">tracing <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing" aria-label="Anchor">#</a></span></h2><p><code>tracing</code>，就像它的名字一样，用于”追踪“，因此所提供的信息会更详细。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="n">info</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_subscriber</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// install global collector configured based on RUST_LOG env var.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">tracing_subscriber</span>::<span class="n">fmt</span>::<span class="n">init</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_of_yaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// this creates a new event, outside of any spans.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">info!</span><span class="p">(</span><span class="n">number_of_yaks</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;preparing to shave yaks&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">2024-07-11T07:03:32.160942Z  INFO logs: preparing to shave yaks <span class="nv">number_of_yaks</span><span class="o">=</span><span class="m">3</span>
+</span></span></code></pre></div><p>可以看到，默认输出了时间、日志级别、日志内容、参数名称和值。</p>
+<h3 id="span" class="relative group">span <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#span" aria-label="Anchor">#</a></span></h3><p>span是链路追踪中的概念，指一条链路中的某个模块/节点，在这个模块/节点中的日志有相同的span_id。</p>
+<p>在tracing中，span也是指一个模块/节点日志，这些日志共享某些信息:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="p">{</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">warn</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_subscriber</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// install global collector configured based on RUST_LOG env var.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">tracing_subscriber</span>::<span class="n">fmt</span>::<span class="n">init</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">hello</span><span class="p">(</span><span class="o">&amp;</span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">name</span>: <span class="s">&#34;stong&#34;</span><span class="p">.</span><span class="n">to_owned</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">age</span>: <span class="mi">20</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">age</span>: <span class="kt">u8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">user</span>: <span class="kp">&amp;</span><span class="nc">User</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">request_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tracing</span>::<span class="fm">info_span!</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;hello moudle.&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">user</span><span class="p">.</span><span class="n">age</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_request_span_guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request_span</span><span class="p">.</span><span class="n">enter</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">info!</span><span class="p">(</span><span class="s">&#34;hello!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">warn!</span><span class="p">(</span><span class="s">&#34;world!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">2024-07-11T07:25:02.781108Z  INFO hello moudle.<span class="o">{</span><span class="nv">user_name</span><span class="o">=</span>stong <span class="nv">user_age</span><span class="o">=</span>20<span class="o">}</span>: logs: hello!
+</span></span><span class="line"><span class="cl">2024-07-11T07:25:02.781124Z  WARN hello moudle.<span class="o">{</span><span class="nv">user_name</span><span class="o">=</span>stong <span class="nv">user_age</span><span class="o">=</span>20<span class="o">}</span>: logs: world!
+</span></span></code></pre></div><p>可以看到两行日志通过<code>span</code>共享了非常多的日志信息.</p>
+<h3 id="json格式化" class="relative group">json格式化 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#json%e6%a0%bc%e5%bc%8f%e5%8c%96" aria-label="Anchor">#</a></span></h3><p>添加依赖:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">dependencies</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">log</span> <span class="p">=</span> <span class="s2">&#34;0.4.22&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">tracing</span> <span class="p">=</span> <span class="s2">&#34;0.1.40&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">tracing-bunyan-formatter</span> <span class="p">=</span> <span class="s2">&#34;0.3&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">dependencies</span><span class="p">.</span><span class="nx">tracing-subscriber</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">version</span> <span class="p">=</span> <span class="s2">&#34;0.3.18&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">features</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;registry&#34;</span><span class="p">,</span> <span class="s2">&#34;env-filter&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">dependencies</span><span class="p">.</span><span class="nx">uuid</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">version</span> <span class="p">=</span> <span class="s2">&#34;1.10.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">features</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;v4&#34;</span><span class="p">]</span>
+</span></span></code></pre></div><p>完善代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="n">subscriber</span>::<span class="n">set_global_default</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="p">{</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">warn</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_bunyan_formatter</span>::<span class="p">{</span><span class="n">BunyanFormattingLayer</span><span class="p">,</span><span class="w"> </span><span class="n">JsonStorageLayer</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_subscriber</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_subscriber</span>::<span class="p">{</span><span class="n">layer</span>::<span class="n">SubscriberExt</span><span class="p">,</span><span class="w"> </span><span class="n">EnvFilter</span><span class="p">,</span><span class="w"> </span><span class="n">Registry</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">uuid</span>::<span class="n">Uuid</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">env_filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EnvFilter</span>::<span class="n">try_from_default_env</span><span class="p">().</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="n">EnvFilter</span>::<span class="n">new</span><span class="p">(</span><span class="s">&#34;info&#34;</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">formatting_layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BunyanFormattingLayer</span>::<span class="n">new</span><span class="p">(</span><span class="s">&#34;logs blog&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">stdout</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Registry</span>::<span class="n">default</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">env_filter</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">JsonStorageLayer</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">formatting_layer</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">set_global_default</span><span class="p">(</span><span class="n">subscriber</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&#34;Failed to set subscriber&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">hello</span><span class="p">(</span><span class="o">&amp;</span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">name</span>: <span class="s">&#34;stong&#34;</span><span class="p">.</span><span class="n">to_owned</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">age</span>: <span class="mi">20</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">age</span>: <span class="kt">u8</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">user</span>: <span class="kp">&amp;</span><span class="nc">User</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">request_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uuid</span>::<span class="n">new_v4</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">request_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tracing</span>::<span class="fm">info_span!</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;hello moudle.&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">%</span><span class="n">request_id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">user</span><span class="p">.</span><span class="n">age</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_request_span_guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request_span</span><span class="p">.</span><span class="n">enter</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">info!</span><span class="p">(</span><span class="s">&#34;hello!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">warn!</span><span class="p">(</span><span class="s">&#34;world!&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;v&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;logs blog&#34;</span><span class="p">,</span><span class="nt">&#34;msg&#34;</span><span class="p">:</span><span class="s2">&#34;[HELLO MOUDLE. - START]&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="nt">&#34;hostname&#34;</span><span class="p">:</span><span class="s2">&#34;MacBook-Air.local&#34;</span><span class="p">,</span><span class="nt">&#34;pid&#34;</span><span class="p">:</span><span class="mi">12138</span><span class="p">,</span><span class="nt">&#34;ti
+</span></span></span><span class="line"><span class="cl"><span class="nt">me&#34;</span><span class="p">:</span><span class="s2">&#34;2024-07-11T08:44:27.02071Z&#34;</span><span class="p">,</span><span class="nt">&#34;target&#34;</span><span class="p">:</span><span class="s2">&#34;logs&#34;</span><span class="p">,</span><span class="nt">&#34;line&#34;</span><span class="p">:</span><span class="mi">31</span><span class="p">,</span><span class="nt">&#34;file&#34;</span><span class="p">:</span><span class="s2">&#34;src/main.rs&#34;</span><span class="p">,</span><span class="nt">&#34;user_age&#34;</span><span class="p">:</span><span class="s2">&#34;20&#34;</span><span class="p">,</span><span class="nt">&#34;user_name&#34;</span><span class="p">:</span><span class="s2">&#34;stong&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">,</span><span class="nt">&#34;request_id&#34;</span><span class="p">:</span><span class="s2">&#34;20c7e1f7-f662-4b82-b6a6-237a7453dc62&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;v&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;logs blog&#34;</span><span class="p">,</span><span class="nt">&#34;msg&#34;</span><span class="p">:</span><span class="s2">&#34;[HELLO MOUDLE. - EVENT] hello!&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="nt">&#34;hostname&#34;</span><span class="p">:</span><span class="s2">&#34;MacBook-Air.local&#34;</span><span class="p">,</span><span class="nt">&#34;pid&#34;</span><span class="p">:</span><span class="mi">12</span>
+</span></span><span class="line"><span class="cl"><span class="mi">138</span><span class="p">,</span><span class="nt">&#34;time&#34;</span><span class="p">:</span><span class="s2">&#34;2024-07-11T08:44:27.02088Z&#34;</span><span class="p">,</span><span class="nt">&#34;target&#34;</span><span class="p">:</span><span class="s2">&#34;logs&#34;</span><span class="p">,</span><span class="nt">&#34;line&#34;</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span><span class="nt">&#34;file&#34;</span><span class="p">:</span><span class="s2">&#34;src/main.rs&#34;</span><span class="p">,</span><span class="nt">&#34;user_age&#34;</span><span class="p">:</span><span class="s2">&#34;20&#34;</span><span class="p">,</span><span class="nt">&#34;user_name&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;stong&#34;</span><span class="p">,</span><span class="nt">&#34;request_id&#34;</span><span class="p">:</span><span class="s2">&#34;20c7e1f7-f662-4b82-b6a6-237a7453dc62&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;v&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;logs blog&#34;</span><span class="p">,</span><span class="nt">&#34;msg&#34;</span><span class="p">:</span><span class="s2">&#34;[HELLO MOUDLE. - EVENT] world!&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span><span class="nt">&#34;hostname&#34;</span><span class="p">:</span><span class="s2">&#34;MacBook-Air.local&#34;</span><span class="p">,</span><span class="nt">&#34;pid&#34;</span><span class="p">:</span><span class="mi">12</span>
+</span></span><span class="line"><span class="cl"><span class="mi">138</span><span class="p">,</span><span class="nt">&#34;time&#34;</span><span class="p">:</span><span class="s2">&#34;2024-07-11T08:44:27.020901Z&#34;</span><span class="p">,</span><span class="nt">&#34;target&#34;</span><span class="p">:</span><span class="s2">&#34;logs&#34;</span><span class="p">,</span><span class="nt">&#34;line&#34;</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="nt">&#34;file&#34;</span><span class="p">:</span><span class="s2">&#34;src/main.rs&#34;</span><span class="p">,</span><span class="nt">&#34;user_age&#34;</span><span class="p">:</span><span class="s2">&#34;20&#34;</span><span class="p">,</span><span class="nt">&#34;user_name&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">:</span><span class="s2">&#34;stong&#34;</span><span class="p">,</span><span class="nt">&#34;request_id&#34;</span><span class="p">:</span><span class="s2">&#34;20c7e1f7-f662-4b82-b6a6-237a7453dc62&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;v&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;name&#34;</span><span class="p">:</span><span class="s2">&#34;logs blog&#34;</span><span class="p">,</span><span class="nt">&#34;msg&#34;</span><span class="p">:</span><span class="s2">&#34;[HELLO MOUDLE. - END]&#34;</span><span class="p">,</span><span class="nt">&#34;level&#34;</span><span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="nt">&#34;hostname&#34;</span><span class="p">:</span><span class="s2">&#34;MacBook-Air.local&#34;</span><span class="p">,</span><span class="nt">&#34;pid&#34;</span><span class="p">:</span><span class="mi">12138</span><span class="p">,</span><span class="nt">&#34;time
+</span></span></span><span class="line"><span class="cl"><span class="nt">&#34;</span><span class="p">:</span><span class="s2">&#34;2024-07-11T08:44:27.020923Z&#34;</span><span class="p">,</span><span class="nt">&#34;target&#34;</span><span class="p">:</span><span class="s2">&#34;logs&#34;</span><span class="p">,</span><span class="nt">&#34;line&#34;</span><span class="p">:</span><span class="mi">31</span><span class="p">,</span><span class="nt">&#34;file&#34;</span><span class="p">:</span><span class="s2">&#34;src/main.rs&#34;</span><span class="p">,</span><span class="nt">&#34;elapsed_milliseconds&#34;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&#34;user_name&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">:</span><span class="s2">&#34;stong&#34;</span><span class="p">,</span><span class="nt">&#34;request_id&#34;</span><span class="p">:</span><span class="s2">&#34;20c7e1f7-f662-4b82-b6a6-237a7453dc62&#34;</span><span class="p">,</span><span class="nt">&#34;user_age&#34;</span><span class="p">:</span><span class="s2">&#34;20&#34;</span><span class="p">}</span>
+</span></span></code></pre></div><h3 id="bunyan" class="relative group">bunyan <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#bunyan" aria-label="Anchor">#</a></span></h3><p>使用bunyan的好处之一就是可以通过命令来修改输出格式，执行命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cargo run <span class="p">|</span> bunyan
+</span></span></code></pre></div><p>输出内容更易读：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:31:38.748554Z<span class="o">]</span>  INFO: logs blog/2580 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - START<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, lin
+</span></span><span class="line"><span class="cl"><span class="nv">e</span><span class="o">=</span>31, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">request_id</span><span class="o">=</span>6c8fb545-a9cf-4ca1-9f19-2fb2276190b9<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:31:38.748611Z<span class="o">]</span>  INFO: logs blog/2580 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - EVENT<span class="o">]</span> hello! <span class="o">(</span><span class="nv">target</span><span class="o">=</span>lo
+</span></span><span class="line"><span class="cl">gs, <span class="nv">line</span><span class="o">=</span>40, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">request_id</span><span class="o">=</span>6c8fb545-a9cf-4ca1-9f19-2fb2276190b9<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:31:38.748636Z<span class="o">]</span>  WARN: logs blog/2580 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - EVENT<span class="o">]</span> world! <span class="o">(</span><span class="nv">target</span><span class="o">=</span>lo
+</span></span><span class="line"><span class="cl">gs, <span class="nv">line</span><span class="o">=</span>41, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">request_id</span><span class="o">=</span>6c8fb545-a9cf-4ca1-9f19-2fb2276190b9<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:31:38.74866Z<span class="o">]</span>  INFO: logs blog/2580 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - END<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, <span class="nv">line</span><span class="o">=</span><span class="m">3</span>
+</span></span><span class="line"><span class="cl">1, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">elapsed_milliseconds</span><span class="o">=</span>0, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">request_id</span><span class="o">=</span>6c8fb545-a9cf-4ca1-9f19-2fb22
+</span></span><span class="line"><span class="cl">76190b9<span class="o">)</span>
+</span></span></code></pre></div><h3 id="优化actix_web" class="relative group">优化+actix_web <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bc%98%e5%8c%96actix_web" aria-label="Anchor">#</a></span></h3><p>把日志初始化的代码抽象一下，再使用actix_web实现http api接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">actix_web</span>::<span class="p">{</span><span class="n">web</span><span class="p">,</span><span class="w"> </span><span class="n">App</span><span class="p">,</span><span class="w"> </span><span class="n">HttpResponse</span><span class="p">,</span><span class="w"> </span><span class="n">HttpServer</span><span class="p">,</span><span class="w"> </span><span class="n">Responder</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="n">subscriber</span>::<span class="n">set_global_default</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing</span>::<span class="p">{</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">warn</span><span class="p">,</span><span class="w"> </span><span class="n">Subscriber</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_bunyan_formatter</span>::<span class="p">{</span><span class="n">BunyanFormattingLayer</span><span class="p">,</span><span class="w"> </span><span class="n">JsonStorageLayer</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_subscriber</span>::<span class="p">{</span><span class="n">layer</span>::<span class="n">SubscriberExt</span><span class="p">,</span><span class="w"> </span><span class="n">EnvFilter</span><span class="p">,</span><span class="w"> </span><span class="n">Registry</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">uuid</span>::<span class="n">Uuid</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">get_subscriber</span><span class="p">(</span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">env_filter</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="n">Subscriber</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">env_filter</span><span class="w"> </span><span class="o">=</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">EnvFilter</span>::<span class="n">try_from_default_env</span><span class="p">().</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="n">EnvFilter</span>::<span class="n">new</span><span class="p">(</span><span class="n">env_filter</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">formatting_layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BunyanFormattingLayer</span>::<span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">stdout</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Registry</span>::<span class="n">default</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">env_filter</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">JsonStorageLayer</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">with</span><span class="p">(</span><span class="n">formatting_layer</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">init_subscribe</span><span class="p">(</span><span class="n">subscriber</span>: <span class="nc">impl</span><span class="w"> </span><span class="n">Subscriber</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">set_global_default</span><span class="p">(</span><span class="n">subscriber</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&#34;Failed to set subscriber&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[actix_web::main]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">std</span>::<span class="n">io</span>::<span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_subscriber</span><span class="p">(</span><span class="s">&#34;logs blog&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;info&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">init_subscribe</span><span class="p">(</span><span class="n">subscriber</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">HttpServer</span>::<span class="n">new</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="n">App</span>::<span class="n">new</span><span class="p">().</span><span class="n">route</span><span class="p">(</span><span class="s">&#34;/hello/{name}/{age}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">web</span>::<span class="n">get</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">hello</span><span class="p">)))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#34;127.0.0.1:8080&#34;</span><span class="p">)</span><span class="o">?</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">run</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">info</span>: <span class="nc">web</span>::<span class="n">Path</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="n">Responder</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">request_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uuid</span>::<span class="n">new_v4</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">request_span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tracing</span>::<span class="fm">info_span!</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;hello moudle.&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">%</span><span class="n">request_id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">user_age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="n">age</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_request_span_guard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request_span</span><span class="p">.</span><span class="n">enter</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">HttpResponse</span>::<span class="nb">Ok</span><span class="p">().</span><span class="n">body</span><span class="p">(</span><span class="fm">format!</span><span class="p">(</span><span class="s">&#34;Hello, </span><span class="si">{}</span><span class="s">!&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>访问接口:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl localhost:8080/hello/stong/20
+</span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:34:32.512943Z<span class="o">]</span>  INFO: logs blog/7156 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - START<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, lin
+</span></span><span class="line"><span class="cl"><span class="nv">e</span><span class="o">=</span>36, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">request_id</span><span class="o">=</span>45d55d0a-6db9-4f0c-b198-1305e1ee3507, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:34:32.513061Z<span class="o">]</span>  INFO: logs blog/7156 on MacBook-Air.local: <span class="o">[</span>HELLO MOUDLE. - END<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, <span class="nv">line</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">36, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">request_id</span><span class="o">=</span>45d55d0a-6db9-4f0c-b198-1305e1ee3507, <span class="nv">user_name</span><span class="o">=</span>stong, elapsed_millis
+</span></span><span class="line"><span class="cl"><span class="nv">econds</span><span class="o">=</span>0<span class="o">)</span>
+</span></span></code></pre></div><h3 id="instrument隔离日志和业务逻辑" class="relative group">instrument：隔离日志和业务逻辑 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#instrument%e9%9a%94%e7%a6%bb%e6%97%a5%e5%bf%97%e5%92%8c%e4%b8%9a%e5%8a%a1%e9%80%bb%e8%be%91" aria-label="Anchor">#</a></span></h3><p>上述代码将业务逻辑和日志混在一起，不利于维护，可以使用<code>instrument</code>来隔离:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="cp">#[tracing::instrument(
+</span></span></span><span class="line"><span class="cl"><span class="cp">    name = </span><span class="s">&#34;visit hello&#34;</span><span class="cp">,
+</span></span></span><span class="line"><span class="cl"><span class="cp">    skip(info),
+</span></span></span><span class="line"><span class="cl"><span class="cp">    fields(
+</span></span></span><span class="line"><span class="cl"><span class="cp">        user_name = %info.0,
+</span></span></span><span class="line"><span class="cl"><span class="cp">        user_age = %info.1,
+</span></span></span><span class="line"><span class="cl"><span class="cp">    )
+</span></span></span><span class="line"><span class="cl"><span class="cp">)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">info</span>: <span class="nc">web</span>::<span class="n">Path</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="n">Responder</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">HttpResponse</span>::<span class="nb">Ok</span><span class="p">().</span><span class="n">body</span><span class="p">(</span><span class="fm">format!</span><span class="p">(</span><span class="s">&#34;Hello, </span><span class="si">{}</span><span class="s">!&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:40:33.496575Z<span class="o">]</span>  INFO: logs blog/17573 on MacBook-Air.local: <span class="o">[</span>VISIT HELLO - START<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, <span class="nv">line</span>
+</span></span><span class="line"><span class="cl"><span class="o">=</span>33, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T09:40:33.496908Z<span class="o">]</span>  INFO: logs blog/17573 on MacBook-Air.local: <span class="o">[</span>VISIT HELLO - END<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs, <span class="nv">line</span><span class="o">=</span><span class="m">3</span>
+</span></span><span class="line"><span class="cl">3, <span class="nv">file</span><span class="o">=</span>src/main.rs, <span class="nv">elapsed_milliseconds</span><span class="o">=</span>0, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">user_age</span><span class="o">=</span>20<span class="o">)</span>
+</span></span></code></pre></div><p><strong>代码更清晰，而功能未受影响</strong></p>
+<h3 id="tracing_actix_web" class="relative group">tracing_actix_web <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#tracing_actix_web" aria-label="Anchor">#</a></span></h3><p>web库一般都提供插件功能，我们可以通过tracing_actix_web来实现日志插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">use</span><span class="w"> </span><span class="n">tracing_actix_web</span>::<span class="n">TracingLogger</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[actix_web::main]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">std</span>::<span class="n">io</span>::<span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">HttpServer</span>::<span class="n">new</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">App</span>::<span class="n">new</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">TracingLogger</span>::<span class="n">default</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">&#34;/hello/{name}/{age}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">web</span>::<span class="n">get</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">hello</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#34;127.0.0.1:8080&#34;</span><span class="p">)</span><span class="o">?</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="n">run</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>注销掉之前的<code>instrument</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// #[tracing::instrument(
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     name = &#34;visit hello&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     skip(info),
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     fields(
+</span></span></span><span class="line"><span class="cl"><span class="c1">//         user_name = %info.0,
+</span></span></span><span class="line"><span class="cl"><span class="c1">//         user_age = %info.1,
+</span></span></span><span class="line"><span class="cl"><span class="c1">//     )
+</span></span></span><span class="line"><span class="cl"><span class="c1">// )]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">info</span>: <span class="nc">web</span>::<span class="n">Path</span><span class="o">&lt;</span><span class="p">(</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="kt">u8</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">impl</span><span class="w"> </span><span class="n">Responder</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">HttpResponse</span>::<span class="nb">Ok</span><span class="p">().</span><span class="n">body</span><span class="p">(</span><span class="fm">format!</span><span class="p">(</span><span class="s">&#34;Hello, </span><span class="si">{}</span><span class="s">!&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T10:15:01.527904Z<span class="o">]</span>  INFO: logs blog/42318 on MacBook-Air.local: <span class="o">[</span>HTTP REQUEST - START<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>tracing_a
+</span></span><span class="line"><span class="cl">ctix_web::root_span_builder, <span class="nv">line</span><span class="o">=</span>41, http.scheme<span class="o">=</span>http, otel.name<span class="o">=</span><span class="s2">&#34;HTTP GET /hello/{name}/{age}&#34;</span>, http.client_ip<span class="o">=</span><span class="m">12</span>
+</span></span><span class="line"><span class="cl">7.0.0.1, http.target<span class="o">=</span>/hello/stong/20, otel.kind<span class="o">=</span>server, http.user_agent<span class="o">=</span>curl/8.6.0, http.method<span class="o">=</span>GET, http.flavor<span class="o">=</span>1.
+</span></span><span class="line"><span class="cl">1, http.host<span class="o">=</span>localhost:8080, <span class="nv">request_id</span><span class="o">=</span>18c2c4c9-bafe-43e2-8eb9-7f885ae37df5, http.route<span class="o">=</span>/hello/<span class="o">{</span>name<span class="o">}</span>/<span class="o">{</span>age<span class="o">})</span>
+</span></span><span class="line"><span class="cl">    file: /Users/stong/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/tracing-actix-web-0.7.11/src/root_s
+</span></span><span class="line"><span class="cl">pan_builder.rs
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T10:15:01.528624Z<span class="o">]</span>  INFO: logs blog/42318 on MacBook-Air.local: <span class="o">[</span>HTTP REQUEST - END<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>tracing_act
+</span></span><span class="line"><span class="cl">ix_web::root_span_builder, <span class="nv">line</span><span class="o">=</span>41, http.scheme<span class="o">=</span>http, otel.name<span class="o">=</span><span class="s2">&#34;HTTP GET /hello/{name}/{age}&#34;</span>, elapsed_millisecond
+</span></span><span class="line"><span class="cl"><span class="nv">s</span><span class="o">=</span>0, http.client_ip<span class="o">=</span>127.0.0.1, http.target<span class="o">=</span>/hello/stong/20, otel.kind<span class="o">=</span>server, http.user_agent<span class="o">=</span>curl/8.6.0, http.meth
+</span></span><span class="line"><span class="cl"><span class="nv">od</span><span class="o">=</span>GET, http.flavor<span class="o">=</span>1.1, http.host<span class="o">=</span>localhost:8080, <span class="nv">request_id</span><span class="o">=</span>18c2c4c9-bafe-43e2-8eb9-7f885ae37df5, http.status_cod
+</span></span><span class="line"><span class="cl"><span class="nv">e</span><span class="o">=</span>200, otel.status_code<span class="o">=</span>OK, http.route<span class="o">=</span>/hello/<span class="o">{</span>name<span class="o">}</span>/<span class="o">{</span>age<span class="o">})</span>
+</span></span><span class="line"><span class="cl">    file: /Users/stong/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/tracing-actix-web-0.7.11/src/root_s
+</span></span><span class="line"><span class="cl">pan_builder.rs
+</span></span></code></pre></div><p>输出内容太多，导致可读性很低，可以过滤掉一些不重要的信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">skipped_fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="s">&#34;http.host&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;http.flavor&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;file&#34;</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">formatting_layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BunyanFormattingLayer</span>::<span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">stdout</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">skip_fields</span><span class="p">(</span><span class="n">skipped_fields</span><span class="p">.</span><span class="n">into_iter</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&#34;One of the specified fields cannot be skipped&#34;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T14:51:44.069846Z<span class="o">]</span>  INFO: logs blog/81862 on MacBook-Air.lan: <span class="o">[</span>VISIT HELLO - START<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs
+</span></span><span class="line"><span class="cl">, <span class="nv">line</span><span class="o">=</span>40, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">user_name</span><span class="o">=</span>stong<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2024-07-11T14:51:44.070002Z<span class="o">]</span>  INFO: logs blog/81862 on MacBook-Air.lan: <span class="o">[</span>VISIT HELLO - END<span class="o">]</span> <span class="o">(</span><span class="nv">target</span><span class="o">=</span>logs,
+</span></span><span class="line"><span class="cl"><span class="nv">line</span><span class="o">=</span>40, <span class="nv">user_age</span><span class="o">=</span>20, <span class="nv">user_name</span><span class="o">=</span>stong, <span class="nv">elapsed_milliseconds</span><span class="o">=</span>0<span class="o">)</span>
+</span></span></code></pre></div>
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+  <div class="flex">
+    
+    
+    
+      
+      
+        
+        
+
+
+
+
+
+
+
+
+  
+    <picture
+      class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+      
+    >
+      
+      
+      
+      
+      <img
+        width="1080"
+        height="1434"
+        class="!mb-0 !mt-0 me-4 w-24 h-auto rounded-full"
+        alt="stong"
+        loading="lazy" decoding="async"
+        
+          src="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg"
+          srcset="/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_330x0_resize_q75_box.jpg 330w,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_660x0_resize_q75_box.jpg 660w
+          
+            ,/imgs/mine_hu9cc37546ab3d9fb1d864cca548ef6007_144068_1024x0_resize_q75_box.jpg 1024w
+          
+          
+            ,/imgs/mine.jpg 1080w
+          "
+          sizes="100vw"
+        
+      />
+    </picture>
+  
+
+
+      
+    
+    <div class="place-self-center">
+      
+        <div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">
+          Author
+        </div>
+        <div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">
+          stong
+        </div>
+      
+      
+        <div class="text-sm text-neutral-700 dark:text-neutral-400">进击的程序员</div>
+      
+      <div class="text-2xl sm:text-lg">
+  <div class="flex flex-wrap text-neutral-400 dark:text-neutral-500">
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="st5983@outlook.com"
+          target="_blank"
+          aria-label="Email"
+          rel="me noopener noreferrer"
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1c-27.64 140.9 68.65 266.2 199.1 285.1c19.01 2.888 36.17-12.26 36.17-31.49l.0001-.6631c0-15.74-11.44-28.88-26.84-31.24c-84.35-12.98-149.2-86.13-149.2-174.2c0-102.9 88.61-185.5 193.4-175.4c91.54 8.869 158.6 91.25 158.6 183.2l0 16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98 .0036c-7.299 0-13.2 4.992-15.12 11.68c-24.85-12.15-54.24-16.38-86.06-5.106c-38.75 13.73-68.12 48.91-73.72 89.64c-9.483 69.01 43.81 128 110.9 128c26.44 0 50.43-9.544 69.59-24.88c24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3C495.1 107.1 361.2-9.332 207.8 20.73zM239.1 304.3c-26.47 0-48-21.56-48-48.05s21.53-48.05 48-48.05s48 21.56 48 48.05S266.5 304.3 239.1 304.3z"/></svg>
+</span></a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://stong1994.github.io/"
+          target="_blank"
+          aria-label="Link"
+          rel="me noopener noreferrer"
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M172.5 131.1C228.1 75.51 320.5 75.51 376.1 131.1C426.1 181.1 433.5 260.8 392.4 318.3L391.3 319.9C381 334.2 361 337.6 346.7 327.3C332.3 317 328.9 297 339.2 282.7L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2C300.3 145.8 249.2 145.8 217.7 177.2L105.5 289.5C73.99 320.1 73.99 372 105.5 403.5C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4C265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2C188.1 505.3 110.2 498.7 60.21 448.8C3.741 392.3 3.741 300.7 60.21 244.3L172.5 131.1zM467.5 380C411 436.5 319.5 436.5 263 380C213 330 206.5 251.2 247.6 193.7L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7C307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8C339.7 366.2 390.8 366.2 422.3 334.8L534.5 222.5C566 191 566 139.1 534.5 108.5C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58C374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24C636.3 119.7 636.3 211.3 579.8 267.7L467.5 380z"/></svg>
+</span></a
+        >
+      
+    
+      
+        <a
+          class="px-1 transition-transform hover:scale-125 hover:text-primary-700 dark:hover:text-primary-400"
+          style="will-change:transform;"
+          href="https://github.com/stong1994"
+          target="_blank"
+          aria-label="Github"
+          rel="me noopener noreferrer"
+          ><span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></a
+        >
+      
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="/internet/project/git_tools/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >git相关的工作流工具</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2024-07-05 19:43:00 &#43;0800 CST">5 July 2024</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+        
+          <div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12">
+            <a
+              href="#the-top"
+              class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+              aria-label="Scroll to top"
+              title="Scroll to top"
+            >
+              &uarr;
+            </a>
+          </div>
+        
+      </main><footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2024
+            stong
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+        <div
+          class="me-14 cursor-pointer text-sm text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        >
+          <button id="appearance-switcher-0" type="button" aria-label="appearance switcher">
+            <div
+              class="flex h-12 w-12 items-center justify-center dark:hidden"
+              title="Switch to dark appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+            </div>
+            <div
+              class="hidden h-12 w-12 items-center justify-center dark:flex"
+              title="Switch to light appearance"
+            >
+              <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+            </div>
+          </button>
+        </div>
+      
+    </div>
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 z-50 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm sm:p-6 md:p-[10vh] lg:p-[12vh] dark:bg-neutral-900/50"
+  data-url="/"
+>
+  <div
+    id="search-modal"
+    class="top-20 mx-auto flex min-h-0 w-full max-w-3xl flex-col rounded-md border border-neutral-200 bg-neutral shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex flex-none items-center justify-between px-2">
+      <form class="flex min-w-0 flex-auto items-center">
+        <div class="flex h-8 w-8 items-center justify-center text-neutral-400">
+          <span class="icon relative inline-block px-1 align-text-bottom"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="mx-1 flex h-12 flex-auto appearance-none bg-transparent focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex h-8 w-8 items-center justify-center text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        <span class="icon relative inline-block px-1 align-text-bottom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto overflow-auto px-2">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>

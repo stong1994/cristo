@@ -6,12 +6,19 @@
     <description>Recent content in Log on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jul 2024 10:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jul 2024 01:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/tags/log/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust中丰富的错误处理</title>
+      <link>//localhost:1313/internet/rust/errors/</link>
+      <pubDate>Sun, 14 Jul 2024 01:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/rust/errors/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Rust中的log库们</title>
       <link>//localhost:1313/internet/rust/logs/</link>
-      <pubDate>Thu, 11 Jul 2024 10:43:00 +0800</pubDate>
+      <pubDate>Thu, 11 Jul 2024 19:43:00 +0800</pubDate>
       <guid>//localhost:1313/internet/rust/logs/</guid>
       <description></description>
     </item>
