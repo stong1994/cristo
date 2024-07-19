@@ -6,8 +6,22 @@
     <description>Recent content in Rust on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jul 2024 19:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jul 2024 01:43:00 +0800</lastBuildDate>
     <atom:link href="/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust中的错误处理——基础</title>
+      <link>/internet/rust/error-base/</link>
+      <pubDate>Sun, 14 Jul 2024 01:43:00 +0800</pubDate>
+      <guid>/internet/rust/error-base/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust中错误处理——libs</title>
+      <link>/internet/rust/error-libs/</link>
+      <pubDate>Sun, 14 Jul 2024 01:43:00 +0800</pubDate>
+      <guid>/internet/rust/error-libs/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Rust中的log库们</title>
       <link>/internet/rust/logs/</link>

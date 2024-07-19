@@ -5,10 +5,43 @@
     
       <url>
             <loc>//localhost:1313/internet/</loc>
-            <lastmod>2024-07-15T01:43:00+08:00</lastmod>
+            <lastmod>2024-07-18T01:43:00+08:00</lastmod>
           </url>
     
   
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/internet/rust/extension-trait/</loc>
+            <lastmod>2024-07-18T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/</loc>
+            <lastmod>2024-07-18T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/internet/rust/error-libs/</loc>
+            <lastmod>2024-07-15T01:43:00+08:00</lastmod>
+          </url>
     
   
     
@@ -23,25 +56,12 @@
     
   
     
-      <url>
-            <loc>//localhost:1313/</loc>
-            <lastmod>2024-07-15T01:43:00+08:00</lastmod>
-          </url>
-    
-  
-    
-  
-    
-  
-    
   
     
       <url>
-            <loc>//localhost:1313/internet/rust/errors/</loc>
+            <loc>//localhost:1313/internet/rust/error-base/</loc>
             <lastmod>2024-07-14T01:43:00+08:00</lastmod>
           </url>
-    
-  
     
   
     

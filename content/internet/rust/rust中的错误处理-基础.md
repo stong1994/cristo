@@ -5,12 +5,12 @@ url: "/internet/rust/error-base"
 toc: true
 draft: false
 description: "Rust中基础的错误处理"
-slug: "log"
-tags: ["log", "rust", "错误处理", "thiserror", "anyhow"]
+slug: "错误处理"
+tags: ["rust", "错误处理"]
 showDateUpdated: true
 ---
 
-## Error trait
+## Error trait——错误处理的基石
 
 Error trait 是rust标准库对于错误类型的基本抽象，主要包含以下几个方法：
 
@@ -34,7 +34,7 @@ pub trait Error: Debug + Display {
 - cause: source()的别名
 - provide: 提供基于指定错误类型的访问
 
-### Example: source
+### source
 
 借用官方的例子，我们自定义两个错误类型：`SuperError`和`SuperErrorSideKick`,其中`SuperErrorSideKick`是`SuperError`的来源。
 
@@ -115,7 +115,7 @@ fn error_chain_fmt(
 
 ```
 
-### Example: provide
+### provide
 
 将上面的代码改造下，对`SuperError`实现`provide`方法：
 
@@ -149,7 +149,7 @@ fn main() {
 
 上面的例子能够说明，使用`provide`能够让我们根据**指定类型**来找到所需的错误.
 
-## 明确结果: Result
+## Result——明确的结果
 
 在我多年的开发经验中(大部分时间用go)，判断是否存在错误、是否有值，是否是空指针耗费了我非常多的精力，比如一个函数签名是这样的：
 
@@ -258,12 +258,12 @@ fn print_file() -> Result<(), std::io::Error> {
 
 ```
 
-## panic!宏
+## panic!——意料之外的错误
 
 从是否在意料之中来看，错误分为两种：
 
 - 意料之中的错误: 如文件不存在，网络超时等属于“可预知&处理的错误”
-- 意料之外的错误: 如订单出现了不在规定内的状态
+- 意料之外的错误: 如订单出现了不在规则内的状态
 
 对于“意料之内”的错误可以有多种处理方式（在下一篇讲），而“意料之外”的错误则遵循“尽早暴露问题”的原则——直接用`panic`来处理:
 
@@ -272,6 +272,7 @@ panic!("no possible")
 ```
 
 也可以用`catch_unwind`来捕获panic:
+
 ```rust
 use std::panic::{self, AssertUnwindSafe};
 
@@ -286,4 +287,4 @@ fn main() {
     }
 }
 
-````
+```

@@ -1,18 +1,22 @@
 ---
-date: 2024-07-14T01:43:00+08:00
+date: 2024-07-15T01:43:00+08:00
 title: "Rust中错误处理——libs"
 url: "/internet/rust/error-libs"
 toc: true
 draft: false
 description: "Rust中丰富的用于错误处理的仓库"
-slug: "log"
-tags: ["log", "rust", "错误处理", "thiserror", "anyhow"]
+slug: "错误处理-libs"
+tags: ["rust", "错误处理", "thiserror", "anyhow", "eyre"]
 showDateUpdated: true
 ---
 
-## thiserror
+Rust中针对不同的错误处理场景，提供了多种库:
+| 场景| 库|
+|--|--|
+|自定义错误类型| thiserror, displaydoc, snafu|
+|错误传递| anyhow, eyre|
 
-[thiserror](https://github.com/dtolnay/thiserror) 提供了更快捷的定义错误类型的能力。
+## thiserror
 
 在代码中，我们通常会为错误定义一些类型，这样上层在使用时可以根据错误类型进行不同的错误处理，比如：
 
@@ -53,7 +57,11 @@ fn handle_data<T>(data: T) {
 }
 ```
 
-通过模式匹配错误，并根据不同的类型打印不同的信息。 我们得到了想要的效果，但是考虑下：如果有多个使用方，每个使用方都需要自己定义错误信息的打印吗？让我们把这个功能通过实现`Error trait`来实现下：
+通过模式匹配错误，并根据不同的类型打印不同的信息。
+
+我们得到了想要的效果，但是考虑下：如果有多个使用方，每个使用方都需要自己定义错误信息的打印吗？
+
+当然不，让我们把这个功能通过实现`Error trait`来实现下：
 
 ```rust
 impl Display for DataStoreError {
@@ -111,6 +119,8 @@ fn handle_data<T>(data: T) {
 }
 ```
 
+[thiserror](https://github.com/dtolnay/thiserror) 提供了**更快捷的定义错误类型的能力**。
+
 通过`thiserror`来简化上述那一套代码：
 
 ```rust
@@ -131,14 +141,16 @@ pub enum DataStoreError {
 
 Pretty good!!!
 
-`thiserror`语法：
+> `thiserror`语法：
+> ```rust
+> #[error("{var}")] ⟶ write!("{}", self.var)
+> #[error("{0}")] ⟶ write!("{}", self.0)
+> #[error("{var:?}")] ⟶ write!("{:?}", self.var)
+> #[error("{0:?}")] ⟶ write!("{:?}", self.0)
+> ```
 
-```rust
-#[error("{var}")] ⟶ write!("{}", self.var)
-#[error("{0}")] ⟶ write!("{}", self.0)
-#[error("{var:?}")] ⟶ write!("{:?}", self.var)
-#[error("{0:?}")] ⟶ write!("{:?}", self.0)
-```
+
+
 
 ## displaydoc
 
@@ -226,7 +238,7 @@ fn main() {
 ## anyhow
 
 [anyhow](https://github.com/dtolnay/anyhow)的作用是提供一个通用的`Error trait`来方便错误传递。
-比如说`handle_data`函数需要返回一个标准的`Error trait`来批量内部细节，我们可以这样做：
+比如说`handle_data`函数需要返回一个标准的`Error trait`来屏蔽内部细节，我们可以这样做：
 
 ```rust
 fn handle_data<T>(data: T) -> Result<(), Box<dyn std::error::Error>> {
@@ -573,7 +585,7 @@ fn read_config() -> Result<String, Report> {
 4. 标准错误：在`Stderr`模块下输出了标准错误信息
 5. 错误追踪：在`SPANTRACE`模块下输出了错误追踪信息
 
-
 ## 推荐阅读
+
 1. [Zero to Production in Rust：第8章-Error Handling]()
 2. [RustConf 2020 - Error handling Isn't All About Errors by Jane Lusby](https://www.youtube.com/watch?v=rAF8mLI0naQ)
