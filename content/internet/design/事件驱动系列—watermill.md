@@ -3,14 +3,14 @@
 date = 2023-09-12T19:43:00+08:00
 title = "事件驱动系列—watermill"
 url = "/internet/event-driven/watermill"
+tags = ["事件驱动", "watermill"]
 
 toc = true
 
 +++
 
-
-
 ## 背景
+
 使用HTTP构建应用时无需关注HTTP的底层协议，同样，使用事件驱动时同样也应无需关注事件的底层协议——[watermill](https://github.com/ThreeDotsLabs/watermill)为我们封装好了这些功能。
 
 ## Base Usage
@@ -108,13 +108,9 @@ type PublisherConfig struct {
 }
 ```
 
-
-
 ### Subscriber
 
 订阅者的封装逻辑基本上与Publisher一致，不再赘述。
-
-
 
 ## Router
 
@@ -304,8 +300,6 @@ router.AddMiddleware(func(h message.HandlerFunc) message.HandlerFunc {
 	})
 ```
 
-
-
 ### Decorators
 
 可以分别对订阅者和发布者构造装饰器，如保证每个发布者都携带`correlation_id`标识:
@@ -372,23 +366,21 @@ router.AddPlugin(func(router *message.Router) error {
 	})
 ```
 
-
-
 ## CQRS
 
-watermill提供了一整套框架来在事件驱动的架构中实现CQRS（*Command-query responsibility segregation*），其中主要有三个部分：Event Bus、Event Processor、Event Handler。
+watermill提供了一整套框架来在事件驱动的架构中实现CQRS（_Command-query responsibility segregation_），其中主要有三个部分：Event Bus、Event Processor、Event Handler。
 
 操作的时序图如下：
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202309192316583.png)
 
-*[图片来自Three Dots Labs Academy](https://academy.threedots.tech/trainings/go-event-driven/exercise/4c908a02-a3e9-4a20-ad09-20a511c1c912)*
+_[图片来自Three Dots Labs Academy](https://academy.threedots.tech/trainings/go-event-driven/exercise/4c908a02-a3e9-4a20-ad09-20a511c1c912)_
 
 一个实际的使用场景可能是：
 
 ![](https://threedots.tech/watermill-io/cqrs-big-picture.svg)
 
-*[图片来自CQRS Component (watermill.io)](https://watermill.io/docs/cqrs/)*
+_[图片来自CQRS Component (watermill.io)](https://watermill.io/docs/cqrs/)_
 
 ### Event Bus
 
@@ -535,16 +527,17 @@ type EventProcessorConfig struct {
 ```
 
 - GenerateSubscribeTopic: 用于根据事件动态生成所需订阅的topic，与EventBusConfig的GeneratePublishTopic相对应，两者的函数签名也相似：
+
   ```go
   type GenerateEventPublishTopicFn func(GenerateEventPublishTopicParams) (string, error)
-  
+
   type GenerateEventPublishTopicParams struct {
   	EventName string
   	Event     any
   }
-  
+
   type EventProcessorGenerateSubscribeTopicFn func(EventProcessorGenerateSubscribeTopicParams) (string, error)
-  
+
   type EventProcessorGenerateSubscribeTopicParams struct {
   	EventName    string
   	EventHandler EventHandler
@@ -557,7 +550,7 @@ type EventProcessorConfig struct {
 
   ```go
   type EventProcessorSubscriberConstructorFn func(EventProcessorSubscriberConstructorParams) (message.Subscriber, error)
-  
+
   type EventProcessorSubscriberConstructorParams struct {
   	HandlerName  string
   	EventHandler EventHandler
@@ -574,8 +567,6 @@ type EventProcessorConfig struct {
     },
   watermillLogger)
   ```
-
-  
 
 #### EventHandler
 
@@ -613,8 +604,6 @@ type EventHandler interface {
 
 Event Processor只有一个public API：`func (p *EventProcessor) AddHandlers(handlers ...EventHandler) error `，因此无需考虑复杂的管理操作。
 
-
-
 ### Command Bus
 
 区别于Event，Command：
@@ -651,8 +640,6 @@ func Send(/*params*/) {
  bus.Send(ctx, Command)
 }
 ```
-
-
 
 ### Command Processor
 
@@ -705,7 +692,7 @@ func NewProcessor(router *message.Router, sender Sender, sub message.Subscriber,
 
 #### RequestReply
 
-对于需要接收请求的同步命令处理，可以使用[`requestreply`](https://github.com/ThreeDotsLabs/watermill/tree/master/components/requestreply) 
+对于需要接收请求的同步命令处理，可以使用[`requestreply`](https://github.com/ThreeDotsLabs/watermill/tree/master/components/requestreply)
 
 执行命令：
 
@@ -758,10 +745,6 @@ fmt.Println(reply.Result.PaymentReference) // it's equal to "1234"
 fmt.Println(reply.Error) // it's nil
 ```
 
-
-
-
-
 ## Outbox
 
 ### 场景
@@ -777,8 +760,6 @@ watermill中把这种功能进行了封装，称其为outbox。outbox能够确�
 > 如果你正在担心使用数据库带来的性能问题，可以参考这篇博客——[Push-based Outbox Pattern with Postgres Logical Replication - Event-Driven.io](https://event-driven.io/en/push_based_outbox_pattern_with_postgres_logical_replication/)
 >
 > 在设计“中转表”之前，阅读这篇文章可以少走弯路——[How Postgres sequences issues can impact your messaging guarantees - Event-Driven.io](https://event-driven.io/en/ordering_in_postgres_outbox/)
-
-
 
 ### Publisher
 
@@ -945,8 +926,6 @@ func RunForwarder(
 }
 ```
 
-
-
 ## 事件顺序
 
 在事件驱动的架构中，事件往往以topic的方式展现，而对topic的消费又往往是并行处理。
@@ -1027,7 +1006,7 @@ pub, err := kafka.NewPublisher(kafka.PublisherConfig{
 ```go
 cqrs.NewEventHandler("OnEmployeeLeft", func(ctx context.Context, event *EmployeeLeft) error {
 			employee := getEmployee(event.EmployeeID)
-			
+
 			if event.Version-1 != employee.Version {
 				return fmt.Errorf("version not match")
 			}
@@ -1438,7 +1417,7 @@ pq, err := middleware.PoisonQueueWithFilter(pub, "PoisonQueue", func(err error) 
 	if errors.As(err, &permErr) && permErr.IsPermanent() {
 		return true
 	}
-	
+
 	return false
 })
 router.AddMiddleware(pq)
@@ -1448,7 +1427,7 @@ router.AddMiddleware(pq)
 
 ```go
 router.AddMiddleware(
-	middleware.PoisonQueue(publisher, "poison_queue"), 
+	middleware.PoisonQueue(publisher, "poison_queue"),
 	middleware.Retry{
 		// Config
 	}.Middleware,

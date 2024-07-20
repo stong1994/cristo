@@ -102,13 +102,13 @@
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="internet">
-    <meta property="article:published_time" content="2024-07-14T01:43:00+08:00">
-    <meta property="article:modified_time" content="2024-07-14T01:43:00+08:00">
-    <meta property="article:tag" content="Log">
+    <meta property="article:published_time" content="2024-07-15T01:43:00+08:00">
+    <meta property="article:modified_time" content="2024-07-15T01:43:00+08:00">
     <meta property="article:tag" content="Rust">
     <meta property="article:tag" content="错误处理">
     <meta property="article:tag" content="Thiserror">
     <meta property="article:tag" content="Anyhow">
+    <meta property="article:tag" content="Eyre">
 
   
   <meta name="twitter:card" content="summary">
@@ -132,15 +132,15 @@
       "name": "stong"
     },
     "copyrightYear": "2024",
-    "dateCreated": "2024-07-14T01:43:00\u002b08:00",
-    "datePublished": "2024-07-14T01:43:00\u002b08:00",
+    "dateCreated": "2024-07-15T01:43:00\u002b08:00",
+    "datePublished": "2024-07-15T01:43:00\u002b08:00",
     
-    "dateModified": "2024-07-14T01:43:00\u002b08:00",
+    "dateModified": "2024-07-15T01:43:00\u002b08:00",
     
-    "keywords": ["log","rust","错误处理","thiserror","anyhow"],
+    "keywords": ["rust","错误处理","thiserror","anyhow","eyre"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "2923"
+    "wordCount": "2971"
   }
   </script>
 
@@ -671,7 +671,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2024-07-14 01:43:00 &#43;0800 CST">14 July 2024</time><span class="px-2 text-primary-500">&middot;</span><span>2923 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">6 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2024-07-15 01:43:00 &#43;0800 CST">15 July 2024</time><span class="px-2 text-primary-500">&middot;</span><span>2971 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">6 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -703,12 +703,6 @@
         
           
             <a
-              href="/tags/log/"
-              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
-              >Log</a
-            >
-          
-            <a
               href="/tags/rust/"
               class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
               >Rust</a
@@ -730,6 +724,12 @@
               href="/tags/anyhow/"
               class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
               >Anyhow</a
+            >
+          
+            <a
+              href="/tags/eyre/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Eyre</a
             >
           
         
@@ -779,8 +779,26 @@
         </div>
       
       <div class="min-h-0 min-w-0 max-w-prose grow">
-        <h2 id="thiserror" class="relative group">thiserror <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#thiserror" aria-label="Anchor">#</a></span></h2><p><a href="https://github.com/dtolnay/thiserror" target="_blank" rel="noreferrer">thiserror</a> 提供了更快捷的定义错误类型的能力。</p>
-<p>在代码中，我们通常会为错误定义一些类型，这样上层在使用时可以根据错误类型进行不同的错误处理，比如：</p>
+        <p>Rust中针对不同的错误处理场景，提供了多种库:</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自定义错误类型</td>
+<td>thiserror, displaydoc, snafu</td>
+</tr>
+<tr>
+<td>错误传递</td>
+<td>anyhow, eyre</td>
+</tr>
+</tbody>
+</table>
+<h2 id="thiserror" class="relative group">thiserror <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#thiserror" aria-label="Anchor">#</a></span></h2><p>在代码中，我们通常会为错误定义一些类型，这样上层在使用时可以根据错误类型进行不同的错误处理，比如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">DataStoreError</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Disconnect</span><span class="p">(</span><span class="n">io</span>::<span class="n">Error</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Redaction</span><span class="p">(</span><span class="nb">String</span><span class="p">),</span><span class="w">
@@ -810,7 +828,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">},</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><p>通过模式匹配错误，并根据不同的类型打印不同的信息。 我们得到了想要的效果，但是考虑下：如果有多个使用方，每个使用方都需要自己定义错误信息的打印吗？让我们把这个功能通过实现<code>Error trait</code>来实现下：</p>
+</span></span></span></code></pre></div><p>通过模式匹配错误，并根据不同的类型打印不同的信息。</p>
+<p>我们得到了想要的效果，但是考虑下：如果有多个使用方，每个使用方都需要自己定义错误信息的打印吗？</p>
+<p>当然不，让我们把这个功能通过实现<code>Error trait</code>来实现下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="w"> </span><span class="n">Display</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">DataStoreError</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">fmt</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">f</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span>::<span class="n">Formatter</span><span class="o">&lt;</span><span class="nb">&#39;_</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">std</span>::<span class="n">fmt</span>::<span class="nb">Result</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="bp">self</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -860,7 +880,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Error inserting data: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
-</span></span></span></code></pre></div><p>通过<code>thiserror</code>来简化上述那一套代码：</p>
+</span></span></span></code></pre></div><p><a href="https://github.com/dtolnay/thiserror" target="_blank" rel="noreferrer">thiserror</a> 提供了<strong>更快捷的定义错误类型的能力</strong>。</p>
+<p>通过<code>thiserror</code>来简化上述那一套代码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">thiserror</span>::<span class="n">Error</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[derive(Error, Debug)]</span><span class="w">
@@ -875,12 +896,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Unknown</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div><p>Pretty good!!!</p>
+<blockquote>
 <p><code>thiserror</code>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="cp">#[error(</span><span class="s">&#34;{var}&#34;</span><span class="cp">)]</span><span class="w"> </span><span class="err">⟶</span><span class="w"> </span><span class="fm">write!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">var</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[error(</span><span class="s">&#34;{0}&#34;</span><span class="cp">)]</span><span class="w"> </span><span class="err">⟶</span><span class="w"> </span><span class="fm">write!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[error(</span><span class="s">&#34;{var:?}&#34;</span><span class="cp">)]</span><span class="w"> </span><span class="err">⟶</span><span class="w"> </span><span class="fm">write!</span><span class="p">(</span><span class="s">&#34;{:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">var</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[error(</span><span class="s">&#34;{0:?}&#34;</span><span class="cp">)]</span><span class="w"> </span><span class="err">⟶</span><span class="w"> </span><span class="fm">write!</span><span class="p">(</span><span class="s">&#34;{:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span><span class="w">
-</span></span></span></code></pre></div><h2 id="displaydoc" class="relative group">displaydoc <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#displaydoc" aria-label="Anchor">#</a></span></h2><p><a href="https://github.com/yaahc/displaydoc" target="_blank" rel="noreferrer">displaydoc</a>几乎和<code>thiserror</code>一模一样，除了他们定义错误的方式：
+</span></span></span></code></pre></div></blockquote>
+<h2 id="displaydoc" class="relative group">displaydoc <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#displaydoc" aria-label="Anchor">#</a></span></h2><p><a href="https://github.com/yaahc/displaydoc" target="_blank" rel="noreferrer">displaydoc</a>几乎和<code>thiserror</code>一模一样，除了他们定义错误的方式：
 <code>thiserror</code>是通过<code>#[error(&quot;...&quot;)]</code>来定义错误信息，而<code>displaydoc</code>是通过文档注释<code>/// </code>来定义错误信息。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// ========== thiserror ==============
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">use</span><span class="w"> </span><span class="n">thiserror</span>::<span class="n">Error</span><span class="p">;</span><span class="w">
@@ -950,7 +973,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1">// Error: ReadConfiguration { source: Os { code: 2, kind: NotFound, message: &#34;No such file or directory&#34; }, path: &#34;config.toml&#34; }
 </span></span></span></code></pre></div><p>这有点像<code>thiserror</code>和<code>anyhow</code>的结合体。</p>
 <h2 id="anyhow" class="relative group">anyhow <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#anyhow" aria-label="Anchor">#</a></span></h2><p><a href="https://github.com/dtolnay/anyhow" target="_blank" rel="noreferrer">anyhow</a>的作用是提供一个通用的<code>Error trait</code>来方便错误传递。
-比如说<code>handle_data</code>函数需要返回一个标准的<code>Error trait</code>来批量内部细节，我们可以这样做：</p>
+比如说<code>handle_data</code>函数需要返回一个标准的<code>Error trait</code>来屏蔽内部细节，我们可以这样做：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">handle_data</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">data</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">std</span>::<span class="n">error</span>::<span class="n">Error</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">insert_data</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -1377,7 +1400,7 @@
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="group flex" href="/internet/rust/logs/">
+            <a class="group flex" href="/internet/ai/luobokuaipao/">
               <span
                 class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
                 ><span class="ltr:inline rtl:hidden">&larr;</span
@@ -1386,11 +1409,11 @@
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >Rust中的log库们</span
+                  >应对萝卜快跑的策略们</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2024-07-11 19:43:00 &#43;0800 CST">11 July 2024</time>
+                    <time datetime="2024-07-15 01:43:00 &#43;0800 CST">15 July 2024</time>
                   
                 </span>
               </span>
@@ -1399,15 +1422,15 @@
         </span>
         <span>
           
-            <a class="group flex text-right" href="/internet/rust/error-base/">
+            <a class="group flex text-right" href="/internet/rust/extension-trait/">
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >Rust中的错误处理——基础</span
+                  >Rust设计模式之扩展trait</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2024-07-14 01:43:00 &#43;0800 CST">14 July 2024</time>
+                    <time datetime="2024-07-18 01:43:00 &#43;0800 CST">18 July 2024</time>
                   
                 </span>
               </span>

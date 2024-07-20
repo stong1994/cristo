@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extension Trait on </title>
+    <link>/tags/extension-trait/</link>
+    <description>Recent content in Extension Trait on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 18 Jul 2024 01:43:00 +0800</lastBuildDate>
+    <atom:link href="/tags/extension-trait/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust设计模式之扩展trait</title>
+      <link>/internet/rust/extension-trait/</link>
+      <pubDate>Thu, 18 Jul 2024 01:43:00 +0800</pubDate>
+      <guid>/internet/rust/extension-trait/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
