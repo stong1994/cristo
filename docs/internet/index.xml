@@ -6,8 +6,22 @@
     <description>Recent content on </description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 18 Jul 2024 01:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jul 2024 03:00:00 +0800</lastBuildDate>
     <atom:link href="/internet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>事件驱动系列—outbox模式</title>
+      <link>/internet/event-driven/outbox/</link>
+      <pubDate>Sun, 21 Jul 2024 03:00:00 +0800</pubDate>
+      <guid>/internet/event-driven/outbox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>事件驱动系列—宽窄表分离</title>
+      <link>/internet/event-driven/wide-narrow-table-sepration/</link>
+      <pubDate>Sat, 20 Jul 2024 23:43:00 +0800</pubDate>
+      <guid>/internet/event-driven/wide-narrow-table-sepration/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Rust设计模式之扩展trait</title>
       <link>/internet/rust/extension-trait/</link>

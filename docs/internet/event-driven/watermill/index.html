@@ -106,6 +106,8 @@
     <meta property="article:section" content="internet">
     <meta property="article:published_time" content="2023-09-12T19:43:00+08:00">
     <meta property="article:modified_time" content="2023-09-12T19:43:00+08:00">
+    <meta property="article:tag" content="事件驱动">
+    <meta property="article:tag" content="Watermill">
 
   
   <meta name="twitter:card" content="summary">
@@ -134,7 +136,7 @@
     
     "dateModified": "2023-09-12T19:43:00\u002b08:00",
     
-    
+    "keywords": ["事件驱动","watermill"],
     
     "mainEntityOfPage": "true",
     "wordCount": "8332"
@@ -697,6 +699,20 @@
       
         
       
+        
+          
+            <a
+              href="/tags/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >事件驱动</a
+            >
+          
+            <a
+              href="/tags/watermill/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >Watermill</a
+            >
+          
         
       
     </div>
@@ -1631,7 +1647,7 @@
 </span></span></code></pre></div><h3 id="乐观锁" class="relative group">乐观锁 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b9%90%e8%a7%82%e9%94%81" aria-label="Anchor">#</a></span></h3><p>可以使用乐观锁来避免并发问题。我们使用version字段来标记当前记录的版本，每当发送一个事件时，将version放入事件实体中，然后在消费时，判断version的值是否正常。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">cqrs</span><span class="p">.</span><span class="nf">NewEventHandler</span><span class="p">(</span><span class="s">&#34;OnEmployeeLeft&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">event</span> <span class="o">*</span><span class="nx">EmployeeLeft</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">			<span class="nx">employee</span> <span class="o">:=</span> <span class="nf">getEmployee</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">EmployeeID</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">event</span><span class="p">.</span><span class="nx">Version</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="nx">employee</span><span class="p">.</span><span class="nx">Version</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;version not match&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">			<span class="p">}</span>
@@ -1945,13 +1961,13 @@
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">As</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">permErr</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">permErr</span><span class="p">.</span><span class="nf">IsPermanent</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">true</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">false</span>
 </span></span><span class="line"><span class="cl"><span class="p">})</span>
 </span></span><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span><span class="nx">pq</span><span class="p">)</span>
 </span></span></code></pre></div><p>当然，也可以搭配Retry中间件使用——重试几次后依然报错，则放入死信队列：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nf">AddMiddleware</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">middleware</span><span class="p">.</span><span class="nf">PoisonQueue</span><span class="p">(</span><span class="nx">publisher</span><span class="p">,</span> <span class="s">&#34;poison_queue&#34;</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">	<span class="nx">middleware</span><span class="p">.</span><span class="nf">PoisonQueue</span><span class="p">(</span><span class="nx">publisher</span><span class="p">,</span> <span class="s">&#34;poison_queue&#34;</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">middleware</span><span class="p">.</span><span class="nx">Retry</span><span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="c1">// Config
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}.</span><span class="nx">Middleware</span><span class="p">,</span>
