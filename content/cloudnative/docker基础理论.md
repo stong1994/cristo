@@ -4,6 +4,7 @@ date = 2022-10-22T21:19:00+08:00
 title = "docker基础理论"
 url = "/cloudnative/docker/base"
 
+tags = ["云原生", "Docker"]
 toc = true
 
 draft = false
@@ -188,7 +189,7 @@ $ tree .
 └── B
     ├── b
     └── x
-    
+
 $ mkdir C
 $ mount -t aufs -o dirs=./A:./B none ./C
 $ tree ./C
@@ -198,7 +199,7 @@ $ tree ./C
     └── x
 ```
 
-*aufs目前未进入Linux内核主干，因此需要在Ubuntu或者Debian中使用。*
+_aufs目前未进入Linux内核主干，因此需要在Ubuntu或者Debian中使用。_
 
 查看一个真实的镜像的rootfs：mongo:latest
 

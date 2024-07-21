@@ -3,6 +3,7 @@
 date = 2022-10-08T21:19:00+08:00
 title = "k8s-pod"
 url = "/cloudnative/k8s/pod"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -24,8 +25,6 @@ Pod是一组容器——这意味着它可以只包含一个容器，也可以�
 
 通过pod将这些容器“绑定”在一起则可以解决这个问题，因此pod也是容器调度中最小的构建单元。
 
-
-
 ### 决策：是否将容器放到同一个pod
 
 1. 如果容器之间一定要共享namespace（如文件）就要放到同一个pod
@@ -43,10 +42,10 @@ metadata:
   name: nginx
 spec:
   containers:
-  - name: nginx
-    image: nginx:1.14.2
-    ports:
-    - containerPort: 80
+    - name: nginx
+      image: nginx:1.14.2
+      ports:
+        - containerPort: 80
 ```
 
 ### 使用宿主机的PID和IPC namespace
@@ -69,12 +68,12 @@ spec:
 ```yaml
 spec:
   containers:
-  - image: luksa/kubia
-    name: kubia
-    ports: 
-    - containerPort: 8080 # 指定容器端口为8080
-      hostPort: 9000 # 指定宿主机端口为9000
-      protocol: TCP
+    - image: luksa/kubia
+      name: kubia
+      ports:
+        - containerPort: 8080 # 指定容器端口为8080
+          hostPort: 9000 # 指定宿主机端口为9000
+          protocol: TCP
 ```
 
 ### PodSecurityPolicy
@@ -123,26 +122,24 @@ example；
 
 PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterRole。
 
-
-
 ### 命令
 
-| 命令                                                | 说明                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------ |
+| 命令                                                | 说明                                                                                                  |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | kubectl explain pods                                | 查看pod相关的配置说明，如查看下一级对象使用说明，则通过英文句号来连接属性，如kubectl explain pod.spec |
-| kubectl create -f xx.yaml                           | 通过xx.yaml创建资源，如pod                                   |
-| kubectl get pod  ex_pod -o yaml                     | 将ex_pod资源定义以yaml格式输出，可支持json格式               |
-| kubectl logs ex_pod                                 | 查看ex_pod的日志                                             |
-| kubectl logs ex_pod -c ex_container                 | 查看ex_pod下的ex_container容器日志                           |
-| kubectl port-forward ex_pod 8888:8000               | 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中 |
-| kubectl label po xx_pod xx_tag=xx_value --overwrite | 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数 |
-| kubectl get po -l xx_tag=xx_vlaue                   | 展示label中xx_tag是xx_value的pod                             |
-| kubectl get po -l env                               | 展示label中含有env标签的pod                                  |
-| kubectl get po -l '!env'                            | 展示label中不含有env标签的pod                                |
-| kubectl get po -l env in (prod, dev)                | 展示label中含有env标签为prod或者dev的pod                     |
-| kubectl get po -l env notin (prod, dev)             | 展示label中含有env标签为不为prod且不为dev的pod               |
+| kubectl create -f xx.yaml                           | 通过xx.yaml创建资源，如pod                                                                            |
+| kubectl get pod ex_pod -o yaml                      | 将ex_pod资源定义以yaml格式输出，可支持json格式                                                        |
+| kubectl logs ex_pod                                 | 查看ex_pod的日志                                                                                      |
+| kubectl logs ex_pod -c ex_container                 | 查看ex_pod下的ex_container容器日志                                                                    |
+| kubectl port-forward ex_pod 8888:8000               | 将本地端口8888映射到ex_pod的8000端口，即可通过本地8888访问到ex_pod的8000端口中                        |
+| kubectl label po xx_pod xx_tag=xx_value --overwrite | 将xx_pod的label的xx_tag设置/改为xx_value，如果是修改，则需要overwrite参数                             |
+| kubectl get po -l xx_tag=xx_vlaue                   | 展示label中xx_tag是xx_value的pod                                                                      |
+| kubectl get po -l env                               | 展示label中含有env标签的pod                                                                           |
+| kubectl get po -l '!env'                            | 展示label中不含有env标签的pod                                                                         |
+| kubectl get po -l env in (prod, dev)                | 展示label中含有env标签为prod或者dev的pod                                                              |
+| kubectl get po -l env notin (prod, dev)             | 展示label中含有env标签为不为prod且不为dev的pod                                                        |
 
-### 
+###
 
 ## Pod lifecycle
 
@@ -155,8 +152,6 @@ PodSecurityPolicy是一个集群水平的资源，可以绑定到Role和ClusterR
 在节点上执行命令`docker ps`，会看到一个`pause`容器，这个容器的作用是持有pod的namespace——**该pod下的用户定义的容器都使用`pause`容器的namespace**。
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100795.png)
-
-
 
 ### init container—初始化pod
 
@@ -177,7 +172,7 @@ spec:
     - sh
     - -c
 	  - 'while true; do echo "Waiting for fortune service to come up...";
-    wget http://fortune -q -T 1 -O /dev/null >/dev/null 2>/dev/null 
+    wget http://fortune -q -T 1 -O /dev/null >/dev/null 2>/dev/null
     && break; sleep 1; done; echo "Service is up! Starting main container."'
 ```
 
@@ -196,15 +191,15 @@ metadata:
   name: pod-with-poststart-hook
 spec:
 containers:
-- image: luksa/kubia
-  name: kubia
-  lifecycle:
-    postStart: # 定义posst-start钩子
-      exec:
-        command:
-        - sh
-        - -c
-        - "echo 'hook will fail with exit code 15'; sleep 5; exit 15"
+  - image: luksa/kubia
+    name: kubia
+    lifecycle:
+      postStart: # 定义posst-start钩子
+        exec:
+          command:
+            - sh
+            - -c
+            - "echo 'hook will fail with exit code 15'; sleep 5; exit 15"
 ```
 
 ### pre-stop hook
@@ -215,10 +210,10 @@ example：
 
 ```yaml
 lifecycle:
-    preStop: # 定义pre-stop钩子
-      httpGet:
-        port: 8080
-        path: shutdown
+  preStop: # 定义pre-stop钩子
+    httpGet:
+      port: 8080
+      path: shutdown
 ```
 
 当容器中断后会发送`SIGTERM`信号到钩子。钩子会发送一个http请求，地址为`http:// POD_IP:8080/shutdown`.
@@ -233,8 +228,6 @@ lifecycle:
 2. 发送`SIGTERM`信号到容器的主程序。
 3. 等待程序优雅关闭或者关闭超时。
 4. 如果程序没有优雅关闭，则使用`SIGKILL`信号强制关闭。
-
-
 
 ## Pod Manager
 
@@ -255,13 +248,13 @@ apiVersion: vl
 kind: pod
 metadata:
 	name: kubia-liveness
-spec: 
+spec:
 	containers:
   	- image: luksa/kubia-unhealthy
     	name: kubia
       livenessProbe:
-      	httpGet: 
-      		path: / 
+      	httpGet:
+      		path: /
       		port: 8080
 ```
 
@@ -285,23 +278,21 @@ EXEC探针example：
 apiVersion: v1
 kind: ReplicationController
 ...
-spec: 
+spec:
 	...
-	template: 
-		spec: 
+	template:
+		spec:
 			containers:
       - name: kubia
       	image: luksa/kubia
         readinessProbe:
-        	exec: 
+        	exec:
         		command:
             - ls
             - /var/ready
 ```
 
 探针会在容器内执行 `ls /var/ready`，如果命令返回状态码不是0，则说明命令失败——pod未就绪。
-
-
 
 ### ReplicationController
 
@@ -322,18 +313,18 @@ example：
 ```yaml
 apiVersion: v1
 kind: ReplicationController
-metadata: 
+metadata:
 	name: kubia
 spec:
 	replicas: 3
   selector:
   	app: kubia
   template:
-  	metadata: 
-  		labels: 
+  	metadata:
+  		labels:
   			app: kubia
-    spec: 
-    	containers: 
+    spec:
+    	containers:
     		name: kubia
         image: luksa/kubia
         ports: containerPort: 8080
@@ -363,18 +354,18 @@ RS支持的操作符：
 如果指定了多个操作符，则最终的匹配为这些规则都必须满足。
 
 ```yaml
-selector: 
-	matchExpressions: 
-		key: app 
-		operator: In 
+selector:
+	matchExpressions:
+		key: app
+		operator: In
 		values: kubia
 ```
 
 也可以像RC那样不使用操作符：
 
 ```yaml
-selector: 
-	matchLabels: 
+selector:
+	matchLabels:
 		app: kubia
 ```
 
@@ -387,18 +378,18 @@ DS使用节点选择器来筛选节点。
 ```yaml
 apiVersion: apps/v1beta2
 kind: DaemonSet
-metadata: 
+metadata:
 	name: ssd-monitor
 spec:
-	selector: 
+	selector:
 		matchLabels:
     	app: ssd-monitor
-  template: 
-  	metadata: 
-  		labels: 
+  template:
+  	metadata:
+  		labels:
   			app: ssd-monitor
-    spec: 
-    	nodeSelector: 
+    spec:
+    	nodeSelector:
     		disk: ssd
       containers:
       	name: main
@@ -414,20 +405,20 @@ Job用于那些只执行一次任务的pod。
 ```yaml
 apiVersion: batch/v1
 kind: Job
-metadata: 
+metadata:
 	name: batch-job
-spec: 
+spec:
 	completions: 5 # 运行5个pod，默认串行执行
 	parallelism: 2 # 设置为2，则表示允许最大并行数为2
 	activeDeadlineSeconds: 10 # 超时时间，超过此配置则终止pod
 	backoffLimit: 6 # 重试次数
-	template: 
-		metadata: 
-			labels: 
+	template:
+		metadata:
+			labels:
 				app: batch-job
-    spec: 
+    spec:
     	restartPolicy: OnFailure
-    containers: 
+    containers:
     name: main
     image: luksa/batch-job
 ```
@@ -439,20 +430,20 @@ CronJob用于执行定时任务。
 ```yaml
 apiVersion: batch/v1betal
 kind: CronJob
-metadata: 
+metadata:
 	name: batch-job-every-fifteen-minutes
-spec: 
+spec:
 	schedule: "0,15,30,45 * * * *" # cron规则
 	startingDeadlineSeconds: 15 # 必须在指定时间的15s内执行，否则不执行并视为失败
-  jobTemplate: 
+  jobTemplate:
   	spec:
-    	template: 
-    		metadata: 
-    			labels: 
+    	template:
+    		metadata:
+    			labels:
     				app: periodic-batch-job
-    		spec: 
+    		spec:
     			restartPolicy: OnFailure
-        	containers: 
+        	containers:
         		name: main
             image: luksa/batch-job
 ```
@@ -481,15 +472,15 @@ k8s的核心理念之一就是声明式设计，因此滚动更新也应该通�
 ```yaml
 apiVersion: apps/vibetal
 kind: Deployment
-metadata: 
+metadata:
 	name : kubia
 spec:
 	replicas: 3
-  template: 
-  	metadata: 
+  template:
+  	metadata:
   		name : kubia
     labels: app: kubia
-  spec: 
+  spec:
   	containers:
     - image: luksa/kubia:v1
     	name : nodejs
@@ -498,8 +489,8 @@ spec:
 部署后可以看到该Deployment创建的RS
 
 ```shell
-$ kubectl get replicasets 
-NAME 							DESIRED CURRENT AGE 
+$ kubectl get replicasets
+NAME 							DESIRED CURRENT AGE
 kubia-1506449474  3 		  3 		  10s
 ```
 
@@ -508,7 +499,7 @@ kubia-1506449474  3 		  3 		  10s
 更新Deployment中的镜像标签
 
 ```shell
-$ kubectl set image deployment kubia nodejs=luksa/kubia:v2 
+$ kubectl set image deployment kubia nodejs=luksa/kubia:v2
 deployment "kubia" image updated
 ```
 
@@ -518,9 +509,9 @@ deployment "kubia" image updated
 
 ```shell
 $ kubectl rollout status deployment kubia
-Waiting for rollout to finish: 1 out of 3 new replicas have been updated... 
-Waiting for rollout to finish: 2 out of 3 new replicas have been updated... 
-Waiting for rollout to finish: 1 old replicas are pending termination... 
+Waiting for rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for rollout to finish: 1 old replicas are pending termination...
 deployment "kubia" successfully rolled out
 ```
 
@@ -624,23 +615,23 @@ spec:
         app: kubia
     spec:
       containers:
-      - name: kubia
-        image: luksa/kubia-pet
-        ports:
-        - name: http
-          containerPort: 8080
-        volumeMounts:
-        - name: data
-          mountPath: /var/data
+        - name: kubia
+          image: luksa/kubia-pet
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: data
+              mountPath: /var/data
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      resources:
-        requests:
-          storage: 1Mi
-      accessModes:
-      - ReadWriteOnce
+    - metadata:
+        name: data
+      spec:
+        resources:
+          requests:
+            storage: 1Mi
+        accessModes:
+          - ReadWriteOnce
 ```
 
 与RS相比，多了一个`volumeClaimTemplates`，上述配置中名为`data`的`volumeClaimTemplates`会在创建pod的PVC时使用.
@@ -658,8 +649,6 @@ $ kubectl run -it srvlookup --image=tutum/dnsutils --rm
 	--restart=Never -- dig SRV kubia.default.svc.cluster.local
 ```
 
-
-
 如果一个pod想要查找同一个SS下的其他pod，可以通过SRV DNS查找.
 
 #### 服务故障
@@ -674,4 +663,3 @@ $ kubectl run -it srvlookup --image=tutum/dnsutils --rm
 2. pod状态持续一段时间后仍没有恢复，会被k8s驱逐——删除pod的资源，但是由于节点服务获取到消息，因此pod一直在运行。
 
 3. 这种情况下，只能通过手动删除pod。
-

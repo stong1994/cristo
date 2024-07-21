@@ -20,9 +20,7 @@ Pod是一个逻辑概念——它代表了一组共同协作的容器。
 
 Pod是k8s中的最小的构建单元。
 
-
-
-### ReplicaSet 
+### ReplicaSet
 
 ### ReplicationController
 
@@ -60,9 +58,6 @@ Pod是k8s中的最小的构建单元。
 
 ## Network
 
-
-
 ## 文档
 
 - [jsonpath](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
-

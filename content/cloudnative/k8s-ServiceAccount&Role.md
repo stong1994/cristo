@@ -3,6 +3,7 @@
 date = 2022-10-18T21:19:00+08:00
 title = "k8s-ServiceAccount&RBAC"
 url = "/cloudnative/k8s/serviceAccount_rbac"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -22,7 +23,7 @@ k8s中管理pod的访问权限的实体是ServiceAccount。
 
 - `system:unauthenticated`: 适用于无需任何权限校验的请求
 - `system:authenticated`: 适用于权限认证已通过的请求
-- `system:serviceaccounts`:  包含系统中所有的ServiceAccount
+- `system:serviceaccounts`: 包含系统中所有的ServiceAccount
 - `system:serviceaccounts:<namespace>`: 包含指定命名空间的所有ServiceAccount
 
 example：
@@ -35,14 +36,12 @@ metadata:
 spec:
   serviceAccountName: foo
   containers:
-  - name: main
-    image: tutum/curl
-    command: ["sleep", "9999999"]
-  - name: ambassador
-    image: luksa/kubectl-proxy:1.6.2
+    - name: main
+      image: tutum/curl
+      command: ["sleep", "9999999"]
+    - name: ambassador
+      image: luksa/kubectl-proxy:1.6.2
 ```
-
-
 
 ## RBAC
 
@@ -77,8 +76,6 @@ RBAC鉴权插件中的角色是一种资源，这种资源分成四种：
 | PATCH     | patch                        | n/a              |
 | DELETE    | delete                       | deletecollection |
 
-
-
 ### Example
 
 #### 创建只读Role
@@ -90,9 +87,9 @@ metadata:
   namespace: foo # role需要指定namespace
   name: service-reader
 rules:
-- apiGroups: [""] # 指定apiGroup为空
-  verbs: ["get", "list"] # 指定动词
-  resources: ["services"] # 指定资源，必须使用复数
+  - apiGroups: [""] # 指定apiGroup为空
+    verbs: ["get", "list"] # 指定动词
+    resources: ["services"] # 指定资源，必须使用复数
 ```
 
 应用上述配置会生成一个名为service-reader的在foo命名空间下用于空的apiGroup且get和list动词的所有资源。
@@ -112,9 +109,9 @@ roleRef:
   kind: Role
   name: service-reader
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: foo
+  - kind: ServiceAccount
+    name: default
+    namespace: foo
 ```
 
 2. 通过命令：
@@ -129,11 +126,10 @@ kubectl create rolebinding test --role=service-reader --serviceaccount=foo:defau
 
 ### 四种角色资源的使用
 
-| 访问                                                         | 角色类型    | 绑定类型           |
-| ------------------------------------------------------------ | ----------- | ------------------ |
-| 集群级别的资源，如节点、持久卷                               | ClusterRole | ClusterRoleBinding |
-| 非资源类url，如/health                                       | ClusterRole | ClusterRoleBinding |
-| 在任意namespace使用namespaced资源                            | ClusterRole | ClusterRoleBinding |
+| 访问                                                                  | 角色类型    | 绑定类型           |
+| --------------------------------------------------------------------- | ----------- | ------------------ |
+| 集群级别的资源，如节点、持久卷                                        | ClusterRole | ClusterRoleBinding |
+| 非资源类url，如/health                                                | ClusterRole | ClusterRoleBinding |
+| 在任意namespace使用namespaced资源                                     | ClusterRole | ClusterRoleBinding |
 | 在特定namespace使用namespaced资源(多个namespace使用同一个ClusterRole) | ClusterRole | RoleBinding        |
-| 在特定namespace使用namespaced资源(各个namespace各自定义Role) | Role        | RoleBinding        |
-
+| 在特定namespace使用namespaced资源(各个namespace各自定义Role)          | Role        | RoleBinding        |

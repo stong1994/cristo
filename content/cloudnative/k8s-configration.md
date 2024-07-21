@@ -3,6 +3,7 @@
 date = 2022-10-07T21:19:00+08:00
 title = "k8s-volume"
 url = "/cloudnative/k8s/configration"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -46,9 +47,9 @@ example:
 
 ```yaml
 kind: Pod
-spec: 
-	containers: 
-	- image: some/image 
+spec:
+	containers:
+	- image: some/image
 		command: ["/bin/command"]
     args: ["arg1", "arg2", "arg3"]
 ```
@@ -58,11 +59,11 @@ spec:
 ### 在容器中的定义
 
 ```yaml
-kind: Pod 
-spec: 
+kind: Pod
+spec:
 	containers:
   - image: luksa/fortune:env
-  	env: 
+  	env:
   	- name: INTERVAL
     	value: "30"
     name: html-generator
@@ -71,7 +72,7 @@ spec:
 ### 根据先前定义的环境变量定义环境变量
 
 ```yaml
-env: 
+env:
 - name: FIRST_VAR
 	value: "foo"
 - name: SECOND VAR
@@ -124,13 +125,13 @@ kubectl create configmap my-config
 apiVersion: v1
 kind: Pod
 ...
-spec: 
+spec:
 	containers:
   - image: luksa/fortune:env
-  	env: 
+  	env:
   	- name: INTERVAL
-    	valueFrom: 
-    		configMapKeyRef: 
+    	valueFrom:
+    		configMapKeyRef:
     			name: fortune-config
           key: sleep-interval
 ```
@@ -138,30 +139,30 @@ spec:
 批量定义：
 
 ```yaml
-spec: 
-	containers: 
+spec:
+	containers:
 	- image: some-image
-  	envfrom: 
+  	envfrom:
   	- prefix: CONFIG_
-    	configMapRef: 
+    	configMapRef:
     		name: my-config-map
 ```
 
-通过将env替换为envfrom，k8s会将configmap（my-config-map）中的键值对批量写入到环境变量中，并且附加了前缀CONFIG_
+通过将env替换为envfrom，k8s会将configmap（my-config-map）中的键值对批量写入到环境变量中，并且附加了前缀CONFIG\_
 
 #### 定义为命令行参数
 
 不能直接在pod.spec.containers.args中使用configmap，但是可以先将其定义为环境变量，然后在args中引用环境变量。
 
 ```yaml
-spec: 
-	containers: 
+spec:
+	containers:
 	- image: luksa/fortune:args
   	env:
     - name: INTERVAL
-    	valueFrom: 
-    		configMapKeyRef: 
-    			name: fortune-config 
+    	valueFrom:
+    		configMapKeyRef:
+    			name: fortune-config
     			key: sleep-interval
     args: ["$(INTERVAL)"]
 ```
@@ -169,13 +170,13 @@ spec:
 #### 定义为配置文件
 
 ```yaml
-spec: 
+spec:
 	containers:
   - image: nginx:alpine
   	name : web-server
-    volumeMounts: 
+    volumeMounts:
     - name: config
-    	mountPath: /etc/nginx/conf.d 
+    	mountPath: /etc/nginx/conf.d
     	readOnly: true
   volumes:
   - name: config
@@ -190,9 +191,9 @@ spec:
 configmap中的每个key都是实体，使用时可以指定具体的实体。
 
 ```yaml
-volumes: 
+volumes:
 - name: config
-	configMap: 
+	configMap:
 		name: fortune-config
     items:
     - key: my-nginx-config.conf
@@ -204,10 +205,10 @@ volumes:
 默认情况下会直接将容器中的整个目录“覆盖”掉，可以使用subPath来指定追加文件。
 
 ```yaml
-spec: 
+spec:
 	containers:
   - image: some/image
-  	volumeMounts: 
+  	volumeMounts:
   	- name: myvolume
     	mountPath: /etc/someconfig.conf # 指定目的文件
       subPath: myconfig.conf # 指定要挂载的文件
@@ -216,10 +217,10 @@ spec:
 ##### 指定文件权限
 
 ```yaml
-volumes: 
-- name: config 
-	configMap: 
-		name: fortune-config 
+volumes:
+- name: config
+	configMap:
+		name: fortune-config
 		defaultMode: "6600" # 默认为644（-rw-r-r--）
 ```
 
@@ -244,21 +245,21 @@ Secret的使用方式和ConfigMap相似。
 提前准备好https.key https.cert等证书文件
 
 ```shell
-kubectl create secret generic fortune-https 
+kubectl create secret generic fortune-https
 	--from-file=https.key
   --from-file=https.cert
   --from-file=foo
 ```
 
-通过以上命令创建了名为fortune-https的generic  Secret。
+通过以上命令创建了名为fortune-https的generic Secret。
 
 ### 定义为环境变量
 
 ```yaml
-env: 
+env:
 - name: FOO_SECRET
 	valueFrom:
-  	secretKeyRef: 
+  	secretKeyRef:
   		name: fortune-https
       key: foo
 ```
@@ -266,17 +267,16 @@ env:
 ### 定义为配置文件
 
 ```yaml
-spec: 
+spec:
 	containers:
-	- image: nginx:alpine 
-		name : web-server 
-		volumeMounts: 
-		- name : certs 
-			mountPath: /etc/nginx/certs/ 
+	- image: nginx:alpine
+		name : web-server
+		volumeMounts:
+		- name : certs
+			mountPath: /etc/nginx/certs/
 			readOnly: true
 	volumes:
-  - name : certs 
-  	secret: 
+  - name : certs
+  	secret:
   		secretName: fortune-https
 ```
-

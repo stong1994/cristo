@@ -2,8 +2,8 @@
 
 date = 2022-08-17T21:19:00+08:00
 title = "Istio可观测性"
-url = "/cloudnative/istio/observe/"
-
+url = "cloudnative/istio/observe/"
+tags = ["云原生", "Istio", "Jaeger","ELK", "Prometheus"]
 toc = true
 
 draft = false
@@ -42,8 +42,6 @@ Grafana支持可配置的可视化、自定义的查询，并提供了报警系�
 - [Grafana Tempo](https://grafana.com/docs/tempo/latest/?pg=oss-tempo&plcmt=hero-txt/): 提供了更强大的分布式追踪能力。
 - [Grafana Mimir](https://grafana.com/docs/mimir/latest/): 为Prometheus提供了可扩展的长期存储服务。
 
-
-
 ### Kiali
 
 Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
@@ -71,8 +69,6 @@ Kiali是专用于Istio服务网格的管理工具，其核心功能包括：
 Envoy和Filebeat 部署在同一个Pod内，共享日志数据卷，Envoy 写，Filebeat读，实现对Envoy 访问日志的采集。
 
 <img src="https://raw.githubusercontent.com/stong1994/images/master/picgo/202208151241562.png" style="zoom:25%;" />
-
-
 
 ### ELK Stack
 
@@ -119,4 +115,3 @@ Jaeger的整体架构由以下部分组成：
 - UI：主要的用户交互页面，用于查询、展示数据。
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202208161257799.png)
-

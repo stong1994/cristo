@@ -6,10 +6,9 @@ toc: true
 draft: false
 description: "Rust中的惰性计算"
 slug: "惰性计算"
-tags: ["惰性计算", "rust", "lazy evaluation"]
+tags: ["惰性计算", "rust", "lazy evaluation", "迭代器"]
 showDateUpdated: true
 ---
-
 
 ## 什么是惰性计算（lazy evaluation）
 
@@ -129,8 +128,6 @@ fn main() {
 ```
 
 可以明显看到，使用迭代器的代码更加简洁，每个代码块只做一件事，代码的逻辑更加清晰。
-
- 
 
 ## 感受下Haskell的魅力
 

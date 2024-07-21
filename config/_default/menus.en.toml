@@ -51,19 +51,19 @@ weight = 8
 pageRef = "about"
 
 [[main]]
-  name = "GitHub"
-  url = "https://github.com/stong1994/"
-  weight = 40
-  [main.params]
-    icon = "github"
-    showName = false
-    target = "_blank"
+name = "GitHub"
+url = "https://github.com/stong1994/"
+weight = 40
+[main.params]
+icon = "github"
+showName = false
+target = "_blank"
 
 [[main]]
-  identifier = "search"
-  weight = 99
-  [main.params]
-    action = "search"
+identifier = "search"
+weight = 99
+[main.params]
+action = "search"
 
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before

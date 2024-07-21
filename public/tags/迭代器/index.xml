@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>迭代器 on 主页</title>
+    <link>//localhost:1313/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
+    <description>Recent content in 迭代器 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 01 Jul 2024 10:43:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust中的惰性计算</title>
+      <link>//localhost:1313/internet/rust/lay_evaluation/</link>
+      <pubDate>Mon, 01 Jul 2024 10:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/rust/lay_evaluation/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

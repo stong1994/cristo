@@ -3,6 +3,7 @@
 date = 2022-10-12T21:19:00+08:00
 title = "k8s-volume"
 url = "/cloudnative/k8s/volume"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -23,25 +24,25 @@ emptyDir可用于容器内临时的写入，也可以用于容器间共享文件
 ```yaml
 apiVersion: vl
 kind: Pod
-metadata: 
+metadata:
 	name: fortune
 spec:
 	containers:
 	- image: luksa/fortune
   	name : html-generator
-    volumeMounts: 
+    volumeMounts:
     - name: html
-    	mountPath: /var/htdocs 
+    	mountPath: /var/htdocs
   - image: nginx:alpine
   	name: web-server
-    volumeMounts: 
+    volumeMounts:
     - name: html
     	mountPath: /usr/share/nginx/html
-      readOnly: true 
+      readOnly: true
     ports:
     - containerPort: 80
     	protocol: TCP
-  volumes: 
+  volumes:
   - name: html
   	emptyDir: {}
 ```
@@ -55,8 +56,8 @@ spec:
 docker的日志文件存储在宿主机就是最经典的一个例子。
 
 ```yaml
-Volumes: 
-	varlog: 
+Volumes:
+	varlog:
 		Type: HostPath (bare host directory volume)
     Path: /var/log
   varlibdockercontainers:
@@ -91,8 +92,8 @@ apiVersion: vl
 kind: PersistentVolume
 metadata:
 	name: mongodb-pv
-spec: 
-	capacity: 
+spec:
+	capacity:
 		storage: 1Gi
   accessModes:
   - ReadWriteOnce
@@ -112,11 +113,11 @@ example：
 ```yaml
 apiVersion: vl
 kind: PersistentVolumeClaim
-metadata: 
+metadata:
 	name: mongodb-pvc
-spec: 
-	resources: 
-		requests: 
+spec:
+	resources:
+		requests:
 		  storage: 1Gi
   accessModes:
   - ReadWriteOnce
@@ -136,16 +137,16 @@ k8s会找到大小为1GiB的具有ReadWriteOnce权限的PV，并绑定到这个P
 ```yaml
 apiVersion: v1
 kind: Pod
-metadata: 
+metadata:
 	name: mongodb
-spec: 
-	containers: 
-	- image: mongo 
+spec:
+	containers:
+	- image: mongo
 		name: mongodb
     volumeMounts:
     - name: mongodb-data
     	mountPath:/data/db
-    ports: 
+    ports:
     - containerPort:27017
     	protocol: TCP
   volumes:
@@ -171,10 +172,10 @@ k8s会找到名为mongodb-pvc的PVC，找到与之绑定的PV并挂在到该pod�
 ```yaml
 apiVersion: storage.k8s.io/vl
 kind: StorageClass
-metadata: 
+metadata:
 	name: fast
 provisioner: kubernetes.io/gce-pd
-parameters: 
+parameters:
 	type: pd-ssd
   zone: europe-westl-b
 ```
@@ -184,12 +185,12 @@ parameters:
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata: 
+metadata:
 	name: mongodb-pvc
-spec: 
+spec:
 	storageClassName: fast
-	resources: 
-		requests: 
+	resources:
+		requests:
 			storage: 100Mi
   accessModes:
   - ReadWriteOnce
@@ -204,4 +205,3 @@ spec:
 ### 动态的PV供应
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210052046175.png)
-

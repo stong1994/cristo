@@ -3,12 +3,11 @@
 date = 2022-07-31T16:14:00+08:00
 title = "python之包管理工具"
 url = "/internet/python/package_manager"
+tags = ["python", "包管理"]
 
 toc = true
 
 +++
-
-
 
 ## 背景
 
@@ -134,8 +133,6 @@ pipenv优化了Virtualenv中没有很好的满足包依赖关系的问题。
 2. 拥有灵活且强大的插件系统
 3. 中心化安装缓存，节省磁盘空间
 
-
-
 ## Conda
 
 在做机器学习时，往往需要使用Anaconda，Anaconda有自己的虚拟环境系统，称为conda。
@@ -145,8 +142,6 @@ pipenv优化了Virtualenv中没有很好的满足包依赖关系的问题。
 1. 创建虚拟环境：`conda create --name environment_name python=3.6`
 2. 激活虚拟环境: `conda activate`
 3. conda环境的卸载: `conda remove -n environment_name --all`
-
-
 
 ## 相关阅读
 

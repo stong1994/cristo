@@ -3,6 +3,7 @@
 date = 2022-10-11T21:19:00+08:00
 title = "k8s-service"
 url = "/cloudnative/k8s/service"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -27,10 +28,10 @@ draft = false
 ```yaml
 apiVersion: vl
 kind: Service
-metadata: 
+metadata:
 	name: kubia
-spec: 
-	ports: 
+spec:
+	ports:
 		port: 80 # service提供的端口，用于外部访问
     targetPort: 8080 # 容器开放的端口，用于service访问
   selector: # pod的标签选择器
@@ -95,7 +96,7 @@ apiVersion: v1
 kind: Service
 metadata:
 	name: baidu
-spec: 
+spec:
 	type: ExternalName # 必须指定为ExternalName
   externalName: baidu.com
   ports:
@@ -115,11 +116,11 @@ NodePort是一种Service，它会在集群所有的节点中保留一个端口�
 ```yaml
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
 	name: kubia-nodeport
-spec: 
+spec:
 	type: NodePort # 类型设置
-  ports: 
+  ports:
   	port: 80 # Service内部的集群端口
     targetPort: 8080 # 后端pod暴露的端口
     nodePort: 30123 # 集群中的每个节点都能通过30123访问Service
@@ -129,8 +130,6 @@ spec:
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210021611556.png)
 
-
-
 ### LoadBalancer
 
 LoadBalancer在NodePort的基础上提供了负载均衡能力。
@@ -138,14 +137,14 @@ LoadBalancer在NodePort的基础上提供了负载均衡能力。
 ```yaml
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
 	name: kubia-loadbalancer
-spec: 
+spec:
 	type: LoadBalancer
-  ports: 
+  ports:
   - port: 80
   	targetPort: 8080
-  selector: 
+  selector:
   	app: kubia
 ```
 
@@ -164,15 +163,15 @@ example：
 ```yaml
 apiVersion: extensions/vlbetal
 kind: Ingress
-metadata: 
-	name: kubia 
-spec: 
-	rules: 
+metadata:
+	name: kubia
+spec:
+	rules:
 	- host: kubia.example.com
-  http: 
+  http:
   	paths:
     	path: /
-      backend: 
+      backend:
       	serviceName: kubia-nodeport
         servicePort: 80
 ```
@@ -188,11 +187,11 @@ Headless Service就是clusterIP为None的Service。
 ```yaml
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
 	name: kubia-headless
-spec: 
+spec:
 	clusterIP: None
-  ports: 
+  ports:
   - port: 80
   	targetPort: 8080
   selector:
@@ -201,8 +200,6 @@ spec:
 
 当使用DNS查询时，DNS Server会返回一系列pod的ip而不是一个pod的ip。
 
-
-
 ## 特性
 
 1. 如果想要让同一个客户端每次都访问同一个pod，可以设置**spec.sessionAffinity**为**ClientIP**。该选项只有**ClientIP**和**None**两种，不支持cookie，因为k8s不处理HTTP级别的数据。
@@ -210,15 +207,15 @@ spec:
 2. 一个service可以开放多个端口。
 
    ```yaml
-   spec: 
-   	ports: 
+   spec:
+   	ports:
    	-	name: http
        port: 80
        targetPort: 8080
      - name: https
      	port: 443
        targetPort: 8443
-     selector: 
+     selector:
      	app: kubia
    ```
 
@@ -226,12 +223,12 @@ spec:
 
    ```yaml
    kind: Pod
-   spec: 
-   	containers: 
+   spec:
+   	containers:
    	-	name: kubia
-       ports: 
+       ports:
        -	name: http
-         containerPort: 8080 
+         containerPort: 8080
        - name: https
        	containerPort: 8443
    ```
@@ -239,8 +236,8 @@ spec:
    ```yaml
    apiVersion: v1
    kind: Service
-   spec: 
-   	ports: 
+   spec:
+   	ports:
    	-	name: http
      	port: 80
        target Port: http
@@ -252,6 +249,3 @@ spec:
    好处是当需要修改port时，只修改pod的端口即可。
 
 4. Service ip不能ping通，这是因为Service的ip是一个虚拟ip，只有和port一起使用才有意义。
-
-
-

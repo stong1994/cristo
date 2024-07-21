@@ -4,11 +4,10 @@ date = 2022-11-04T17:23:00+08:00
 title = "SOLID原则"
 url = "/internet/design/solid"
 
+tags = ["设计模式", "编程思想", "SOLID"]
 toc = true
 
 +++
-
-
 
 对于一个刚入行的程序员来说，写好的代码是很难的。这并不是说他们（或者说那时的我们）不了解编程语言的写法，也不是说他们不了解设计模式，而是说他们缺少编程思想，这种思想是需要通过经验总结出来的，也需要经验才能体会的到。SOLID原则就是面向对象编程中的一种思想的体现。
 
@@ -96,7 +95,7 @@ func CalcAllUser(users []CalcPayUser) {
 
 全称：Liskov Substitution Principle
 
->Derived classes must be usable through the base class interface, without the need for the user to know the difference.
+> Derived classes must be usable through the base class interface, without the need for the user to know the difference.
 
 里氏替换对衍生对象提出了要求：**衍生对象及其继承的方法必须是可用的，且对用户来说是没有区别的（不需要用户区别处理）。**
 
@@ -239,8 +238,6 @@ type IRepo interface{
 - 原则之间并不是互斥的，实际中的问题可能同时违反了多个原则。
 - 文中只给出了错误的使用，并且没有提供纠错实例。这样做是因为解决问题的方式有很多种，举例反而容易造成固化解决方式的误解（如，认为这种问题只能这样解决）。
 - 代码需要不断被重构，写代码也需要不断精进。
-
-
 
 ## 相关文档
 

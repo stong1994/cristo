@@ -4,13 +4,12 @@ date = 2022-10-17T21:19:00+08:00
 title = "k8s-可计算资源管理"
 url = "/cloudnative/k8s/computational_resource"
 
+tags = ["云原生", "k8s"]
 toc = true
 
 draft = false
 
 +++
-
-
 
 ## LimitRange
 
@@ -29,7 +28,7 @@ spec:
     min:
       cpu: 50m
       memory: 5Mi
-		max: 
+		max:
 			cpu: 1
       memory: 1Gi
   - type: Container

@@ -3,6 +3,7 @@
 date = 2022-10-13T21:19:00+08:00
 title = "k8s架构设计"
 url = "/cloudnative/k8s/architecture"
+tags = ["云原生", "k8s"]
 
 toc = true
 
@@ -62,7 +63,7 @@ k8s中存在大量组件，这些组件需要更新大量数据，如何保证�
 
 1. 鉴权插件
 
-​		API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
+​ API server中有多个鉴权插件，API server会遍历这些插件直到找到一个能够识别请求用户的插件。
 
 2. 鉴权插件again
 
@@ -90,15 +91,11 @@ k8s中有大量的控制器，如ReplicationController、ReplicaSet、Job等等�
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100050.png)
 
-
-
-
-
 这些控制器有：
 
 - Replication Manager
 - eplicaSet, DaemonSet, and Job controllers
-- Deployment controller 
+- Deployment controller
 - StatefulSet controller
 - Node controller
 - Service controller
@@ -119,7 +116,7 @@ ReplicationController不会直接创建或删除Pod，而是通过监听机制�
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152103527.png)
 
-Endpoint控制器会监听Service和Pod两种资源，一旦Service增加或修改了Pod，或者Pod被新增、修改和删除后，Endpoint控制器会根据Service的pod选择器来选择合适的pod，并且将选择的pod的ip和端口更新到Endpoint资源上。 
+Endpoint控制器会监听Service和Pod两种资源，一旦Service增加或修改了Pod，或者Pod被新增、修改和删除后，Endpoint控制器会根据Service的pod选择器来选择合适的pod，并且将选择的pod的ip和端口更新到Endpoint资源上。
 
 ## kubelet
 
@@ -133,17 +130,11 @@ kubelet是一个节点上用来为所有正在运行的事物负责的组件。
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152059337.png)
 
-
-
 ## 事件
 
 ### 部署Deployment时的事件链
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202210152100135.png)
-
-
-
-
 
 ## 高可用
 

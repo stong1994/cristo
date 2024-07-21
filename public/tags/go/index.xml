@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Go on </title>
+    <title>Go on 主页</title>
     <link>//localhost:1313/tags/go/</link>
-    <description>Recent content in Go on </description>
+    <description>Recent content in Go on 主页</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Thu, 04 Jul 2024 12:43:00 +0800</lastBuildDate>
@@ -16,10 +16,52 @@
       <description></description>
     </item>
     <item>
+      <title>go中的依赖注入</title>
+      <link>//localhost:1313/internet/go/dependence_injection/</link>
+      <pubDate>Mon, 30 Oct 2023 14:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/dependence_injection/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>相较于go, rust好在哪</title>
       <link>//localhost:1313/note/rust/the_content_rust_better_than_go/</link>
       <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
       <guid>//localhost:1313/note/rust/the_content_rust_better_than_go/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>go设计之json</title>
+      <link>//localhost:1313/internet/go/json/</link>
+      <pubDate>Thu, 15 Dec 2022 14:50:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/json/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>go设计之sync.Map</title>
+      <link>//localhost:1313/internet/go/syncmap/</link>
+      <pubDate>Mon, 31 Oct 2022 11:00:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/syncmap/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>go设计之errgroup</title>
+      <link>//localhost:1313/internet/go/errgroup/</link>
+      <pubDate>Mon, 31 Oct 2022 00:01:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/errgroup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>go中的测试</title>
+      <link>//localhost:1313/internet/go/component_test/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/component_test/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>go设计之channel</title>
+      <link>//localhost:1313/internet/go/channel/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/go/channel/</guid>
       <description></description>
     </item>
   </channel>

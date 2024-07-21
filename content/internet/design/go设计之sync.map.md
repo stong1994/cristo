@@ -3,12 +3,10 @@
 date = 2022-10-31T11:00:00+08:00
 title = "go设计之sync.Map"
 url = "/internet/go/syncmap"
-
+tags = ["go", "sync.Map"]
 toc = true
 
 +++
-
-
 
 ## 前瞻
 
@@ -16,7 +14,7 @@ go语言中内置的map类型不允许并发读写，否则会直接退出程序
 
 然而，这种lock-free的实现必然存在着一定的限制——当我们得到某些东西的时候，往往就需要放弃另外一些东西。因此，必须了解其适用的场景才能使用sync.Map。
 
-##  源码
+## 源码
 
 源码位于`src/sync/map.go`.
 

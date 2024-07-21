@@ -3,12 +3,11 @@
 date = 2022-10-31T00:01:00+08:00
 title = "go设计之errgroup"
 url = "/internet/go/errgroup"
+tags = ["go", "errorgroup"]
 
 toc=true
 
 +++
-
-
 
 ## 前瞻
 
@@ -228,4 +227,3 @@ func ExampleGroup_parallel() {
 ```
 
 这个例子会并发访问三个地址，然后将结果写入results切片中。需要注意**切片是并发不安全的**，所以在实际开发中，需要对results切片加锁，或者使用channel来传递至。
-

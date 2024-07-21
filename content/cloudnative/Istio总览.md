@@ -3,14 +3,12 @@
 date = 2022-08-07T21:19:00+08:00
 title = "Istio总览"
 url = "/cloudnative/istio/overview"
-
+tags = ["云原生", "Istio"]
 toc = true
 
 draft = false
 
 +++
-
-
 
 ## 什么是Istio
 
@@ -29,8 +27,6 @@ Istio平台整体上可分为两部分：
 - 控制平面：Istio平台的**中央控制器**，负责维护配置信息、响应管理员并控制整个网络。
 - 数据平面：**拦截服务实例的流量**，并根据控制平面下发的配置来管控流量。
 
-
-
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202208091941688.svg)
 
 ## 控制平面
@@ -38,8 +34,6 @@ Istio平台整体上可分为两部分：
 控制平面的职责是管理数据平面中的边车代理，完成服务发现、配置分发、授权鉴权等功能。
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202208092022467.png)
-
-
 
 ### Pilot
 
@@ -100,8 +94,6 @@ MCP提供了一套用于配置订阅和分发的API，这些API在MCP中可以�
 
 ![](https://raw.githubusercontent.com/stong1994/images/master/picgo/202208092053509.png)
 
-
-
 ## 数据平面
 
 Istio数据平面核心是以Sidecar模式运行的智能代理。Sidecar模式将数据平面核心组件部署到单独的流程或容器中，以提供隔离和封装。
@@ -125,15 +117,11 @@ Istio数据平面核心是以Sidecar模式运行的智能代理。Sidecar模式�
 - MOSN：由阿里巴巴公司开源，设计类似 Envoy，使用Go 语言开发，优化了过多协议支持的问题。
 - Linkerd：一个提供弹性云原生应用服务网格的开源项目，也是面向微服务的开源RPC代理，使用Scala开发。它的核心是一个透明代理，因此也可作为典型的数据平面实现方案。
 
-
-
 ## Any Question？
 
 1. 边车模式使得网络请求在每次服务访问中都增加了两跳（进入服务前被拦截&从服务出来后又被拦截），这会不会对整体的系统性能造成影响？
 
    Istio中不存在复杂的流量处理，因此处理速度非常快。一次请求的响应时间更多的取决于对底层数据库的请求和复杂业务逻辑的处理，因此Istio并不会对整体系统造成明显的性能影响。
-
-   
 
 ## 相关阅读
 

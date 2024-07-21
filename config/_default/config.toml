@@ -4,6 +4,7 @@
 
 # baseURL = "https://your_domain.com/"
 defaultContentLanguage = "en"
+title = "主页"
 
 enableRobotsTXT = true
 paginate = 10

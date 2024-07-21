@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Web3s on </title>
+    <title>Web3s on 主页</title>
     <link>//localhost:1313/web3/</link>
-    <description>Recent content in Web3s on </description>
+    <description>Recent content in Web3s on 主页</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Tue, 04 Jul 2023 14:35:00 +0800</lastBuildDate>

@@ -3,14 +3,13 @@
 date = 2022-10-16T21:19:00+08:00
 title = "k8s-调度器"
 url = "/cloudnative/k8s/scheduler"
+tags = ["云原生", "k8s"]
 
 toc = true
 
 draft = false
 
 +++
-
-
 
 ## taint & toleration
 
@@ -40,4 +39,3 @@ Taints:       node-role.kubernetes.io/master:NoSchedule
 ## affinity
 
 affinity是pod的属性，每个pod都可以定义其亲和性（affinity）规则，这意味着k8s会更青睐于将其调度到对应的节点上。
-

@@ -3,6 +3,7 @@
 date = 2022-03-10T14:43:00+08:00
 title = "go中的测试"
 url = "/internet/go/component_test"
+tags = ["go", "测试"]
 
 toc = true
 
@@ -189,11 +190,6 @@ require.EventuallyWithT(
 
 注意，EventuallyWithT中的函数做校验用到的是assert而非require，这因为require中使用了`t.FailNow()`而`t.FailNow()`必须运行在执行测试的goroutine中，相关讨论可见[How to handle failed expectations inside of a goroutine? · Issue #772 · stretchr/testify · GitHub](https://github.com/stretchr/testify/issues/772#)
 
-
-
-
-
 ## 相关阅读
 
 - [4 practical principles of high-quality database integration tests in Go (threedots.tech)](https://threedots.tech/post/database-integration-testing/)
-

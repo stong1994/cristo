@@ -17,8 +17,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="rgb(255,255,255)" />
   
-  <title>k8s-ServiceAccount&RBAC &middot; </title>
-    <meta name="title" content="k8s-ServiceAccount&RBAC &middot; " />
+  <title>k8s-ServiceAccount&RBAC &middot; 主页</title>
+    <meta name="title" content="k8s-ServiceAccount&RBAC &middot; 主页" />
   
   
   
@@ -106,6 +106,8 @@
     <meta property="article:section" content="cloudnative">
     <meta property="article:published_time" content="2022-10-18T21:19:00+08:00">
     <meta property="article:modified_time" content="2022-10-18T21:19:00+08:00">
+    <meta property="article:tag" content="云原生">
+    <meta property="article:tag" content="K8s">
 
   
   <meta name="twitter:card" content="summary">
@@ -134,7 +136,7 @@
     
     "dateModified": "2022-10-18T21:19:00\u002b08:00",
     
-    
+    "keywords": ["云原生","k8s"],
     
     "mainEntityOfPage": "true",
     "wordCount": "1070"
@@ -189,7 +191,7 @@
     class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
     rel="me"
     href="/"
-    ></a
+    >主页</a
   >
 
     </div>
@@ -691,6 +693,20 @@
         
       
         
+          
+            <a
+              href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >云原生</a
+            >
+          
+            <a
+              href="/tags/k8s/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >K8s</a
+            >
+          
+        
       
     </div>
   
@@ -751,7 +767,7 @@
 <ul>
 <li><code>system:unauthenticated</code>: 适用于无需任何权限校验的请求</li>
 <li><code>system:authenticated</code>: 适用于权限认证已通过的请求</li>
-<li><code>system:serviceaccounts</code>:  包含系统中所有的ServiceAccount</li>
+<li><code>system:serviceaccounts</code>: 包含系统中所有的ServiceAccount</li>
 <li><code>system:serviceaccounts:&lt;namespace&gt;</code>: 包含指定命名空间的所有ServiceAccount</li>
 </ul>
 <p>example：</p>
@@ -762,11 +778,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">serviceAccountName</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">tutum/curl</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;sleep&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;9999999&#34;</span><span class="p">]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ambassador</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubectl-proxy:1.6.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">tutum/curl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;sleep&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;9999999&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ambassador</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubectl-proxy:1.6.2</span><span class="w">
 </span></span></span></code></pre></div><h2 id="rbac" class="relative group">RBAC <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rbac" aria-label="Anchor">#</a></span></h2><p>ROLE BASE ACCESS CONTROL</p>
 <h3 id="rbac鉴权插件" class="relative group">RBAC鉴权插件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#rbac%e9%89%b4%e6%9d%83%e6%8f%92%e4%bb%b6" aria-label="Anchor">#</a></span></h3><p>RBAC鉴权插件用于检查是否允许用户执行某行为。</p>
 <p>RBAC鉴权插件通过引入角色来解耦用户和权限，用户不绑定权限，而是绑定角色，角色绑定权限。</p>
@@ -831,9 +847,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w"> </span><span class="c"># role需要指定namespace</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">service-reader</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定apiGroup为空</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定动词</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定资源，必须使用复数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定apiGroup为空</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定动词</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w"> </span><span class="c"># 指定资源，必须使用复数</span><span class="w">
 </span></span></span></code></pre></div><p>应用上述配置会生成一个名为service-reader的在foo命名空间下用于空的apiGroup且get和list动词的所有资源。</p>
 <h4 id="绑定role到serviceaccount" class="relative group">绑定Role到ServiceAccount <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%91%e5%ae%9arole%e5%88%b0serviceaccount" aria-label="Anchor">#</a></span></h4><ol>
 <li>通过声明文件：</li>
@@ -848,9 +864,9 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Role</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">service-reader</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">subjects</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ServiceAccount</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ServiceAccount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
 </span></span></span></code></pre></div><ol start="2">
 <li>通过命令：</li>
 </ol>

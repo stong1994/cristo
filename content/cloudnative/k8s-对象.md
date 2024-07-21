@@ -3,14 +3,13 @@
 date = 2022-10-01T21:19:00+08:00
 title = "k8s-对象"
 url = "/cloudnative/k8s/pod"
+tags = ["云原生", "k8s"]
 
 toc = true
 
 draft = false
 
 +++
-
-
 
 ## 对象范畴
 
@@ -78,15 +77,14 @@ metadata:
 `kubectl create -f xxx.yaml`
 
 1. 指定namespace：`-n custom-namespace`
-2. 
+2.
 
 ### 修改对象
 
-| 命令              | 描述                                                         |
-| ----------------- | ------------------------------------------------------------ |
-| kubectl edit      | 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia |
+| 命令              | 描述                                                                                                                                                            |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| kubectl edit      | 使用默认编辑器打开对象的声明文件，一旦保存就会进行更新。ex：kubect1 edit deployment kubia                                                                       |
 | kubectl patch     | 更改对象的单个属性，ex: kubect1 patch deployment kubia -p' {"spec" : {"template": {"spec": {"containers": [{"name": "nodejs", "image" : "luksa/kubia:v2"}]}}}}' |
-| kubectl apply     | 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2. yaml |
-| kubectl replace   | 根据配置文件替换（不存在则报错）对象，ex: kubect1 replace -f kubia-deployment-v2. yaml |
-| kubectl set image | 更改声明文件（Pod、RC、RS、Deployment、Demonset、Job）中指定的容器镜像，ex: kubectl set image deployment kubia nodejs=luksa/kubia:v2 |
-
+| kubectl apply     | 根据配置文件更新（不存在时创建）对象，ex: kubect1 apply -f kubia-deployment-v2. yaml                                                                            |
+| kubectl replace   | 根据配置文件替换（不存在则报错）对象，ex: kubect1 replace -f kubia-deployment-v2. yaml                                                                          |
+| kubectl set image | 更改声明文件（Pod、RC、RS、Deployment、Demonset、Job）中指定的容器镜像，ex: kubectl set image deployment kubia nodejs=luksa/kubia:v2                            |

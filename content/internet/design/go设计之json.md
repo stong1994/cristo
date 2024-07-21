@@ -4,6 +4,8 @@ date = 2022-12-15T14:50:00+08:00
 title = "go设计之json"
 url = "/internet/go/json"
 
+tags = ["go", "json"]
+
 toc = true
 
 +++
@@ -59,7 +61,7 @@ const (
 )
 ```
 
-- scanContinue:  使用频率最高的一个状态，也是一个”索然无味“的状态，因为它代表的是”继续扫描下一个字节，不要关心当前状态“，比如说在扫描数字`100`时，扫描完第一个字节`1`后，继续扫描下一个字节`0`。
+- scanContinue: 使用频率最高的一个状态，也是一个”索然无味“的状态，因为它代表的是”继续扫描下一个字节，不要关心当前状态“，比如说在扫描数字`100`时，扫描完第一个字节`1`后，继续扫描下一个字节`0`。
 - scanBeginLiteral：表示开始扫描一个字面量，比如在开始扫描一个数据并且当前字节是双引号、负号、`0`、`'t'`、`'f'`、`'n'` 或者`1`到`9`时,表示这个对象是字符串、数字、布尔类型、null这些字面量，而不是对象或者数组。
 - scanBeginObject：表示当前扫描的数据是一个对象，在刚开始扫描数据，并且扫描到的是`{`时会返回该状态。
 - scanObjectKey：刚刚扫描完一个对象的key。
@@ -260,7 +262,7 @@ func (d *decodeState) scanWhile(op int) {
 
 对于json格式来说，有三种大的数据类型：数组、对象、字面量。因此，解析的开始一定会是scanBeginArray、scanBeginObject或者scanBeginLiteral这三种状态之一。
 
-*删除了部分非关键代码*
+_删除了部分非关键代码_
 
 ```go
 func (d *decodeState) value(v reflect.Value) error {
@@ -510,4 +512,3 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 ### 解析对象和数组
 
 对象和数组也是一样的逻辑，只是要遍历其中的字段，因此逻辑上更复杂。
-

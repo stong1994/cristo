@@ -44,6 +44,13 @@
       <description></description>
     </item>
     <item>
+      <title>Rust中的惰性计算</title>
+      <link>/internet/rust/lay_evaluation/</link>
+      <pubDate>Mon, 01 Jul 2024 10:43:00 +0800</pubDate>
+      <guid>/internet/rust/lay_evaluation/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>相较于go, rust好在哪</title>
       <link>/note/rust/the_content_rust_better_than_go/</link>
       <pubDate>Sat, 18 Mar 2023 14:35:00 +0800</pubDate>
