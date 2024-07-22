@@ -17,8 +17,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="rgb(255,255,255)" />
   
-  <title>k8s-volume &middot; </title>
-    <meta name="title" content="k8s-volume &middot; " />
+  <title>k8s-volume &middot; 主页</title>
+    <meta name="title" content="k8s-volume &middot; 主页" />
   
   
   
@@ -106,6 +106,8 @@
     <meta property="article:section" content="cloudnative">
     <meta property="article:published_time" content="2022-10-07T21:19:00+08:00">
     <meta property="article:modified_time" content="2022-10-07T21:19:00+08:00">
+    <meta property="article:tag" content="云原生">
+    <meta property="article:tag" content="K8s">
 
   
   <meta name="twitter:card" content="summary">
@@ -134,7 +136,7 @@
     
     "dateModified": "2022-10-07T21:19:00\u002b08:00",
     
-    
+    "keywords": ["云原生","k8s"],
     
     "mainEntityOfPage": "true",
     "wordCount": "1385"
@@ -196,7 +198,7 @@
     class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
     rel="me"
     href="/"
-    ></a
+    >主页</a
   >
 
     </div>
@@ -698,6 +700,20 @@
         
       
         
+          
+            <a
+              href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >云原生</a
+            >
+          
+            <a
+              href="/tags/k8s/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >K8s</a
+            >
+          
+        
       
     </div>
   
@@ -798,20 +814,20 @@
 <h3 id="k8s的命令参数" class="relative group">k8s的命令参数 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#k8s%e7%9a%84%e5%91%bd%e4%bb%a4%e5%8f%82%e6%95%b0" aria-label="Anchor">#</a></span></h3><p>对应docker中的ENTRYPOINT和CMD，k8s中使用command和args。</p>
 <p>example:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">some/image </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">some/image</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;/bin/command&#34;</span><span class="p">]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;arg1&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;arg2&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;arg3&#34;</span><span class="p">]</span><span class="w">
-</span></span></span></code></pre></div><h2 id="环境变量" class="relative group">环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h2><h3 id="在容器中的定义" class="relative group">在容器中的定义 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e7%9a%84%e5%ae%9a%e4%b9%89" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span></code></pre></div><h2 id="环境变量" class="relative group">环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h2><h3 id="在容器中的定义" class="relative group">在容器中的定义 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9c%a8%e5%ae%b9%e5%99%a8%e4%b8%ad%e7%9a%84%e5%ae%9a%e4%b9%89" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/fortune:env</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">env</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">env</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">INTERVAL</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;30&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">html-generator</span><span class="w">
-</span></span></span></code></pre></div><h3 id="根据先前定义的环境变量定义环境变量" class="relative group">根据先前定义的环境变量定义环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%a0%b9%e6%8d%ae%e5%85%88%e5%89%8d%e5%ae%9a%e4%b9%89%e7%9a%84%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e5%ae%9a%e4%b9%89%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w"> 
+</span></span></span></code></pre></div><h3 id="根据先前定义的环境变量定义环境变量" class="relative group">根据先前定义的环境变量定义环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%a0%b9%e6%8d%ae%e5%85%88%e5%89%8d%e5%ae%9a%e4%b9%89%e7%9a%84%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e5%ae%9a%e4%b9%89%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">FIRST_VAR</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;foo&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">SECOND VAR</span><span class="w">
@@ -853,42 +869,42 @@
 <h3 id="使用" class="relative group">使用 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8" aria-label="Anchor">#</a></span></h3><h4 id="定义为环境变量" class="relative group">定义为环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/fortune:env</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">env</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">env</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">INTERVAL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">valueFrom</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">configMapKeyRef</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">configMapKeyRef</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">sleep-interval</span><span class="w">
 </span></span></span></code></pre></div><p>批量定义：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">some-image</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">envfrom</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">envfrom</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l">CONFIG_</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">configMapRef</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">configMapRef</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">my-config-map</span><span class="w">
 </span></span></span></code></pre></div><p>通过将env替换为envfrom，k8s会将configmap（my-config-map）中的键值对批量写入到环境变量中，并且附加了前缀CONFIG_</p>
 <h4 id="定义为命令行参数" class="relative group">定义为命令行参数 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%8f%82%e6%95%b0" aria-label="Anchor">#</a></span></h4><p>不能直接在pod.spec.containers.args中使用configmap，但是可以先将其定义为环境变量，然后在args中引用环境变量。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/fortune:args</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">env</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">INTERVAL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">valueFrom</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">configMapKeyRef</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">configMapKeyRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">sleep-interval</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;$(INTERVAL)&#34;</span><span class="p">]</span><span class="w">
-</span></span></span></code></pre></div><h4 id="定义为配置文件" class="relative group">定义为配置文件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span></code></pre></div><h4 id="定义为配置文件" class="relative group">定义为配置文件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:alpine</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">web-server</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">config</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nginx/conf.d </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nginx/conf.d</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">config</span><span class="w">
@@ -896,25 +912,25 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config</span><span class="w">
 </span></span></span></code></pre></div><p>将name为fortune-config的configmap中的内容写到容器的/etc/nginx/conf.d目录下。</p>
 <h5 id="指定configmap中的实体" class="relative group">指定configmap中的实体 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%8c%87%e5%ae%9aconfigmap%e4%b8%ad%e7%9a%84%e5%ae%9e%e4%bd%93" aria-label="Anchor">#</a></span></h5><p>configmap中的每个key都是实体，使用时可以指定具体的实体。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w"> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">config</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">configMap</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">configMap</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">items</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">my-nginx-config.conf</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">gzip.conf</span><span class="w">
 </span></span></span></code></pre></div><h5 id="追加文件而不覆盖目录" class="relative group">追加文件而不覆盖目录 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%bf%bd%e5%8a%a0%e6%96%87%e4%bb%b6%e8%80%8c%e4%b8%8d%e8%a6%86%e7%9b%96%e7%9b%ae%e5%bd%95" aria-label="Anchor">#</a></span></h5><p>默认情况下会直接将容器中的整个目录“覆盖”掉，可以使用subPath来指定追加文件。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">some/image</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">myvolume</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/someconfig.conf</span><span class="w"> </span><span class="c"># 指定目的文件</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">subPath</span><span class="p">:</span><span class="w"> </span><span class="l">myconfig.conf</span><span class="w"> </span><span class="c"># 指定要挂载的文件</span><span class="w">
-</span></span></span></code></pre></div><h5 id="指定文件权限" class="relative group">指定文件权限 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%8c%87%e5%ae%9a%e6%96%87%e4%bb%b6%e6%9d%83%e9%99%90" aria-label="Anchor">#</a></span></h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">config </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">configMap</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config </span><span class="w">
+</span></span></span></code></pre></div><h5 id="指定文件权限" class="relative group">指定文件权限 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%8c%87%e5%ae%9a%e6%96%87%e4%bb%b6%e6%9d%83%e9%99%90" aria-label="Anchor">#</a></span></h5><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">configMap</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-config</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">defaultMode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;6600&#34;</span><span class="w"> </span><span class="c"># 默认为644（-rw-r-r--）</span><span class="w">
 </span></span></span></code></pre></div><h3 id="热更新" class="relative group">热更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%83%ad%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h3><p>修改cofigmap</p>
 <h4 id="配置文件" class="relative group">配置文件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="Anchor">#</a></span></h4><p>容器中的文件是一个指向具有实际数据文件的软连接。</p>
@@ -922,28 +938,28 @@
 <h2 id="secret" class="relative group">Secret <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#secret" aria-label="Anchor">#</a></span></h2><p>敏感信息往往需要加密，这时候就需要用到Secret。</p>
 <p>Secret的使用方式和ConfigMap相似。</p>
 <h3 id="创建" class="relative group">创建 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%88%9b%e5%bb%ba" aria-label="Anchor">#</a></span></h3><p>提前准备好https.key https.cert等证书文件</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">kubectl create secret generic fortune-https 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">kubectl create secret generic fortune-https
 </span></span><span class="line"><span class="cl">	--from-file<span class="o">=</span>https.key
 </span></span><span class="line"><span class="cl">  --from-file<span class="o">=</span>https.cert
 </span></span><span class="line"><span class="cl">  --from-file<span class="o">=</span>foo
-</span></span></code></pre></div><p>通过以上命令创建了名为fortune-https的generic  Secret。</p>
-<h3 id="定义为环境变量-1" class="relative group">定义为环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f-1" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w"> 
+</span></span></code></pre></div><p>通过以上命令创建了名为fortune-https的generic Secret。</p>
+<h3 id="定义为环境变量-1" class="relative group">定义为环境变量 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f-1" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">FOO_SECRET</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">secretKeyRef</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">secretKeyRef</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-https</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
-</span></span></span></code></pre></div><h3 id="定义为配置文件-1" class="relative group">定义为配置文件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6-1" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span></code></pre></div><h3 id="定义为配置文件-1" class="relative group">定义为配置文件 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%ae%9a%e4%b9%89%e4%b8%ba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6-1" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:alpine </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">web-server </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">certs </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nginx/certs/ </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:alpine</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">web-server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">certs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nginx/certs/</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">certs </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">secret</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">certs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">secret</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">fortune-https</span><span class="w">
 </span></span></span></code></pre></div>
       </div>

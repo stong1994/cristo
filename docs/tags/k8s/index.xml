@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>K8s on 主页</title>
+    <link>/tags/k8s/</link>
+    <description>Recent content in K8s on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 18 Oct 2022 21:19:00 +0800</lastBuildDate>
+    <atom:link href="/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k8s-ServiceAccount&amp;RBAC</title>
+      <link>/cloudnative/k8s/serviceAccount_rbac/</link>
+      <pubDate>Tue, 18 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/serviceAccount_rbac/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-可计算资源管理</title>
+      <link>/cloudnative/k8s/computational_resource/</link>
+      <pubDate>Mon, 17 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/computational_resource/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-调度器</title>
+      <link>/cloudnative/k8s/scheduler/</link>
+      <pubDate>Sun, 16 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/scheduler/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-自动伸缩</title>
+      <link>/cloudnative/k8s/autoscaling/</link>
+      <pubDate>Sat, 15 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/autoscaling/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s架构设计</title>
+      <link>/cloudnative/k8s/architecture/</link>
+      <pubDate>Thu, 13 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/architecture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-volume</title>
+      <link>/cloudnative/k8s/volume/</link>
+      <pubDate>Wed, 12 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/volume/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-service</title>
+      <link>/cloudnative/k8s/service/</link>
+      <pubDate>Tue, 11 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/service/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-pod</title>
+      <link>/cloudnative/k8s/pod/</link>
+      <pubDate>Sat, 08 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-volume</title>
+      <link>/cloudnative/k8s/configration/</link>
+      <pubDate>Fri, 07 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/configration/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s-对象</title>
+      <link>/cloudnative/k8s/pod/</link>
+      <pubDate>Sat, 01 Oct 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/k8s/pod/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

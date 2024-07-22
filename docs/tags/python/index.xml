@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on 主页</title>
+    <link>/tags/python/</link>
+    <description>Recent content in Python on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 31 Jul 2022 16:14:00 +0800</lastBuildDate>
+    <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python之包管理工具</title>
+      <link>/internet/python/package_manager/</link>
+      <pubDate>Sun, 31 Jul 2022 16:14:00 +0800</pubDate>
+      <guid>/internet/python/package_manager/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

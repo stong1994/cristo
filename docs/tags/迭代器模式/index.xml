@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>迭代器模式 on 主页</title>
+    <link>/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 迭代器模式 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 14 Nov 2022 19:45:00 +0800</lastBuildDate>
+    <atom:link href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式之迭代器、组合</title>
+      <link>/internet/design/iterator/</link>
+      <pubDate>Mon, 14 Nov 2022 19:45:00 +0800</pubDate>
+      <guid>/internet/design/iterator/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

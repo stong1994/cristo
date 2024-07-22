@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jaeger on 主页</title>
+    <link>/tags/jaeger/</link>
+    <description>Recent content in Jaeger on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 17 Aug 2022 21:19:00 +0800</lastBuildDate>
+    <atom:link href="/tags/jaeger/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Istio可观测性</title>
+      <link>/cloudnative/istio/observe/</link>
+      <pubDate>Wed, 17 Aug 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/istio/observe/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

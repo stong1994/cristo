@@ -17,8 +17,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="rgb(255,255,255)" />
   
-  <title>k8s-pod &middot; </title>
-    <meta name="title" content="k8s-pod &middot; " />
+  <title>k8s-pod &middot; 主页</title>
+    <meta name="title" content="k8s-pod &middot; 主页" />
   
   
   
@@ -106,6 +106,8 @@
     <meta property="article:section" content="cloudnative">
     <meta property="article:published_time" content="2022-10-08T21:19:00+08:00">
     <meta property="article:modified_time" content="2022-10-08T21:19:00+08:00">
+    <meta property="article:tag" content="云原生">
+    <meta property="article:tag" content="K8s">
 
   
   <meta name="twitter:card" content="summary">
@@ -134,7 +136,7 @@
     
     "dateModified": "2022-10-08T21:19:00\u002b08:00",
     
-    
+    "keywords": ["云原生","k8s"],
     
     "mainEntityOfPage": "true",
     "wordCount": "5099"
@@ -196,7 +198,7 @@
     class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
     rel="me"
     href="/"
-    ></a
+    >主页</a
   >
 
     </div>
@@ -698,6 +700,20 @@
         
       
         
+          
+            <a
+              href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >云原生</a
+            >
+          
+            <a
+              href="/tags/k8s/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >K8s</a
+            >
+          
+        
       
     </div>
   
@@ -812,10 +828,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
 </span></span></span></code></pre></div><h3 id="使用宿主机的pid和ipc-namespace" class="relative group">使用宿主机的PID和IPC namespace <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bd%bf%e7%94%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84pid%e5%92%8cipc-namespace" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostPID</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostIPC</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
@@ -823,12 +839,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hostNetwork</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span></code></pre></div><h3 id="绑定宿主机的端口但不使用hostnetwork" class="relative group">绑定宿主机的端口但不使用hostNetwork <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e7%bb%91%e5%ae%9a%e5%ae%bf%e4%b8%bb%e6%9c%ba%e7%9a%84%e7%ab%af%e5%8f%a3%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8hostnetwork" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="c"># 指定容器端口为8080</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">hostPort</span><span class="p">:</span><span class="w"> </span><span class="m">9000</span><span class="w"> </span><span class="c"># 指定宿主机端口为9000</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="c"># 指定容器端口为8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">hostPort</span><span class="p">:</span><span class="w"> </span><span class="m">9000</span><span class="w"> </span><span class="c"># 指定宿主机端口为9000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
 </span></span></span></code></pre></div><h3 id="podsecuritypolicy" class="relative group">PodSecurityPolicy <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#podsecuritypolicy" aria-label="Anchor">#</a></span></h3><p>PodSecurityPolicy定义了pod的安全策略。包括：</p>
 <ul>
 <li>是否能够使用宿主机的IPC、PID、网络等命名空间</li>
@@ -885,7 +901,7 @@
 <td>通过xx.yaml创建资源，如pod</td>
 </tr>
 <tr>
-<td>kubectl get pod  ex_pod -o yaml</td>
+<td>kubectl get pod ex_pod -o yaml</td>
 <td>将ex_pod资源定义以yaml格式输出，可支持json格式</td>
 </tr>
 <tr>
@@ -953,7 +969,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">sh</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- -<span class="l">c</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	  </span>- <span class="s1">&#39;while true; do echo &#34;Waiting for fortune service to come up...&#34;;
-</span></span></span><span class="line"><span class="cl"><span class="s1">    wget http://fortune -q -T 1 -O /dev/null &gt;/dev/null 2&gt;/dev/null 
+</span></span></span><span class="line"><span class="cl"><span class="s1">    wget http://fortune -q -T 1 -O /dev/null &gt;/dev/null 2&gt;/dev/null
 </span></span></span><span class="line"><span class="cl"><span class="s1">    &amp;&amp; break; sleep 1; done; echo &#34;Service is up! Starting main container.&#34;&#39;</span><span class="w">
 </span></span></span></code></pre></div><h3 id="post-start-hook" class="relative group">post-start hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#post-start-hook" aria-label="Anchor">#</a></span></h3><p>当容器的主程序启动后，会执行post-start钩子。</p>
 <p>可以用于执行额外的应用命令而不用修改服务代码。</p>
@@ -964,22 +980,22 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">pod-with-poststart-hook</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">lifecycle</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">postStart</span><span class="p">:</span><span class="w"> </span><span class="c"># 定义posst-start钩子</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">exec</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">sh</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- -<span class="l">c</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="s2">&#34;echo &#39;hook will fail with exit code 15&#39;; sleep 5; exit 15&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lifecycle</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">postStart</span><span class="p">:</span><span class="w"> </span><span class="c"># 定义posst-start钩子</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">sh</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- -<span class="l">c</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="s2">&#34;echo &#39;hook will fail with exit code 15&#39;; sleep 5; exit 15&#34;</span><span class="w">
 </span></span></span></code></pre></div><h3 id="pre-stop-hook" class="relative group">pre-stop hook <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pre-stop-hook" aria-label="Anchor">#</a></span></h3><p>当容器中断前会运行pre-stop钩子。主要用于实现容易的优雅退出。</p>
 <p>example：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">lifecycle</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">preStop</span><span class="p">:</span><span class="w"> </span><span class="c"># 定义pre-stop钩子</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">httpGet</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">shutdown</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">preStop</span><span class="p">:</span><span class="w"> </span><span class="c"># 定义pre-stop钩子</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">httpGet</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">shutdown</span><span class="w">
 </span></span></span></code></pre></div><p>当容器中断后会发送<code>SIGTERM</code>信号到钩子。钩子会发送一个http请求，地址为<code>http:// POD_IP:8080/shutdown</code>.</p>
 <h3 id="pod关闭流程" class="relative group">pod关闭流程 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#pod%e5%85%b3%e9%97%ad%e6%b5%81%e7%a8%8b" aria-label="Anchor">#</a></span></h3><p>在k8s中，API server控制所有的对象的生命周期。</p>
 <p>当API server收到一个请求删除对象的请求后，并不会直接删除对象，而是设置<code>deletionTimestamp</code>字段到这个对象上。pod上的kubelet监听到<code>deletionTimestamp</code>字段生成，会执行关闭流程。</p>
@@ -1001,13 +1017,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">pod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia-liveness</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia-unhealthy</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">livenessProbe</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">      		</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/ </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">httpGet</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      		</span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      		</span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
 </span></span></span></code></pre></div><p>k8s存在重试机制，如果探针检测到异常，会重试多次，因此客户端无需实现重试。</p>
 <h3 id="就绪探针readiness-probe" class="relative group">就绪探针（readiness probe） <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%b0%b1%e7%bb%aa%e6%8e%a2%e9%92%88readiness-probe" aria-label="Anchor">#</a></span></h3><p>pod对外提供服务时，作为为其代理流量的Service需要知道pod是否已准备接收流量。</p>
@@ -1022,15 +1038,15 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ReplicationController</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="l">...</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">template</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">readinessProbe</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        	</span><span class="nt">exec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        	</span><span class="nt">exec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        		</span><span class="nt">command</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">ls</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">/var/ready</span><span class="w">
@@ -1058,18 +1074,18 @@
 <p>example：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ReplicationController</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">labels</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  			</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports: containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
@@ -1093,31 +1109,31 @@
 <li>DoesNotExist：不存在指定标签</li>
 </ol>
 <p>如果指定了多个操作符，则最终的匹配为这些规则都必须满足。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">selector</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">app </span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In </span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">app</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span></code></pre></div><p>也可以像RC那样不使用操作符：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">selector</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span></code></pre></div><h3 id="daemonset" class="relative group">DaemonSet <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#daemonset" aria-label="Anchor">#</a></span></h3><p>DS保证一个pod在每个节点有且只有一个，常用于基础组件相关的pod。</p>
 <p>DS使用节点选择器来筛选节点。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1beta2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">DaemonSet</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ssd-monitor</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">selector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">ssd-monitor</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">labels</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  			</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">ssd-monitor</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">nodeSelector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">nodeSelector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">disk</span><span class="p">:</span><span class="w"> </span><span class="l">ssd</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
@@ -1126,39 +1142,39 @@
 <h3 id="job" class="relative group">Job <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#job" aria-label="Anchor">#</a></span></h3><p>Job用于那些只执行一次任务的pod。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">batch/v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Job</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">batch-job</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">completions</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="c"># 运行5个pod，默认串行执行</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">parallelism</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="c"># 设置为2，则表示允许最大并行数为2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">activeDeadlineSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="c"># 超时时间，超过此配置则终止pod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">backoffLimit</span><span class="p">:</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="c"># 重试次数</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">template</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">labels</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">			</span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">batch-job</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">OnFailure</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/batch-job</span><span class="w">
 </span></span></span></code></pre></div><h3 id="cronjob" class="relative group">CronJob <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#cronjob" aria-label="Anchor">#</a></span></h3><p>CronJob用于执行定时任务。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">batch/v1betal</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">CronJob</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">batch-job-every-fifteen-minutes</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;0,15,30,45 * * * *&#34;</span><span class="w"> </span><span class="c"># cron规则</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">startingDeadlineSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="c"># 必须在指定时间的15s内执行，否则不执行并视为失败</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">jobTemplate</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">jobTemplate</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">spec</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">template</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">labels</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    				</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">periodic-batch-job</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    		</span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    			</span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">OnFailure</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        	</span><span class="nt">containers</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        		</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">main</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/batch-job</span><span class="w">
 </span></span></span></code></pre></div><h3 id="滚动更新-kubectl命令" class="relative group">滚动更新-kubectl命令 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0-kubectl%e5%91%bd%e4%bb%a4" aria-label="Anchor">#</a></span></h3><p>升级版本时往往使用滚动更新的方式来避免服务不可用。kubectl提供了命令来实现。</p>
@@ -1170,30 +1186,30 @@
 <p>k8s的核心理念之一就是声明式设计，因此滚动更新也应该通过声明的方式来实现，Deployment正是这样包含滚动更新的pod管理工具。</p>
 <h4 id="部署" class="relative group">部署 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%83%a8%e7%bd%b2" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/vibetal</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  		</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">labels: app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">spec</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  	</span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia:v1</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    	</span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l">nodejs</span><span class="w">
 </span></span></span></code></pre></div><p>部署后可以看到该Deployment创建的RS</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl get replicasets 
-</span></span><span class="line"><span class="cl">NAME 							DESIRED CURRENT AGE 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl get replicasets
+</span></span><span class="line"><span class="cl">NAME 							DESIRED CURRENT AGE
 </span></span><span class="line"><span class="cl">kubia-1506449474  <span class="m">3</span> 		  <span class="m">3</span> 		  10s
 </span></span></code></pre></div><h4 id="滚动更新" class="relative group">滚动更新 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%bb%9a%e5%8a%a8%e6%9b%b4%e6%96%b0" aria-label="Anchor">#</a></span></h4><p>更新Deployment中的镜像标签</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl <span class="nb">set</span> image deployment kubia <span class="nv">nodejs</span><span class="o">=</span>luksa/kubia:v2 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl <span class="nb">set</span> image deployment kubia <span class="nv">nodejs</span><span class="o">=</span>luksa/kubia:v2
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> image updated
 </span></span></code></pre></div><p>命令执行后kubia就会由v1滚动更新至v2</p>
 <h4 id="查看滚动状态" class="relative group">查看滚动状态 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9f%a5%e7%9c%8b%e6%bb%9a%e5%8a%a8%e7%8a%b6%e6%80%81" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout status deployment kubia
-</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> out of <span class="m">3</span> new replicas have been updated... 
-</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">2</span> out of <span class="m">3</span> new replicas have been updated... 
-</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> old replicas are pending termination... 
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> out of <span class="m">3</span> new replicas have been updated...
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">2</span> out of <span class="m">3</span> new replicas have been updated...
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> rollout to finish: <span class="m">1</span> old replicas are pending termination...
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> successfully rolled out
 </span></span></code></pre></div><h4 id="回滚" class="relative group">回滚 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%9b%9e%e6%bb%9a" aria-label="Anchor">#</a></span></h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ kubectl rollout undo deployment kubia
 </span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;kubia&#34;</span> rolled back
@@ -1253,23 +1269,23 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia-pet</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/var/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubia</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">luksa/kubia-pet</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/var/data</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeClaimTemplates</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">metadata</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">data</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">requests</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">1Mi</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ReadWriteOnce</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">1Mi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="l">ReadWriteOnce</span><span class="w">
 </span></span></span></code></pre></div><p>与RS相比，多了一个<code>volumeClaimTemplates</code>，上述配置中名为<code>data</code>的<code>volumeClaimTemplates</code>会在创建pod的PVC时使用.</p>
 <p>在部署时，只有前一个pod准备好才会创建下一个pod。</p>
 <h4 id="服务发现" class="relative group">服务发现 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" aria-label="Anchor">#</a></span></h4><h5 id="srv记录" class="relative group">SRV记录 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#srv%e8%ae%b0%e5%bd%95" aria-label="Anchor">#</a></span></h5><p>k8s通过创建SRV记录来指向headlessService下的pod的hostname和port。</p>

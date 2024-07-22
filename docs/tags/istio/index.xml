@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Istio on 主页</title>
+    <link>/tags/istio/</link>
+    <description>Recent content in Istio on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 17 Aug 2022 21:19:00 +0800</lastBuildDate>
+    <atom:link href="/tags/istio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Istio可观测性</title>
+      <link>/cloudnative/istio/observe/</link>
+      <pubDate>Wed, 17 Aug 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/istio/observe/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Istio流量治理</title>
+      <link>/cloudnative/istio/traffic/</link>
+      <pubDate>Thu, 11 Aug 2022 13:16:00 +0800</pubDate>
+      <guid>/cloudnative/istio/traffic/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Istio总览</title>
+      <link>/cloudnative/istio/overview/</link>
+      <pubDate>Sun, 07 Aug 2022 21:19:00 +0800</pubDate>
+      <guid>/cloudnative/istio/overview/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

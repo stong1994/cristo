@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Channel on 主页</title>
+    <link>/tags/channel/</link>
+    <description>Recent content in Channel on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Mar 2022 14:43:00 +0800</lastBuildDate>
+    <atom:link href="/tags/channel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go设计之channel</title>
+      <link>/internet/go/channel/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      <guid>/internet/go/channel/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

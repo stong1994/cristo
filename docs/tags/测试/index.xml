@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>测试 on 主页</title>
+    <link>/tags/%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 测试 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Mar 2022 14:43:00 +0800</lastBuildDate>
+    <atom:link href="/tags/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go中的测试</title>
+      <link>/internet/go/component_test/</link>
+      <pubDate>Thu, 10 Mar 2022 14:43:00 +0800</pubDate>
+      <guid>/internet/go/component_test/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
