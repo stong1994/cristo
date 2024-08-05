@@ -6,8 +6,15 @@
     <description>Recent content in 记录个人的成长记录 on 主页</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 31 Jul 2024 23:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 05 Aug 2024 01:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ERC20</title>
+      <link>//localhost:1313/web3/erc20/</link>
+      <pubDate>Mon, 05 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/erc20/</guid>
+      <description></description>
+    </item>
     <item>
       <title>《Professor Frisby&#39;s Mostly Adequate Guide to Functional Programming》</title>
       <link>//localhost:1313/book/professor-fribys-mostly-adequate-guide-to-functional-programming/</link>

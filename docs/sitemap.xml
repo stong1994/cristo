@@ -4,6 +4,33 @@
   
     
       <url>
+            <loc>/book/</loc>
+            <lastmod>2024-07-31T23:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>/book/professor-fribys-mostly-adequate-guide-to-functional-programming/</loc>
+            <lastmod>2024-07-31T23:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>/</loc>
+            <lastmod>2024-07-31T23:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
             <loc>/internet/</loc>
             <lastmod>2024-07-22T03:00:00+08:00</lastmod>
           </url>
@@ -14,17 +41,8 @@
     
   
     
-  
-    
       <url>
             <loc>/internet/event-driven/saga/</loc>
-            <lastmod>2024-07-22T03:00:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>/</loc>
             <lastmod>2024-07-22T03:00:00+08:00</lastmod>
           </url>
     
@@ -104,13 +122,6 @@
           </url>
     
   
-    
-  
-    
-      <url>
-            <loc>/book/</loc>
-            <lastmod>2024-07-08T19:57:00+08:00</lastmod>
-          </url>
     
   
     

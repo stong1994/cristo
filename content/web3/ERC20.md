@@ -5,8 +5,8 @@ url: "/web3/erc20"
 toc: true
 draft: false
 description: "erc20研究"
-slug: "log"
-tags: ["log", "rust", "env_logger", "tracing"]
+slug: "erc20"
+tags: ["ethereum", "erc20", "blockchain"]
 showDateUpdated: true
 ---
 
@@ -200,6 +200,14 @@ contract ERC20 is Context, IERC20, Ownable {
 ```
 
 代码定义了构造器函数以及接口的基本实现。
+值得一提的是余额与授权额度的存储，都是通过字典来实现的：
+
+```solidity
+    mapping(address => uint256) private _balances;
+    mapping(address => mapping(address => uint256)) private _allowances;
+```
+
+因为字典的查找时间复杂度是O(1)，所以这样的设计是非常高效的, 而高效就意味着更少的`gas`。
 
 ## 实例-BNB
 
