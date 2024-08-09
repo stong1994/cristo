@@ -6,12 +6,19 @@
     <description>Recent content in Web3s on 主页</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jul 2024 19:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 06 Aug 2024 01:43:00 +0800</lastBuildDate>
     <atom:link href="//localhost:1313/web3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NFT</title>
+      <link>//localhost:1313/web3/nft/</link>
+      <pubDate>Tue, 06 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/nft/</guid>
+      <description></description>
+    </item>
     <item>
       <title>ERC20</title>
       <link>//localhost:1313/web3/erc20/</link>
-      <pubDate>Thu, 11 Jul 2024 19:43:00 +0800</pubDate>
+      <pubDate>Mon, 05 Aug 2024 01:43:00 +0800</pubDate>
       <guid>//localhost:1313/web3/erc20/</guid>
       <description></description>
     </item>

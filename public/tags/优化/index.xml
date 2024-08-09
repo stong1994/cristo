@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>优化 on 主页</title>
+    <link>//localhost:1313/tags/%E4%BC%98%E5%8C%96/</link>
+    <description>Recent content in 优化 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 09 Aug 2024 01:43:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>通讯录同步-同步速度优化</title>
+      <link>//localhost:1313/internet/design/address_book_sync_optmize/</link>
+      <pubDate>Fri, 09 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/design/address_book_sync_optmize/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

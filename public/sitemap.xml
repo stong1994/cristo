@@ -4,6 +4,64 @@
   
     
       <url>
+            <loc>//localhost:1313/internet/</loc>
+            <lastmod>2024-08-09T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/internet/rust/lay_evaluation/</loc>
+            <lastmod>2024-08-09T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/</loc>
+            <lastmod>2024-08-09T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/web3/nft/</loc>
+            <lastmod>2024-08-06T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/web3/</loc>
+            <lastmod>2024-08-06T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+  
+    
+      <url>
+            <loc>//localhost:1313/web3/erc20/</loc>
+            <lastmod>2024-08-05T01:43:00+08:00</lastmod>
+          </url>
+    
+  
+    
+      <url>
             <loc>//localhost:1313/book/</loc>
             <lastmod>2024-07-31T23:43:00+08:00</lastmod>
           </url>
@@ -18,22 +76,6 @@
   
     
   
-    
-  
-    
-  
-    
-      <url>
-            <loc>//localhost:1313/</loc>
-            <lastmod>2024-07-31T23:43:00+08:00</lastmod>
-          </url>
-    
-  
-    
-      <url>
-            <loc>//localhost:1313/internet/</loc>
-            <lastmod>2024-07-22T03:00:00+08:00</lastmod>
-          </url>
     
   
     
@@ -61,8 +103,6 @@
             <loc>//localhost:1313/internet/event-driven/wide-narrow-table-sepration/</loc>
             <lastmod>2024-07-20T23:43:00+08:00</lastmod>
           </url>
-    
-  
     
   
     
@@ -114,13 +154,6 @@
     
   
     
-      <url>
-            <loc>//localhost:1313/web3/erc20/</loc>
-            <lastmod>2024-07-11T19:43:00+08:00</lastmod>
-          </url>
-    
-  
-    
   
     
       <url>
@@ -129,13 +162,6 @@
           </url>
     
   
-    
-  
-    
-      <url>
-            <loc>//localhost:1313/web3/</loc>
-            <lastmod>2024-07-11T19:43:00+08:00</lastmod>
-          </url>
     
   
     
@@ -183,14 +209,10 @@
     
   
     
-  
-    
       <url>
             <loc>//localhost:1313/internet/rust/lay_evaluation/</loc>
             <lastmod>2024-07-01T10:43:00+08:00</lastmod>
           </url>
-    
-  
     
   
     
