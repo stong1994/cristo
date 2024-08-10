@@ -6,8 +6,15 @@
     <description>Recent content in Blockchain on 主页</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 05 Aug 2024 01:43:00 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 06 Aug 2024 01:43:00 +0800</lastBuildDate>
     <atom:link href="/tags/blockchain/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NFT</title>
+      <link>/web3/nft/</link>
+      <pubDate>Tue, 06 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>/web3/nft/</guid>
+      <description></description>
+    </item>
     <item>
       <title>ERC20</title>
       <link>/web3/erc20/</link>

@@ -1,19 +1,16 @@
 ---
-title: "MakerDAO简介"
+title: 'MakerDAO简介'
 date: 2022-06-04T14:35:00+08:00
-url: "/web3/makerdao_base_info"
+url: '/web3/makerdao_base_info'
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
 keywords:
   - makerdao
+tags: ['blockchain', 'MakerDao', 'web3']
 authors:
   - atong
 ---
-
-
-
-
 
 ## 什么是MakerDAO
 
@@ -34,7 +31,7 @@ Dai 是一种**软锚定**美元的**资产担保型加密货币**。当借贷�
 
 在早期阶段，MakerDAO仅支持ETH抵押物，借贷人通过CDP合约抵押ETH，生成一定的Dai。
 
-Dai是第一个可被验证的去中心化的稳定币。其他稳定币（如USDT——承诺没生成一个token，就向银行中增加1美元），是中心化的稳定币，没有办法验证是否履行了其承诺。
+Dai是第一个可被验证的去中心化的稳定币。其他稳定币（如USDT——承诺每生成一个token，就向银行中追加存储1美元），是中心化的稳定币，没有办法验证是否履行了其承诺。
 
 ### MKR
 
@@ -93,7 +90,7 @@ DSR是Dai的**存储利率**（Dai Savings Rate），当存储利率高时，持
 
 ### 利率调整
 
-*利率在MakerDAO中称为稳定费（Stability Fees），主要用来控制不同抵押物的抵押风险。*
+_利率在MakerDAO中称为稳定费（Stability Fees），主要用来控制不同抵押物的抵押风险。_
 
 借贷人抵押物品后，需要支付额外的利息，通过减少利率，可以刺激借贷人进行借贷，从而增大Dai的供应量；通过增大利率，可以抑制借贷人的借贷欲望，从而减少Dai的供应量。
 
@@ -139,8 +136,6 @@ ETH崩盘，大量以ETH作为抵押物的债务人必然会违约，这会导�
 
    假设ETH的当前价格为150美元，超额借贷机制下债务人能够借出100美元（实际为Dai），当ETH价格跌到100美元以下，比如说80时，债务人完全没必要赎回ETH。此时债务人亏损为50美元，而另外消失的20美元由MakerDAO的治理集团来承担（具体表现为MRK的价格下跌）。
 
-   
-
 ## 名词解释
 
 - CDP：Collateralized Debt Position, 担保债仓，是一个智能合约，用来质押ETH来生成Dai。
@@ -162,8 +157,6 @@ ETH崩盘，大量以ETH作为抵押物的债务人必然会违约，这会导�
 - Gem：未锁定的抵押物
 - urn：仓库；一个以太坊地址能够控制一种抵押物的仓库
 - llk：抵押物类别
-
-
 
 ## 相关资源
 

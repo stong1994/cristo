@@ -1,17 +1,16 @@
 ---
-title: "以太坊-此岸-POW"
+title: '以太坊-此岸-POW'
 date: 2023-06-04T14:35:00+08:00
-url: "/web3/eth_pow"
+url: '/web3/eth_pow'
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
 keywords:
   - eth
 authors:
   - stong
+tags: ['web3', 'blockchain', 'ethereum']
 ---
-
-
 
 以太坊区别于比特币的一大特点是使用权益证明（POS）替代了工作量证明（POW）。
 
@@ -222,8 +221,6 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 
 将得到的值与目标值进行比较，如果小于目标值，这个nonce就是一个合格的nonce！
 
-
-
 #### 难度调整
 
 > 以Homestead阶段的算法为准
@@ -243,8 +240,6 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 - 根据出块时间得到的需要调整的难度值
 - 难度炸弹：指数型上升的难度，目的是为未来转POS做准备
 
-
-
 #### 更快的出块时间
 
 由于以太坊期待的出块时间是15秒一个，因此区块链出现**短暂分叉的可能性大大增加**（相比比特币10分钟一个块，以太坊确定区块的时间更短）。
@@ -253,8 +248,6 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 
 1. 使用更高效的传输协议gossip。比特币中是挑选完全随机的节点进行传播。
 2. 将分叉的块作为叔块“融入”主链中，叔块的矿工也能得到部分出块奖励。通过这种方式鼓励分叉的链进行“合并”，避免分散算力导致被攻击成功。
-
-
 
 ## 代码
 
@@ -272,15 +265,11 @@ all: remove ethash pow. only retain shims needed for consensus and tests (#27178
 git checkout 2b44ef5f93cc7479a77890917a29684b56e9167a
 ```
 
-
-
 ## 总结
 
 由于区块链的“不可变”的特性，**如何维护、升级程序成了开发者的一大难题**。
 
 以太坊团队给出的解决办法是**先通过已被验证可靠的方式进行开发，然后通过一些机制保证未来能够平稳过渡**。而在这期间，团队就有了大量时间能够进行宣传、探索。
-
-
 
 ## 相关阅读
 

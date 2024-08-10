@@ -22,5 +22,47 @@
       <guid>//localhost:1313/web3/erc20/</guid>
       <description></description>
     </item>
+    <item>
+      <title>以太坊-彼岸-POS</title>
+      <link>//localhost:1313/web3/eth_pos/</link>
+      <pubDate>Tue, 04 Jul 2023 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/eth_pos/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>以太坊-此岸-POW</title>
+      <link>//localhost:1313/web3/eth_pow/</link>
+      <pubDate>Sun, 04 Jun 2023 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/eth_pow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>比特币、以太坊与图灵完备</title>
+      <link>//localhost:1313/web3/btc_eth_turing_complete/</link>
+      <pubDate>Sun, 28 May 2023 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/btc_eth_turing_complete/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>比特币技术汇总</title>
+      <link>//localhost:1313/web3/bitcoin_tech/</link>
+      <pubDate>Fri, 26 May 2023 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/bitcoin_tech/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Solidity笔记</title>
+      <link>//localhost:1313/web3/solidity_note/</link>
+      <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/solidity_note/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MakerDAO简介</title>
+      <link>//localhost:1313/web3/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/makerdao_base_info/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

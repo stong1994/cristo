@@ -1,16 +1,17 @@
 ---
-title: "理解TCP协议的可靠性"
+title: '理解TCP协议的可靠性'
 date: 2022-03-28T17:20:00+08:00
 lastmod: 2022-03-28T17:20:00+08:00
-url: "/internet/network/tcp/reliability"
+url: '/internet/network/tcp/reliability'
 isCJKLanguage: true
 toc: false
 keywords:
   - tcp
   - timeout
-slug: ""
+slug: ''
 authors:
   - cristo
+tags: ['网络', 'TCP']
 ---
 
 TCP协议最重要的特性之一就是其可靠性。

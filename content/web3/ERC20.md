@@ -1,12 +1,12 @@
 ---
 date: 2024-08-05T01:43:00+08:00
-title: "ERC20"
-url: "/web3/erc20"
+title: 'ERC20'
+url: '/web3/erc20'
 toc: true
 draft: false
-description: "erc20研究"
-slug: "erc20"
-tags: ["ethereum", "erc20", "blockchain"]
+description: 'erc20研究'
+slug: 'erc20'
+tags: ['web3', 'ethereum', 'erc20', 'blockchain']
 showDateUpdated: true
 ---
 

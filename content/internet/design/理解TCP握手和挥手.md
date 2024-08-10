@@ -3,7 +3,7 @@
 date = 2022-03-27T21:19:00+08:00
 title = "理解TCP握手和挥手"
 url = "/internet/network/tcp_connection"
-
+tags = ["网络", "TCP" ]
 toc = true
 
 +++

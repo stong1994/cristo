@@ -3,7 +3,7 @@
 date = 2022-03-24T13:48:00+08:00
 title = "Redis事务"
 url = "/internet/design/redis_transaction"
-
+tags = ["Redis", "事务"]
 toc = true
 
 +++

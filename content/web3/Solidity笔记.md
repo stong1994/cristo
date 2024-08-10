@@ -1,17 +1,16 @@
 ---
-title: "Solidity笔记"
+title: 'Solidity笔记'
 date: 2022-06-10T19:37:00+08:00
-url: "/web3/solidity_note"
+url: '/web3/solidity_note'
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
+tags: ['blockchain', 'web3', 'solidity']
 keywords:
   - solidity
 authors:
   - atong
 ---
-
-
 
 ## 基础知识
 
@@ -39,19 +38,17 @@ func getPrice(address user) public view returns(int price, int status){}
 
 构造函数用于设置初始状态，第一次创建合约时调用。
 
-```
+```solidity
 contract BoardAction {
 	address public president;
 	adddress public vicePresident;
-	
+
 	constructor(address initialPrisident, address initalVP) public {
 		president = initialPrisident;
 		vicePresident = initalVP;
 	}
 }
 ```
-
-
 
 ### 可见性和可变性修饰符
 
@@ -77,8 +74,6 @@ contract BoardAction {
 block.timestamp // 区块
 ```
 
-
-
 ### 使用内置货币
 
 必须使用payable来声明函数
@@ -88,8 +83,6 @@ func pay(int amount) public payable {
 	payable(msg.sender).transfer(amount)
 }
 ```
-
-
 
 ### 事件
 
@@ -105,8 +98,6 @@ func registerDomain(string memory domain) public {
 ```
 
 ### 合约之间的交互
-
-
 
 ## EVM
 

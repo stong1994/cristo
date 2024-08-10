@@ -1,17 +1,16 @@
 ---
-title: "以太坊-彼岸-POS"
+title: '以太坊-彼岸-POS'
 date: 2023-07-04T14:35:00+08:00
-url: "/web3/eth_pos"
+url: '/web3/eth_pos'
 isCJKLanguage: true
 draft: false
-toc:  true
+toc: true
 keywords:
   - eth
 authors:
   - stong
+tags: ['web3', 'blockchain', 'ethereum']
 ---
-
-
 
 工作量证明最被人诟病的一点就是浪费电力，于是区块链社区中出现了大量其他共识算法。以太坊中给出的解决方案是权益证明。
 
@@ -55,12 +54,3 @@ authors:
 3. 将交易发送给本地的执行客户端
 4. 执行客户端执行交易并验证区块头中的状态
 5. 执行客户端将数据传回共识客户端，共识客户端将区块加入到自己的区块链头并通过网络广播认证结果
-
-
-
-
-
-
-
-
-

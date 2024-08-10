@@ -3,12 +3,10 @@
 date = 2022-01-16T17:05:00+08:00
 title = "理解事务：InnoDB的ACID"
 url = "/internet/mysql/acid"
-
+tags = ["mysql", "事务"]
 toc = true 
 
 +++
-
-
 
 事务对于数据库而言是非常重要的，事务能够保证我们的软件世界是稳定的——从一个状态到另外一个状态是符合人们预期的。而为了能够保证一个事件在任何情况下都能符合人们的预期，我们总结出事务需要满足四个特性：原子性、一致性、隔离性、持久性。
 
@@ -168,7 +166,7 @@ Record Lock 与Gap Lock的合体。
 
 - m_ids: 生成ReadView时，当前系统中活跃的读写事务的事务id列表
 - min_trx: m_ids中的最小值
-- max_trx_id: 在生产ReadView时，系统应该分配给下一个事务的事务id值
+- max_trx_id: 在生成ReadView时，系统应该分配给下一个事务的事务id值
 - creator_trx_id: 生成该ReadView的事务的事务id
 
 ##### 判断某条记录是否可见
@@ -237,7 +235,7 @@ mysql> COMMIT;
 
    ```
    +------+-------
-   | id   | name  
+   | id   | name
    +------+-------
    | 1001 | EXIST
    ```

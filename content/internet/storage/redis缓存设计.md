@@ -3,7 +3,7 @@
 date = 2022-03-24T13:48:00+08:00
 title = "Redis缓存设计中的问题"
 url = "/internet/design/redis_cache_design"
-
+tags = ["Redis"]
 toc = true
 
 +++
@@ -90,4 +90,3 @@ Redis最常用的场景就是作为缓存。
 ### hash tag
 
 Redis集群提供了hash_tag功能，将多个key强制分配到一个节点上。但是这种方式需要更高的维护成本，还容易形成数据倾斜。
-

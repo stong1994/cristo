@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on 主页</title>
+    <link>//localhost:1313/tags/mysql/</link>
+    <description>Recent content in Mysql on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Jan 2022 17:05:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>理解事务：InnoDB的ACID</title>
+      <link>//localhost:1313/internet/mysql/acid/</link>
+      <pubDate>Sun, 16 Jan 2022 17:05:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/mysql/acid/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>查询、插入、删除、更新一条MySQL记录都经历了什么</title>
+      <link>//localhost:1313/internet/MySQL/curd/</link>
+      <pubDate>Thu, 06 Jan 2022 17:05:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/MySQL/curd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>InnoDB存储引擎的物理结构</title>
+      <link>//localhost:1313/internet/mysql/InnoDB_struct/</link>
+      <pubDate>Mon, 03 Jan 2022 13:32:00 +0800</pubDate>
+      <guid>//localhost:1313/internet/mysql/InnoDB_struct/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

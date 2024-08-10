@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>图灵完备 on 主页</title>
+    <link>//localhost:1313/tags/%E5%9B%BE%E7%81%B5%E5%AE%8C%E5%A4%87/</link>
+    <description>Recent content in 图灵完备 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 28 May 2023 14:35:00 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/%E5%9B%BE%E7%81%B5%E5%AE%8C%E5%A4%87/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>比特币、以太坊与图灵完备</title>
+      <link>//localhost:1313/web3/btc_eth_turing_complete/</link>
+      <pubDate>Sun, 28 May 2023 14:35:00 +0800</pubDate>
+      <guid>//localhost:1313/web3/btc_eth_turing_complete/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

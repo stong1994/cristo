@@ -1,12 +1,12 @@
 ---
 date: 2024-08-06T01:43:00+08:00
-title: "NFT"
-url: "/web3/nft"
+title: 'NFT'
+url: '/web3/nft'
 toc: true
 draft: false
-description: "nft研究"
-slug: "nft"
-tags: ["blockchain", "nft", "ethereum"]
+description: 'nft研究'
+slug: 'nft'
+tags: ['web3', 'blockchain', 'nft', 'ethereum']
 showDateUpdated: true
 ---
 
