@@ -106,6 +106,7 @@
     <meta property="article:section" content="internet">
     <meta property="article:published_time" content="2021-10-01T19:26:00+08:00">
     <meta property="article:modified_time" content="2021-10-01T19:26:00+08:00">
+    <meta property="article:tag" content="项目">
 
   
   <meta name="twitter:card" content="summary">
@@ -134,10 +135,10 @@
     
     "dateModified": "2021-10-01T19:26:00\u002b08:00",
     
-    
+    "keywords": ["项目"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "1374"
+    "wordCount": "1717"
   }
   </script>
 
@@ -668,7 +669,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2021-10-01 19:26:00 &#43;0800 CST">1 October 2021</time><span class="px-2 text-primary-500">&middot;</span><span>1374 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span><span class="px-2 text-primary-500">&middot;</span>
+      <time datetime="2021-10-01 19:26:00 &#43;0800 CST">1 October 2021</time><span class="px-2 text-primary-500">&middot;</span><span>1717 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">4 mins</span><span class="px-2 text-primary-500">&middot;</span>
 
 
   
@@ -698,6 +699,14 @@
         
       
         
+          
+            <a
+              href="/tags/%E9%A1%B9%E7%9B%AE/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >项目</a
+            >
+          
+        
       
     </div>
   
@@ -724,7 +733,9 @@
       <ul>
         <li><a href="#背景">背景</a>
           <ul>
-            <li><a href="#为什么不直接使用mq">为什么不直接使用MQ</a></li>
+            <li><a href="#与mq的区别">与MQ的区别</a></li>
+            <li><a href="#为什么要用事件分发而不是mq">为什么要用事件分发而不是MQ</a></li>
+            <li><a href="#什么情况下使用mq而不是事件分发">什么情况下使用MQ而不是事件分发</a></li>
           </ul>
         </li>
         <li><a href="#架构设计">架构设计</a></li>
@@ -746,7 +757,21 @@
         <h2 id="背景" class="relative group">背景 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%83%8c%e6%99%af" aria-label="Anchor">#</a></span></h2><p>随着业务的增长，一个事件开始被多个子系统订阅，如用户注册事件就可能被处理用户逻辑的子系统和日志系统订阅。以往我们在处理这些逻辑的时候，要么在处理完注册逻辑后，调用多个子服务接口，要么用消息队列中间件来处理。这些都导致了较高的维护成本。</p>
 <p>另外，整体系统使用了严格的分层，下层服务不能调用上层服务，同层之间也不能调用。如果有回调等需求，也要通过事件的方式来传递数据。</p>
 <p>因此，我们基于消息队列的思想，创建了事件分发平台。</p>
-<h3 id="为什么不直接使用mq" class="relative group">为什么不直接使用MQ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8mq" aria-label="Anchor">#</a></span></h3><h2 id="架构设计" class="relative group">架构设计 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1" aria-label="Anchor">#</a></span></h2><p>
+<h3 id="与mq的区别" class="relative group">与MQ的区别 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%8emq%e7%9a%84%e5%8c%ba%e5%88%ab" aria-label="Anchor">#</a></span></h3><ol>
+<li>mq作为中间件是不能定制功能的。比如查看某个服务订阅了哪些事件、某个事件被哪些服务订阅了、监控、报警、服务的详细信息、负责人等</li>
+<li>定位不同，mq定位是中间件，而我们的服务定位是事件分发。可以说我们的服务是基于mq的思想来做的，但是我们要做的是事件分发而不是mq，比如我们有或者可以有一些功能（第一条）</li>
+</ol>
+<h3 id="为什么要用事件分发而不是mq" class="relative group">为什么要用事件分发而不是MQ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e7%94%a8%e4%ba%8b%e4%bb%b6%e5%88%86%e5%8f%91%e8%80%8c%e4%b8%8d%e6%98%afmq" aria-label="Anchor">#</a></span></h3><ol>
+<li>对接简单，直接使用http。</li>
+<li>对业务方来讲，不需要维护mq中间件。在事件分发中mq的使用是对业务方无感的，免去版本升级等维护工作。</li>
+<li>对于整体架构来说，使用事件分发更方便管理，我们可以一眼就能看到事件被哪些服务订阅，哪些服务发布了什么事件。</li>
+<li>统一的事件分发工具，而不是各自实现。</li>
+</ol>
+<h3 id="什么情况下使用mq而不是事件分发" class="relative group">什么情况下使用MQ而不是事件分发 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e4%bb%80%e4%b9%88%e6%83%85%e5%86%b5%e4%b8%8b%e4%bd%bf%e7%94%a8mq%e8%80%8c%e4%b8%8d%e6%98%af%e4%ba%8b%e4%bb%b6%e5%88%86%e5%8f%91" aria-label="Anchor">#</a></span></h3><ol>
+<li>海量数据，如发送事件的qps上万的服务</li>
+<li>不能提前约定事件ID的功能</li>
+</ol>
+<h2 id="架构设计" class="relative group">架构设计 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1" aria-label="Anchor">#</a></span></h2><p>
 
 
 

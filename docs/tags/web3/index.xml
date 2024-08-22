@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web3 on 主页</title>
+    <link>/tags/web3/</link>
+    <description>Recent content in Web3 on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 06 Aug 2024 01:43:00 +0800</lastBuildDate>
+    <atom:link href="/tags/web3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NFT</title>
+      <link>/web3/nft/</link>
+      <pubDate>Tue, 06 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>/web3/nft/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ERC20</title>
+      <link>/web3/erc20/</link>
+      <pubDate>Mon, 05 Aug 2024 01:43:00 +0800</pubDate>
+      <guid>/web3/erc20/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>以太坊-彼岸-POS</title>
+      <link>/web3/eth_pos/</link>
+      <pubDate>Tue, 04 Jul 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/eth_pos/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>以太坊-此岸-POW</title>
+      <link>/web3/eth_pow/</link>
+      <pubDate>Sun, 04 Jun 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/eth_pow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>比特币、以太坊与图灵完备</title>
+      <link>/web3/btc_eth_turing_complete/</link>
+      <pubDate>Sun, 28 May 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/btc_eth_turing_complete/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>比特币技术汇总</title>
+      <link>/web3/bitcoin_tech/</link>
+      <pubDate>Fri, 26 May 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/bitcoin_tech/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Solidity笔记</title>
+      <link>/web3/solidity_note/</link>
+      <pubDate>Fri, 10 Jun 2022 19:37:00 +0800</pubDate>
+      <guid>/web3/solidity_note/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MakerDAO简介</title>
+      <link>/web3/makerdao_base_info/</link>
+      <pubDate>Sat, 04 Jun 2022 14:35:00 +0800</pubDate>
+      <guid>/web3/makerdao_base_info/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

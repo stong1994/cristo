@@ -32,6 +32,8 @@
     
   
     
+  
+    
       <url>
             <loc>/web3/</loc>
             <lastmod>2024-08-06T01:43:00+08:00</lastmod>
@@ -389,10 +391,14 @@
     
   
     
+  
+    
       <url>
             <loc>/web3/btc_eth_turing_complete/</loc>
             <lastmod>2023-05-28T14:35:00+08:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -442,6 +448,8 @@
             <loc>/internet/design/employee_adapter/</loc>
             <lastmod>2023-04-19T15:12:00+08:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -887,10 +895,14 @@
     
   
     
+  
+    
       <url>
             <loc>/web3/solidity_note/</loc>
             <lastmod>2022-06-10T19:37:00+08:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -922,6 +934,8 @@
     
   
     
+  
+    
       <url>
             <loc>/book/improve/subtract/</loc>
             <lastmod>2022-05-09T21:30:00+08:00</lastmod>
@@ -943,10 +957,14 @@
     
   
     
+  
+    
       <url>
             <loc>/internet/network/tcp/reliability/</loc>
             <lastmod>2022-03-28T17:20:00+08:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -964,6 +982,8 @@
     
   
     
+  
+    
       <url>
             <loc>/internet/design/redis_transaction/</loc>
             <lastmod>2022-03-24T13:48:00+08:00</lastmod>
@@ -978,10 +998,14 @@
     
   
     
+  
+    
       <url>
             <loc>/internet/design/redis_multi_server/</loc>
             <lastmod>2022-03-24T11:33:00+08:00</lastmod>
           </url>
+    
+  
     
   
     
@@ -1059,6 +1083,8 @@
     
   
     
+  
+    
       <url>
             <loc>/internet/mysql/acid/</loc>
             <lastmod>2022-01-16T17:05:00+08:00</lastmod>
@@ -1091,6 +1117,8 @@
             <loc>/book/philosophy/taleb_four_book/</loc>
             <lastmod>2022-01-04T16:24:00+08:00</lastmod>
           </url>
+    
+  
     
   
     

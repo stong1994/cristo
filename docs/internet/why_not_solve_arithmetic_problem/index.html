@@ -106,6 +106,7 @@
     <meta property="article:section" content="internet">
     <meta property="article:published_time" content="2022-05-11T10:30:51+08:00">
     <meta property="article:modified_time" content="2022-05-11T10:30:51+08:00">
+    <meta property="article:tag" content="算法">
 
   
   <meta name="twitter:card" content="summary">
@@ -698,6 +699,14 @@
         
       
         
+          
+            <a
+              href="/tags/%E7%AE%97%E6%B3%95/"
+              class="mx-1 my-1 rounded-md border border-neutral-200 px-1 py-[1px] hover:border-primary-300 hover:text-primary-700 dark:border-neutral-600 dark:hover:border-primary-600 dark:hover:text-primary-400"
+              >算法</a
+            >
+          
+        
       
     </div>
   
@@ -796,9 +805,9 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>输出：</p>
 <pre tabindex="0"><code>1 1 // 当总金额为1时，只有一种组合方式: 1
-2 1 
+2 1
 2 2 // 当总金额为2时，有两种组合方式: 1+1, 2
-3 2 
+3 2
 3 3 // 当总金额为3时，有三种组合方式？
 4 3
 4 5
@@ -934,7 +943,7 @@
 <h2 id="后记" class="relative group">后记 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%90%8e%e8%ae%b0" aria-label="Anchor">#</a></span></h2><p>组合数意味着什么呢，意味着顺序是可以不同的，比如{1,2,1}和{1,1,2}是相同的组合。<strong>为了避免这种重复，我们先按照硬币的顺序遍历</strong>。</p>
 <p>再看下先遍历金额的代码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nx">coins</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">amount</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">dp</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">amount</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>    
+</span></span><span class="line"><span class="cl">  <span class="nx">dp</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">amount</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span><span class="nx">amount</span> <span class="p">;</span><span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">coin</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">coins</span> <span class="p">{</span>

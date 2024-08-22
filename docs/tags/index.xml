@@ -30,6 +30,13 @@
       <description></description>
     </item>
     <item>
+      <title>Web3</title>
+      <link>/tags/web3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/web3/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Erc20</title>
       <link>/tags/erc20/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -324,6 +331,27 @@
       <description></description>
     </item>
     <item>
+      <title>图灵完备</title>
+      <link>/tags/%E5%9B%BE%E7%81%B5%E5%AE%8C%E5%A4%87/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E5%9B%BE%E7%81%B5%E5%AE%8C%E5%A4%87/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bitcoin</title>
+      <link>/tags/bitcoin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/bitcoin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>项目</title>
+      <link>/tags/%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E9%A1%B9%E7%9B%AE/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>所有权</title>
       <link>/tags/%E6%89%80%E6%9C%89%E6%9D%83/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -499,6 +527,62 @@
       <description></description>
     </item>
     <item>
+      <title>Solidity</title>
+      <link>/tags/solidity/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/solidity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MakerDao</title>
+      <link>/tags/makerdao/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/makerdao/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法</title>
+      <link>/tags/%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TCP</title>
+      <link>/tags/tcp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/tcp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>网络</title>
+      <link>/tags/%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redis</title>
+      <link>/tags/redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/redis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>事务</title>
+      <link>/tags/%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E4%BA%8B%E5%8A%A1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>集群</title>
+      <link>/tags/%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/%E9%9B%86%E7%BE%A4/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Channel</title>
       <link>/tags/channel/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -510,6 +594,20 @@
       <link>/tags/%E6%B5%8B%E8%AF%95/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>/tags/%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mysql</title>
+      <link>/tags/mysql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/mysql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Innodb</title>
+      <link>/tags/innodb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/innodb/</guid>
       <description></description>
     </item>
     <item>

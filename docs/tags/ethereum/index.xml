@@ -22,5 +22,26 @@
       <guid>/web3/erc20/</guid>
       <description></description>
     </item>
+    <item>
+      <title>以太坊-彼岸-POS</title>
+      <link>/web3/eth_pos/</link>
+      <pubDate>Tue, 04 Jul 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/eth_pos/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>以太坊-此岸-POW</title>
+      <link>/web3/eth_pow/</link>
+      <pubDate>Sun, 04 Jun 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/eth_pow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>比特币、以太坊与图灵完备</title>
+      <link>/web3/btc_eth_turing_complete/</link>
+      <pubDate>Sun, 28 May 2023 14:35:00 +0800</pubDate>
+      <guid>/web3/btc_eth_turing_complete/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

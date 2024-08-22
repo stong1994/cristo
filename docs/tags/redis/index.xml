@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on 主页</title>
+    <link>/tags/redis/</link>
+    <description>Recent content in Redis on 主页</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 24 Mar 2022 13:48:00 +0800</lastBuildDate>
+    <atom:link href="/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis事务</title>
+      <link>/internet/design/redis_transaction/</link>
+      <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
+      <guid>/internet/design/redis_transaction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redis缓存设计中的问题</title>
+      <link>/internet/design/redis_cache_design/</link>
+      <pubDate>Thu, 24 Mar 2022 13:48:00 +0800</pubDate>
+      <guid>/internet/design/redis_cache_design/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redis复制、哨兵、集群</title>
+      <link>/internet/design/redis_multi_server/</link>
+      <pubDate>Thu, 24 Mar 2022 11:33:00 +0800</pubDate>
+      <guid>/internet/design/redis_multi_server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redis持久化机制实现</title>
+      <link>/internet/depth/redis_durability/</link>
+      <pubDate>Mon, 21 Mar 2022 11:08:00 +0800</pubDate>
+      <guid>/internet/depth/redis_durability/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>简述redis的基本数据结构</title>
+      <link>/internet/depth/redis_base_design/</link>
+      <pubDate>Mon, 22 Nov 2021 16:05:00 +0800</pubDate>
+      <guid>/internet/depth/redis_base_design/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
